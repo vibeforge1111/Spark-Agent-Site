@@ -505,40 +505,59 @@ body.hover-target .cursor-dot {
   50%      { opacity: 1;    transform: scale(1.08); }
 }
 
-/* wireframe head avatar (Pulse-inspired) */
-.av-head { transform-origin: center; }
+/* ambient halo behind the 3D head */
 .av-head-glow {
   transform-origin: center;
   animation: avHeadGlow 3.4s ease-in-out infinite;
 }
-.av-head-outline {
-  animation: avOutlinePulse 3s ease-in-out infinite;
-}
-.av-head-wire {
-  animation: avWirePulse 4s ease-in-out infinite;
-}
-.av-eye {
-  transform-origin: center;
-  animation: avEyeBlink 5.4s ease-in-out infinite;
-  filter: drop-shadow(0 0 4px #4DE3A8);
-}
 @keyframes avHeadGlow {
-  0%, 100% { opacity: 0.55; transform: scale(1); }
-  50%      { opacity: 0.9;  transform: scale(1.04); }
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%      { opacity: 0.8;  transform: scale(1.06); }
 }
-@keyframes avOutlinePulse {
-  0%, 100% { stroke-opacity: 0.8; }
-  50%      { stroke-opacity: 1; }
+
+/* 3D avatar canvas (rendered by avatar-3d.js from head.glb) */
+.avatar-canvas {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 56%;
+  aspect-ratio: 1;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease);
+  filter: drop-shadow(0 0 30px rgba(47,202,148,0.35));
 }
-@keyframes avWirePulse {
-  0%, 100% { opacity: 0.3; }
-  50%      { opacity: 0.5; }
+.avatar-canvas.is-loaded { opacity: 1; }
+
+/* boot indicator while GLB is streaming */
+.avatar-loading {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  backdrop-filter: blur(8px);
+  font: 500 10px var(--font-mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  transition: opacity 0.4s;
 }
-@keyframes avEyeBlink {
-  0%, 94%, 100% { opacity: 1; transform: scaleY(1); }
-  96%           { opacity: 0.3; transform: scaleY(0.15); }
-  98%           { opacity: 1; transform: scaleY(1); }
+.avatar-loading.done { opacity: 0; }
+.avatar-loading.err { color: var(--status-red); border-color: var(--status-red); }
+.al-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+  animation: pulseDot 1s infinite;
 }
+.avatar-loading.err .al-dot { background: var(--status-red); box-shadow: 0 0 6px rgba(224,136,120,0.6); }
+.al-k { color: var(--accent); font-variant-numeric: tabular-nums; }
 
 .av-packet {
   filter: drop-shadow(0 0 4px #4DE3A8);

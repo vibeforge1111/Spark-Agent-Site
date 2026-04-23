@@ -13,6 +13,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
 </head>
 <body>
 
@@ -171,41 +179,16 @@
         <path d="M 120 120 Q 0 0 -120 -120" fill="none" stroke="#2FCA94" stroke-width="0.5"/>
       </g>
 
-      <!-- CENTRAL AVATAR · wireframe head (Pulse-inspired) -->
-      <g class="av-head">
-        <!-- glow halo behind head -->
-        <circle r="135" fill="url(#avCoreGrad)" filter="url(#avBlur)" opacity="0.7" class="av-head-glow"/>
-
-        <!-- head silhouette -->
-        <path d="M 0 -105 L 60 -88 L 92 -42 L 95 10 L 78 62 L 44 95 L 0 103 L -44 95 L -78 62 L -95 10 L -92 -42 L -60 -88 Z"
-              fill="#0B0D13" stroke="#4DE3A8" stroke-width="1.2" opacity="0.95" class="av-head-outline"/>
-
-        <!-- wireframe interior -->
-        <g stroke="#2FCA94" stroke-width="0.5" fill="none" opacity="0.35" class="av-head-wire">
-          <line x1="0" y1="-105" x2="0" y2="103"/>
-          <line x1="-95" y1="10" x2="95" y2="10"/>
-          <line x1="0" y1="-105" x2="92" y2="-42"/>
-          <line x1="0" y1="-105" x2="-92" y2="-42"/>
-          <line x1="0" y1="103" x2="78" y2="62"/>
-          <line x1="0" y1="103" x2="-78" y2="62"/>
-          <line x1="-60" y1="-88" x2="60" y2="-88"/>
-          <line x1="-78" y1="62" x2="78" y2="62"/>
-          <line x1="-92" y1="-42" x2="92" y2="-42"/>
-        </g>
-
-        <!-- eyes -->
-        <circle cx="-32" cy="-20" r="5.5" fill="#4DE3A8" class="av-eye"/>
-        <circle cx="32"  cy="-20" r="5.5" fill="#4DE3A8" class="av-eye"/>
-
-        <!-- mouth -->
-        <path d="M -22 55 Q 0 64 22 55" stroke="#2FCA94" stroke-width="0.9" fill="none" opacity="0.55"/>
-
-        <!-- tiny Sparkswarm mark at heart (signature) -->
-        <g transform="translate(-26, 75) scale(0.2)" opacity="0.5">
-          <use href="#avSparkMark" fill="#4DE3A8"/>
-        </g>
-      </g>
+      <!-- central halo (keeps atmospheric glow behind the GLB head) -->
+      <circle r="135" fill="url(#avCoreGrad)" filter="url(#avBlur)" opacity="0.55" class="av-head-glow"/>
     </svg>
+
+    <!-- GLB HEAD · rendered by three.js in avatar-3d.js -->
+    <canvas id="avatar-canvas" class="avatar-canvas" aria-hidden="true"></canvas>
+    <div class="avatar-loading" id="avatar-loading">
+      <span class="al-dot"></span>
+      <span class="al-k">booting avatar</span>
+    </div>
 
     <!-- OAUTH CONNECTOR LABELS · static around outer ring -->
     <div class="av-labels">
@@ -842,5 +825,6 @@
 </footer>
 
 <script src="app.js" defer></script>
+<script type="module" src="avatar-3d.js"></script>
 </body>
 </html>
