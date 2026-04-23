@@ -537,13 +537,13 @@
       ...n,
       x: 0, y: 0,
       renderX: 0, renderY: 0,
-      radius: n.category === 'specialization' ? 18
-            : n.category === 'path'           ? 14
-            : n.category === 'insight'        ? 12
-            :                                    4.5,
+      radius: n.category === 'specialization' ? 24
+            : n.category === 'path'           ? 18
+            : n.category === 'insight'        ? 16
+            :                                    6.5,
       orbitAngle:  rand(0, Math.PI * 2),
-      orbitRadius: rand(2, 6),
-      orbitSpeed:  rand(-1, 1) * 0.001,
+      orbitRadius: rand(3, 9),
+      orbitSpeed:  rand(-1, 1) * 0.0015,
       entranceT:   0,
     }));
     const nodeMap = {};
@@ -585,32 +585,37 @@
     };
 
     const layout = () => {
-      const R = Math.min(W, H);
+      // Use the larger dimension so nodes push against + past edges (zoomed-in feel)
+      const R = Math.max(W, H);
       specs.forEach((s, i) => {
         const a = (i / specs.length) * Math.PI * 2 + 0.3;
-        const r = R * 0.18;
-        s.x = Math.cos(a) * r; s.y = Math.sin(a) * r * 0.7;
+        const r = R * 0.22;
+        s.x = Math.cos(a) * r; s.y = Math.sin(a) * r * 0.6;
       });
       agents.forEach((n) => {
         const a = rand(0, Math.PI * 2);
-        const r = R * 0.32 * (0.55 + Math.random() * 0.65);
-        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.72;
+        const r = R * 0.42 * (0.5 + Math.random() * 0.75);
+        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.66;
       });
       paths.forEach((n, i) => {
         const a = (i / paths.length) * Math.PI * 2 - 0.2;
-        const r = R * 0.38;
-        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.72;
+        const r = R * 0.5;
+        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.66;
       });
       insights.forEach((n, i) => {
         const a = (i / insights.length) * Math.PI * 2 + 0.7;
-        const r = R * 0.43;
-        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.72;
+        const r = R * 0.56;
+        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.66;
       });
     };
 
     const particles = reduced ? [] : edges
       .filter(e => !(nodeMap[e.source].category === 'agent' && nodeMap[e.target].category === 'agent'))
-      .map(e => ({ edge: e, t: Math.random(), speed: 0.0008 + Math.random() * 0.001 }));
+      .map(e => ({ edge: e, t: Math.random(), speed: 0.0012 + Math.random() * 0.0014 }));
+
+    // camera drift for life (same as sparkswarm.ai)
+    const cam = { x: 0, y: 0, angle: Math.random() * Math.PI * 2 };
+    const CAM_SPEED = 0.00009;
 
     const getBezier = (src, tgt) => {
       const mx = (src.renderX + tgt.renderX) / 2;
@@ -683,7 +688,12 @@
       }
 
       ctx.save();
-      ctx.translate(W / 2, H / 2);
+      if (!reduced) {
+        cam.angle += CAM_SPEED;
+        cam.x = Math.cos(cam.angle)         * 28;
+        cam.y = Math.sin(cam.angle * 0.7)   * 20;
+      }
+      ctx.translate(W / 2 - cam.x, H / 2 - cam.y);
 
       if (!reduced) {
         nodes.forEach(n => {
