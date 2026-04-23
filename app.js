@@ -193,6 +193,42 @@
     }
   }, 2200);
 
+  // Jarvis HUD · bio, coord, freq, status cycling
+  const hudBio  = $('#hud-bio');
+  const hudX    = $('#hud-x');
+  const hudY    = $('#hud-y');
+  const hudFreq = $('#hud-freq');
+  const hudStat = $('#hud-status');
+
+  setInterval(() => {
+    if (hudBio)  hudBio.textContent  = (97 + Math.random() * 2.9).toFixed(1);
+    if (hudFreq) hudFreq.textContent = (143.5 + Math.random() * 1.4).toFixed(2);
+    if (hudX)    hudX.textContent    = (rand(-0.5, 0.5)).toFixed(2);
+    if (hudY)    hudY.textContent    = (rand(-0.5, 0.5)).toFixed(2);
+  }, 900);
+
+  const missions = [
+    'scanning environment',
+    'indexing memory',
+    'swarm handshake',
+    'claude handshake · ok',
+    'chip registry sync',
+    'trust posture nominal',
+    'awaiting mission',
+    'telegram channel idle',
+    'reasoning loop armed',
+  ];
+  let missionI = 0;
+  setInterval(() => {
+    if (!hudStat) return;
+    missionI = (missionI + 1) % missions.length;
+    hudStat.style.opacity = '0';
+    setTimeout(() => {
+      hudStat.textContent = missions[missionI];
+      hudStat.style.opacity = '1';
+    }, 180);
+  }, 3400);
+
   // 3. cursor parallax on the avatar
   const avStage = $('#avatar-stage');
   if (avStage && !isTouch) {
