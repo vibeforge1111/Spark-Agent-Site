@@ -10,6 +10,20 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = matchMedia('(pointer: coarse)').matches;
 
+  const countTo = (el, target, dur = 1800) => {
+    if (!el) return;
+    const start = performance.now();
+    const from = 0;
+    const step = (now) => {
+      const k = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - k, 3);
+      const v = Math.floor(from + (target - from) * eased);
+      el.textContent = String(v).padStart(String(target).length, '0');
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
   /* ══════════════════════════════════════════════════════════════
      LOADER
      ══════════════════════════════════════════════════════════════ */
@@ -127,71 +141,188 @@
   if (!reduced) renderBG();
 
   /* ══════════════════════════════════════════════════════════════
-     HERO TERMINAL TYPEWRITER
+     HERO v2 · kinetic reveal + constellation feed + runtime meters
      ══════════════════════════════════════════════════════════════ */
-  const term = $('#term-body');
-  const script = [
-    { t: 'prompt', text: '$ ' }, { t: 'type', text: 'brew install spark', d: 50 },
-    { t: 'newline' },
-    { t: 'ok', text: '✓ installed spark v1.0 (runtime · cli · extension)' },
-    { t: 'dim', text: '  binary: /usr/local/bin/spark · 18.4 MB' },
-    { t: 'newline' },
-    { t: 'prompt', text: '$ ' }, { t: 'type', text: 'spark setup', d: 65 },
-    { t: 'newline' },
-    { t: 'ok', text: '✓ linked claude code oauth' },
-    { t: 'ok', text: '✓ linked telegram @SparkAGI_bot' },
-    { t: 'ok', text: '✓ enrolled in spark swarm · specialty: marketing' },
-    { t: 'dim', text: '  30 starter skills loaded · 0 keys asked' },
-    { t: 'newline' },
-    { t: 'prompt', text: '$ ' }, { t: 'type', text: 'spark run research.spark', d: 55 },
-    { t: 'newline' },
-    { t: 'dim', text: '▸ gather   · 4 sources loaded' },
-    { t: 'dim', text: '▸ reason   · 3 passes · claude 4.7' },
-    { t: 'dim', text: '▸ score    · 0.89 · passed' },
-    { t: 'dim', text: '▸ show     · mission.graph.json' },
-    { t: 'ok', text: '✓ mission complete · delivered to telegram' },
-    { t: 'cursor' },
-  ];
 
-  const typeTerm = async () => {
-    if (reduced) {
-      term.innerHTML = script
-        .map(s => {
-          if (s.t === 'newline') return '<br>';
-          if (s.t === 'cursor') return '<span class="cursor"></span>';
-          return `<span class="${s.t === 'prompt' ? 'prompt' : s.t}">${s.text}</span>`;
-        }).join('');
-      return;
-    }
-    await new Promise(r => setTimeout(r, 1800));
-    let line = document.createElement('span'); line.className = 'line'; term.appendChild(line);
-    for (const s of script) {
-      if (s.t === 'newline') {
-        line = document.createElement('span'); line.className = 'line'; term.appendChild(line);
-        await new Promise(r => setTimeout(r, 120));
-        continue;
-      }
-      if (s.t === 'cursor') {
-        const c = document.createElement('span'); c.className = 'cursor';
-        line.appendChild(c); continue;
-      }
-      if (s.t === 'type') {
-        for (const ch of s.text) {
-          const sp = document.createElement('span'); sp.textContent = ch;
-          line.appendChild(sp);
-          await new Promise(r => setTimeout(r, s.d));
+  // 1. scramble-resolve reveal on kinetic headline words
+  const scrambleChars = '!<>-_\\/[]{}=+*^?#█░▒01';
+  $$('.hk-w').forEach((el) => {
+    if (reduced) return;
+    const original = el.dataset.text || el.textContent;
+    const cs = getComputedStyle(el);
+    const firstDelay = (cs.animationDelay || '0s').split(',')[0];
+    const base = parseFloat(firstDelay) * 1000 || 0;
+    setTimeout(() => {
+      let start = null;
+      const dur = 440;
+      const tick = (ts) => {
+        if (start === null) start = ts;
+        const k = Math.min(1, (ts - start) / dur);
+        if (k >= 1) { el.textContent = original; return; }
+        const revealed = Math.floor(original.length * k);
+        let out = '';
+        for (let i = 0; i < original.length; i++) {
+          const ch = original[i];
+          if (i < revealed || ch === ' ' || ch === '.') out += ch;
+          else out += scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
         }
-        line = document.createElement('span'); line.className = 'line'; term.appendChild(line);
-        await new Promise(r => setTimeout(r, 180));
-      } else {
-        const sp = document.createElement('span'); sp.className = s.t; sp.textContent = s.text;
-        line.appendChild(sp);
-        line = document.createElement('span'); line.className = 'line'; term.appendChild(line);
-        await new Promise(r => setTimeout(r, s.t === 'ok' ? 220 : 100));
-      }
+        el.textContent = out;
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, base + 180);
+  });
+
+  // 2. runtime meter bars - random on/off rhythm per meter
+  $$('.rt-meter').forEach((meter, idx) => {
+    const bars = $$('.rt-bars i', meter);
+    if (!bars.length) return;
+    const tick = () => {
+      const on = Math.floor(rand(2, bars.length + 1));
+      bars.forEach((b, i) => b.classList.toggle('on', i < on));
+    };
+    tick();
+    setInterval(tick, 650 + idx * 260);
+  });
+
+  // 3. runtime count-up + live jitter
+  const rtMemory  = $('#rt-memory');
+  const rtSwarm   = $('#rt-swarm');
+  const rtLatency = $('#rt-latency');
+  const liveCount = $('#live-count');
+  const livePeers = $('#live-peers');
+
+  setTimeout(() => {
+    countTo(rtMemory,  1248, 1400);
+    countTo(rtSwarm,   4829, 1600);
+    countTo(liveCount, 4829, 1600);
+    countTo(livePeers, 1274, 1400);
+  }, 1200);
+
+  setInterval(() => {
+    if (rtLatency) rtLatency.textContent = (210 + Math.floor(rand(0, 90))) + 'ms';
+    if (liveCount) {
+      const cur = parseInt(liveCount.textContent || '4829', 10);
+      const drift = Math.floor(rand(-2, 3));
+      const next = clamp(cur + drift, 4780, 4900);
+      liveCount.textContent = String(next).padStart(4, '0');
     }
-  };
-  typeTerm();
+  }, 2200);
+
+  // 4. cycle the dynamic constellation labels
+  const cnMem    = $('[data-dynamic="mem"]');
+  const cnReason = $('[data-dynamic="reason"]');
+  const cnAct    = $('[data-dynamic="act"]');
+  const memVals    = ['recall · k=6', 'recall · k=8', 'semantic', 'episodic', 'salience 0.72', 'recall · k=12'];
+  const reasonVals = ['3 passes · scoring', '2 passes · ranking', 'scoring 0.89', 'planning · step 2', 'synthesising'];
+  const actVals    = ['14 chips armed', 'telegram · send', 'browser · read', 'calendar · plan', '18 chips armed', 'x · post'];
+  let cycleI = 0;
+  setInterval(() => {
+    cycleI++;
+    if (cnMem)    cnMem.textContent    = memVals[cycleI % memVals.length];
+    if (cnReason) cnReason.textContent = reasonVals[cycleI % reasonVals.length];
+    if (cnAct)    cnAct.textContent    = actVals[cycleI % actVals.length];
+  }, 3200);
+
+  // 5. mission-event feed under the constellation
+  const feedLog = $('#cn-feed-log');
+  const feedEvents = [
+    { k: 'gather',  t: 'pulled 4 sources · 240ms' },
+    { k: 'reason',  t: 'claude · 3 passes · scored 0.89' },
+    { k: 'score',   t: 'candidate accepted' },
+    { k: 'recall',  t: 'memory · k=6 · salience 0.72' },
+    { k: 'chip',    t: 'domain-chip-xcontent · v1.4.2' },
+    { k: 'swarm',   t: '12 peers contributed lessons' },
+    { k: 'deliver', t: '→ telegram · chat 8319079055' },
+    { k: 'learn',   t: 'promoted · outcome 0.94' },
+    { k: 'gather',  t: 'cached · 0 new calls' },
+    { k: 'chip',    t: 'growth-chip · queued' },
+    { k: 'scan',    t: 'trust posture · no new keys' },
+    { k: 'sync',    t: 'swarm path · marketing +3 lessons' },
+  ];
+  if (feedLog && !reduced) {
+    const pad = n => String(n).padStart(2, '0');
+    const pushFeed = () => {
+      const e = feedEvents[Math.floor(Math.random() * feedEvents.length)];
+      const d = new Date();
+      const ts = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+      const line = document.createElement('span');
+      line.className = 'feed-line';
+      line.innerHTML = `<span class="fl-t">${ts}</span><span class="fl-k">${e.k}</span>${e.t}`;
+      feedLog.prepend(line);
+      while (feedLog.children.length > 3) feedLog.lastChild.remove();
+    };
+    setTimeout(pushFeed, 2000);
+    setTimeout(pushFeed, 2800);
+    setInterval(pushFeed, 1900);
+  }
+
+  // 6. cursor parallax on the constellation
+  const cn = $('#hero-constellation');
+  if (cn && !isTouch) {
+    const svg = $('.cn-svg', cn);
+    const labels = $$('.cn-label', cn);
+    cn.addEventListener('mousemove', (e) => {
+      const r = cn.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+      const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+      if (svg) svg.style.transform = `translate(${dx * 14}px, ${dy * 14}px)`;
+      labels.forEach((l, i) => {
+        const depth = 4 + i * 3;
+        l.style.transform = `translate(${dx * depth}px, ${dy * depth}px)`;
+      });
+    });
+    cn.addEventListener('mouseleave', () => {
+      if (svg) svg.style.transform = '';
+      labels.forEach(l => { l.style.transform = ''; });
+    });
+  }
+
+  // 7. subtle hero-field canvas (soft gradient orbs drifting behind the constellation)
+  const hf = $('#hero-field');
+  if (hf && !reduced) {
+    const hfctx = hf.getContext('2d');
+    let orbs = [];
+    const resizeHF = () => {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      const rect = hf.getBoundingClientRect();
+      hf.width  = rect.width  * dpr;
+      hf.height = rect.height * dpr;
+      hf.style.width  = rect.width  + 'px';
+      hf.style.height = rect.height + 'px';
+      hfctx.setTransform(1,0,0,1,0,0);
+      hfctx.scale(dpr, dpr);
+    };
+    const seedHF = () => {
+      const rect = hf.getBoundingClientRect();
+      orbs = Array.from({ length: 4 }, (_, i) => ({
+        x: rand(rect.width * 0.2, rect.width * 0.8),
+        y: rand(rect.height * 0.2, rect.height * 0.8),
+        r: rand(160, 280),
+        vx: rand(-0.15, 0.15),
+        vy: rand(-0.1, 0.1),
+        c: i % 2 === 0 ? 'rgba(47,202,148,0.08)' : 'rgba(184,168,220,0.05)',
+      }));
+    };
+    const renderHF = () => {
+      const rect = hf.getBoundingClientRect();
+      hfctx.clearRect(0, 0, rect.width, rect.height);
+      for (const o of orbs) {
+        o.x += o.vx; o.y += o.vy;
+        if (o.x < 0 || o.x > rect.width)  o.vx *= -1;
+        if (o.y < 0 || o.y > rect.height) o.vy *= -1;
+        const g = hfctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+        g.addColorStop(0, o.c);
+        g.addColorStop(1, 'transparent');
+        hfctx.fillStyle = g;
+        hfctx.fillRect(o.x - o.r, o.y - o.r, o.r * 2, o.r * 2);
+      }
+      requestAnimationFrame(renderHF);
+    };
+    resizeHF(); seedHF();
+    addEventListener('resize', () => { resizeHF(); seedHF(); });
+    renderHF();
+  }
 
   /* ══════════════════════════════════════════════════════════════
      BOARD · draggable nodes + cables
@@ -396,21 +527,8 @@
   }
 
   /* ══════════════════════════════════════════════════════════════
-     SWARM STATS COUNTER
+     LOOP COUNTER
      ══════════════════════════════════════════════════════════════ */
-  const countTo = (el, target, dur = 1800) => {
-    const start = performance.now();
-    const from = 0;
-    const step = (now) => {
-      const k = Math.min(1, (now - start) / dur);
-      const eased = 1 - Math.pow(1 - k, 3);
-      const v = Math.floor(from + (target - from) * eased);
-      el.textContent = String(v).padStart(String(target).length, '0');
-      if (k < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-
   const loopCount = $('#loop-count');
   if (loopCount) {
     const tickLoop = () => {

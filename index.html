@@ -20,11 +20,12 @@
 <div class="loader" id="loader">
   <div class="loader-inner">
     <div class="loader-brand">
-      <svg class="loader-logo" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-        <rect x="0" y="6"  width="4" height="16" rx="1" fill="currentColor"/>
-        <rect x="6" y="2"  width="4" height="20" rx="1" fill="currentColor"/>
-        <rect x="12" y="6" width="4" height="16" rx="1" fill="currentColor"/>
-        <rect x="18" y="10" width="4" height="12" rx="1" fill="currentColor"/>
+      <svg class="loader-logo" width="28" height="24" viewBox="0 0 28 24" fill="none" aria-hidden="true">
+        <line x1="7" y1="14" x2="17" y2="8"  stroke="currentColor" stroke-width="1" opacity="0.25"/>
+        <line x1="7" y1="14" x2="24" y2="16" stroke="currentColor" stroke-width="1" opacity="0.18"/>
+        <circle cx="7"  cy="14" r="3.8" fill="currentColor"/>
+        <circle cx="17" cy="8"  r="2.2" fill="currentColor" opacity="0.55"/>
+        <circle cx="24" cy="16" r="1.4" fill="currentColor" opacity="0.3"/>
       </svg>
       <span>Spark</span>
     </div>
@@ -42,11 +43,12 @@
 <!-- ═══ TOPBAR ═══ -->
 <header class="topbar">
   <a href="#top" class="brand" aria-label="Spark home">
-    <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-      <rect x="0" y="6"  width="4" height="16" rx="1" fill="currentColor"/>
-      <rect x="6" y="2"  width="4" height="20" rx="1" fill="currentColor"/>
-      <rect x="12" y="6" width="4" height="16" rx="1" fill="currentColor"/>
-      <rect x="18" y="10" width="4" height="12" rx="1" fill="currentColor"/>
+    <svg class="brand-logo" width="28" height="24" viewBox="0 0 28 24" fill="none" aria-hidden="true">
+      <line x1="7" y1="14" x2="17" y2="8"  stroke="currentColor" stroke-width="1" opacity="0.25"/>
+      <line x1="7" y1="14" x2="24" y2="16" stroke="currentColor" stroke-width="1" opacity="0.18"/>
+      <circle cx="7"  cy="14" r="3.8" fill="currentColor"/>
+      <circle cx="17" cy="8"  r="2.2" fill="currentColor" opacity="0.55"/>
+      <circle cx="24" cy="16" r="1.4" fill="currentColor" opacity="0.3"/>
     </svg>
     <span class="brand-name">Spark</span>
     <span class="brand-slash">/ agent</span>
@@ -77,49 +79,95 @@
   </div>
 </header>
 
-<!-- ═══ 001 / HERO ═══ -->
+<!-- ═══ 001 / HERO v2 · THE CONSTELLATION ═══ -->
 <section class="hero" id="top">
-  <div class="hero-marker">
-    <span class="num">001</span>
-    <span class="line"></span>
-    <span class="label">personal · local · composable</span>
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <canvas class="hero-field" id="hero-field" aria-hidden="true"></canvas>
+
+  <!-- RUNTIME STATUS BAR -->
+  <div class="hero-runtime">
+    <div class="rt-left">
+      <span class="rt-dot"></span>
+      <span class="rt-kind">runtime online</span>
+      <span class="rt-sep">/</span>
+      <span class="rt-id">agent.sparkswarm.ai · rt.001</span>
+    </div>
+    <div class="rt-rack" aria-hidden="true">
+      <div class="rt-meter">
+        <span class="rt-k">model</span>
+        <span class="rt-v">claude · 4.7</span>
+        <div class="rt-bars"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="rt-meter">
+        <span class="rt-k">memory</span>
+        <span class="rt-v"><strong id="rt-memory">0000</strong> entries</span>
+        <div class="rt-bars"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="rt-meter">
+        <span class="rt-k">swarm</span>
+        <span class="rt-v"><strong id="rt-swarm">0000</strong> peers</span>
+        <div class="rt-bars"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="rt-meter">
+        <span class="rt-k">latency</span>
+        <span class="rt-v" id="rt-latency">240ms</span>
+        <div class="rt-bars"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
   </div>
 
-  <div class="hero-grid">
+  <!-- STAGE -->
+  <div class="hero-stage">
+
+    <!-- KINETIC HEADLINE + COPY (left) -->
     <div class="hero-copy">
-      <div class="hero-eyebrow reveal">
-        <span class="dot"></span> SPARK AGENT · PERSONAL AI RUNTIME
+      <div class="hero-marker">
+        <span class="num">001</span>
+        <span class="line"></span>
+        <span class="label">personal · local · composable</span>
       </div>
-      <h1 class="hero-title">
-        <span class="word"><em>An</em></span>
-        <span class="word"><em>AI</em></span>
-        <span class="word"><em>that</em></span>
-        <br>
-        <span class="word accent"><em>works</em></span>
-        <span class="word accent"><em>inside</em></span>
-        <br>
-        <span class="word"><em>your</em></span>
-        <span class="word"><em>stuff.</em></span>
+
+      <h1 class="hero-kinetic" aria-label="An AI that works inside your stuff.">
+        <span class="hk-line">
+          <span class="hk-w" data-text="An">An</span>
+          <span class="hk-w" data-text="AI">AI</span>
+          <span class="hk-w" data-text="that">that</span>
+        </span>
+        <span class="hk-line">
+          <span class="hk-w accent" data-text="works">works</span>
+          <span class="hk-w accent" data-text="inside">inside</span>
+        </span>
+        <span class="hk-line">
+          <span class="hk-w" data-text="your">your</span>
+          <span class="hk-w warp" data-text="stuff.">stuff.</span>
+        </span>
       </h1>
 
-      <p class="hero-lead reveal">
-        Spark lives on your computer, talks to your apps through their normal logins,
-        and only does what you asked it to. Nothing hidden. Nothing taking over.
-        Nothing in someone else's cloud unless you say so.
+      <p class="hero-lead">
+        Personal AI runtime. Lives on your computer. Talks to your apps through
+        their normal logins. Only does what you asked it to. Nothing hidden.
+        Nothing taking over. Nothing in someone else's cloud unless you say so.
       </p>
 
-      <div class="hero-ctas reveal">
+      <div class="hero-cta-row">
         <button class="cta-primary" id="cta-install" data-magnetic>
           <span class="cta-prompt">$</span>
           <span class="cta-cmd">brew install spark</span>
           <span class="cta-copy" id="cta-copy">copy</span>
         </button>
         <a href="#board" class="cta-secondary" data-magnetic>
-          See the visual board <span class="arrow">↓</span>
+          See it running <span class="arrow">↓</span>
         </a>
       </div>
 
-      <ul class="hero-pills reveal">
+      <div class="hero-live">
+        <span class="live-dot"></span>
+        <span class="live-txt"><strong id="live-count">0000</strong> runtimes online now</span>
+        <span class="live-sep">·</span>
+        <span class="live-peers"><strong id="live-peers">0000</strong> lessons shared · 24h</span>
+      </div>
+
+      <ul class="hero-pills">
         <li><span class="pill-dot"></span>No new API keys</li>
         <li><span class="pill-dot"></span>Runs on your machine</li>
         <li><span class="pill-dot"></span>Open skill format</li>
@@ -127,19 +175,101 @@
       </ul>
     </div>
 
-    <!-- live terminal -->
-    <div class="hero-terminal" aria-hidden="true">
-      <div class="term-chrome">
-        <span class="term-dot r"></span>
-        <span class="term-dot y"></span>
-        <span class="term-dot g"></span>
-        <span class="term-title">~/spark · local runtime</span>
-        <span class="term-badge">live</span>
+    <!-- CONSTELLATION (right) -->
+    <div class="hero-constellation" id="hero-constellation" aria-hidden="true">
+      <div class="cn-frame">
+        <span class="cn-tag tl">spark.constellation</span>
+        <span class="cn-tag tr">● live</span>
+        <span class="cn-tag bl">003 nodes · 003 edges</span>
+        <span class="cn-tag br">v1.0 · local runtime</span>
       </div>
-      <div class="term-body" id="term-body"></div>
+
+      <!-- huge version of the brand mark, animated -->
+      <svg class="cn-svg" viewBox="0 0 28 24" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <radialGradient id="cnGradCore" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#4DE3A8"/>
+            <stop offset="55%"  stop-color="#2FCA94"/>
+            <stop offset="100%" stop-color="#1F8C66"/>
+          </radialGradient>
+          <radialGradient id="cnGradMid" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#2FCA94"/>
+            <stop offset="100%" stop-color="#1F8C66" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="cnGradSmall" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#B8A8DC"/>
+            <stop offset="100%" stop-color="#6E5CA0" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="cnGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="0.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- connecting edges (static path references for data packets) -->
+        <path id="cnEdgeMain"  d="M 7 14 L 17 8"  stroke="#2FCA94" stroke-width="0.12" opacity="0.45"/>
+        <path id="cnEdgeSide"  d="M 7 14 L 24 16" stroke="#2FCA94" stroke-width="0.12" opacity="0.35"/>
+        <path id="cnEdgeThird" d="M 17 8 L 24 16" stroke="#B8A8DC" stroke-width="0.1"  opacity="0.25"/>
+
+        <!-- halos -->
+        <circle cx="7"  cy="14" r="6.5" fill="url(#cnGradMid)"   class="cn-halo cn-halo-main" opacity="0.45"/>
+        <circle cx="17" cy="8"  r="4.2" fill="url(#cnGradMid)"   class="cn-halo cn-halo-mid"  opacity="0.35"/>
+        <circle cx="24" cy="16" r="3.0" fill="url(#cnGradSmall)" class="cn-halo cn-halo-small" opacity="0.35"/>
+
+        <!-- main node (reasoning / you) -->
+        <circle cx="7" cy="14" r="3.8" fill="url(#cnGradCore)" filter="url(#cnGlow)" class="cn-node cn-node-main"/>
+        <!-- mid node (memory) -->
+        <circle cx="17" cy="8" r="2.2" fill="#2FCA94" class="cn-node cn-node-mid"/>
+        <!-- small node (action chips) -->
+        <circle cx="24" cy="16" r="1.4" fill="#B8A8DC" class="cn-node cn-node-small"/>
+
+        <!-- data packets riding edges -->
+        <circle r="0.35" fill="#4DE3A8" class="cn-packet">
+          <animateMotion dur="2.2s" repeatCount="indefinite">
+            <mpath href="#cnEdgeMain"/>
+          </animateMotion>
+        </circle>
+        <circle r="0.28" fill="#4DE3A8" class="cn-packet">
+          <animateMotion dur="2.8s" begin="0.8s" repeatCount="indefinite">
+            <mpath href="#cnEdgeSide"/>
+          </animateMotion>
+        </circle>
+        <circle r="0.22" fill="#D4C8F0" class="cn-packet">
+          <animateMotion dur="3.2s" begin="1.4s" repeatCount="indefinite">
+            <mpath href="#cnEdgeThird"/>
+          </animateMotion>
+        </circle>
+      </svg>
+
+      <!-- orbital labels anchored to each node -->
+      <div class="cn-labels">
+        <div class="cn-label cn-label-main">
+          <span class="cn-k">reasoning core</span>
+          <span class="cn-v" data-dynamic="reason">3 passes · scoring</span>
+          <span class="cn-line"></span>
+        </div>
+        <div class="cn-label cn-label-mid">
+          <span class="cn-k">memory</span>
+          <span class="cn-v" data-dynamic="mem">recall · k=6</span>
+          <span class="cn-line"></span>
+        </div>
+        <div class="cn-label cn-label-small">
+          <span class="cn-k">action · chips</span>
+          <span class="cn-v" data-dynamic="act">14 chips armed</span>
+          <span class="cn-line"></span>
+        </div>
+      </div>
+
+      <!-- live feed under the constellation -->
+      <div class="cn-feed" id="cn-feed">
+        <span class="cn-feed-k">feed</span>
+        <div class="cn-feed-log" id="cn-feed-log"></div>
+      </div>
     </div>
+
   </div>
 
+  <!-- TICKER -->
   <div class="hero-ticker" aria-hidden="true">
     <div class="ticker-track">
       <span>TRUST POSTURE</span><span>◆</span>
@@ -761,11 +891,12 @@
   <div class="foot-grid">
     <div class="foot-brand">
       <div class="foot-logo">
-        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-          <rect x="0" y="6"  width="4" height="16" rx="1" fill="currentColor"/>
-          <rect x="6" y="2"  width="4" height="20" rx="1" fill="currentColor"/>
-          <rect x="12" y="6" width="4" height="16" rx="1" fill="currentColor"/>
-          <rect x="18" y="10" width="4" height="12" rx="1" fill="currentColor"/>
+        <svg width="28" height="24" viewBox="0 0 28 24" fill="none" aria-hidden="true">
+          <line x1="7" y1="14" x2="17" y2="8"  stroke="currentColor" stroke-width="1" opacity="0.25"/>
+          <line x1="7" y1="14" x2="24" y2="16" stroke="currentColor" stroke-width="1" opacity="0.18"/>
+          <circle cx="7"  cy="14" r="3.8" fill="currentColor"/>
+          <circle cx="17" cy="8"  r="2.2" fill="currentColor" opacity="0.55"/>
+          <circle cx="24" cy="16" r="1.4" fill="currentColor" opacity="0.3"/>
         </svg>
         <span>Spark</span>
       </div>
