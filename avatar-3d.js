@@ -108,10 +108,11 @@ loader.load(
     }
   },
   (err) => {
-    console.warn('head.glb load failed:', err);
+    console.error('head.glb load failed:', err);
     if (loadEl) {
       const k = loadEl.querySelector('.al-k');
-      if (k) k.textContent = 'avatar · offline fallback';
+      const detail = (err && (err.message || err.type)) || 'unknown';
+      if (k) k.textContent = `avatar · fallback (${detail.slice(0, 40)})`;
       loadEl.classList.add('err');
     }
   }
