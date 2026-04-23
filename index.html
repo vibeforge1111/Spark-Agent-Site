@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spark. An AI that works inside your stuff. / agent.sparkswarm.ai</title>
+<meta name="description" content="Spark is a personal AI runtime that lives on your machine, talks to your apps through their normal logins, and only does what you told it to. Free to start. $19.99/mo for the full skill corpus.">
+<meta property="og:title" content="Spark. An AI that works inside your stuff.">
+<meta property="og:description" content="Personal AI runtime. Composable. Ownable. Yours.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://agent.sparkswarm.ai">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══ LOADING GATE ═══ -->
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <div class="loader-brand">
+      <svg class="loader-logo" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+        <rect x="0" y="6"  width="4" height="16" rx="1" fill="currentColor"/>
+        <rect x="6" y="2"  width="4" height="20" rx="1" fill="currentColor"/>
+        <rect x="12" y="6" width="4" height="16" rx="1" fill="currentColor"/>
+        <rect x="18" y="10" width="4" height="12" rx="1" fill="currentColor"/>
+      </svg>
+      <span>Spark</span>
+    </div>
+    <div class="loader-counter" id="loader-counter">000</div>
+    <div class="loader-label">initialising runtime</div>
+  </div>
+  <div class="loader-curtain"></div>
+</div>
+
+<!-- ═══ DECORATION LAYERS ═══ -->
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+<canvas id="bg-particles" class="bg-particles" aria-hidden="true"></canvas>
+
+<!-- ═══ TOPBAR ═══ -->
+<header class="topbar">
+  <a href="#top" class="brand" aria-label="Spark home">
+    <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+      <rect x="0" y="6"  width="4" height="16" rx="1" fill="currentColor"/>
+      <rect x="6" y="2"  width="4" height="20" rx="1" fill="currentColor"/>
+      <rect x="12" y="6" width="4" height="16" rx="1" fill="currentColor"/>
+      <rect x="18" y="10" width="4" height="12" rx="1" fill="currentColor"/>
+    </svg>
+    <span class="brand-name">Spark</span>
+    <span class="brand-slash">/ agent</span>
+  </a>
+
+  <nav class="topnav" aria-label="Primary">
+    <a href="#trust">Trust</a>
+    <a href="#board">Board</a>
+    <a href="#modules">Modules</a>
+    <a href="#brain">Brain</a>
+    <a href="#swarm">Swarm</a>
+    <a href="#pricing">Pricing</a>
+  </nav>
+
+  <div class="topbar-right">
+    <div class="subdomain-switcher" aria-label="Switch Sparkswarm surface">
+      <button class="sd-current">agent<span>.sparkswarm.ai</span><i>▾</i></button>
+      <div class="sd-menu">
+        <a href="https://sparkswarm.ai">sparkswarm.ai<span>home</span></a>
+        <a href="https://eco.sparkswarm.ai">eco<span>ecosystem map</span></a>
+        <a href="https://agent.sparkswarm.ai" class="is-active">agent<span>the runtime</span></a>
+        <a href="https://skills.sparkswarm.ai">skills<span>H70 corpus</span></a>
+        <a href="https://docs.sparkswarm.ai">docs<span>reference</span></a>
+      </div>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">◐</button>
+    <a href="#install" class="cta-install" data-magnetic>Install<span class="cta-arrow">→</span></a>
+  </div>
+</header>
+
+<!-- ═══ 001 / HERO ═══ -->
+<section class="hero" id="top">
+  <div class="hero-marker">
+    <span class="num">001</span>
+    <span class="line"></span>
+    <span class="label">personal · local · composable</span>
+  </div>
+
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="hero-eyebrow reveal">
+        <span class="dot"></span> SPARK AGENT · PERSONAL AI RUNTIME
+      </div>
+      <h1 class="hero-title">
+        <span class="word"><em>An</em></span>
+        <span class="word"><em>AI</em></span>
+        <span class="word"><em>that</em></span>
+        <br>
+        <span class="word accent"><em>works</em></span>
+        <span class="word accent"><em>inside</em></span>
+        <br>
+        <span class="word"><em>your</em></span>
+        <span class="word"><em>stuff.</em></span>
+      </h1>
+
+      <p class="hero-lead reveal">
+        Spark lives on your computer, talks to your apps through their normal logins,
+        and only does what you asked it to. Nothing hidden. Nothing taking over.
+        Nothing in someone else's cloud unless you say so.
+      </p>
+
+      <div class="hero-ctas reveal">
+        <button class="cta-primary" id="cta-install" data-magnetic>
+          <span class="cta-prompt">$</span>
+          <span class="cta-cmd">brew install spark</span>
+          <span class="cta-copy" id="cta-copy">copy</span>
+        </button>
+        <a href="#board" class="cta-secondary" data-magnetic>
+          See the visual board <span class="arrow">↓</span>
+        </a>
+      </div>
+
+      <ul class="hero-pills reveal">
+        <li><span class="pill-dot"></span>No new API keys</li>
+        <li><span class="pill-dot"></span>Runs on your machine</li>
+        <li><span class="pill-dot"></span>Open skill format</li>
+        <li><span class="pill-dot"></span>Free tier, real free</li>
+      </ul>
+    </div>
+
+    <!-- live terminal -->
+    <div class="hero-terminal" aria-hidden="true">
+      <div class="term-chrome">
+        <span class="term-dot r"></span>
+        <span class="term-dot y"></span>
+        <span class="term-dot g"></span>
+        <span class="term-title">~/spark · local runtime</span>
+        <span class="term-badge">live</span>
+      </div>
+      <div class="term-body" id="term-body"></div>
+    </div>
+  </div>
+
+  <div class="hero-ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>TRUST POSTURE</span><span>◆</span>
+      <span>LOCAL FIRST</span><span>◆</span>
+      <span>NO NEW KEYS</span><span>◆</span>
+      <span>OPEN FORMAT</span><span>◆</span>
+      <span>COMPOSABLE</span><span>◆</span>
+      <span>OWN YOUR AGENT</span><span>◆</span>
+      <span>TRUST POSTURE</span><span>◆</span>
+      <span>LOCAL FIRST</span><span>◆</span>
+      <span>NO NEW KEYS</span><span>◆</span>
+      <span>OPEN FORMAT</span><span>◆</span>
+      <span>COMPOSABLE</span><span>◆</span>
+      <span>OWN YOUR AGENT</span><span>◆</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 002 / TRUST POSTURE ═══ -->
+<section class="trust section" id="trust">
+  <div class="section-head">
+    <span class="num">002</span>
+    <h2 class="section-title">The trust line <br>every other agent crosses.</h2>
+    <p class="section-lead">
+      Most AI agents work by getting unlimited access to your machine, then
+      asking you to trust them. Spark goes the other way. If you didn't give it
+      a way to do something, it can't do it. That's not a limitation. That's the point.
+    </p>
+  </div>
+
+  <div class="trust-table">
+    <div class="trust-row trust-head">
+      <div>decision</div>
+      <div class="spark-col">Spark</div>
+      <div class="other-col">the other agents</div>
+    </div>
+    <div class="trust-row" data-reveal>
+      <div class="trust-label"><span>01</span>LLM auth</div>
+      <div class="trust-spark">Uses your existing Claude Code OAuth. No new keys.</div>
+      <div class="trust-other">Asks for ANTHROPIC_API_KEY from a dashboard.</div>
+    </div>
+    <div class="trust-row" data-reveal>
+      <div class="trust-label"><span>02</span>System access</div>
+      <div class="trust-spark">Routes through your installed tools' OAuth flows.</div>
+      <div class="trust-other">Runs unrestricted shell on your machine.</div>
+    </div>
+    <div class="trust-row" data-reveal>
+      <div class="trust-label"><span>03</span>Action surface</div>
+      <div class="trust-spark">Canvas-composed missions you designed.</div>
+      <div class="trust-other">Free-form autonomous actions, hope for the best.</div>
+    </div>
+    <div class="trust-row" data-reveal>
+      <div class="trust-label"><span>04</span>Data</div>
+      <div class="trust-spark">Stays on your machine by default.</div>
+      <div class="trust-other">Cloud by default, with maybe an opt-out toggle.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 003 / VISUAL BOARD ═══ -->
+<section class="board section" id="board">
+  <div class="section-head right">
+    <span class="num">003</span>
+    <h2 class="section-title">Your agent, <br><i>composed.</i> Not conjured.</h2>
+    <p class="section-lead">
+      Most AI is a black box. You ask, it acts, you hope. Spark gives you a
+      visual board where you build the steps your agent takes, like Lego for
+      your assistant. Drag pieces. Connect them. Hit run. If you don't like a
+      step, change it. If something goes wrong, you can point to exactly where.
+    </p>
+  </div>
+
+  <div class="board-stage" id="board-stage">
+    <svg class="board-cables" id="board-cables" aria-hidden="true"></svg>
+
+    <div class="board-node" data-node="input"   style="left:6%;top:24%">
+      <div class="node-chrome"><span>IN</span><i>input</i></div>
+      <div class="node-body">
+        <div class="node-title">User message</div>
+        <div class="node-sub">from telegram</div>
+      </div>
+      <span class="port port-out" data-port="input:out"></span>
+    </div>
+
+    <div class="board-node" data-node="memory"  style="left:32%;top:8%">
+      <div class="node-chrome"><span>MEM</span><i>recall</i></div>
+      <div class="node-body">
+        <div class="node-title">Memory recall</div>
+        <div class="node-sub">k=6 / salience 0.7</div>
+      </div>
+      <span class="port port-in"  data-port="memory:in"></span>
+      <span class="port port-out" data-port="memory:out"></span>
+    </div>
+
+    <div class="board-node glow" data-node="brain" style="left:32%;top:54%">
+      <div class="node-chrome accent"><span>LLM</span><i>claude 4.7</i></div>
+      <div class="node-body">
+        <div class="node-title">Reason + score</div>
+        <div class="node-sub">recursive · 3 passes</div>
+      </div>
+      <span class="port port-in"  data-port="brain:in"></span>
+      <span class="port port-out" data-port="brain:out"></span>
+    </div>
+
+    <div class="board-node" data-node="chip"    style="left:60%;top:14%">
+      <div class="node-chrome iris"><span>CHIP</span><i>domain · xcontent</i></div>
+      <div class="node-body">
+        <div class="node-title">Domain chip</div>
+        <div class="node-sub">virality signals</div>
+      </div>
+      <span class="port port-in"  data-port="chip:in"></span>
+      <span class="port port-out" data-port="chip:out"></span>
+    </div>
+
+    <div class="board-node" data-node="output"  style="left:74%;top:52%">
+      <div class="node-chrome"><span>OUT</span><i>deliver</i></div>
+      <div class="node-body">
+        <div class="node-title">Send reply</div>
+        <div class="node-sub">→ telegram chat</div>
+      </div>
+      <span class="port port-in" data-port="output:in"></span>
+    </div>
+
+    <div class="board-hint">
+      <span class="hk">drag</span> any node <span class="hk">·</span>
+      <span class="hk">click</span> to inspect <span class="hk">·</span>
+      this is a real Spawner mission
+    </div>
+  </div>
+
+  <div class="board-foot">
+    <div class="board-bullets">
+      <div>
+        <span class="k">01</span>
+        <h4>Compose, not conjure</h4>
+        <p>Missions are graphs you can read. No hidden chain-of-thought doing who-knows-what.</p>
+      </div>
+      <div>
+        <span class="k">02</span>
+        <h4>Debuggable by design</h4>
+        <p>Every edge carries data you can inspect. Every node has a fingerprint. Nothing magical.</p>
+      </div>
+      <div>
+        <span class="k">03</span>
+        <h4>Swappable by default</h4>
+        <p>Drop a better chip in. Trade Claude for GLM. Keep the graph. Change a piece.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 004 / OAUTH ORBIT ═══ -->
+<section class="orbit section" id="orbit">
+  <div class="section-head">
+    <span class="num">004</span>
+    <h2 class="section-title">Uses <i>what you already have.</i></h2>
+    <p class="section-lead">
+      No new accounts. No extra subscriptions. No copy-pasting strange keys
+      from developer dashboards. If you have Telegram, Spark lives in Telegram.
+      If you have Claude installed, Spark uses that login. Your calendar, your
+      email, your browser. Spark works through their normal sign-in, not by
+      demanding control of your machine.
+    </p>
+  </div>
+
+  <div class="orbit-stage" id="orbit-stage">
+    <div class="orbit-core">
+      <div class="orbit-core-inner">
+        <span class="orbit-you">you</span>
+        <span class="orbit-tag">localhost</span>
+      </div>
+      <div class="orbit-pulse"></div>
+      <div class="orbit-pulse delay"></div>
+    </div>
+
+    <div class="orbit-ring r1"></div>
+    <div class="orbit-ring r2"></div>
+    <div class="orbit-ring r3"></div>
+
+    <div class="orbit-node" data-ring="1" data-angle="0">
+      <i>Telegram</i><small>existing login</small>
+    </div>
+    <div class="orbit-node" data-ring="1" data-angle="90">
+      <i>Claude Code</i><small>OAuth subscription</small>
+    </div>
+    <div class="orbit-node" data-ring="1" data-angle="180">
+      <i>Discord</i><small>bot token you own</small>
+    </div>
+    <div class="orbit-node" data-ring="1" data-angle="270">
+      <i>Chrome</i><small>browser extension</small>
+    </div>
+
+    <div class="orbit-node small" data-ring="2" data-angle="30">
+      <i>Gmail</i>
+    </div>
+    <div class="orbit-node small" data-ring="2" data-angle="80">
+      <i>Calendar</i>
+    </div>
+    <div class="orbit-node small" data-ring="2" data-angle="135">
+      <i>X</i>
+    </div>
+    <div class="orbit-node small" data-ring="2" data-angle="200">
+      <i>GitHub</i>
+    </div>
+    <div class="orbit-node small" data-ring="2" data-angle="255">
+      <i>Drive</i>
+    </div>
+    <div class="orbit-node small" data-ring="2" data-angle="315">
+      <i>GLM 5.1</i>
+    </div>
+
+    <div class="orbit-node tiny" data-ring="3" data-angle="10"><i>Notion</i></div>
+    <div class="orbit-node tiny" data-ring="3" data-angle="55"><i>Slack</i></div>
+    <div class="orbit-node tiny" data-ring="3" data-angle="100"><i>Linear</i></div>
+    <div class="orbit-node tiny" data-ring="3" data-angle="150"><i>MiniMax</i></div>
+    <div class="orbit-node tiny" data-ring="3" data-angle="195"><i>Voice</i></div>
+    <div class="orbit-node tiny" data-ring="3" data-angle="240"><i>Figma</i></div>
+    <div class="orbit-node tiny" data-ring="3" data-angle="285"><i>Supabase</i></div>
+    <div class="orbit-node tiny" data-ring="3" data-angle="330"><i>Stripe</i></div>
+  </div>
+
+  <div class="orbit-note">
+    <span class="orbit-check">✓</span> Spark never sees a password. Every connector
+    uses the same OAuth flow the app already ships with.
+  </div>
+</section>
+
+<!-- ═══ 005 / MODULES ═══ -->
+<section class="modules section" id="modules">
+  <div class="section-head">
+    <span class="num">005</span>
+    <h2 class="section-title">Small, swappable, <i>yours.</i></h2>
+    <p class="section-lead">
+      Spark is built from modules called chips. Want memory across conversations?
+      Install the memory chip. Want it on Discord too? Install that one. Each
+      module only gets the access you've given it. You're never wondering what
+      your AI might be up to.
+    </p>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marquee-track">
+      <!-- duplicated in JS for seamless loop -->
+    </div>
+  </div>
+
+  <div class="module-grid">
+    <article class="mod-card" data-tier="free">
+      <header>
+        <span class="tier">free</span>
+        <span class="dots"><i></i><i></i><i></i></span>
+      </header>
+      <h3>Memory</h3>
+      <p>Four temporal levels. Salience weighted recall. Survives restarts.</p>
+      <code>spark install memory</code>
+    </article>
+    <article class="mod-card" data-tier="free">
+      <header>
+        <span class="tier">free</span>
+        <span class="dots"><i></i><i></i><i></i></span>
+      </header>
+      <h3>Telegram</h3>
+      <p>Your agent in Telegram in three commands. Group-aware. Voice-aware.</p>
+      <code>spark install telegram</code>
+    </article>
+    <article class="mod-card" data-tier="free">
+      <header>
+        <span class="tier">free</span>
+        <span class="dots"><i></i><i></i><i></i></span>
+      </header>
+      <h3>Browser</h3>
+      <p>Extension that lets Spark see what you see, never what you don't.</p>
+      <code>spark install browser</code>
+    </article>
+    <article class="mod-card" data-tier="free">
+      <header>
+        <span class="tier">free</span>
+        <span class="dots"><i></i><i></i><i></i></span>
+      </header>
+      <h3>Researcher</h3>
+      <p>Gather. Reason. Score. Show work. The engine behind every mission.</p>
+      <code>spark install researcher</code>
+    </article>
+    <article class="mod-card" data-tier="free">
+      <header>
+        <span class="tier">free</span>
+        <span class="dots"><i></i><i></i><i></i></span>
+      </header>
+      <h3>Swarm</h3>
+      <p>Opt-in collective learning across other Spark agents in your specialty.</p>
+      <code>spark install swarm</code>
+    </article>
+    <article class="mod-card" data-tier="pro" data-magnetic>
+      <header>
+        <span class="tier pro">pro</span>
+        <span class="dots"><i></i><i></i><i></i></span>
+      </header>
+      <h3>H70 Corpus</h3>
+      <p>593+ expert-authored skills. Years of practice distilled into reusable knowledge.</p>
+      <code>spark install corpus</code>
+    </article>
+    <article class="mod-card" data-tier="pro" data-magnetic>
+      <header>
+        <span class="tier pro">pro</span>
+        <span class="dots"><i></i><i></i><i></i></span>
+      </header>
+      <h3>Multi-LLM Orchestrator</h3>
+      <p>Parallel, consensus, lead-reviewer. Route a question across models.</p>
+      <code>spark install orchestrator</code>
+    </article>
+    <article class="mod-card" data-tier="pro" data-magnetic>
+      <header>
+        <span class="tier pro">pro</span>
+        <span class="dots"><i></i><i></i><i></i></span>
+      </header>
+      <h3>Cross-Device Memory</h3>
+      <p>Your agent's memory follows you. Laptop, desktop, phone. Same context.</p>
+      <code>spark install sync</code>
+    </article>
+  </div>
+
+  <p class="modules-foot">
+    <span class="dot-pulse"></span>
+    new community chips appear in the registry every week.
+    <a href="https://skills.sparkswarm.ai">skills.sparkswarm.ai <span>→</span></a>
+  </p>
+</section>
+
+<!-- ═══ 006 / BRAIN / RECURSIVE LOOPS ═══ -->
+<section class="brain section" id="brain">
+  <div class="section-head left">
+    <span class="num">006</span>
+    <h2 class="section-title">The brain is built to <br><i>think.</i> Not to guess.</h2>
+    <p class="section-lead">
+      Spark doesn't just call an LLM and hope. The research engine works
+      methodically: it gathers what it knows, reasons through it step by step,
+      scores the result, and shows its work. Every loop also learns. The same
+      mistake never costs you twice.
+    </p>
+  </div>
+
+  <div class="brain-stage">
+    <div class="loop-viz" id="loop-viz">
+      <svg viewBox="-160 -160 320 320" class="loop-svg">
+        <defs>
+          <linearGradient id="loopGrad" x1="0%" x2="100%">
+            <stop offset="0%" stop-color="#2FCA94" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#B8A8DC" stop-opacity="0.9"/>
+          </linearGradient>
+        </defs>
+        <circle r="140" class="loop-ring outer"/>
+        <circle r="105" class="loop-ring mid"/>
+        <circle r="70"  class="loop-ring inner"/>
+        <circle r="140" class="loop-path" stroke="url(#loopGrad)"/>
+        <g class="loop-marker"><circle r="5"/></g>
+      </svg>
+      <div class="loop-labels">
+        <span class="ll" style="--a:0deg">gather</span>
+        <span class="ll" style="--a:72deg">reason</span>
+        <span class="ll" style="--a:144deg">score</span>
+        <span class="ll" style="--a:216deg">show work</span>
+        <span class="ll" style="--a:288deg">learn</span>
+      </div>
+      <div class="loop-center">
+        <div class="loop-count"><span id="loop-count">000</span><i>loops</i></div>
+        <div class="loop-state">running</div>
+      </div>
+    </div>
+
+    <ol class="loop-steps">
+      <li>
+        <span class="lk">01</span>
+        <h4>Gather</h4>
+        <p>Pull only the context this task needs. Memory, chips, tools, docs.
+        Nothing extra. Nothing that leaks into the wrong mission.</p>
+      </li>
+      <li>
+        <span class="lk">02</span>
+        <h4>Reason</h4>
+        <p>Break the problem into steps the board can show. Each step has an
+        input, an output, and a reason it was picked.</p>
+      </li>
+      <li>
+        <span class="lk">03</span>
+        <h4>Score</h4>
+        <p>Every candidate answer is rated against the success criteria you set.
+        Bad ones get sent back. Good ones get kept.</p>
+      </li>
+      <li>
+        <span class="lk">04</span>
+        <h4>Show work</h4>
+        <p>You see why Spark answered, not just what. Every edge of the graph
+        has a rationale attached. Replayable forever.</p>
+      </li>
+      <li>
+        <span class="lk">05</span>
+        <h4>Learn</h4>
+        <p>What worked gets promoted. What didn't gets a watch-out. The next
+        mission starts smarter than the last one, without you lifting a finger.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══ 007 / SWARM ═══ -->
+<section class="swarm section" id="swarm">
+  <div class="section-head">
+    <span class="num">007</span>
+    <h2 class="section-title"><i>Smart alone.</i> <br>Smarter together.</h2>
+    <p class="section-lead">
+      Spark Swarm is where every agent gets to share what it figured out. When
+      someone else's Spark finds a better way to do something in a specialty
+      you care about, yours benefits too. Collective evolution. No data leaves
+      that you didn't choose to share. Free, for everyone, forever.
+    </p>
+  </div>
+
+  <div class="swarm-stage">
+    <canvas id="swarm-canvas" class="swarm-canvas"></canvas>
+    <div class="swarm-overlay">
+      <div class="swarm-stat">
+        <span class="sk">active agents</span>
+        <strong id="swarm-agents">0000</strong>
+      </div>
+      <div class="swarm-stat">
+        <span class="sk">lessons shared · 24h</span>
+        <strong id="swarm-lessons">0000</strong>
+      </div>
+      <div class="swarm-stat">
+        <span class="sk">specialty graphs</span>
+        <strong id="swarm-graphs">000</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="swarm-proof">
+    <blockquote>
+      "I fixed a bug in my trading chip at 3am. Woke up, and three other
+      traders' agents already shipped the same fix without me telling them."
+      <cite>early user, crypto trading path</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ═══ 008 / NO TAKEOVER ═══ -->
+<section class="closed section" id="closed">
+  <div class="closed-inner">
+    <div class="closed-marker"><span class="num">008</span><span>the part that matters most</span></div>
+    <h2 class="closed-title">
+      It doesn't take over <br>your computer.
+    </h2>
+    <p class="closed-lead">
+      Other agents work by asking for unlimited access. Your files, your
+      terminal, your everything. Spark goes the other way. It works through a
+      browser extension, your normal app logins, and the modules you chose to
+      install. If you didn't give Spark a way to do something, it can't do it.
+    </p>
+    <p class="closed-line">That's not a limitation. That's the point.</p>
+
+    <div class="closed-grid">
+      <div class="closed-box">
+        <span class="cb-icon">◇</span>
+        <strong>Scoped</strong>
+        <em>Every chip declares its permissions in spark.toml. You approve them once. You revoke them anytime.</em>
+      </div>
+      <div class="closed-box">
+        <span class="cb-icon">◈</span>
+        <strong>Auditable</strong>
+        <em>Every action Spark takes is logged locally. You can replay any mission line by line.</em>
+      </div>
+      <div class="closed-box">
+        <span class="cb-icon">◉</span>
+        <strong>Revocable</strong>
+        <em>Uninstall a chip and its access vanishes with it. No orphan tokens. No background processes.</em>
+      </div>
+      <div class="closed-box">
+        <span class="cb-icon">◐</span>
+        <strong>Yours</strong>
+        <em>Your agent, your data, your rules. If you turn off the internet, Spark still works.</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 009 / PRICING ═══ -->
+<section class="pricing section" id="pricing">
+  <div class="section-head center">
+    <span class="num">009</span>
+    <h2 class="section-title">Free to start. <br><i>$19.99</i> when you want the corpus.</h2>
+    <p class="section-lead">
+      One Pro tier, no à la carte, no surprise add-ons. The free tier is real.
+      The Pro tier is the whole experience: 593+ curated expert skills, memory
+      that follows you across devices, and the orchestrator that routes across
+      models.
+    </p>
+  </div>
+
+  <div class="price-grid">
+    <!-- FREE -->
+    <article class="price-card free">
+      <header>
+        <span class="price-label">free forever</span>
+        <h3 class="price-name">Spark</h3>
+        <div class="price-amount"><span class="amount">$0</span><span class="unit">·forever</span></div>
+      </header>
+      <ul class="price-list">
+        <li>The assistant, the visual board, the browser extension</li>
+        <li>Telegram &amp; Discord delivery</li>
+        <li>Research engine with gather → reason → score → show → learn</li>
+        <li>~30 to 50 starter expert skills</li>
+        <li>Full library of community-built modules</li>
+        <li>Open spark.toml format for builders</li>
+        <li><strong>Full Spark Swarm participation</strong></li>
+      </ul>
+      <a href="#install" class="price-cta" data-magnetic>
+        <span>brew install spark</span><i>→</i>
+      </a>
+      <p class="price-fine">Real free. Not crippleware.</p>
+    </article>
+
+    <!-- PRO -->
+    <article class="price-card pro">
+      <header>
+        <span class="price-label pro-label">spark pro</span>
+        <h3 class="price-name">Pro</h3>
+        <div class="price-amount">
+          <span class="amount">$19.99</span>
+          <span class="unit">/month</span>
+        </div>
+        <div class="price-annual">
+          or <strong>$159 / year</strong>
+          <span class="save">4 months free</span>
+        </div>
+      </header>
+      <ul class="price-list pro-list">
+        <li><span>◆</span>Full library of <strong>593+ expert skills</strong> (H70 corpus)</li>
+        <li><span>◆</span>Memory that follows you across devices</li>
+        <li><span>◆</span>Multi-LLM orchestrator (parallel, consensus, lead-reviewer)</li>
+        <li><span>◆</span>Premium domain chips (security, growth, ops, more)</li>
+        <li><span>◆</span>Priority MCPs and managed integrations</li>
+        <li><span>◆</span>Hosted dashboard sync &amp; backup</li>
+        <li><span>◆</span>Premium support &amp; onboarding</li>
+      </ul>
+      <a href="#install" class="price-cta pro-cta" data-magnetic>
+        <span>Upgrade to Pro</span><i>→</i>
+      </a>
+      <p class="price-fine">One subscription unlocks everything. 14-day refund, no questions.</p>
+    </article>
+  </div>
+
+  <div class="price-compare">
+    <div class="pc-row">
+      <span class="pc-label">Cursor Pro</span>
+      <span class="pc-price">$20 / mo</span>
+      <span class="pc-note">coding only</span>
+    </div>
+    <div class="pc-row">
+      <span class="pc-label">ChatGPT Plus</span>
+      <span class="pc-price">$20 / mo</span>
+      <span class="pc-note">one model, cloud only</span>
+    </div>
+    <div class="pc-row highlight">
+      <span class="pc-label">Spark Pro</span>
+      <span class="pc-price">$19.99 / mo</span>
+      <span class="pc-note">multi-model, local, composable, yours</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 010 / INSTALL CTA ═══ -->
+<section class="install section" id="install">
+  <div class="install-inner">
+    <div class="install-marker"><span class="num">010</span><span>ready in under ten minutes</span></div>
+    <h2 class="install-title">Start in <i>three</i> commands.</h2>
+
+    <div class="install-cmds">
+      <div class="cmd-row">
+        <span class="cmd-num">01</span>
+        <code class="cmd" data-copy>brew install spark</code>
+        <button class="copy-btn" data-copy-btn>copy</button>
+      </div>
+      <div class="cmd-row">
+        <span class="cmd-num">02</span>
+        <code class="cmd" data-copy>spark setup</code>
+        <button class="copy-btn" data-copy-btn>copy</button>
+      </div>
+      <div class="cmd-row">
+        <span class="cmd-num">03</span>
+        <code class="cmd" data-copy>spark run hello.spark</code>
+        <button class="copy-btn" data-copy-btn>copy</button>
+      </div>
+    </div>
+
+    <div class="install-cards">
+      <a href="https://t.me/SparkAGI_bot" class="install-card" data-magnetic>
+        <span class="ic-k">alt</span>
+        <strong>Prefer Telegram?</strong>
+        <em>Ping @SparkAGI_bot. Your agent in a chat in 30 seconds.</em>
+        <span class="ic-arrow">→</span>
+      </a>
+      <a href="https://docs.sparkswarm.ai" class="install-card" data-magnetic>
+        <span class="ic-k">docs</span>
+        <strong>Docs &amp; reference</strong>
+        <em>How modules work. How to build one. How the runtime boots.</em>
+        <span class="ic-arrow">→</span>
+      </a>
+      <a href="https://eco.sparkswarm.ai" class="install-card" data-magnetic>
+        <span class="ic-k">map</span>
+        <strong>See the ecosystem</strong>
+        <em>Every tool, agent, and intelligence system in the galaxy.</em>
+        <span class="ic-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="foot-logo">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+          <rect x="0" y="6"  width="4" height="16" rx="1" fill="currentColor"/>
+          <rect x="6" y="2"  width="4" height="20" rx="1" fill="currentColor"/>
+          <rect x="12" y="6" width="4" height="16" rx="1" fill="currentColor"/>
+          <rect x="18" y="10" width="4" height="12" rx="1" fill="currentColor"/>
+        </svg>
+        <span>Spark</span>
+      </div>
+      <p>A personal AI runtime by the Sparkswarm team.</p>
+      <p class="foot-build">build · agent.sparkswarm.ai · v1.0</p>
+    </div>
+
+    <div class="foot-col">
+      <h5>Product</h5>
+      <a href="#board">Visual board</a>
+      <a href="#modules">Modules</a>
+      <a href="#brain">Research engine</a>
+      <a href="#swarm">Spark Swarm</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="foot-col">
+      <h5>Sparkswarm</h5>
+      <a href="https://sparkswarm.ai">sparkswarm.ai</a>
+      <a href="https://eco.sparkswarm.ai">eco.sparkswarm.ai</a>
+      <a href="https://skills.sparkswarm.ai">skills.sparkswarm.ai</a>
+      <a href="https://docs.sparkswarm.ai">docs.sparkswarm.ai</a>
+    </div>
+    <div class="foot-col">
+      <h5>Build</h5>
+      <a href="https://github.com/vibeforge1111/spark-skill-graphs">open format</a>
+      <a href="https://docs.sparkswarm.ai/chips">author a chip</a>
+      <a href="https://t.me/SparkAGI_bot">Telegram bot</a>
+      <a href="mailto:hi@sparkswarm.ai">hi@sparkswarm.ai</a>
+    </div>
+  </div>
+
+  <div class="foot-bottom">
+    <span>© 2026 Sparkswarm</span>
+    <span class="foot-pulse"><span class="fp-dot"></span>runtime healthy</span>
+    <span>made to be owned</span>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>
