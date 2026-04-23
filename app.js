@@ -489,18 +489,325 @@
   }
 
   /* ══════════════════════════════════════════════════════════════
-     SWARM CANVAS · same node-field as the hero, plus broadcast pulses
+     SWARM CANVAS · port of sparkswarm.ai's WaitlistNetworkCanvas
      ══════════════════════════════════════════════════════════════ */
-  makeNodeField($('#swarm-canvas'), {
-    density: 16,
-    linkDist: 135,
-    hoverDist: 160,
-    irisPct: 0.14,
-    broadcast: true,
-    broadcastRate: 0.018,
-    nodeR: [1.0, 2.6],
-    cursorReactive: true,
-  });
+  const makeSwarmNetwork = (canvas) => {
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    const CATEGORY_COLORS = {
+      agent:          '#2FCA94',
+      specialization: '#B8A8DC',
+      path:           '#D8C868',
+      insight:        '#8890B0',
+    };
+
+    const agentNames = [
+      'nova-research','zero-to-one','atlas-build','drift-ops','signal-hunter','echo-analyst',
+      'forge-engine','pulse-monitor','vortex-scan','helix-runner','quasar-mind','nebula-trace',
+      'cipher-flow','apex-solver','tide-watch','ember-logic','prism-lens','rift-walker',
+      'bloom-synth','frost-core','storm-pilot','volt-spark','onyx-guard','zenith-probe',
+      'cobalt-mind','lumen-index','stratos-agent','crest-builder','flux-engine','gale-tracker',
+      'iron-lattice','jade-planner','kite-render','lyra-mapper','mesa-scout','noir-agent',
+      'orbit-sync','pike-analyst','reef-solver','sage-tuner','thorn-watch','ultra-parse',
+      'vale-miner','wren-seeker','xeno-pattern','yoke-bridge','zeal-runner','arc-welder',
+      'bolt-finder','core-drift','dusk-agent','edge-pulse','fern-logic','grid-hawk'
+    ];
+    const specNames = [
+      'content-strategy','yc-startup','devops','ml-pipelines','b2b-sales',
+      'growth-hacking','security-audit','data-science','ai-agents','product-strategy'
+    ];
+    const pathNames = [
+      'lead-qualifier','launch-sprint','infra-hardener','model-tuner',
+      'copy-editor','metric-driver','audit-trail','feature-engine'
+    ];
+    const insightNames = [
+      'audience-segments','founder-led-sales','canary-deploys','lora-fine-tune',
+      'churn-predictor','prompt-patterns'
+    ];
+
+    const rawNodes = [
+      ...agentNames.map((slash, i) => ({ id: 'a'+i, slash, category: 'agent' })),
+      ...specNames.map((slash, i) => ({ id: 's'+i, slash, category: 'specialization' })),
+      ...pathNames.map((slash, i) => ({ id: 'p'+i, slash, category: 'path' })),
+      ...insightNames.map((slash, i) => ({ id: 'i'+i, slash, category: 'insight' })),
+    ];
+
+    const nodes = rawNodes.map((n) => ({
+      ...n,
+      x: 0, y: 0,
+      renderX: 0, renderY: 0,
+      radius: n.category === 'specialization' ? 18
+            : n.category === 'path'           ? 14
+            : n.category === 'insight'        ? 12
+            :                                    4.5,
+      orbitAngle:  rand(0, Math.PI * 2),
+      orbitRadius: rand(2, 6),
+      orbitSpeed:  rand(-1, 1) * 0.001,
+      entranceT:   0,
+    }));
+    const nodeMap = {};
+    nodes.forEach(n => { nodeMap[n.id] = n; });
+
+    const byCat = c => nodes.filter(n => n.category === c);
+    const agents  = byCat('agent');
+    const specs   = byCat('specialization');
+    const paths   = byCat('path');
+    const insights= byCat('insight');
+
+    const edges = [];
+    agents.forEach(a => {
+      const spec = specs[Math.floor(Math.random() * specs.length)];
+      edges.push({ source: a.id, target: spec.id });
+      if (Math.random() < 0.28) {
+        const spec2 = specs[Math.floor(Math.random() * specs.length)];
+        if (spec2.id !== spec.id) edges.push({ source: a.id, target: spec2.id });
+      }
+    });
+    specs.forEach(s => {
+      paths.forEach(p => { if (Math.random() < 0.35) edges.push({ source: s.id, target: p.id }); });
+      insights.forEach(i => { if (Math.random() < 0.25) edges.push({ source: s.id, target: i.id }); });
+    });
+    paths.forEach(p => {
+      insights.forEach(i => { if (Math.random() < 0.2) edges.push({ source: p.id, target: i.id }); });
+    });
+
+    let W = 0, H = 0, dpr = 1;
+    const resizeSN = () => {
+      const rect = canvas.getBoundingClientRect();
+      W = rect.width; H = rect.height;
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      canvas.width  = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width  = W + 'px';
+      canvas.style.height = H + 'px';
+      layout();
+    };
+
+    const layout = () => {
+      const R = Math.min(W, H);
+      specs.forEach((s, i) => {
+        const a = (i / specs.length) * Math.PI * 2 + 0.3;
+        const r = R * 0.18;
+        s.x = Math.cos(a) * r; s.y = Math.sin(a) * r * 0.7;
+      });
+      agents.forEach((n) => {
+        const a = rand(0, Math.PI * 2);
+        const r = R * 0.32 * (0.55 + Math.random() * 0.65);
+        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.72;
+      });
+      paths.forEach((n, i) => {
+        const a = (i / paths.length) * Math.PI * 2 - 0.2;
+        const r = R * 0.38;
+        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.72;
+      });
+      insights.forEach((n, i) => {
+        const a = (i / insights.length) * Math.PI * 2 + 0.7;
+        const r = R * 0.43;
+        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.72;
+      });
+    };
+
+    const particles = reduced ? [] : edges
+      .filter(e => !(nodeMap[e.source].category === 'agent' && nodeMap[e.target].category === 'agent'))
+      .map(e => ({ edge: e, t: Math.random(), speed: 0.0008 + Math.random() * 0.001 }));
+
+    const getBezier = (src, tgt) => {
+      const mx = (src.renderX + tgt.renderX) / 2;
+      const my = (src.renderY + tgt.renderY) / 2;
+      const dx = tgt.renderX - src.renderX;
+      const dy = tgt.renderY - src.renderY;
+      return {
+        sx: src.renderX, sy: src.renderY,
+        cx: mx + (-dy * 0.12), cy: my + (dx * 0.12),
+        ex: tgt.renderX, ey: tgt.renderY,
+      };
+    };
+    const pointOnBezier = (b, t) => {
+      const u = 1 - t;
+      return {
+        x: u*u*b.sx + 2*u*t*b.cx + t*t*b.ex,
+        y: u*u*b.sy + 2*u*t*b.cy + t*t*b.ey,
+      };
+    };
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+    const drawIcon = (ctx, x, y, s, col, cat) => {
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 1.4;
+      if (cat === 'specialization') {
+        ctx.beginPath();
+        ctx.moveTo(x, y - s*0.28);
+        ctx.lineTo(x + s*0.28, y);
+        ctx.lineTo(x, y + s*0.28);
+        ctx.lineTo(x - s*0.28, y);
+        ctx.closePath();
+        ctx.stroke();
+      } else if (cat === 'path') {
+        ctx.beginPath();
+        ctx.moveTo(x - s*0.24, y + s*0.14);
+        ctx.lineTo(x - s*0.08, y - s*0.14);
+        ctx.lineTo(x + s*0.08, y + s*0.14);
+        ctx.lineTo(x + s*0.24, y - s*0.14);
+        ctx.stroke();
+      } else if (cat === 'insight') {
+        const r = s * 0.22;
+        ctx.beginPath(); ctx.moveTo(x, y-r);   ctx.lineTo(x, y+r);   ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x-r, y);   ctx.lineTo(x+r, y);   ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x-r*0.6, y-r*0.6); ctx.lineTo(x+r*0.6, y+r*0.6); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x+r*0.6, y-r*0.6); ctx.lineTo(x-r*0.6, y+r*0.6); ctx.stroke();
+      }
+    };
+
+    resizeSN();
+    addEventListener('resize', resizeSN);
+
+    const entranceStart = performance.now();
+    const NODE_STAGGER = reduced ? 0 : 35;
+    let pulsePhase = 0;
+
+    const render = (now) => {
+      requestAnimationFrame(render);
+      const elapsed = now - entranceStart;
+      pulsePhase = now * 0.002;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+
+      // dot grid background
+      ctx.fillStyle = 'rgba(47,202,148,0.025)';
+      for (let gx = 0; gx < W; gx += 36) {
+        for (let gy = 0; gy < H; gy += 36) {
+          ctx.fillRect(gx, gy, 1, 1);
+        }
+      }
+
+      ctx.save();
+      ctx.translate(W / 2, H / 2);
+
+      if (!reduced) {
+        nodes.forEach(n => {
+          n.orbitAngle += n.orbitSpeed;
+          n.renderX = n.x + Math.cos(n.orbitAngle) * n.orbitRadius;
+          n.renderY = n.y + Math.sin(n.orbitAngle) * n.orbitRadius;
+        });
+      } else {
+        nodes.forEach(n => { n.renderX = n.x; n.renderY = n.y; });
+      }
+
+      nodes.forEach((n, i) => {
+        const ns = 100 + i * NODE_STAGGER;
+        n.entranceT = reduced ? 1 : Math.min(1, Math.max(0, (elapsed - ns) / 700));
+      });
+
+      // edges
+      edges.forEach(e => {
+        const src = nodeMap[e.source], tgt = nodeMap[e.target];
+        if (!src || !tgt || src.entranceT < 0.3 || tgt.entranceT < 0.3) return;
+        const b = getBezier(src, tgt);
+        const color = CATEGORY_COLORS[src.category];
+        const edgeT = Math.min(src.entranceT, tgt.entranceT);
+        const bothAg = src.category === 'agent' && tgt.category === 'agent';
+        const hasAg  = src.category === 'agent' || tgt.category === 'agent';
+        const alpha = bothAg ? 0.08 : hasAg ? 0.18 : 0.32;
+        const lw    = bothAg ? 0.5  : hasAg ? 0.85 : 1.2;
+        ctx.globalAlpha = alpha * edgeT;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lw;
+        ctx.beginPath();
+        ctx.moveTo(b.sx, b.sy);
+        ctx.quadraticCurveTo(b.cx, b.cy, b.ex, b.ey);
+        ctx.stroke();
+      });
+      ctx.globalAlpha = 1;
+
+      // particles
+      if (!reduced) {
+        particles.forEach(p => {
+          const src = nodeMap[p.edge.source], tgt = nodeMap[p.edge.target];
+          if (!src || !tgt || src.entranceT < 0.7 || tgt.entranceT < 0.7) return;
+          p.t += p.speed;
+          if (p.t > 1) p.t -= 1;
+          const b = getBezier(src, tgt);
+          const pt = pointOnBezier(b, p.t);
+          const color = CATEGORY_COLORS[src.category];
+          ctx.save();
+          ctx.globalAlpha = 0.65;
+          ctx.shadowColor = color;
+          ctx.shadowBlur = 8;
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 1.9, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+      }
+
+      // nodes
+      nodes.forEach(n => {
+        if (n.entranceT <= 0) return;
+        const et = easeOut(n.entranceT);
+        const offY = (1 - et) * 20;
+        const color = CATEGORY_COLORS[n.category];
+        const rx = n.renderX, ry = n.renderY + offY;
+        const isAg = n.category === 'agent';
+        const pulse = isAg ? 1 + Math.sin(pulsePhase + n.orbitAngle) * 0.08 : 1;
+        const drawR = n.radius * pulse;
+
+        ctx.globalAlpha = isAg ? et * 0.75 : et;
+
+        if (!isAg) {
+          const glowR = drawR * 2.8;
+          const grad = ctx.createRadialGradient(rx, ry, drawR * 0.3, rx, ry, glowR);
+          grad.addColorStop(0, color + '22');
+          grad.addColorStop(1, color + '00');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(rx, ry, glowR, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.fillStyle = isAg ? color + '32' : '#181C26';
+        ctx.strokeStyle = color + (isAg ? '60' : '80');
+        ctx.lineWidth = isAg ? 0.6 : 1.3;
+        ctx.beginPath();
+        ctx.arc(rx, ry, drawR, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        if (!isAg) {
+          ctx.save();
+          ctx.globalAlpha = et * 0.75;
+          drawIcon(ctx, rx, ry, drawR, color, n.category);
+          ctx.restore();
+        }
+
+        if (n.category === 'specialization') {
+          ctx.font = `500 10px "DM Mono", ui-monospace, monospace`;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = color;
+          ctx.globalAlpha = et * 0.85;
+          ctx.fillText(n.slash, rx, ry + drawR + 14);
+        }
+      });
+      ctx.globalAlpha = 1;
+
+      ctx.restore();
+
+      // edge fades (fade to surface bg)
+      const fadeH = H * 0.18;
+      const bg = '#141820';
+      let g = ctx.createLinearGradient(0, 0, 0, fadeH);
+      g.addColorStop(0, bg); g.addColorStop(1, bg + '00');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, fadeH);
+      g = ctx.createLinearGradient(0, H - fadeH, 0, H);
+      g.addColorStop(0, bg + '00'); g.addColorStop(1, bg);
+      ctx.fillStyle = g; ctx.fillRect(0, H - fadeH, W, fadeH);
+    };
+    requestAnimationFrame(render);
+  };
+
+  makeSwarmNetwork($('#swarm-canvas'));
 
   /* ══════════════════════════════════════════════════════════════
      LOOP COUNTER
