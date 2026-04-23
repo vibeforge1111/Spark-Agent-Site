@@ -505,41 +505,86 @@ body.hover-target .cursor-dot {
   50%      { opacity: 1;    transform: scale(1.08); }
 }
 
-.av-core-halo {
+/* wireframe head avatar (Pulse-inspired) */
+.av-head { transform-origin: center; }
+.av-head-glow {
   transform-origin: center;
-  animation: avCoreBreath 3.2s ease-in-out infinite;
+  animation: avHeadGlow 3.4s ease-in-out infinite;
 }
-.av-core-disc {
+.av-head-outline {
+  animation: avOutlinePulse 3s ease-in-out infinite;
+}
+.av-head-wire {
+  animation: avWirePulse 4s ease-in-out infinite;
+}
+.av-eye {
   transform-origin: center;
-  animation: avDiscPulse 3.2s ease-in-out infinite;
+  animation: avEyeBlink 5.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px #4DE3A8);
 }
-.av-core-inner {
-  transform-origin: center;
-  animation: avInnerBreath 2.6s ease-in-out infinite;
+@keyframes avHeadGlow {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%      { opacity: 0.9;  transform: scale(1.04); }
 }
-.av-mark {
-  transform-origin: center;
-  animation: avMarkPulse 3.6s ease-in-out infinite;
-}
-@keyframes avCoreBreath {
-  0%, 100% { opacity: 0.8; }
-  50%      { opacity: 1; }
-}
-@keyframes avDiscPulse {
-  0%, 100% { stroke-opacity: 0.6; }
+@keyframes avOutlinePulse {
+  0%, 100% { stroke-opacity: 0.8; }
   50%      { stroke-opacity: 1; }
 }
-@keyframes avInnerBreath {
-  0%, 100% { opacity: 0.45; transform: scale(1); }
-  50%      { opacity: 0.8;  transform: scale(1.08); }
+@keyframes avWirePulse {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 0.5; }
 }
-@keyframes avMarkPulse {
-  0%, 100% { opacity: 0.9; }
-  50%      { opacity: 1; filter: drop-shadow(0 0 8px rgba(47,202,148,0.6)); }
+@keyframes avEyeBlink {
+  0%, 94%, 100% { opacity: 1; transform: scaleY(1); }
+  96%           { opacity: 0.3; transform: scaleY(0.15); }
+  98%           { opacity: 1; transform: scaleY(1); }
 }
 
 .av-packet {
   filter: drop-shadow(0 0 4px #4DE3A8);
+}
+
+/* OAuth connector labels (static, around outer ring) */
+.av-labels {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.av-label {
+  position: absolute;
+  left: var(--x); top: var(--y);
+  transform: translate(-50%, -50%);
+  font: 500 10px var(--font-mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+  padding: 4px 10px 4px 14px;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  animation: fadeIn 0.6s var(--ease) forwards;
+  animation-delay: calc(1.6s + var(--d, 0s));
+  transition: border-color var(--t-fast), color var(--t-fast);
+}
+.av-label i { font-style: normal; }
+.av-label::before {
+  content: '';
+  position: absolute;
+  left: 5px; top: 50%;
+  transform: translateY(-50%);
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+.av-label:nth-child(even)::before { background: var(--iris); box-shadow: 0 0 6px var(--iris-glow); }
+.av-label:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  pointer-events: auto;
 }
 
 /* Kinetic headline (smaller, centered) */
@@ -691,6 +736,10 @@ body.hover-target .cursor-dot {
 @keyframes tickerSlide { to { transform: translateX(-50%); } }
 
 /* hero responsive */
+@media (max-width: 900px) {
+  .av-label { font-size: 9px; padding: 3px 8px 3px 12px; letter-spacing: 0.8px; }
+  .av-label::before { width: 4px; height: 4px; left: 4px; }
+}
 @media (max-width: 720px) {
   .hero-status { font-size: 10px; gap: 6px; padding: 6px 12px; }
   .status-sep + .status-meta { display: none; }
@@ -698,6 +747,9 @@ body.hover-target .cursor-dot {
   .hud-tag { font-size: 9px; }
   .hero-title { font-size: clamp(28px, 9vw, 44px); }
   .hero-lead { font-size: 14px; }
+  /* hide the 45° corner labels, keep the 4 cardinals */
+  .av-label:nth-child(2), .av-label:nth-child(4),
+  .av-label:nth-child(6), .av-label:nth-child(8) { display: none; }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -921,125 +973,7 @@ body.hover-target .cursor-dot {
   line-height: 1.6;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   004 / ORBIT
-   ══════════════════════════════════════════════════════════════ */
-.orbit-stage {
-  position: relative;
-  height: 640px;
-  max-width: 920px;
-  margin: 0 auto;
-}
-
-.orbit-core {
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  width: 150px; height: 150px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--accent-mid) 0%, transparent 70%);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 4;
-}
-.orbit-core-inner {
-  width: 110px; height: 110px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--accent);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  color: var(--text);
-  box-shadow: 0 0 40px -10px var(--accent-glow), inset 0 0 20px rgba(47,202,148,0.1);
-}
-.orbit-you {
-  font: 500 22px var(--font-sans);
-  letter-spacing: -0.4px;
-  color: var(--accent);
-}
-.orbit-tag {
-  font: 500 10px var(--font-mono);
-  color: var(--text-ghost);
-  letter-spacing: 1.5px;
-  margin-top: 4px;
-}
-.orbit-pulse {
-  position: absolute; inset: 0;
-  border-radius: 50%;
-  border: 1px solid var(--accent);
-  animation: orbitPulse 3s ease-out infinite;
-}
-.orbit-pulse.delay { animation-delay: 1.5s; }
-@keyframes orbitPulse {
-  0% { transform: scale(0.8); opacity: 0.9; }
-  100% { transform: scale(2.4); opacity: 0; }
-}
-
-.orbit-ring {
-  position: absolute;
-  left: 50%; top: 50%;
-  border: 1px dashed var(--border-strong);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: orbitSpin 60s linear infinite;
-}
-.orbit-ring.r1 { width: 340px; height: 340px; animation-duration: 60s; }
-.orbit-ring.r2 { width: 500px; height: 500px; animation-duration: 100s; animation-direction: reverse; }
-.orbit-ring.r3 { width: 640px; height: 640px; animation-duration: 160s; }
-@keyframes orbitSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
-
-.orbit-node {
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%,-50%) rotate(var(--a,0deg)) translateX(var(--r,170px)) rotate(calc(var(--a,0deg) * -1));
-  padding: 10px 14px;
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--r-md);
-  font: 500 12px var(--font-mono);
-  color: var(--text);
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-  display: flex; flex-direction: column; gap: 2px;
-  text-align: center;
-  transition: border-color var(--t-fast), transform var(--t-fast);
-  animation: orbitNodeRot 60s linear infinite;
-  z-index: 3;
-}
-.orbit-node[data-ring="1"] { --r: 170px; animation-duration: 60s; }
-.orbit-node[data-ring="2"] { --r: 250px; animation-duration: 100s; animation-direction: reverse; }
-.orbit-node[data-ring="3"] { --r: 320px; animation-duration: 160s; }
-.orbit-node i { font-style: normal; }
-.orbit-node small {
-  font: 400 10px var(--font-mono);
-  color: var(--text-ghost);
-}
-.orbit-node.small { padding: 7px 12px; font-size: 11px; }
-.orbit-node.tiny {
-  padding: 5px 10px;
-  font-size: 10px;
-  color: var(--text-secondary);
-  background: var(--bg-subtle);
-}
-.orbit-node:hover { border-color: var(--accent); }
-
-@keyframes orbitNodeRot {
-  to {
-    transform: translate(-50%,-50%) rotate(calc(var(--a,0deg) + 360deg)) translateX(var(--r,170px)) rotate(calc((var(--a,0deg) + 360deg) * -1));
-  }
-}
-
-.orbit-note {
-  margin-top: 32px;
-  text-align: center;
-  font: 400 14px var(--font-sans);
-  color: var(--text-tertiary);
-  padding: 14px 20px;
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--r-md);
-  background: var(--bg-subtle);
-  max-width: 680px;
-  margin-left: auto; margin-right: auto;
-}
-.orbit-check { color: var(--accent); margin-right: 6px; font-weight: 600; }
+/* (section 004 removed · "uses what you already have" merged into hero) */
 
 /* ══════════════════════════════════════════════════════════════
    005 / MODULES

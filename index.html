@@ -171,17 +171,53 @@
         <path d="M 120 120 Q 0 0 -120 -120" fill="none" stroke="#2FCA94" stroke-width="0.5"/>
       </g>
 
-      <!-- core orb halo -->
-      <circle r="110" fill="url(#avCoreGrad)" filter="url(#avBlur)" class="av-core-halo"/>
-      <!-- core disc -->
-      <circle r="82" fill="#0E1018" stroke="#2FCA94" stroke-width="1.2" class="av-core-disc"/>
-      <!-- inner ring (breathing) -->
-      <circle r="64" fill="none" stroke="#4DE3A8" stroke-width="0.6" opacity="0.6" class="av-core-inner"/>
-      <!-- spark mark at center -->
-      <g class="av-mark" transform="translate(-54, -24) scale(0.41)">
-        <use href="#avSparkMark" fill="url(#avCoreGrad)" opacity="0.95"/>
+      <!-- CENTRAL AVATAR · wireframe head (Pulse-inspired) -->
+      <g class="av-head">
+        <!-- glow halo behind head -->
+        <circle r="135" fill="url(#avCoreGrad)" filter="url(#avBlur)" opacity="0.7" class="av-head-glow"/>
+
+        <!-- head silhouette -->
+        <path d="M 0 -105 L 60 -88 L 92 -42 L 95 10 L 78 62 L 44 95 L 0 103 L -44 95 L -78 62 L -95 10 L -92 -42 L -60 -88 Z"
+              fill="#0B0D13" stroke="#4DE3A8" stroke-width="1.2" opacity="0.95" class="av-head-outline"/>
+
+        <!-- wireframe interior -->
+        <g stroke="#2FCA94" stroke-width="0.5" fill="none" opacity="0.35" class="av-head-wire">
+          <line x1="0" y1="-105" x2="0" y2="103"/>
+          <line x1="-95" y1="10" x2="95" y2="10"/>
+          <line x1="0" y1="-105" x2="92" y2="-42"/>
+          <line x1="0" y1="-105" x2="-92" y2="-42"/>
+          <line x1="0" y1="103" x2="78" y2="62"/>
+          <line x1="0" y1="103" x2="-78" y2="62"/>
+          <line x1="-60" y1="-88" x2="60" y2="-88"/>
+          <line x1="-78" y1="62" x2="78" y2="62"/>
+          <line x1="-92" y1="-42" x2="92" y2="-42"/>
+        </g>
+
+        <!-- eyes -->
+        <circle cx="-32" cy="-20" r="5.5" fill="#4DE3A8" class="av-eye"/>
+        <circle cx="32"  cy="-20" r="5.5" fill="#4DE3A8" class="av-eye"/>
+
+        <!-- mouth -->
+        <path d="M -22 55 Q 0 64 22 55" stroke="#2FCA94" stroke-width="0.9" fill="none" opacity="0.55"/>
+
+        <!-- tiny Sparkswarm mark at heart (signature) -->
+        <g transform="translate(-26, 75) scale(0.2)" opacity="0.5">
+          <use href="#avSparkMark" fill="#4DE3A8"/>
+        </g>
       </g>
     </svg>
+
+    <!-- OAUTH CONNECTOR LABELS · static around outer ring -->
+    <div class="av-labels">
+      <span class="av-label" style="--x:96%; --y:50%;   --d:0.2s"><i>Chrome</i></span>
+      <span class="av-label" style="--x:82.5%; --y:17.5%; --d:0.3s"><i>Claude Code</i></span>
+      <span class="av-label" style="--x:50%; --y:4%;    --d:0.4s"><i>Telegram</i></span>
+      <span class="av-label" style="--x:17.5%; --y:17.5%; --d:0.5s"><i>Discord</i></span>
+      <span class="av-label" style="--x:4%; --y:50%;    --d:0.6s"><i>X</i></span>
+      <span class="av-label" style="--x:17.5%; --y:82.5%; --d:0.7s"><i>GitHub</i></span>
+      <span class="av-label" style="--x:50%; --y:96%;   --d:0.8s"><i>Gmail</i></span>
+      <span class="av-label" style="--x:82.5%; --y:82.5%; --d:0.9s"><i>Calendar</i></span>
+    </div>
   </div>
 
   <!-- compact caption beneath avatar -->
@@ -371,86 +407,10 @@
   </div>
 </section>
 
-<!-- ═══ 004 / OAUTH ORBIT ═══ -->
-<section class="orbit section" id="orbit">
-  <div class="section-head">
-    <span class="num">004</span>
-    <h2 class="section-title">Uses <i>what you already have.</i></h2>
-    <p class="section-lead">
-      No new accounts. No extra subscriptions. No copy-pasting strange keys
-      from developer dashboards. If you have Telegram, Spark lives in Telegram.
-      If you have Claude installed, Spark uses that login. Your calendar, your
-      email, your browser. Spark works through their normal sign-in, not by
-      demanding control of your machine.
-    </p>
-  </div>
-
-  <div class="orbit-stage" id="orbit-stage">
-    <div class="orbit-core">
-      <div class="orbit-core-inner">
-        <span class="orbit-you">you</span>
-        <span class="orbit-tag">localhost</span>
-      </div>
-      <div class="orbit-pulse"></div>
-      <div class="orbit-pulse delay"></div>
-    </div>
-
-    <div class="orbit-ring r1"></div>
-    <div class="orbit-ring r2"></div>
-    <div class="orbit-ring r3"></div>
-
-    <div class="orbit-node" data-ring="1" data-angle="0">
-      <i>Telegram</i><small>existing login</small>
-    </div>
-    <div class="orbit-node" data-ring="1" data-angle="90">
-      <i>Claude Code</i><small>OAuth subscription</small>
-    </div>
-    <div class="orbit-node" data-ring="1" data-angle="180">
-      <i>Discord</i><small>bot token you own</small>
-    </div>
-    <div class="orbit-node" data-ring="1" data-angle="270">
-      <i>Chrome</i><small>browser extension</small>
-    </div>
-
-    <div class="orbit-node small" data-ring="2" data-angle="30">
-      <i>Gmail</i>
-    </div>
-    <div class="orbit-node small" data-ring="2" data-angle="80">
-      <i>Calendar</i>
-    </div>
-    <div class="orbit-node small" data-ring="2" data-angle="135">
-      <i>X</i>
-    </div>
-    <div class="orbit-node small" data-ring="2" data-angle="200">
-      <i>GitHub</i>
-    </div>
-    <div class="orbit-node small" data-ring="2" data-angle="255">
-      <i>Drive</i>
-    </div>
-    <div class="orbit-node small" data-ring="2" data-angle="315">
-      <i>GLM 5.1</i>
-    </div>
-
-    <div class="orbit-node tiny" data-ring="3" data-angle="10"><i>Notion</i></div>
-    <div class="orbit-node tiny" data-ring="3" data-angle="55"><i>Slack</i></div>
-    <div class="orbit-node tiny" data-ring="3" data-angle="100"><i>Linear</i></div>
-    <div class="orbit-node tiny" data-ring="3" data-angle="150"><i>MiniMax</i></div>
-    <div class="orbit-node tiny" data-ring="3" data-angle="195"><i>Voice</i></div>
-    <div class="orbit-node tiny" data-ring="3" data-angle="240"><i>Figma</i></div>
-    <div class="orbit-node tiny" data-ring="3" data-angle="285"><i>Supabase</i></div>
-    <div class="orbit-node tiny" data-ring="3" data-angle="330"><i>Stripe</i></div>
-  </div>
-
-  <div class="orbit-note">
-    <span class="orbit-check">✓</span> Spark never sees a password. Every connector
-    uses the same OAuth flow the app already ships with.
-  </div>
-</section>
-
-<!-- ═══ 005 / MODULES ═══ -->
+<!-- ═══ 004 / MODULES ═══ -->
 <section class="modules section" id="modules">
   <div class="section-head">
-    <span class="num">005</span>
+    <span class="num">004</span>
     <h2 class="section-title">Small, swappable, <i>yours.</i></h2>
     <p class="section-lead">
       Spark is built from modules called chips. Want memory across conversations?
@@ -548,10 +508,10 @@
   </p>
 </section>
 
-<!-- ═══ 006 / BRAIN / RECURSIVE LOOPS ═══ -->
+<!-- ═══ 005 / BRAIN / RECURSIVE LOOPS ═══ -->
 <section class="brain section" id="brain">
   <div class="section-head left">
-    <span class="num">006</span>
+    <span class="num">005</span>
     <h2 class="section-title">The brain is built to <br><i>think.</i> Not to guess.</h2>
     <p class="section-lead">
       Spark doesn't just call an LLM and hope. The research engine works
@@ -624,10 +584,10 @@
   </div>
 </section>
 
-<!-- ═══ 007 / SWARM ═══ -->
+<!-- ═══ 006 / SWARM ═══ -->
 <section class="swarm section" id="swarm">
   <div class="section-head">
-    <span class="num">007</span>
+    <span class="num">006</span>
     <h2 class="section-title"><i>Smart alone.</i> <br>Smarter together.</h2>
     <p class="section-lead">
       Spark Swarm is where every agent gets to share what it figured out. When
@@ -664,10 +624,10 @@
   </div>
 </section>
 
-<!-- ═══ 008 / NO TAKEOVER ═══ -->
+<!-- ═══ 007 / NO TAKEOVER ═══ -->
 <section class="closed section" id="closed">
   <div class="closed-inner">
-    <div class="closed-marker"><span class="num">008</span><span>the part that matters most</span></div>
+    <div class="closed-marker"><span class="num">007</span><span>the part that matters most</span></div>
     <h2 class="closed-title">
       It doesn't take over <br>your computer.
     </h2>
@@ -704,10 +664,10 @@
   </div>
 </section>
 
-<!-- ═══ 009 / PRICING ═══ -->
+<!-- ═══ 008 / PRICING ═══ -->
 <section class="pricing section" id="pricing">
   <div class="section-head center">
-    <span class="num">009</span>
+    <span class="num">008</span>
     <h2 class="section-title">Free to start. <br><i>$19.99</i> when you want the corpus.</h2>
     <p class="section-lead">
       One Pro tier, no à la carte, no surprise add-ons. The free tier is real.
@@ -789,10 +749,10 @@
   </div>
 </section>
 
-<!-- ═══ 010 / INSTALL CTA ═══ -->
+<!-- ═══ 009 / INSTALL CTA ═══ -->
 <section class="install section" id="install">
   <div class="install-inner">
-    <div class="install-marker"><span class="num">010</span><span>ready in under ten minutes</span></div>
+    <div class="install-marker"><span class="num">009</span><span>ready in under ten minutes</span></div>
     <h2 class="install-title">Start in <i>three</i> commands.</h2>
 
     <div class="install-cmds">
