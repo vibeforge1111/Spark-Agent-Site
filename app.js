@@ -141,66 +141,50 @@
   if (!reduced) renderBG();
 
   /* ══════════════════════════════════════════════════════════════
-     HERO v2 · kinetic reveal + constellation feed + runtime meters
+     HERO v3 · Jarvis core · scramble, live counters, node field
      ══════════════════════════════════════════════════════════════ */
 
-  // 1. scramble-resolve reveal on kinetic headline words
+  // 1. scramble-resolve reveal on hero title words (after fade-in)
   const scrambleChars = '!<>-_\\/[]{}=+*^?#█░▒01';
-  $$('.hk-w').forEach((el) => {
+  $$('.hero-title .hk-w').forEach((el, i) => {
     if (reduced) return;
     const original = el.dataset.text || el.textContent;
-    const cs = getComputedStyle(el);
-    const firstDelay = (cs.animationDelay || '0s').split(',')[0];
-    const base = parseFloat(firstDelay) * 1000 || 0;
+    const base = 1700 + i * 70;
     setTimeout(() => {
       let start = null;
-      const dur = 440;
+      const dur = 460;
       const tick = (ts) => {
         if (start === null) start = ts;
         const k = Math.min(1, (ts - start) / dur);
         if (k >= 1) { el.textContent = original; return; }
         const revealed = Math.floor(original.length * k);
         let out = '';
-        for (let i = 0; i < original.length; i++) {
-          const ch = original[i];
-          if (i < revealed || ch === ' ' || ch === '.') out += ch;
+        for (let j = 0; j < original.length; j++) {
+          const ch = original[j];
+          if (j < revealed || ch === ' ' || ch === '.') out += ch;
           else out += scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
         }
         el.textContent = out;
         requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
-    }, base + 180);
+    }, base);
   });
 
-  // 2. runtime meter bars - random on/off rhythm per meter
-  $$('.rt-meter').forEach((meter, idx) => {
-    const bars = $$('.rt-bars i', meter);
-    if (!bars.length) return;
-    const tick = () => {
-      const on = Math.floor(rand(2, bars.length + 1));
-      bars.forEach((b, i) => b.classList.toggle('on', i < on));
-    };
-    tick();
-    setInterval(tick, 650 + idx * 260);
-  });
-
-  // 3. runtime count-up + live jitter
-  const rtMemory  = $('#rt-memory');
+  // 2. runtime live counters + jitter
   const rtSwarm   = $('#rt-swarm');
   const rtLatency = $('#rt-latency');
   const liveCount = $('#live-count');
   const livePeers = $('#live-peers');
 
   setTimeout(() => {
-    countTo(rtMemory,  1248, 1400);
     countTo(rtSwarm,   4829, 1600);
     countTo(liveCount, 4829, 1600);
     countTo(livePeers, 1274, 1400);
   }, 1200);
 
   setInterval(() => {
-    if (rtLatency) rtLatency.textContent = (210 + Math.floor(rand(0, 90))) + 'ms';
+    if (rtLatency) rtLatency.textContent = 210 + Math.floor(rand(0, 90));
     if (liveCount) {
       const cur = parseInt(liveCount.textContent || '4829', 10);
       const drift = Math.floor(rand(-2, 3));
@@ -209,80 +193,26 @@
     }
   }, 2200);
 
-  // 4. cycle the dynamic constellation labels
-  const cnMem    = $('[data-dynamic="mem"]');
-  const cnReason = $('[data-dynamic="reason"]');
-  const cnAct    = $('[data-dynamic="act"]');
-  const memVals    = ['recall · k=6', 'recall · k=8', 'semantic', 'episodic', 'salience 0.72', 'recall · k=12'];
-  const reasonVals = ['3 passes · scoring', '2 passes · ranking', 'scoring 0.89', 'planning · step 2', 'synthesising'];
-  const actVals    = ['14 chips armed', 'telegram · send', 'browser · read', 'calendar · plan', '18 chips armed', 'x · post'];
-  let cycleI = 0;
-  setInterval(() => {
-    cycleI++;
-    if (cnMem)    cnMem.textContent    = memVals[cycleI % memVals.length];
-    if (cnReason) cnReason.textContent = reasonVals[cycleI % reasonVals.length];
-    if (cnAct)    cnAct.textContent    = actVals[cycleI % actVals.length];
-  }, 3200);
-
-  // 5. mission-event feed under the constellation
-  const feedLog = $('#cn-feed-log');
-  const feedEvents = [
-    { k: 'gather',  t: 'pulled 4 sources · 240ms' },
-    { k: 'reason',  t: 'claude · 3 passes · scored 0.89' },
-    { k: 'score',   t: 'candidate accepted' },
-    { k: 'recall',  t: 'memory · k=6 · salience 0.72' },
-    { k: 'chip',    t: 'domain-chip-xcontent · v1.4.2' },
-    { k: 'swarm',   t: '12 peers contributed lessons' },
-    { k: 'deliver', t: '→ telegram · chat 8319079055' },
-    { k: 'learn',   t: 'promoted · outcome 0.94' },
-    { k: 'gather',  t: 'cached · 0 new calls' },
-    { k: 'chip',    t: 'growth-chip · queued' },
-    { k: 'scan',    t: 'trust posture · no new keys' },
-    { k: 'sync',    t: 'swarm path · marketing +3 lessons' },
-  ];
-  if (feedLog && !reduced) {
-    const pad = n => String(n).padStart(2, '0');
-    const pushFeed = () => {
-      const e = feedEvents[Math.floor(Math.random() * feedEvents.length)];
-      const d = new Date();
-      const ts = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-      const line = document.createElement('span');
-      line.className = 'feed-line';
-      line.innerHTML = `<span class="fl-t">${ts}</span><span class="fl-k">${e.k}</span>${e.t}`;
-      feedLog.prepend(line);
-      while (feedLog.children.length > 3) feedLog.lastChild.remove();
-    };
-    setTimeout(pushFeed, 2000);
-    setTimeout(pushFeed, 2800);
-    setInterval(pushFeed, 1900);
-  }
-
-  // 6. cursor parallax on the constellation
-  const cn = $('#hero-constellation');
-  if (cn && !isTouch) {
-    const svg = $('.cn-svg', cn);
-    const labels = $$('.cn-label', cn);
-    cn.addEventListener('mousemove', (e) => {
-      const r = cn.getBoundingClientRect();
+  // 3. cursor parallax on the avatar
+  const avStage = $('#avatar-stage');
+  if (avStage && !isTouch) {
+    const svg = $('.avatar-svg', avStage);
+    avStage.addEventListener('mousemove', (e) => {
+      const r = avStage.getBoundingClientRect();
       const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
       const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
-      if (svg) svg.style.transform = `translate(${dx * 14}px, ${dy * 14}px)`;
-      labels.forEach((l, i) => {
-        const depth = 4 + i * 3;
-        l.style.transform = `translate(${dx * depth}px, ${dy * depth}px)`;
-      });
+      if (svg) svg.style.transform = `translate(${dx * 16}px, ${dy * 16}px)`;
     });
-    cn.addEventListener('mouseleave', () => {
+    avStage.addEventListener('mouseleave', () => {
       if (svg) svg.style.transform = '';
-      labels.forEach(l => { l.style.transform = ''; });
     });
   }
 
-  // 7. subtle hero-field canvas (soft gradient orbs drifting behind the constellation)
+  // 4. hero-field canvas · sparkswarm-style node network behind the avatar
   const hf = $('#hero-field');
-  if (hf && !reduced) {
+  if (hf) {
     const hfctx = hf.getContext('2d');
-    let orbs = [];
+    let nodes = [];
     const resizeHF = () => {
       const dpr = Math.min(devicePixelRatio || 1, 2);
       const rect = hf.getBoundingClientRect();
@@ -295,33 +225,81 @@
     };
     const seedHF = () => {
       const rect = hf.getBoundingClientRect();
-      orbs = Array.from({ length: 4 }, (_, i) => ({
-        x: rand(rect.width * 0.2, rect.width * 0.8),
-        y: rand(rect.height * 0.2, rect.height * 0.8),
-        r: rand(160, 280),
-        vx: rand(-0.15, 0.15),
-        vy: rand(-0.1, 0.1),
-        c: i % 2 === 0 ? 'rgba(47,202,148,0.08)' : 'rgba(184,168,220,0.05)',
+      const n = Math.min(110, Math.max(60, Math.floor(rect.width / 18)));
+      nodes = Array.from({ length: n }, () => ({
+        x: rand(0, rect.width),
+        y: rand(0, rect.height),
+        vx: rand(-0.18, 0.18),
+        vy: rand(-0.18, 0.18),
+        r: rand(0.8, 2.2),
+        iris: Math.random() < 0.18,
       }));
     };
+    let mouseX = -9999, mouseY = -9999;
+    addEventListener('mousemove', (e) => {
+      const rect = hf.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    });
+    addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+
+    const linkDist = 140;
+    const hoverDist = 150;
     const renderHF = () => {
       const rect = hf.getBoundingClientRect();
       hfctx.clearRect(0, 0, rect.width, rect.height);
-      for (const o of orbs) {
-        o.x += o.vx; o.y += o.vy;
-        if (o.x < 0 || o.x > rect.width)  o.vx *= -1;
-        if (o.y < 0 || o.y > rect.height) o.vy *= -1;
-        const g = hfctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
-        g.addColorStop(0, o.c);
-        g.addColorStop(1, 'transparent');
-        hfctx.fillStyle = g;
-        hfctx.fillRect(o.x - o.r, o.y - o.r, o.r * 2, o.r * 2);
+
+      // draw links between close nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d = Math.sqrt(dx*dx + dy*dy);
+          if (d < linkDist) {
+            const o = (1 - d / linkDist) * 0.22;
+            hfctx.strokeStyle = `rgba(47,202,148,${o})`;
+            hfctx.lineWidth = 0.7;
+            hfctx.beginPath();
+            hfctx.moveTo(a.x, a.y); hfctx.lineTo(b.x, b.y);
+            hfctx.stroke();
+          }
+        }
+
+        // cursor-node link (lights up what's near pointer)
+        if (mouseX > -1000) {
+          const dmx = a.x - mouseX, dmy = a.y - mouseY;
+          const dm = Math.sqrt(dmx*dmx + dmy*dmy);
+          if (dm < hoverDist) {
+            const o = (1 - dm / hoverDist) * 0.6;
+            hfctx.strokeStyle = `rgba(77,227,168,${o})`;
+            hfctx.lineWidth = 0.9;
+            hfctx.beginPath();
+            hfctx.moveTo(a.x, a.y); hfctx.lineTo(mouseX, mouseY);
+            hfctx.stroke();
+          }
+        }
+      }
+
+      // draw + update nodes
+      for (const p of nodes) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > rect.width)  p.vx *= -1;
+        if (p.y < 0 || p.y > rect.height) p.vy *= -1;
+        hfctx.beginPath();
+        hfctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        hfctx.fillStyle = p.iris ? 'rgba(184,168,220,0.85)' : 'rgba(47,202,148,0.85)';
+        hfctx.shadowColor = p.iris ? '#B8A8DC' : '#2FCA94';
+        hfctx.shadowBlur = 6;
+        hfctx.fill();
+        hfctx.shadowBlur = 0;
       }
       requestAnimationFrame(renderHF);
     };
     resizeHF(); seedHF();
     addEventListener('resize', () => { resizeHF(); seedHF(); });
-    renderHF();
+    if (reduced) renderHF();  // one draw only
+    else renderHF();
   }
 
   /* ══════════════════════════════════════════════════════════════

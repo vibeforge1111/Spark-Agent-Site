@@ -71,178 +71,152 @@
   </div>
 </header>
 
-<!-- ═══ 001 / HERO v2 · THE CONSTELLATION ═══ -->
+<!-- ═══ 001 / HERO v3 · JARVIS CORE ═══ -->
 <section class="hero" id="top">
-  <div class="hero-grid-bg" aria-hidden="true"></div>
   <canvas class="hero-field" id="hero-field" aria-hidden="true"></canvas>
+  <div class="hero-vignette" aria-hidden="true"></div>
 
-  <!-- RUNTIME STATUS BAR -->
-  <div class="hero-runtime">
-    <div class="rt-left">
-      <span class="rt-dot"></span>
-      <span class="rt-kind">runtime online</span>
-      <span class="rt-sep">/</span>
-      <span class="rt-id">agent.sparkswarm.ai · rt.001</span>
-    </div>
-    <div class="rt-rack" aria-hidden="true">
-      <div class="rt-meter">
-        <span class="rt-k">model</span>
-        <span class="rt-v">claude · 4.7</span>
-        <div class="rt-bars"><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="rt-meter">
-        <span class="rt-k">memory</span>
-        <span class="rt-v"><strong id="rt-memory">0000</strong> entries</span>
-        <div class="rt-bars"><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="rt-meter">
-        <span class="rt-k">swarm</span>
-        <span class="rt-v"><strong id="rt-swarm">0000</strong> peers</span>
-        <div class="rt-bars"><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="rt-meter">
-        <span class="rt-k">latency</span>
-        <span class="rt-v" id="rt-latency">240ms</span>
-        <div class="rt-bars"><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-    </div>
+  <!-- compact runtime status pill -->
+  <div class="hero-status">
+    <span class="status-dot"></span>
+    <span class="status-kind">runtime.online</span>
+    <span class="status-sep">/</span>
+    <span class="status-id">agent.sparkswarm.ai</span>
+    <span class="status-sep">/</span>
+    <span class="status-meta">lat <strong id="rt-latency">240</strong>ms</span>
+    <span class="status-sep">·</span>
+    <span class="status-meta">swarm <strong id="rt-swarm">0000</strong></span>
   </div>
 
-  <!-- STAGE -->
-  <div class="hero-stage">
+  <!-- CENTRAL AVATAR -->
+  <div class="avatar-stage" id="avatar-stage" aria-hidden="true">
+    <span class="hud-tag tl">spark.core</span>
+    <span class="hud-tag tr">● active</span>
+    <span class="hud-tag bl">003 paths live</span>
+    <span class="hud-tag br">v1.0 · local</span>
 
-    <!-- KINETIC HEADLINE + COPY (left) -->
-    <div class="hero-copy">
-      <div class="hero-marker">
-        <span class="num">001</span>
-        <span class="line"></span>
-        <span class="label">personal · local · composable</span>
-      </div>
+    <svg class="avatar-svg" viewBox="-400 -400 800 800" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <radialGradient id="avCoreGrad" cx="50%" cy="50%">
+          <stop offset="0%"   stop-color="#4DE3A8" stop-opacity="1"/>
+          <stop offset="35%"  stop-color="#2FCA94" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#2FCA94" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="avHaloGrad" cx="50%" cy="50%">
+          <stop offset="0%"   stop-color="#2FCA94" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#2FCA94" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="avBlur" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="10"/>
+        </filter>
+        <path id="avSparkMark" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
+        <path id="avOrbitOuter" d="M 0 -320 A 320 320 0 1 1 0 320 A 320 320 0 1 1 0 -320 Z"/>
+        <path id="avOrbitMid"   d="M 0 -240 A 240 240 0 1 1 0 240 A 240 240 0 1 1 0 -240 Z"/>
+        <path id="avOrbitInner" d="M 0 -170 A 170 170 0 1 1 0 170 A 170 170 0 1 1 0 -170 Z"/>
+      </defs>
 
-      <h1 class="hero-kinetic" aria-label="An AI that works inside your stuff.">
-        <span class="hk-line">
-          <span class="hk-w" data-text="An">An</span>
-          <span class="hk-w" data-text="AI">AI</span>
-          <span class="hk-w" data-text="that">that</span>
-        </span>
-        <span class="hk-line">
-          <span class="hk-w accent" data-text="works">works</span>
-          <span class="hk-w accent" data-text="inside">inside</span>
-        </span>
-        <span class="hk-line">
-          <span class="hk-w" data-text="your">your</span>
-          <span class="hk-w warp" data-text="stuff.">stuff.</span>
-        </span>
-      </h1>
+      <!-- outer soft halo -->
+      <circle r="360" fill="url(#avHaloGrad)" class="av-halo"/>
 
-      <p class="hero-lead">
-        Personal AI runtime. Lives on your computer. Talks to your apps through
-        their normal logins. Only does what you asked it to. Nothing hidden.
-        Nothing taking over. Nothing in someone else's cloud unless you say so.
-      </p>
+      <!-- crosshair ticks -->
+      <g class="av-ticks" opacity="0.45">
+        <line x1="340" y1="0" x2="380" y2="0" stroke="#2FCA94" stroke-width="1"/>
+        <line x1="-340" y1="0" x2="-380" y2="0" stroke="#2FCA94" stroke-width="1"/>
+        <line x1="0" y1="340" x2="0" y2="380" stroke="#2FCA94" stroke-width="1"/>
+        <line x1="0" y1="-340" x2="0" y2="-380" stroke="#2FCA94" stroke-width="1"/>
+      </g>
 
-      <div class="hero-cta-row">
-        <button class="cta-primary" id="cta-install" data-magnetic>
-          <span class="cta-prompt">$</span>
-          <span class="cta-cmd">brew install spark</span>
-          <span class="cta-copy" id="cta-copy">copy</span>
-        </button>
-        <a href="#board" class="cta-secondary" data-magnetic>
-          See it running <span class="arrow">↓</span>
-        </a>
-      </div>
+      <!-- ring 3 (outer) -->
+      <g class="av-ring av-ring-3">
+        <circle r="320" fill="none" stroke="#2FCA94" stroke-width="0.6" stroke-dasharray="2 6" opacity="0.35"/>
+        <circle cx="320"  cy="0"    r="4"   fill="#2FCA94"/>
+        <circle cx="-226" cy="226"  r="3"   fill="#B8A8DC"/>
+        <circle cx="0"    cy="-320" r="2.5" fill="#2FCA94" opacity="0.7"/>
+        <circle cx="226"  cy="-226" r="2"   fill="#2FCA94" opacity="0.55"/>
+        <circle cx="-320" cy="0"    r="2.5" fill="#2FCA94" opacity="0.6"/>
+      </g>
 
-      <div class="hero-live">
-        <span class="live-dot"></span>
-        <span class="live-txt"><strong id="live-count">0000</strong> runtimes online now</span>
-        <span class="live-sep">·</span>
-        <span class="live-peers"><strong id="live-peers">0000</strong> lessons shared · 24h</span>
-      </div>
+      <!-- ring 2 (mid) -->
+      <g class="av-ring av-ring-2">
+        <circle r="240" fill="none" stroke="#2FCA94" stroke-width="0.8" stroke-dasharray="3 5" opacity="0.45"/>
+        <circle cx="240"  cy="0"    r="4.5" fill="#4DE3A8"/>
+        <circle cx="-170" cy="170"  r="3"   fill="#2FCA94"/>
+        <circle cx="0"    cy="-240" r="3"   fill="#B8A8DC" opacity="0.8"/>
+        <circle cx="170"  cy="170"  r="2.5" fill="#2FCA94" opacity="0.7"/>
+      </g>
 
-      <ul class="hero-pills">
-        <li><span class="pill-dot"></span>No new API keys</li>
-        <li><span class="pill-dot"></span>Runs on your machine</li>
-        <li><span class="pill-dot"></span>Open skill format</li>
-        <li><span class="pill-dot"></span>Free tier, real free</li>
-      </ul>
+      <!-- ring 1 (inner) -->
+      <g class="av-ring av-ring-1">
+        <circle r="170" fill="none" stroke="#4DE3A8" stroke-width="1" opacity="0.55"/>
+        <circle cx="170"  cy="0"    r="5"   fill="#4DE3A8"/>
+        <circle cx="-120" cy="-120" r="3"   fill="#2FCA94"/>
+        <circle cx="120"  cy="120"  r="3"   fill="#2FCA94"/>
+      </g>
+
+      <!-- data packets orbiting -->
+      <circle r="3" fill="#4DE3A8" class="av-packet">
+        <animateMotion dur="8s" repeatCount="indefinite"><mpath href="#avOrbitOuter"/></animateMotion>
+      </circle>
+      <circle r="2.5" fill="#B8A8DC" class="av-packet">
+        <animateMotion dur="6s" begin="1.5s" repeatCount="indefinite"><mpath href="#avOrbitMid"/></animateMotion>
+      </circle>
+      <circle r="2" fill="#4DE3A8" class="av-packet">
+        <animateMotion dur="4.2s" begin="2.8s" repeatCount="indefinite"><mpath href="#avOrbitInner"/></animateMotion>
+      </circle>
+
+      <!-- bezier data arcs crossing the core -->
+      <g class="av-arcs" opacity="0.28">
+        <path d="M 170 0 Q 0 0 -170 0"      fill="none" stroke="#2FCA94" stroke-width="0.6"/>
+        <path d="M 0 -170 Q 0 0 0 170"      fill="none" stroke="#B8A8DC" stroke-width="0.5"/>
+        <path d="M 120 120 Q 0 0 -120 -120" fill="none" stroke="#2FCA94" stroke-width="0.5"/>
+      </g>
+
+      <!-- core orb halo -->
+      <circle r="110" fill="url(#avCoreGrad)" filter="url(#avBlur)" class="av-core-halo"/>
+      <!-- core disc -->
+      <circle r="82" fill="#0E1018" stroke="#2FCA94" stroke-width="1.2" class="av-core-disc"/>
+      <!-- inner ring (breathing) -->
+      <circle r="64" fill="none" stroke="#4DE3A8" stroke-width="0.6" opacity="0.6" class="av-core-inner"/>
+      <!-- spark mark at center -->
+      <g class="av-mark" transform="translate(-54, -24) scale(0.41)">
+        <use href="#avSparkMark" fill="url(#avCoreGrad)" opacity="0.95"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- compact caption beneath avatar -->
+  <div class="hero-caption">
+    <h1 class="hero-title" aria-label="An AI that works inside your stuff.">
+      <span class="hk-w" data-text="An">An</span>
+      <span class="hk-w" data-text="AI">AI</span>
+      <span class="hk-w" data-text="that">that</span>
+      <span class="hk-w accent" data-text="works">works</span>
+      <span class="hk-w accent" data-text="inside">inside</span>
+      <span class="hk-w" data-text="your">your</span>
+      <span class="hk-w warp" data-text="stuff.">stuff.</span>
+    </h1>
+
+    <p class="hero-lead">
+      Personal AI runtime. Uses your existing logins. Only does what you asked it to.
+    </p>
+
+    <div class="hero-cta-row">
+      <button class="cta-primary" id="cta-install" data-magnetic>
+        <span class="cta-prompt">$</span>
+        <span class="cta-cmd">brew install spark</span>
+        <span class="cta-copy" id="cta-copy">copy</span>
+      </button>
+      <a href="#board" class="cta-secondary" data-magnetic>
+        See it running <span class="arrow">↓</span>
+      </a>
     </div>
 
-    <!-- CONSTELLATION (right) -->
-    <div class="hero-constellation" id="hero-constellation" aria-hidden="true">
-      <div class="cn-frame">
-        <span class="cn-tag tl">spark.constellation</span>
-        <span class="cn-tag tr">● live</span>
-        <span class="cn-tag bl">003 nodes · 003 edges</span>
-        <span class="cn-tag br">v1.0 · local runtime</span>
-      </div>
-
-      <!-- actual Sparkswarm mark, scaled cinematic -->
-      <svg class="cn-svg" viewBox="0 0 264 113" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-        <defs>
-          <linearGradient id="cnGrad" x1="0%" y1="0%" x2="100%" y2="55%">
-            <stop offset="0%"   stop-color="#4DE3A8"/>
-            <stop offset="55%"  stop-color="#2FCA94"/>
-            <stop offset="100%" stop-color="#B8A8DC"/>
-          </linearGradient>
-          <filter id="cnBlur" x="-30%" y="-60%" width="160%" height="220%">
-            <feGaussianBlur stdDeviation="4" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <path id="cnLoop" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
-        </defs>
-
-        <!-- soft background halo via blurred copy -->
-        <use href="#cnLoop" fill="#2FCA94" opacity="0.18" filter="url(#cnBlur)" class="cn-halo-bg"/>
-        <!-- filled mark with gradient -->
-        <use href="#cnLoop" fill="url(#cnGrad)" class="cn-mark"/>
-        <!-- traced highlight stroke that loops around the path -->
-        <use href="#cnLoop" fill="none" stroke="#4DE3A8" stroke-width="1.8"
-             pathLength="100" stroke-dasharray="18 82" class="cn-trace"/>
-
-        <!-- data packets following the loop -->
-        <circle r="2.2" fill="#4DE3A8" class="cn-packet">
-          <animateMotion dur="4.2s" repeatCount="indefinite" rotate="auto">
-            <mpath href="#cnLoop"/>
-          </animateMotion>
-        </circle>
-        <circle r="1.7" fill="#D4C8F0" class="cn-packet">
-          <animateMotion dur="5.4s" begin="1.4s" repeatCount="indefinite" rotate="auto">
-            <mpath href="#cnLoop"/>
-          </animateMotion>
-        </circle>
-        <circle r="1.3" fill="#4DE3A8" class="cn-packet">
-          <animateMotion dur="6.6s" begin="2.8s" repeatCount="indefinite" rotate="auto">
-            <mpath href="#cnLoop"/>
-          </animateMotion>
-        </circle>
-      </svg>
-
-      <!-- orbital labels anchored to each node -->
-      <div class="cn-labels">
-        <div class="cn-label cn-label-main">
-          <span class="cn-k">reasoning core</span>
-          <span class="cn-v" data-dynamic="reason">3 passes · scoring</span>
-          <span class="cn-line"></span>
-        </div>
-        <div class="cn-label cn-label-mid">
-          <span class="cn-k">memory</span>
-          <span class="cn-v" data-dynamic="mem">recall · k=6</span>
-          <span class="cn-line"></span>
-        </div>
-        <div class="cn-label cn-label-small">
-          <span class="cn-k">action · chips</span>
-          <span class="cn-v" data-dynamic="act">14 chips armed</span>
-          <span class="cn-line"></span>
-        </div>
-      </div>
-
-      <!-- live feed under the constellation -->
-      <div class="cn-feed" id="cn-feed">
-        <span class="cn-feed-k">feed</span>
-        <div class="cn-feed-log" id="cn-feed-log"></div>
-      </div>
+    <div class="hero-live">
+      <span class="live-dot"></span>
+      <strong id="live-count">0000</strong> runtimes online
+      <span class="live-sep">·</span>
+      <strong id="live-peers">0000</strong> lessons shared · 24h
     </div>
-
   </div>
 
   <!-- TICKER -->
