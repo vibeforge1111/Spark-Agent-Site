@@ -705,39 +705,41 @@ body.hover-target .cursor-dot {
 
 .cn-svg {
   position: absolute;
-  inset: 8% 6% 22% 6%;
-  width: auto; height: auto;
+  left: 4%; right: 4%; top: 50%;
+  transform: translateY(-52%);
+  width: 92%;
+  height: auto;
   overflow: visible;
   filter: drop-shadow(0 30px 80px var(--accent-glow));
+  transition: transform 0.4s var(--ease);
 }
 
-.cn-node-main  { animation: cnPulseMain 3.2s ease-in-out infinite; transform-origin: 7px 14px; }
-.cn-node-mid   { animation: cnPulseMid  2.6s ease-in-out infinite; transform-origin: 17px 8px; }
-.cn-node-small { animation: cnPulseSmall 2.2s ease-in-out infinite; transform-origin: 24px 16px; }
-
-.cn-halo-main  { animation: cnHalo 4s ease-in-out infinite; transform-origin: 7px 14px; }
-.cn-halo-mid   { animation: cnHalo 4s ease-in-out infinite 0.6s; transform-origin: 17px 8px; }
-.cn-halo-small { animation: cnHalo 4s ease-in-out infinite 1.2s; transform-origin: 24px 16px; }
-
+.cn-mark {
+  transform-origin: center;
+  animation: cnMarkPulse 4.2s ease-in-out infinite;
+}
+.cn-halo-bg {
+  transform-origin: center;
+  animation: cnHaloPulse 3.6s ease-in-out infinite;
+}
+.cn-trace {
+  animation: cnTrace 4.5s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(77,227,168,0.7));
+}
 .cn-packet {
-  filter: drop-shadow(0 0 3px #4DE3A8);
+  filter: drop-shadow(0 0 4px #4DE3A8);
 }
 
-@keyframes cnPulseMain {
-  0%, 100% { r: 3.8; }
-  50%      { r: 4.15; }
+@keyframes cnMarkPulse {
+  0%, 100% { opacity: 1;    filter: drop-shadow(0 0 0 transparent); }
+  50%      { opacity: 0.94; filter: drop-shadow(0 0 14px rgba(47,202,148,0.55)); }
 }
-@keyframes cnPulseMid {
-  0%, 100% { r: 2.2; opacity: 1; }
-  50%      { r: 2.35; opacity: 0.85; }
+@keyframes cnHaloPulse {
+  0%, 100% { opacity: 0.14; transform: scale(1); }
+  50%      { opacity: 0.34; transform: scale(1.08); }
 }
-@keyframes cnPulseSmall {
-  0%, 100% { r: 1.4; opacity: 1; }
-  50%      { r: 1.52; opacity: 0.75; }
-}
-@keyframes cnHalo {
-  0%, 100% { transform: scale(1);    opacity: 0.35; }
-  50%      { transform: scale(1.25); opacity: 0.6;  }
+@keyframes cnTrace {
+  to { stroke-dashoffset: -100; }
 }
 
 /* orbital labels */
@@ -761,38 +763,24 @@ body.hover-target .cursor-dot {
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.3px;
 }
-.cn-line {
-  position: absolute;
-  background: var(--accent);
-  opacity: 0.3;
-}
+.cn-line { display: none; }
+
 .cn-label-main {
-  top: 38%; left: 4%;
-  transform: translateX(-6px);
+  bottom: 14%; left: 50%;
+  transform: translateX(-50%);
+  text-align: center; align-items: center;
 }
 .cn-label-main .cn-k { color: var(--accent); }
-.cn-label-main .cn-line {
-  top: 50%; right: -48px;
-  width: 40px; height: 1px;
-}
+
 .cn-label-mid {
-  top: 12%; right: 14%;
-  text-align: right; align-items: flex-end;
+  top: 12%; left: 8%;
 }
-.cn-label-mid .cn-line {
-  top: 50%; left: -44px;
-  width: 36px; height: 1px;
-}
+
 .cn-label-small {
-  bottom: 18%; right: 2%;
+  top: 12%; right: 8%;
   text-align: right; align-items: flex-end;
 }
 .cn-label-small .cn-k { color: var(--iris); }
-.cn-label-small .cn-line {
-  top: 50%; left: -40px;
-  width: 32px; height: 1px;
-  background: var(--iris);
-}
 
 /* live feed under the constellation */
 .cn-feed {

@@ -20,12 +20,8 @@
 <div class="loader" id="loader">
   <div class="loader-inner">
     <div class="loader-brand">
-      <svg class="loader-logo" width="28" height="24" viewBox="0 0 28 24" fill="none" aria-hidden="true">
-        <line x1="7" y1="14" x2="17" y2="8"  stroke="currentColor" stroke-width="1" opacity="0.25"/>
-        <line x1="7" y1="14" x2="24" y2="16" stroke="currentColor" stroke-width="1" opacity="0.18"/>
-        <circle cx="7"  cy="14" r="3.8" fill="currentColor"/>
-        <circle cx="17" cy="8"  r="2.2" fill="currentColor" opacity="0.55"/>
-        <circle cx="24" cy="16" r="1.4" fill="currentColor" opacity="0.3"/>
+      <svg class="loader-logo" width="70" height="30" viewBox="0 0 264 113" fill="none" aria-hidden="true">
+        <path fill="currentColor" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
       </svg>
       <span>Spark</span>
     </div>
@@ -43,12 +39,8 @@
 <!-- ═══ TOPBAR ═══ -->
 <header class="topbar">
   <a href="#top" class="brand" aria-label="Spark home">
-    <svg class="brand-logo" width="28" height="24" viewBox="0 0 28 24" fill="none" aria-hidden="true">
-      <line x1="7" y1="14" x2="17" y2="8"  stroke="currentColor" stroke-width="1" opacity="0.25"/>
-      <line x1="7" y1="14" x2="24" y2="16" stroke="currentColor" stroke-width="1" opacity="0.18"/>
-      <circle cx="7"  cy="14" r="3.8" fill="currentColor"/>
-      <circle cx="17" cy="8"  r="2.2" fill="currentColor" opacity="0.55"/>
-      <circle cx="24" cy="16" r="1.4" fill="currentColor" opacity="0.3"/>
+    <svg class="brand-logo" width="56" height="24" viewBox="0 0 264 113" fill="none" aria-hidden="true">
+      <path fill="currentColor" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
     </svg>
     <span class="brand-name">Spark</span>
     <span class="brand-slash">/ agent</span>
@@ -184,59 +176,43 @@
         <span class="cn-tag br">v1.0 · local runtime</span>
       </div>
 
-      <!-- huge version of the brand mark, animated -->
-      <svg class="cn-svg" viewBox="0 0 28 24" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <!-- actual Sparkswarm mark, scaled cinematic -->
+      <svg class="cn-svg" viewBox="0 0 264 113" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <defs>
-          <radialGradient id="cnGradCore" cx="50%" cy="50%" r="50%">
+          <linearGradient id="cnGrad" x1="0%" y1="0%" x2="100%" y2="55%">
             <stop offset="0%"   stop-color="#4DE3A8"/>
             <stop offset="55%"  stop-color="#2FCA94"/>
-            <stop offset="100%" stop-color="#1F8C66"/>
-          </radialGradient>
-          <radialGradient id="cnGradMid" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stop-color="#2FCA94"/>
-            <stop offset="100%" stop-color="#1F8C66" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="cnGradSmall" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stop-color="#B8A8DC"/>
-            <stop offset="100%" stop-color="#6E5CA0" stop-opacity="0"/>
-          </radialGradient>
-          <filter id="cnGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="0.5" result="b"/>
+            <stop offset="100%" stop-color="#B8A8DC"/>
+          </linearGradient>
+          <filter id="cnBlur" x="-30%" y="-60%" width="160%" height="220%">
+            <feGaussianBlur stdDeviation="4" result="b"/>
             <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
+          <path id="cnLoop" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
         </defs>
 
-        <!-- connecting edges (static path references for data packets) -->
-        <path id="cnEdgeMain"  d="M 7 14 L 17 8"  stroke="#2FCA94" stroke-width="0.12" opacity="0.45"/>
-        <path id="cnEdgeSide"  d="M 7 14 L 24 16" stroke="#2FCA94" stroke-width="0.12" opacity="0.35"/>
-        <path id="cnEdgeThird" d="M 17 8 L 24 16" stroke="#B8A8DC" stroke-width="0.1"  opacity="0.25"/>
+        <!-- soft background halo via blurred copy -->
+        <use href="#cnLoop" fill="#2FCA94" opacity="0.18" filter="url(#cnBlur)" class="cn-halo-bg"/>
+        <!-- filled mark with gradient -->
+        <use href="#cnLoop" fill="url(#cnGrad)" class="cn-mark"/>
+        <!-- traced highlight stroke that loops around the path -->
+        <use href="#cnLoop" fill="none" stroke="#4DE3A8" stroke-width="1.8"
+             pathLength="100" stroke-dasharray="18 82" class="cn-trace"/>
 
-        <!-- halos -->
-        <circle cx="7"  cy="14" r="6.5" fill="url(#cnGradMid)"   class="cn-halo cn-halo-main" opacity="0.45"/>
-        <circle cx="17" cy="8"  r="4.2" fill="url(#cnGradMid)"   class="cn-halo cn-halo-mid"  opacity="0.35"/>
-        <circle cx="24" cy="16" r="3.0" fill="url(#cnGradSmall)" class="cn-halo cn-halo-small" opacity="0.35"/>
-
-        <!-- main node (reasoning / you) -->
-        <circle cx="7" cy="14" r="3.8" fill="url(#cnGradCore)" filter="url(#cnGlow)" class="cn-node cn-node-main"/>
-        <!-- mid node (memory) -->
-        <circle cx="17" cy="8" r="2.2" fill="#2FCA94" class="cn-node cn-node-mid"/>
-        <!-- small node (action chips) -->
-        <circle cx="24" cy="16" r="1.4" fill="#B8A8DC" class="cn-node cn-node-small"/>
-
-        <!-- data packets riding edges -->
-        <circle r="0.35" fill="#4DE3A8" class="cn-packet">
-          <animateMotion dur="2.2s" repeatCount="indefinite">
-            <mpath href="#cnEdgeMain"/>
+        <!-- data packets following the loop -->
+        <circle r="2.2" fill="#4DE3A8" class="cn-packet">
+          <animateMotion dur="4.2s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#cnLoop"/>
           </animateMotion>
         </circle>
-        <circle r="0.28" fill="#4DE3A8" class="cn-packet">
-          <animateMotion dur="2.8s" begin="0.8s" repeatCount="indefinite">
-            <mpath href="#cnEdgeSide"/>
+        <circle r="1.7" fill="#D4C8F0" class="cn-packet">
+          <animateMotion dur="5.4s" begin="1.4s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#cnLoop"/>
           </animateMotion>
         </circle>
-        <circle r="0.22" fill="#D4C8F0" class="cn-packet">
-          <animateMotion dur="3.2s" begin="1.4s" repeatCount="indefinite">
-            <mpath href="#cnEdgeThird"/>
+        <circle r="1.3" fill="#4DE3A8" class="cn-packet">
+          <animateMotion dur="6.6s" begin="2.8s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#cnLoop"/>
           </animateMotion>
         </circle>
       </svg>
@@ -891,12 +867,8 @@
   <div class="foot-grid">
     <div class="foot-brand">
       <div class="foot-logo">
-        <svg width="28" height="24" viewBox="0 0 28 24" fill="none" aria-hidden="true">
-          <line x1="7" y1="14" x2="17" y2="8"  stroke="currentColor" stroke-width="1" opacity="0.25"/>
-          <line x1="7" y1="14" x2="24" y2="16" stroke="currentColor" stroke-width="1" opacity="0.18"/>
-          <circle cx="7"  cy="14" r="3.8" fill="currentColor"/>
-          <circle cx="17" cy="8"  r="2.2" fill="currentColor" opacity="0.55"/>
-          <circle cx="24" cy="16" r="1.4" fill="currentColor" opacity="0.3"/>
+        <svg width="56" height="24" viewBox="0 0 264 113" fill="none" aria-hidden="true">
+          <path fill="currentColor" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
         </svg>
         <span>Spark</span>
       </div>
