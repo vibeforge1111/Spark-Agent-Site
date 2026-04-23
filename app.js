@@ -24,6 +24,128 @@
     requestAnimationFrame(step);
   };
 
+  /* shared node-field renderer (hero background + swarm section) */
+  const makeNodeField = (canvas, opts = {}) => {
+    if (!canvas) return;
+    const cfg = {
+      density: 18,
+      linkDist: 140,
+      hoverDist: 150,
+      irisPct: 0.18,
+      broadcast: false,
+      broadcastRate: 0.015,
+      nodeR: [0.8, 2.2],
+      cursorReactive: true,
+      ...opts,
+    };
+    const ctx = canvas.getContext('2d');
+    let nodes = [];
+    let bursts = [];
+    const resize = () => {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      const rect = canvas.getBoundingClientRect();
+      canvas.width  = rect.width  * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width  = rect.width  + 'px';
+      canvas.style.height = rect.height + 'px';
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.scale(dpr, dpr);
+    };
+    const seed = () => {
+      const rect = canvas.getBoundingClientRect();
+      const n = Math.min(120, Math.max(50, Math.floor(rect.width / cfg.density)));
+      nodes = Array.from({ length: n }, () => ({
+        x: rand(0, rect.width),
+        y: rand(0, rect.height),
+        vx: rand(-0.18, 0.18),
+        vy: rand(-0.18, 0.18),
+        r: rand(cfg.nodeR[0], cfg.nodeR[1]),
+        iris: Math.random() < cfg.irisPct,
+        pulse: rand(0, Math.PI * 2),
+      }));
+      bursts = [];
+    };
+    let mouseX = -9999, mouseY = -9999;
+    if (cfg.cursorReactive) {
+      addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+      });
+      canvas.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+    }
+    const render = () => {
+      const rect = canvas.getBoundingClientRect();
+      ctx.clearRect(0, 0, rect.width, rect.height);
+
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d = Math.sqrt(dx*dx + dy*dy);
+          if (d < cfg.linkDist) {
+            const o = (1 - d / cfg.linkDist) * 0.25;
+            ctx.strokeStyle = `rgba(47,202,148,${o})`;
+            ctx.lineWidth = 0.7;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+        if (cfg.cursorReactive && mouseX > -1000) {
+          const dmx = a.x - mouseX, dmy = a.y - mouseY;
+          const dm = Math.sqrt(dmx*dmx + dmy*dmy);
+          if (dm < cfg.hoverDist) {
+            const o = (1 - dm / cfg.hoverDist) * 0.6;
+            ctx.strokeStyle = `rgba(77,227,168,${o})`;
+            ctx.lineWidth = 0.9;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y); ctx.lineTo(mouseX, mouseY);
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (const p of nodes) {
+        p.x += p.vx; p.y += p.vy; p.pulse += 0.03;
+        if (p.x < 0 || p.x > rect.width)  p.vx *= -1;
+        if (p.y < 0 || p.y > rect.height) p.vy *= -1;
+        const pr = p.r + Math.sin(p.pulse) * 0.4;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, pr, 0, Math.PI * 2);
+        ctx.fillStyle = p.iris ? 'rgba(184,168,220,0.85)' : 'rgba(47,202,148,0.85)';
+        ctx.shadowColor = p.iris ? '#B8A8DC' : '#2FCA94';
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      if (cfg.broadcast) {
+        if (Math.random() < cfg.broadcastRate) {
+          const origin = nodes[Math.floor(Math.random() * nodes.length)];
+          if (origin) bursts.push({ x: origin.x, y: origin.y, rad: 0, o: 1, iris: origin.iris });
+        }
+        bursts = bursts.filter(b => b.o > 0);
+        for (const b of bursts) {
+          b.rad += 1.8; b.o -= 0.012;
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, b.rad, 0, Math.PI * 2);
+          ctx.strokeStyle = b.iris
+            ? `rgba(184,168,220,${b.o})`
+            : `rgba(47,202,148,${b.o * 0.9})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      requestAnimationFrame(render);
+    };
+    resize(); seed();
+    addEventListener('resize', () => { resize(); seed(); });
+    render();
+  };
+
   /* ══════════════════════════════════════════════════════════════
      LOADER
      ══════════════════════════════════════════════════════════════ */
@@ -245,98 +367,14 @@
   }
 
   // 4. hero-field canvas · sparkswarm-style node network behind the avatar
-  const hf = $('#hero-field');
-  if (hf) {
-    const hfctx = hf.getContext('2d');
-    let nodes = [];
-    const resizeHF = () => {
-      const dpr = Math.min(devicePixelRatio || 1, 2);
-      const rect = hf.getBoundingClientRect();
-      hf.width  = rect.width  * dpr;
-      hf.height = rect.height * dpr;
-      hf.style.width  = rect.width  + 'px';
-      hf.style.height = rect.height + 'px';
-      hfctx.setTransform(1,0,0,1,0,0);
-      hfctx.scale(dpr, dpr);
-    };
-    const seedHF = () => {
-      const rect = hf.getBoundingClientRect();
-      const n = Math.min(110, Math.max(60, Math.floor(rect.width / 18)));
-      nodes = Array.from({ length: n }, () => ({
-        x: rand(0, rect.width),
-        y: rand(0, rect.height),
-        vx: rand(-0.18, 0.18),
-        vy: rand(-0.18, 0.18),
-        r: rand(0.8, 2.2),
-        iris: Math.random() < 0.18,
-      }));
-    };
-    let mouseX = -9999, mouseY = -9999;
-    addEventListener('mousemove', (e) => {
-      const rect = hf.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-    });
-    addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
-
-    const linkDist = 140;
-    const hoverDist = 150;
-    const renderHF = () => {
-      const rect = hf.getBoundingClientRect();
-      hfctx.clearRect(0, 0, rect.width, rect.height);
-
-      // draw links between close nodes
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
-        for (let j = i + 1; j < nodes.length; j++) {
-          const b = nodes[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d = Math.sqrt(dx*dx + dy*dy);
-          if (d < linkDist) {
-            const o = (1 - d / linkDist) * 0.22;
-            hfctx.strokeStyle = `rgba(47,202,148,${o})`;
-            hfctx.lineWidth = 0.7;
-            hfctx.beginPath();
-            hfctx.moveTo(a.x, a.y); hfctx.lineTo(b.x, b.y);
-            hfctx.stroke();
-          }
-        }
-
-        // cursor-node link (lights up what's near pointer)
-        if (mouseX > -1000) {
-          const dmx = a.x - mouseX, dmy = a.y - mouseY;
-          const dm = Math.sqrt(dmx*dmx + dmy*dmy);
-          if (dm < hoverDist) {
-            const o = (1 - dm / hoverDist) * 0.6;
-            hfctx.strokeStyle = `rgba(77,227,168,${o})`;
-            hfctx.lineWidth = 0.9;
-            hfctx.beginPath();
-            hfctx.moveTo(a.x, a.y); hfctx.lineTo(mouseX, mouseY);
-            hfctx.stroke();
-          }
-        }
-      }
-
-      // draw + update nodes
-      for (const p of nodes) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > rect.width)  p.vx *= -1;
-        if (p.y < 0 || p.y > rect.height) p.vy *= -1;
-        hfctx.beginPath();
-        hfctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        hfctx.fillStyle = p.iris ? 'rgba(184,168,220,0.85)' : 'rgba(47,202,148,0.85)';
-        hfctx.shadowColor = p.iris ? '#B8A8DC' : '#2FCA94';
-        hfctx.shadowBlur = 6;
-        hfctx.fill();
-        hfctx.shadowBlur = 0;
-      }
-      requestAnimationFrame(renderHF);
-    };
-    resizeHF(); seedHF();
-    addEventListener('resize', () => { resizeHF(); seedHF(); });
-    if (reduced) renderHF();  // one draw only
-    else renderHF();
-  }
+  makeNodeField($('#hero-field'), {
+    density: 18,
+    linkDist: 140,
+    hoverDist: 150,
+    irisPct: 0.18,
+    broadcast: false,
+    cursorReactive: true,
+  });
 
   /* ══════════════════════════════════════════════════════════════
      BOARD · draggable nodes + cables
@@ -451,94 +489,18 @@
   }
 
   /* ══════════════════════════════════════════════════════════════
-     SWARM CANVAS
+     SWARM CANVAS · same node-field as the hero, plus broadcast pulses
      ══════════════════════════════════════════════════════════════ */
-  const sc = $('#swarm-canvas');
-  if (sc) {
-    const sctx = sc.getContext('2d');
-    let nodes = [];
-    let edges = [];
-    const resizeSwarm = () => {
-      const r = sc.getBoundingClientRect();
-      const dpr = Math.min(devicePixelRatio || 1, 2);
-      sc.width  = r.width  * dpr;
-      sc.height = r.height * dpr;
-      sctx.setTransform(1,0,0,1,0,0);
-      sctx.scale(dpr, dpr);
-    };
-    const seedSwarm = () => {
-      const r = sc.getBoundingClientRect();
-      const n = Math.min(80, Math.max(40, Math.floor(r.width / 20)));
-      nodes = Array.from({ length: n }, () => ({
-        x: rand(0, r.width),
-        y: rand(0, r.height),
-        vx: rand(-0.25, 0.25),
-        vy: rand(-0.25, 0.25),
-        r: rand(1.2, 3),
-        pulse: rand(0, Math.PI * 2),
-      }));
-      edges = [];
-    };
-    const renderSwarm = () => {
-      const r = sc.getBoundingClientRect();
-      sctx.clearRect(0, 0, r.width, r.height);
-
-      // links
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i], b = nodes[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 110) {
-            const o = (1 - d / 110) * 0.35;
-            sctx.strokeStyle = `rgba(47,202,148,${o})`;
-            sctx.lineWidth = 0.7;
-            sctx.beginPath();
-            sctx.moveTo(a.x, a.y); sctx.lineTo(b.x, b.y);
-            sctx.stroke();
-          }
-        }
-      }
-
-      // nodes
-      for (const p of nodes) {
-        p.x += p.vx; p.y += p.vy; p.pulse += 0.04;
-        if (p.x < 0 || p.x > r.width) p.vx *= -1;
-        if (p.y < 0 || p.y > r.height) p.vy *= -1;
-        const pr = p.r + Math.sin(p.pulse) * 0.5;
-        sctx.beginPath();
-        sctx.arc(p.x, p.y, pr, 0, Math.PI * 2);
-        sctx.fillStyle = '#2FCA94';
-        sctx.shadowColor = '#2FCA94';
-        sctx.shadowBlur = 8;
-        sctx.fill();
-        sctx.shadowBlur = 0;
-      }
-
-      // occasional broadcast pulse
-      if (Math.random() < 0.015) {
-        const origin = nodes[Math.floor(Math.random() * nodes.length)];
-        edges.push({ x: origin.x, y: origin.y, rad: 0, o: 1 });
-      }
-      edges = edges.filter(e => e.o > 0);
-      for (const e of edges) {
-        e.rad += 1.8; e.o -= 0.012;
-        sctx.beginPath();
-        sctx.arc(e.x, e.y, e.rad, 0, Math.PI * 2);
-        sctx.strokeStyle = `rgba(184,168,220,${e.o})`;
-        sctx.lineWidth = 1;
-        sctx.stroke();
-      }
-      requestAnimationFrame(renderSwarm);
-    };
-    resizeSwarm(); seedSwarm();
-    addEventListener('resize', () => { resizeSwarm(); seedSwarm(); });
-    if (!reduced) renderSwarm();
-    else {
-      // static render
-      renderSwarm();
-    }
-  }
+  makeNodeField($('#swarm-canvas'), {
+    density: 16,
+    linkDist: 135,
+    hoverDist: 160,
+    irisPct: 0.14,
+    broadcast: true,
+    broadcastRate: 0.018,
+    nodeR: [1.0, 2.6],
+    cursorReactive: true,
+  });
 
   /* ══════════════════════════════════════════════════════════════
      LOOP COUNTER
