@@ -747,6 +747,105 @@ body {
 }
 
 /* ══════════════════════════════════════════════════════════════
+   INTERSTITIAL · "while you sleep" · one-shot iris reveal
+   Plays on scroll-into-view via IntersectionObserver. No pinning.
+   ══════════════════════════════════════════════════════════════ */
+.sleep-reveal {
+  position: relative;
+  height: 52vh;
+  min-height: 380px;
+  max-height: 560px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--bg-deep);
+}
+/* smoky green ambient bleed at top + bottom · lets image breathe into the page */
+.sleep-reveal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 80% 40% at center -5%,
+      rgba(47,202,148,0.18), transparent 70%),
+    radial-gradient(ellipse 80% 40% at center 105%,
+      rgba(47,202,148,0.14), transparent 70%);
+  mix-blend-mode: screen;
+}
+.sleep-reveal-bg {
+  position: absolute; inset: 0;
+  background: url('while-you-sleep.webp') center/cover no-repeat;
+  opacity: 0;
+  filter: blur(22px);
+  transform: scale(1.06);
+  transition:
+    opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, filter, transform;
+  -webkit-mask: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+          mask: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+.sleep-reveal.is-open .sleep-reveal-bg {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+/* Readability scrim behind the caption · only where the text sits */
+.sleep-reveal-caption {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 32px 48px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease) 1s;
+  pointer-events: none;
+}
+.sleep-reveal-caption::before {
+  content: '';
+  position: absolute;
+  inset: -20px -40px;
+  background: radial-gradient(ellipse at center, rgba(10,12,18,0.75) 0%, rgba(10,12,18,0.4) 55%, transparent 85%);
+  z-index: -1;
+  filter: blur(8px);
+}
+.sleep-reveal.is-open .sleep-reveal-caption { opacity: 1; }
+.sleep-reveal-title {
+  font: 600 clamp(32px, 4.4vw, 56px) var(--font-sans);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text-bright);
+  margin: 0;
+  white-space: nowrap;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.95), 0 0 40px rgba(0,0,0,0.7);
+}
+.sleep-reveal-title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+  white-space: nowrap;
+  text-shadow:
+    0 2px 14px rgba(0,0,0,0.9),
+    0 0 20px rgba(47,202,148,0.55),
+    0 0 44px rgba(47,202,148,0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sleep-reveal-bg { opacity: 1; filter: none; transform: none; transition: none; }
+  .sleep-reveal-caption { opacity: 1; transition: none; }
+}
+@media (max-width: 720px) {
+  .sleep-reveal { height: 42vh; min-height: 320px; margin: 0 16px; }
+  .sleep-reveal-title { font-size: clamp(22px, 5.2vw, 30px); }
+  .sleep-reveal-caption { padding: 18px 20px; }
+}
+
+/* ══════════════════════════════════════════════════════════════
    002 / OUTCOMES · what you wake up to
    ══════════════════════════════════════════════════════════════ */
 .outcomes {

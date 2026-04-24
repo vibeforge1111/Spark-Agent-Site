@@ -784,6 +784,24 @@
   makeSwarmNetwork($('#swarm-canvas'));
 
   /* ══════════════════════════════════════════════════════════════
+     IRIS REVEAL · "while you sleep" · plays once on scroll-into-view
+     ══════════════════════════════════════════════════════════════ */
+  const sleepReveal = $('#sleep-reveal');
+  if (sleepReveal && !reduced) {
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          sleepReveal.classList.add('is-open');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.35 });
+    revealObs.observe(sleepReveal);
+  } else if (sleepReveal) {
+    sleepReveal.classList.add('is-open');
+  }
+
+  /* ══════════════════════════════════════════════════════════════
      INFINITY LOOP VIZ · counter + active anchor cycle
      ══════════════════════════════════════════════════════════════ */
   const loopCount = $('#loop-count');
