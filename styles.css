@@ -753,9 +753,20 @@ body {
   position: relative;
   z-index: 2;
 }
+/* Longer outcomes heading · bigger + wider, sized to fit 2 lines on desktop */
+.outcomes .section-head {
+  grid-template-columns: 60px 1fr;
+  gap: 28px;
+}
+.outcomes .section-title {
+  font-size: clamp(28px, 4vw, 46px);
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  max-width: none;
+}
 .outcome-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin-top: 32px;
 }
@@ -1207,6 +1218,7 @@ body {
   width: 100%;
   max-width: 540px;
   margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center;
 }
 .spark-loop-svg {
   width: 100%; height: auto;
@@ -1233,55 +1245,29 @@ body {
 }
 @keyframes slFlow { to { stroke-dashoffset: -1060; } }
 
-/* Anchor dots + labels at computed positions on the brand mark */
-.sl-anchor circle {
-  fill: var(--surface);
-  stroke: var(--accent);
-  stroke-width: 1.2;
-  r: 3.5;
-  transition: fill 0.3s var(--ease), r 0.3s var(--ease);
-}
-.sl-anchor text {
-  font: 500 8.5px var(--font-mono);
-  fill: var(--text-ghost);
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  transition: fill 0.3s var(--ease);
-}
-.sl-anchor.active circle {
-  fill: var(--accent);
-  r: 5;
-  filter: drop-shadow(0 0 6px var(--accent-glow));
-}
-.sl-anchor.active text { fill: var(--text); }
-
 /* Marker dot traveling the Spark logo path */
 .sl-marker {
   fill: var(--accent);
   filter: drop-shadow(0 0 8px var(--accent-glow));
 }
 
-/* Centered counter overlay at crossing */
-.sl-center {
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  pointer-events: none;
-  padding: 6px 14px;
+/* Counter card · sits below the viz, not over it */
+.sl-stat {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin: 18px auto 0;
+  padding: 8px 14px;
   background: var(--surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--r-sm);
 }
 .sl-num {
-  font: 500 28px var(--font-mono);
+  font: 500 20px var(--font-mono);
   color: var(--accent);
   letter-spacing: -0.01em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 .sl-sub {
-  margin-top: 6px;
   display: inline-flex; align-items: center; gap: 6px;
   font: 500 9px var(--font-mono);
   letter-spacing: 1.6px;
@@ -1827,7 +1813,7 @@ body {
    010 / INSTALL CTA
    ══════════════════════════════════════════════════════════════ */
 .install {
-  padding: clamp(120px, 14vw, 200px) var(--side-pad);
+  padding: clamp(56px, 7vw, 88px) var(--side-pad);
   text-align: center;
   background:
     radial-gradient(circle at 50% 100%, var(--accent-subtle), transparent 60%),
@@ -1837,39 +1823,39 @@ body {
   margin-left: calc(-1 * var(--side-pad));
   margin-right: calc(-1 * var(--side-pad));
 }
-.install-inner { max-width: 880px; margin: 0 auto; }
+.install-inner { max-width: 640px; margin: 0 auto; }
 .install-marker {
-  display: inline-flex; align-items: center; gap: 14px;
-  margin-bottom: 32px;
-  font: 500 11px var(--font-mono);
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-bottom: 14px;
+  font: 500 10px var(--font-mono);
   color: var(--text-ghost);
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 .install-marker .num { color: var(--accent); padding: 0; }
 .install-title {
-  font: 500 clamp(56px, 9vw, 112px) var(--font-sans);
-  letter-spacing: -0.045em;
-  line-height: 1;
+  font: 600 clamp(22px, 2.4vw, 30px) var(--font-sans);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   color: var(--text);
-  margin-bottom: 56px;
+  margin-bottom: 28px;
 }
 .install-title i {
   font-style: italic;
   color: var(--accent);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .install-cmds {
-  display: flex; flex-direction: column; gap: 12px;
-  max-width: 560px; margin: 0 auto 64px;
+  display: flex; flex-direction: column; gap: 8px;
+  max-width: 520px; margin: 0 auto 32px;
 }
 .cmd-row {
   display: grid;
-  grid-template-columns: 40px 1fr auto;
+  grid-template-columns: 32px 1fr auto;
   align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
+  gap: 12px;
+  padding: 10px 14px;
   background: var(--surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--r-md);
@@ -1883,9 +1869,9 @@ body {
   letter-spacing: 2px;
 }
 .cmd {
-  font: 500 15px var(--font-mono);
+  font: 500 13px var(--font-mono);
   color: var(--accent);
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 }
 .cmd::before {
   content: '$ ';
@@ -2096,12 +2082,11 @@ body {
   .swarm-stat { padding: 10px 12px; }
 
   /* BRAIN · collapse grid, shrink Spark-logo loop viz */
-  .brain-stage { grid-template-columns: 1fr; gap: 40px; }
-  .spark-loop { max-width: 380px; }
-  .sl-anchor text { font-size: 8px; letter-spacing: 1.2px; }
-  .sl-num { font-size: 20px; }
+  .brain-stage { grid-template-columns: 1fr; gap: 32px; }
+  .spark-loop { max-width: 360px; }
+  .sl-num { font-size: 18px; }
   .sl-sub { font-size: 8px; }
-  .sl-center { padding: 5px 10px; }
+  .sl-stat { padding: 6px 12px; margin-top: 14px; }
 
   /* TRUST · glyph goes inline when row stacks, so it can't land under wrapped text */
   .trust-row:not(.trust-head) > .trust-spark,

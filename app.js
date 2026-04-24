@@ -264,8 +264,8 @@
 
   // 3b. animate tonight counters on reveal
   setTimeout(() => {
-    if (spLessons) countTo(spLessons, 38, 1600);
-    if (spPeers)   countTo(spPeers, 127, 1800);
+    if (spLessons) countTo(spLessons, 3, 1200);
+    if (spPeers)   countTo(spPeers, 4829, 1800);
   }, 1800);
 
   // 3c. version ticker + bump every ~7s
@@ -284,12 +284,13 @@
 
     // lessons + peers drift with the version
     if (spLessons) {
-      const cur = parseInt(spLessons.textContent || '38', 10);
-      spLessons.textContent = String(clamp(cur + Math.floor(rand(0, 3)), 38, 999));
+      const cur = parseInt(spLessons.textContent || '3', 10);
+      spLessons.textContent = String(clamp(cur + (Math.random() < 0.15 ? 1 : 0), 3, 12));
     }
     if (spPeers) {
-      const cur = parseInt(spPeers.textContent || '127', 10);
-      spPeers.textContent = String(clamp(cur + Math.floor(rand(0, 4)), 127, 400));
+      const cur = parseInt((spPeers.textContent || '4829').replace(/,/g, ''), 10);
+      const next = clamp(cur + Math.floor(rand(1, 6)), 4829, 9999);
+      spPeers.textContent = next.toLocaleString('en-US');
     }
     // occasionally bump tools / mistakes
     if (spTools && Math.random() < 0.28) {
@@ -792,54 +793,6 @@
       setTimeout(tickLoop, 4200);
     };
     tickLoop();
-  }
-
-  // Inject 4 anchors dynamically along the Spark logo path (positions = 4 evenly
-  // spaced fractions of the brand-mark path length). Labels sit above or below
-  // each dot based on which half of the logo the point falls in.
-  const infPath = document.getElementById('infPath');
-  const slAnchorContainer = document.getElementById('sl-anchors');
-  if (infPath && slAnchorContainer && infPath.getTotalLength) {
-    const NS = 'http://www.w3.org/2000/svg';
-    const L = infPath.getTotalLength();
-    const stepsInfo = [
-      { name: 'see',   frac: 0.04 },
-      { name: 'think', frac: 0.28 },
-      { name: 'try',   frac: 0.52 },
-      { name: 'learn', frac: 0.78 },
-    ];
-    stepsInfo.forEach((s, i) => {
-      const p = infPath.getPointAtLength(L * s.frac);
-      const above = p.y < 50;
-      const labelOffset = above ? -14 : 22;
-      const g = document.createElementNS(NS, 'g');
-      g.setAttribute('class', 'sl-anchor');
-      g.setAttribute('data-step', String(i));
-      const c = document.createElementNS(NS, 'circle');
-      c.setAttribute('cx', String(p.x));
-      c.setAttribute('cy', String(p.y));
-      c.setAttribute('r', '5');
-      const t = document.createElementNS(NS, 'text');
-      t.setAttribute('x', String(p.x));
-      t.setAttribute('y', String(p.y + labelOffset));
-      t.setAttribute('text-anchor', 'middle');
-      t.textContent = s.name;
-      g.appendChild(c);
-      g.appendChild(t);
-      slAnchorContainer.appendChild(g);
-    });
-  }
-
-  // Cycle active anchor (matches the marker's 10s loop · 2500ms per quarter)
-  const slAnchors = $$('.sl-anchor');
-  if (slAnchors.length) {
-    let step = 0;
-    const cycle = () => {
-      slAnchors.forEach((el, i) => el.classList.toggle('active', i === step));
-      step = (step + 1) % slAnchors.length;
-    };
-    cycle();
-    setInterval(cycle, 2500);
   }
 
   /* ══════════════════════════════════════════════════════════════

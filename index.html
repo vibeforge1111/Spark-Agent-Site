@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=14">
+<link rel="stylesheet" href="styles.css?v=19">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -243,44 +243,36 @@
 <section class="outcomes section" id="outcomes">
   <div class="section-head">
     <span class="num">// 002 · outcomes</span>
-    <h2 class="section-title">Every morning, you wake up to<br>a shorter list of problems.</h2>
+    <h2 class="section-title">A local personal agent that masters anything you want,<br>including tools and skillsets, <i>in a benchmarked way.</i></h2>
     <p class="section-lead">
-      Spark runs a recursive self-improving loop around the clock. It studies your missions, writes the helpers you were about to write, runs itself through gyms, grades itself against benchmarks, and flags mistakes so they never recur. These numbers tick up every night. Forever.
+      Spark runs a recursive self-improving loop around the clock. It studies your missions, writes the helpers you were about to write, runs itself through gyms, and grades itself against benchmarks. Spark loves self-improving, <em>every. single. second.</em>
     </p>
   </div>
 
   <div class="outcome-grid">
     <article class="outcome-card" data-reveal>
       <div class="oc-head">
-        <span class="oc-tag">+logged</span>
+        <span class="oc-tag">+mastered</span>
       </div>
-      <strong class="oc-num" id="sp-lessons">38</strong>
-      <p class="oc-copy">things you'll never re-learn</p>
-      <p class="oc-sub">every lesson goes into permanent memory. your future self inherits it.</p>
+      <strong class="oc-num" id="sp-lessons">3</strong>
+      <p class="oc-copy">skills now at expert level</p>
+      <p class="oc-sub">every skill you install gets benchmarked until it scores higher than its last version. no chip stays at v1.</p>
     </article>
     <article class="outcome-card" data-reveal>
       <div class="oc-head">
         <span class="oc-tag">+built</span>
       </div>
-      <strong class="oc-num" id="sp-tools">2</strong>
-      <p class="oc-copy">tools you never had to write</p>
-      <p class="oc-sub">when spark needs a tool, it writes one. you keep it. it compounds your toolkit.</p>
-    </article>
-    <article class="outcome-card" data-reveal>
-      <div class="oc-head">
-        <span class="oc-tag">+flagged</span>
-      </div>
-      <strong class="oc-num" id="sp-mistakes">1</strong>
-      <p class="oc-copy">mistake that will never cost you again</p>
-      <p class="oc-sub">every fix gets a watch-out. the same bug never bills you twice.</p>
+      <strong class="oc-num" id="sp-tools">12</strong>
+      <p class="oc-copy">tools spark wrote for itself</p>
+      <p class="oc-sub">when something's missing, spark writes it, tests it, and keeps the winner. your toolkit compounds while you sleep.</p>
     </article>
     <article class="outcome-card" data-reveal>
       <div class="oc-head">
         <span class="oc-tag">+trained</span>
       </div>
-      <strong class="oc-num" id="sp-peers">127</strong>
-      <p class="oc-copy">training runs finished overnight</p>
-      <p class="oc-sub">spark puts itself through its own gyms every night. every run makes your agent faster at your work.</p>
+      <strong class="oc-num" id="sp-peers">4829</strong>
+      <p class="oc-copy">training runs completed overnight</p>
+      <p class="oc-sub">spark runs its own gyms around the clock and promotes every improvement. your agent is measurably sharper than yesterday.</p>
     </article>
   </div>
 
@@ -489,7 +481,7 @@
 
   <div class="brain-stage">
     <div class="spark-loop" aria-label="Recursive loop visualization">
-      <svg viewBox="-10 -42 284 200" class="spark-loop-svg" aria-hidden="true">
+      <svg viewBox="-10 -10 284 133" class="spark-loop-svg" aria-hidden="true">
         <defs>
           <linearGradient id="infGrad" x1="0%" x2="100%">
             <stop offset="0%" stop-color="#2FCA94"/>
@@ -499,24 +491,19 @@
           <path id="infPath" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
         </defs>
 
-        <!-- backing track (full Spark logo outline) -->
         <use href="#infPath" class="sl-track"/>
-
-        <!-- animated flowing gradient stroke along the brand mark -->
         <use href="#infPath" class="sl-flow"/>
 
-        <!-- marker that travels the Spark logo -->
+        <!-- marker travels the brand mark -->
         <circle r="4" class="sl-marker">
           <animateMotion dur="10s" repeatCount="indefinite" rotate="auto">
             <mpath href="#infPath"/>
           </animateMotion>
         </circle>
-
-        <!-- 4 anchors injected by JS at computed positions along the path -->
-        <g id="sl-anchors"></g>
       </svg>
 
-      <div class="sl-center">
+      <!-- counter card sits below the viz, not over it -->
+      <div class="sl-stat">
         <div class="sl-num"><span id="loop-count">000</span></div>
         <div class="sl-sub"><span class="sl-pulse"></span>loops today · running</div>
       </div>
@@ -583,47 +570,10 @@
   </div>
 </section>
 
-<!-- ═══ 007 / NO TAKEOVER ═══ -->
-<section class="closed section" id="closed">
-  <div class="closed-inner">
-    <div class="closed-marker"><span class="num">007</span><span>the part that matters most</span></div>
-    <h2 class="closed-title">
-      The only agent you can install <br>and actually <i>sleep at night.</i>
-    </h2>
-    <p class="closed-lead">
-      Every other AI agent wants the keys to everything. Your files, your terminal, your whole machine. That's why half the people who install them never actually use them for anything important. Spark only sees what you already showed it, through the browser extension and the apps you already trust. Your work stays yours. Your terminal stays yours. Your sleep stays yours.
-    </p>
-    <p class="closed-line">That's not a limitation. That's the whole reason it works.</p>
-
-    <div class="closed-grid">
-      <div class="closed-box">
-        <span class="cb-icon">◇</span>
-        <strong>Scoped</strong>
-        <em>Every chip declares its permissions in spark.toml. You approve them once. You revoke them anytime.</em>
-      </div>
-      <div class="closed-box">
-        <span class="cb-icon">◈</span>
-        <strong>Auditable</strong>
-        <em>Every action Spark takes is logged locally. You can replay any mission line by line.</em>
-      </div>
-      <div class="closed-box">
-        <span class="cb-icon">◉</span>
-        <strong>Revocable</strong>
-        <em>Uninstall a chip and its access vanishes with it. No orphan tokens. No background processes.</em>
-      </div>
-      <div class="closed-box">
-        <span class="cb-icon">◐</span>
-        <strong>Yours</strong>
-        <em>Your agent, your data, your rules. If you turn off the internet, Spark still works.</em>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ 008 / COMPARE · Spark vs Hermes Agent vs OpenClaw ═══ -->
+<!-- ═══ 007 / COMPARE · Spark vs Hermes Agent vs OpenClaw ═══ -->
 <section class="compare section" id="compare">
   <div class="section-head">
-    <span class="num">008 · compare</span>
+    <span class="num">007 · compare</span>
     <h2 class="section-title">Only one of them<br>trains itself <i>while you sleep.</i></h2>
     <p class="section-lead">
       Hermes Agent by Nous Research and OpenClaw are both excellent personal AI agents. Here's the honest, category-wide view of who does what.
@@ -693,10 +643,10 @@
   </p>
 </section>
 
-<!-- ═══ 009 / PRICING · hidden until Pro opens ═══ -->
+<!-- ═══ 008 / PRICING · hidden until Pro opens ═══ -->
 <section class="pricing section" id="pricing" hidden>
   <div class="section-head center">
-    <span class="num">009</span>
+    <span class="num">008</span>
     <h2 class="section-title">Free to start. <br><i>$19.99</i> when you want to compound faster.</h2>
     <p class="section-lead">
       Less than a gym membership. More leverage than hiring a junior. One Pro tier, no à la carte, no surprise add-ons. The free tier is real: you'll already be saving hours a week. Pro unlocks the whole experience: 593+ expert skills, memory that follows you across devices, and the orchestrator that routes your hardest questions across Claude, GPT, and Gemini until the answer is one you can actually defend.
@@ -775,11 +725,11 @@
   </div>
 </section>
 
-<!-- ═══ 010 / INSTALL CTA ═══ -->
+<!-- ═══ 009 / INSTALL CTA ═══ -->
 <section class="install section" id="install">
   <div class="install-inner">
-    <div class="install-marker"><span class="num">010</span><span>your future agent is ten minutes away</span></div>
-    <h2 class="install-title">Three commands between you <br>and the agent that'll <i>know your work</i> better than any tool you've owned.</h2>
+    <div class="install-marker"><span class="num">009 · install</span></div>
+    <h2 class="install-title">Three commands. <i>That's it.</i></h2>
 
     <div class="install-cmds">
       <div class="cmd-row">
@@ -864,6 +814,6 @@
   </div>
 </footer>
 
-<script src="app.js?v=9" defer></script>
+<script src="app.js?v=11" defer></script>
 </body>
 </html>
