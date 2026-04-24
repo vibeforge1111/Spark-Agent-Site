@@ -752,12 +752,12 @@ body {
    ══════════════════════════════════════════════════════════════ */
 .sleep-reveal {
   position: relative;
-  height: 52vh;
-  min-height: 380px;
-  max-height: 560px;
-  max-width: 1200px;
-  margin: 0 auto;
-  border-radius: var(--r-lg);
+  height: 56vh;
+  min-height: 420px;
+  max-height: 680px;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   overflow: hidden;
   background: var(--bg-deep);
 }
@@ -840,7 +840,7 @@ body {
   .sleep-reveal-caption { opacity: 1; transition: none; }
 }
 @media (max-width: 720px) {
-  .sleep-reveal { height: 42vh; min-height: 320px; margin: 0 16px; }
+  .sleep-reveal { height: 44vh; min-height: 340px; max-height: 520px; }
   .sleep-reveal-title { font-size: clamp(22px, 5.2vw, 30px); }
   .sleep-reveal-caption { padding: 18px 20px; }
 }
