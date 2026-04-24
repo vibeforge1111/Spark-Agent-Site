@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "updated": "2026-04-25",
+  "canonicalInstallPage": "https://agent.sparkswarm.ai/install",
+  "scripts": {
+    "unix": "https://agent.sparkswarm.ai/install.sh",
+    "windows": "https://agent.sparkswarm.ai/install.ps1"
+  },
+  "starterBundle": {
+    "name": "telegram-starter",
+    "summary": "Researcher + Builder runtime + default memory + Spawner execution plane + Telegram gateway",
+    "modules": [
+      "spark-researcher",
+      "spark-intelligence-builder",
+      "domain-chip-memory",
+      "spawner-ui",
+      "spark-telegram-bot"
+    ]
+  },
+  "installOptions": [
+    {
+      "id": "mac-linux-wsl",
+      "label": "Mac, Linux, WSL",
+      "shell": "bash",
+      "description": "Download the site-hosted installer, inspect it, then run it.",
+      "scriptUrl": "https://agent.sparkswarm.ai/install.sh",
+      "commands": [
+        "curl -fsSLO https://agent.sparkswarm.ai/install.sh",
+        "less install.sh",
+        "bash ./install.sh"
+      ],
+      "singleCopyBlock": "curl -fsSLO https://agent.sparkswarm.ai/install.sh\nless install.sh\nbash ./install.sh"
+    },
+    {
+      "id": "windows-powershell",
+      "label": "Windows PowerShell",
+      "shell": "powershell",
+      "description": "Download the site-hosted installer, inspect it, then run it.",
+      "scriptUrl": "https://agent.sparkswarm.ai/install.ps1",
+      "commands": [
+        "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\\install.ps1",
+        "Get-Content .\\install.ps1",
+        "powershell -ExecutionPolicy Bypass -File .\\install.ps1"
+      ],
+      "singleCopyBlock": "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\\install.ps1\nGet-Content .\\install.ps1\npowershell -ExecutionPolicy Bypass -File .\\install.ps1"
+    }
+  ],
+  "postInstallChecks": [
+    {
+      "label": "Check Spark status",
+      "command": "spark status"
+    },
+    {
+      "label": "Start Telegram gateway",
+      "command": "spark start spark-telegram-bot"
+    },
+    {
+      "label": "Start Spawner UI",
+      "command": "spark start spawner-ui"
+    }
+  ],
+  "telegramSmokeTest": [
+    "/start",
+    "/myid",
+    "/diagnose",
+    "Send a normal message and confirm the LLM responds.",
+    "/remember launch test memory",
+    "/recall launch test memory"
+  ],
+  "securityNotes": [
+    "Primary install path downloads scripts for inspection before execution.",
+    "Launch path uses Telegram long polling, not webhooks.",
+    "LLM provider keys and Telegram bot tokens are configured locally by the user.",
+    "Installer scripts are hosted on agent.sparkswarm.ai and source-reviewed in the public Spark CLI repository."
+  ],
+  "source": {
+    "repository": "https://github.com/vibeforge1111/spark-cli",
+    "installerPaths": [
+      "scripts/install.sh",
+      "scripts/install.ps1"
+    ]
+  }
+}
