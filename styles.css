@@ -2376,24 +2376,45 @@ body {
   transform: translateY(-2px);
 }
 .install-option.primary .io-kicker {
-  font: 500 10px var(--font-mono);
-  letter-spacing: 2px;
+  font: 500 11px var(--font-mono);
+  letter-spacing: 1.8px;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--text);
   margin-bottom: 2px;
 }
 .install-option.primary .io-label { font-size: 26px; }
 .install-option.primary .io-cmd { font-size: 13px; }
 
-.install-pick.compact { gap: 14px; }
-.install-pick.compact .install-option { padding: 18px 18px 14px; gap: 6px; }
-.install-pick.compact .install-option .io-label { font-size: 17px; }
-.install-pick.compact .install-option .io-hint { font-size: 12px; }
+.install-pick.compact { gap: 14px; margin-top: 4px; opacity: 0.85; }
+.install-pick.compact:hover { opacity: 1; }
+.install-pick.compact .install-option {
+  padding: 16px 18px 14px;
+  gap: 6px;
+  background: transparent;
+  border: 1px dashed var(--border);
+  box-shadow: none;
+}
+.install-pick.compact .install-option:hover {
+  background: var(--surface);
+  border-style: solid;
+  border-color: var(--accent);
+  transform: none;
+}
+.install-pick.compact .install-option .io-label {
+  font-size: 15px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.install-pick.compact .install-option:hover .io-label { color: var(--text); }
+.install-pick.compact .install-option .io-hint { font-size: 11px; }
 .install-pick.compact .install-option .io-cmd {
   margin-top: 4px;
-  padding: 8px 10px;
-  font-size: 11px;
+  padding: 7px 9px;
+  font-size: 10.5px;
+  background: var(--surface);
+  color: var(--text-tertiary);
 }
+.install-pick.compact .install-option:hover .io-cmd { color: var(--accent); }
 
 .install-after {
   max-width: 760px;
