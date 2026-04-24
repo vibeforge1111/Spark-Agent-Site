@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=50">
+<link rel="stylesheet" href="styles.css?v=51">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -740,30 +740,31 @@
 <section class="install section" id="install">
   <div class="install-inner">
     <div class="install-marker"><span class="num">008</span></div>
-    <h2 class="install-title">Pick your machine. <i>Copy one line.</i></h2>
-    <p class="install-lead">One click copies the install command. Paste it into your terminal. Spark handles the rest.</p>
+    <h2 class="install-title">Install in one paste. <i>Or pick your machine.</i></h2>
+    <p class="install-lead">Works on Windows, macOS, Linux, and WSL. The installer detects your machine and walks you through Telegram + LLM setup.</p>
 
-    <div class="install-pick">
+    <button type="button" class="install-option primary" data-copy-value="Install Spark from https://agent.sparkswarm.ai/install using the official installer for this machine. After installation, run `spark guide`, then help me configure Telegram BotFather, my admin Telegram ID, and my preferred LLM provider.">
+      <span class="io-kicker">easiest · paste into Codex, Claude, or any agent</span>
+      <span class="io-label">Let your agent install it</span>
+      <code class="io-cmd">Install Spark from https://agent.sparkswarm.ai/install using the official installer for this machine. After installation, run `spark guide`, then help me configure Telegram BotFather, my admin Telegram ID, and my preferred LLM provider.</code>
+      <span class="io-copy">click to copy instruction</span>
+    </button>
+
+    <div class="install-pick compact">
       <button type="button" class="install-option" data-copy-value='irm https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; powershell -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1"'>
         <span class="io-label">I'm on Windows</span>
-        <span class="io-hint">PowerShell. One command.</span>
+        <span class="io-hint">PowerShell one-liner</span>
         <code class="io-cmd">irm https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; powershell -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1"</code>
         <span class="io-copy">click to copy</span>
       </button>
 
       <button type="button" class="install-option" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o /tmp/spark-install.sh && bash /tmp/spark-install.sh">
         <span class="io-label">I'm on Mac / Linux</span>
-        <span class="io-hint">Terminal. Auto-detects Apple Silicon, Intel Mac, Linux, or WSL.</span>
+        <span class="io-hint">Terminal one-liner</span>
         <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o /tmp/spark-install.sh &amp;&amp; bash /tmp/spark-install.sh</code>
         <span class="io-copy">click to copy</span>
       </button>
     </div>
-
-    <button type="button" class="install-option alt" data-copy-value="Install Spark from https://agent.sparkswarm.ai using the official installer for this machine, then run spark guide and help me configure Telegram BotFather plus my LLM provider.">
-      <span class="io-label">I'm using Codex or Claude</span>
-      <span class="io-hint">Paste this into your agent. It does the rest.</span>
-      <span class="io-copy">click to copy instruction</span>
-    </button>
 
     <p class="install-after">
       After install, run <code>spark guide</code> for the walkthrough. Then <code>spark status</code>, <code>spark start spawner-ui</code>, or <code>spark start spark-telegram-bot</code>.

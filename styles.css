@@ -2362,23 +2362,38 @@ body {
 }
 .install-option.copied .io-copy::before { content: 'copied · '; color: var(--accent); }
 
-.install-option.alt {
+.install-option.primary {
   max-width: 920px;
   width: 100%;
-  margin: 0 auto 24px;
-  padding: 18px 22px;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  text-align: center;
-  background: transparent;
-  border-style: dashed;
+  margin: 0 auto 20px;
+  padding: 30px 34px 24px;
+  background: linear-gradient(180deg, var(--accent-subtle), transparent);
+  border: 1.5px solid var(--accent);
+  box-shadow: 0 12px 40px rgba(47, 202, 148, 0.15);
 }
-.install-option.alt .io-label { font-size: 15px; }
-.install-option.alt .io-hint { flex: 1; }
-.install-option.alt .io-copy { margin-top: 0; padding-top: 0; }
+.install-option.primary:hover {
+  box-shadow: 0 18px 50px rgba(47, 202, 148, 0.25);
+  transform: translateY(-2px);
+}
+.install-option.primary .io-kicker {
+  font: 500 10px var(--font-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+.install-option.primary .io-label { font-size: 26px; }
+.install-option.primary .io-cmd { font-size: 13px; }
+
+.install-pick.compact { gap: 14px; }
+.install-pick.compact .install-option { padding: 18px 18px 14px; gap: 6px; }
+.install-pick.compact .install-option .io-label { font-size: 17px; }
+.install-pick.compact .install-option .io-hint { font-size: 12px; }
+.install-pick.compact .install-option .io-cmd {
+  margin-top: 4px;
+  padding: 8px 10px;
+  font-size: 11px;
+}
 
 .install-after {
   max-width: 760px;
@@ -2478,14 +2493,14 @@ body {
   .install-option { padding: 20px 18px 16px; }
   .install-option .io-label { font-size: 18px; }
   .install-option .io-cmd { font-size: 11.5px; padding: 9px 10px; }
-  .install-option.alt {
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
+  .install-option.primary {
     margin-inline: 14px;
-    padding: 16px 18px;
-    text-align: center;
+    padding: 22px 20px 18px;
   }
+  .install-option.primary .io-label { font-size: 20px; }
+  .install-option.primary .io-cmd { font-size: 12px; }
+  .install-pick.compact .install-option .io-label { font-size: 15px; }
+  .install-pick.compact .install-option .io-cmd { font-size: 10.5px; }
 }
 
 /* ══════════════════════════════════════════════════════════════
