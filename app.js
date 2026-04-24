@@ -371,6 +371,38 @@
   addEventListener('resize', drawCables);
 
   /* ══════════════════════════════════════════════════════════════
+     THE BUILD · brick-stack drop-in assembly on scroll-into-view
+     Each brick carries data-delay · JS copies it onto a CSS var
+     and flips the stage to .is-in when visible.
+     ══════════════════════════════════════════════════════════════ */
+  const buildStage = $('#build-stage');
+  if (buildStage) {
+    const bricks = $$('.brick', buildStage);
+    bricks.forEach((b, i) => {
+      b.style.setProperty('--bd', (parseInt(b.dataset.delay || '0', 10)) + 'ms');
+      // inject a connector wire between each brick except the last one
+      if (i < bricks.length - 1) {
+        const wire = document.createElement('span');
+        wire.className = 'brick-wire';
+        b.appendChild(wire);
+      }
+    });
+    if (reduced) {
+      buildStage.classList.add('is-in');
+    } else {
+      const bObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            buildStage.classList.add('is-in');
+            bObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.25 });
+      bObs.observe(buildStage);
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
      MARQUEE · build module tiles
      ══════════════════════════════════════════════════════════════ */
   const mq = $('#marquee-track');

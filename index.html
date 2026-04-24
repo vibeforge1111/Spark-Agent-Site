@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=34">
+<link rel="stylesheet" href="styles.css?v=37">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -395,7 +395,7 @@
 <section class="modules section" id="modules">
   <div class="section-head">
     <span class="num">004 · modularity</span>
-    <h2 class="section-title">Spark is Lego. <br><i>And it builds its own pieces.</i></h2>
+    <h2 class="section-title">Everything you loved about building with Legos.<br><i>Reimagined.</i></h2>
     <p class="section-lead">
       Create a domain chip. Or import one. Spark can wrap a recursive loop around every tool inside it and master the usage overnight, so it executes better for you every day. Start free, experiment with everything. Pro loads the official stack when you want it. Engine and format are open source. A marketplace is next. Share yours. Or sell them.
     </p>
@@ -407,79 +407,74 @@
     </div>
   </div>
 
-  <div class="module-grid">
-    <article class="mod-card" data-tier="free">
-      <header>
-        <span class="tier">free</span>
-        <span class="dots"><i></i><i></i><i></i></span>
-      </header>
-      <h3>Memory</h3>
-      <p>Your agent remembers yesterday. And the day before. And the mission you ran three months ago.</p>
-      <code>spark install memory</code>
-    </article>
-    <article class="mod-card" data-tier="free">
-      <header>
-        <span class="tier">free</span>
-        <span class="dots"><i></i><i></i><i></i></span>
-      </header>
-      <h3>Telegram</h3>
-      <p>Talk to your agent from the couch. From the airport. From dinner. Three commands to install.</p>
-      <code>spark install telegram</code>
-    </article>
-    <article class="mod-card" data-tier="free">
-      <header>
-        <span class="tier">free</span>
-        <span class="dots"><i></i><i></i><i></i></span>
-      </header>
-      <h3>Browser</h3>
-      <p>Spark only sees the tab you asked it to help with. Close the tab, it looks away.</p>
-      <code>spark install browser</code>
-    </article>
-    <article class="mod-card" data-tier="free">
-      <header>
-        <span class="tier">free</span>
-        <span class="dots"><i></i><i></i><i></i></span>
-      </header>
-      <h3>Researcher</h3>
-      <p>Every answer comes with its work shown. Every citation is clickable. Your research replays forever.</p>
-      <code>spark install researcher</code>
-    </article>
-    <article class="mod-card" data-tier="free">
-      <header>
-        <span class="tier">free</span>
-        <span class="dots"><i></i><i></i><i></i></span>
-      </header>
-      <h3>Swarm</h3>
-      <p>Coming late 2026: your agent inherits every lesson the swarm figured out in your specialty.</p>
-      <code>spark install swarm</code>
-    </article>
-    <article class="mod-card" data-tier="pro" data-magnetic>
-      <header>
-        <span class="tier pro">pro</span>
-        <span class="dots"><i></i><i></i><i></i></span>
-      </header>
-      <h3>H70 Corpus</h3>
-      <p>593+ expert skills you'd spend a decade learning. Your agent has them tonight.</p>
-      <code>spark install corpus</code>
-    </article>
-    <article class="mod-card" data-tier="pro" data-magnetic>
-      <header>
-        <span class="tier pro">pro</span>
-        <span class="dots"><i></i><i></i><i></i></span>
-      </header>
-      <h3>Multi-LLM Orchestrator</h3>
-      <p>Hard question? Route it to Claude, GPT, and Gemini at once. Ship the answer you can defend.</p>
-      <code>spark install orchestrator</code>
-    </article>
-    <article class="mod-card" data-tier="pro" data-magnetic>
-      <header>
-        <span class="tier pro">pro</span>
-        <span class="dots"><i></i><i></i><i></i></span>
-      </header>
-      <h3>Cross-Device Memory</h3>
-      <p>Start on your laptop. Continue on your phone. Finish at your desktop tomorrow. Same agent. Same context.</p>
-      <code>spark install sync</code>
-    </article>
+  <!-- THE BUILD · live brick-stack that assembles itself on scroll-in -->
+  <div class="build-stage" id="build-stage" aria-label="Your Spark agent, assembled from chips">
+    <div class="build-core" id="build-core">
+      <div class="brick" data-chip="memory" data-tier="free" data-delay="0">
+        <div class="brick-studs"><i></i><i></i><i></i><i></i></div>
+        <div class="brick-body">
+          <span class="brick-name">memory</span>
+          <span class="brick-note">never forgets you</span>
+        </div>
+      </div>
+      <div class="brick" data-chip="telegram" data-tier="free" data-delay="120">
+        <div class="brick-studs"><i></i><i></i><i></i><i></i></div>
+        <div class="brick-body">
+          <span class="brick-name">telegram</span>
+          <span class="brick-note">in your pocket</span>
+        </div>
+      </div>
+      <div class="brick" data-chip="researcher" data-tier="free" data-delay="240">
+        <div class="brick-studs"><i></i><i></i><i></i><i></i></div>
+        <div class="brick-body">
+          <span class="brick-name">researcher</span>
+          <span class="brick-note">shows its work</span>
+        </div>
+      </div>
+      <div class="brick" data-chip="browser" data-tier="free" data-delay="360">
+        <div class="brick-studs"><i></i><i></i><i></i><i></i></div>
+        <div class="brick-body">
+          <span class="brick-name">browser</span>
+          <span class="brick-note">sees only what you show it</span>
+        </div>
+      </div>
+      <div class="brick brick-pro" data-chip="corpus" data-tier="pro" data-delay="480">
+        <div class="brick-studs"><i></i><i></i><i></i><i></i></div>
+        <div class="brick-body">
+          <span class="brick-name">h70 corpus</span>
+          <span class="brick-note">593 expert skills</span>
+        </div>
+      </div>
+      <div class="brick brick-pro" data-chip="orchestrator" data-tier="pro" data-delay="600">
+        <div class="brick-studs"><i></i><i></i><i></i><i></i></div>
+        <div class="brick-body">
+          <span class="brick-name">orchestrator</span>
+          <span class="brick-note">claude + gpt + gemini</span>
+        </div>
+      </div>
+      <div class="brick brick-pro" data-chip="sync" data-tier="pro" data-delay="720">
+        <div class="brick-studs"><i></i><i></i><i></i><i></i></div>
+        <div class="brick-body">
+          <span class="brick-name">cross-device memory</span>
+          <span class="brick-note">same agent everywhere</span>
+        </div>
+      </div>
+      <div class="brick brick-forged" data-chip="self" data-delay="900">
+        <div class="brick-studs"><i></i><i></i><i></i><i></i></div>
+        <div class="brick-body">
+          <span class="brick-name">/forged-tonight</span>
+          <span class="brick-note">spark built this one itself</span>
+        </div>
+        <span class="brick-pulse-tag">just now</span>
+      </div>
+    </div>
+
+    <div class="build-note">
+      <span class="overline">// what you're looking at</span>
+      <p>
+        Each brick is a chip. Install a few, leave the rest. Your agent's character is whatever stack you pick. The glowing brick on top is a tool <strong>Spark just wrote for itself</strong>, because the ones it had weren't enough.
+      </p>
+    </div>
   </div>
 
   <p class="modules-foot">
@@ -891,6 +886,6 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1</code>
   </div>
 </footer>
 
-<script src="app.js?v=17" defer></script>
+<script src="app.js?v=18" defer></script>
 </body>
 </html>

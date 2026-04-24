@@ -1241,85 +1241,300 @@ body {
 
 @keyframes marqueeSlide { to { transform: translateX(-50%); } }
 
-.module-grid {
+/* ═══════ THE BUILD · holographic blueprint brick-stack ═══════ */
+.build-stage {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 72px;
+  align-items: center;
+  margin: 56px auto 48px;
+  max-width: 1180px;
 }
-.mod-card {
+.build-core {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 48px 0 56px;
   position: relative;
-  padding: 24px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  display: flex; flex-direction: column;
-  transition: border-color var(--t-mid) var(--ease), transform var(--t-mid) var(--ease);
-  overflow: hidden;
 }
-.mod-card::before {
-  content: ''; position: absolute;
-  inset: 0; z-index: 0;
-  background: linear-gradient(135deg, transparent 60%, var(--accent-subtle) 100%);
+/* ambient floor glow under the stack */
+.build-core::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  width: 420px;
+  max-width: 92%;
+  height: 60px;
+  background:
+    radial-gradient(ellipse at center bottom, rgba(47,202,148,0.18) 0%, transparent 65%);
+  filter: blur(10px);
+  pointer-events: none;
   opacity: 0;
-  transition: opacity var(--t-mid);
+  transition: opacity 1.2s ease 0.8s;
 }
-.mod-card[data-tier="pro"]::before {
-  background: linear-gradient(135deg, transparent 60%, var(--iris-glow) 100%);
-}
-.mod-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-4px);
-}
-.mod-card[data-tier="pro"]:hover { border-color: var(--iris); }
-.mod-card:hover::before { opacity: 1; }
-.mod-card > * { position: relative; z-index: 1; }
+.build-stage.is-in .build-core::before { opacity: 1; }
 
-.mod-card header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 16px;
-}
-.tier {
-  font: 500 10px var(--font-mono);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--r-xs);
-  color: var(--text-ghost);
-}
-.tier.pro {
-  color: var(--iris);
-  border-color: var(--iris-dim);
-  background: var(--iris-glow);
-}
-.mod-card .dots { display: flex; gap: 3px; }
-.mod-card .dots i {
-  width: 4px; height: 4px; border-radius: 50%;
-  background: var(--border-bright);
-}
-.mod-card h3 {
-  font: 500 22px var(--font-sans);
-  letter-spacing: -0.3px;
-  margin-bottom: 8px;
-  color: var(--text);
-}
-.mod-card p {
-  font: 400 14px var(--font-sans);
-  color: var(--text-secondary);
-  line-height: 1.55;
-  margin-bottom: 20px;
-  flex: 1;
-}
-.mod-card code {
-  font: 500 12px var(--font-mono);
-  color: var(--accent);
-  padding: 7px 10px;
-  background: var(--bg);
-  border: 1px solid var(--border);
+/* holographic brick · scanlines + chromatic edge + occasional flicker */
+.brick {
+  position: relative;
+  width: 320px;
+  max-width: 92%;
+  padding: 18px 22px 16px 22px;
+  background:
+    linear-gradient(180deg, rgba(47,202,148,0.08) 0%, rgba(184,168,220,0.06) 100%),
+    repeating-linear-gradient(0deg, transparent 0 2px, rgba(47,202,148,0.05) 2px 3px);
+  border: 1px solid rgba(47,202,148,0.3);
   border-radius: var(--r-sm);
-  align-self: start;
+  box-shadow:
+    1px 0 0 rgba(47,202,148,0.18),
+    -1px 0 0 rgba(184,168,220,0.18),
+    inset 0 0 24px rgba(47,202,148,0.04),
+    0 0 30px -6px rgba(47,202,148,0.22);
+  opacity: 0;
+  transform: translateY(-32px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.34, 1.35, 0.45, 1),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
-.mod-card[data-tier="pro"] code { color: var(--iris); }
+@keyframes holoFlicker {
+  0%, 93%, 100% { opacity: 1; }
+  94%           { opacity: 0.82; }
+  95%           { opacity: 1; }
+  96%           { opacity: 0.88; }
+  97%           { opacity: 1; }
+}
+.build-stage.is-in .brick {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--bd, 0ms));
+  animation: holoFlicker 6s ease-in-out infinite;
+  animation-delay: calc(var(--bd, 0ms) + 1200ms);
+}
+
+/* corner tick marks · engineering blueprint feel */
+.brick::before,
+.brick::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgba(47,202,148,0.65);
+  pointer-events: none;
+}
+.brick::before {
+  top: -1px; left: -1px;
+  border-right: none;
+  border-bottom: none;
+}
+.brick::after {
+  bottom: -1px; right: -1px;
+  border-left: none;
+  border-top: none;
+}
+
+.brick:hover {
+  border-color: var(--accent);
+  box-shadow:
+    inset 0 0 24px rgba(47,202,148,0.12),
+    0 0 40px -6px rgba(47,202,148,0.45);
+  transform: translateY(-2px);
+}
+.brick.brick-pro {
+  background:
+    linear-gradient(180deg, rgba(184,168,220,0.06) 0%, rgba(184,168,220,0.02) 100%);
+  border-color: rgba(184,168,220,0.3);
+  box-shadow:
+    inset 0 0 24px rgba(184,168,220,0.04),
+    0 0 24px -8px rgba(184,168,220,0.18);
+}
+.brick.brick-pro::before,
+.brick.brick-pro::after { border-color: rgba(184,168,220,0.65); }
+.brick.brick-pro:hover {
+  border-color: var(--iris);
+  box-shadow:
+    inset 0 0 24px rgba(184,168,220,0.12),
+    0 0 40px -6px rgba(184,168,220,0.45);
+}
+
+/* the 4 glowing stud dots on top */
+.brick-studs {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 26px;
+}
+.brick-studs i {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow:
+    0 0 8px var(--accent-glow),
+    0 0 1px var(--accent);
+  animation: studPulse 3s ease-in-out infinite;
+}
+.brick-studs i:nth-child(2) { animation-delay: 0.4s; }
+.brick-studs i:nth-child(3) { animation-delay: 0.8s; }
+.brick-studs i:nth-child(4) { animation-delay: 1.2s; }
+.brick.brick-pro .brick-studs i {
+  background: var(--iris);
+  box-shadow:
+    0 0 8px var(--iris-glow),
+    0 0 1px var(--iris);
+}
+@keyframes studPulse {
+  0%, 100% { opacity: 0.85; box-shadow: 0 0 8px var(--accent-glow), 0 0 1px var(--accent); }
+  50%      { opacity: 1;    box-shadow: 0 0 14px var(--accent), 0 0 2px var(--accent); }
+}
+
+.brick-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: relative;
+  z-index: 1;
+}
+.brick-name {
+  font: 500 14px var(--font-mono);
+  color: var(--text-bright);
+  letter-spacing: 0.25px;
+}
+.brick-note {
+  font: 400 12px var(--font-sans);
+  color: var(--text-tertiary);
+  letter-spacing: 0.1px;
+}
+.brick.brick-pro .brick-name::before {
+  content: '◆';
+  color: var(--iris);
+  margin-right: 6px;
+  font-size: 10px;
+  vertical-align: middle;
+}
+
+/* connector line · animated energy flowing down */
+.brick:not(:last-child)::before,
+.brick:not(:last-child)::after { /* keep corner ticks · add wire separately below */ }
+.brick-wire {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 28px;
+  transform: translateX(-50%);
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  transition-delay: calc(var(--bd, 0ms) + 200ms);
+}
+.build-stage.is-in .brick-wire { opacity: 1; }
+.brick-wire::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg,
+      transparent 0%,
+      var(--accent) 30%,
+      var(--accent) 70%,
+      transparent 100%);
+  background-size: 100% 200%;
+  animation: wireFlow 2.2s linear infinite;
+  opacity: 0.5;
+}
+@keyframes wireFlow {
+  from { background-position: 0% 200%; }
+  to   { background-position: 0% 0%; }
+}
+
+/* the newly-forged brick · Spark just wrote this one */
+.brick.brick-forged {
+  border-color: var(--accent);
+  box-shadow:
+    inset 0 0 30px rgba(47,202,148,0.18),
+    0 0 60px -4px rgba(47,202,148,0.55);
+  animation: forgedAura 3.2s ease-in-out infinite;
+}
+.brick.brick-forged::before,
+.brick.brick-forged::after {
+  border-color: var(--accent);
+  width: 12px; height: 12px;
+}
+.brick.brick-forged .brick-name { color: var(--accent); }
+.brick.brick-forged .brick-studs i {
+  animation-duration: 1.6s;
+  box-shadow: 0 0 14px var(--accent), 0 0 2px var(--accent);
+}
+@keyframes forgedAura {
+  0%, 100% {
+    box-shadow:
+      inset 0 0 30px rgba(47,202,148,0.18),
+      0 0 40px -4px rgba(47,202,148,0.4);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 40px rgba(47,202,148,0.28),
+      0 0 80px -4px rgba(47,202,148,0.7);
+  }
+}
+.brick-pulse-tag {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font: 500 9px var(--font-mono);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  animation: pulseDot 1.6s infinite;
+}
+
+/* side note · explains what you're looking at */
+.build-note {
+  max-width: 360px;
+}
+.build-note .overline {
+  display: block;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.build-note p {
+  font: 400 15px var(--font-sans);
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+.build-note strong {
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+@media (max-width: 960px) {
+  .build-stage {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    max-width: 520px;
+  }
+  .build-note {
+    max-width: 100%;
+    text-align: center;
+  }
+}
+@media (max-width: 560px) {
+  .brick { width: 270px; padding: 14px 18px 12px 18px; }
+  .brick-studs { gap: 22px; }
+  .brick-studs i { width: 18px; height: 12px; }
+  .brick-name { font-size: 13px; }
+  .brick-note { font-size: 11px; }
+}
 
 .modules-foot {
   margin-top: 36px;
