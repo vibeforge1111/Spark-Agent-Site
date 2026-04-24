@@ -293,88 +293,111 @@
     }, base);
   });
 
-  // 2. runtime live counters + jitter
-  const rtSwarm   = $('#rt-swarm');
-  const rtLatency = $('#rt-latency');
-  const liveCount = $('#live-count');
-  const livePeers = $('#live-peers');
-
+  // 2. swarm count in the hero lead
+  const rtSwarm = $('#rt-swarm');
   setTimeout(() => {
-    countTo(rtSwarm,   4829, 1600);
-    countTo(liveCount, 4829, 1600);
-    countTo(livePeers, 1274, 1400);
-  }, 1200);
-
+    if (rtSwarm) countTo(rtSwarm, 4829, 1600);
+  }, 1100);
   setInterval(() => {
-    if (rtLatency) rtLatency.textContent = 210 + Math.floor(rand(0, 90));
-    if (liveCount) {
-      const cur = parseInt(liveCount.textContent || '4829', 10);
-      const drift = Math.floor(rand(-2, 3));
-      const next = clamp(cur + drift, 4780, 4900);
-      liveCount.textContent = String(next).padStart(4, '0');
-    }
-  }, 2200);
+    if (!rtSwarm) return;
+    const cur = parseInt((rtSwarm.textContent || '4829').replace(/,/g, ''), 10);
+    const next = clamp(cur + Math.floor(rand(-2, 4)), 4780, 4950);
+    rtSwarm.textContent = next.toLocaleString('en-US');
+  }, 2800);
 
-  // Jarvis HUD · bio, coord, freq, status cycling
-  const hudBio  = $('#hud-bio');
-  const hudX    = $('#hud-x');
-  const hudY    = $('#hud-y');
-  const hudFreq = $('#hud-freq');
-  const hudStat = $('#hud-status');
+  // 3. LIVING SPEC CARD · the transformation proof
+  const specVer     = $('#spec-version');
+  const specVerNext = $('#spec-version-next');
+  const specState   = specVer ? specVer.closest('.spec-meta') : null;
+  const spLessons   = $('#sp-lessons');
+  const spTools     = $('#sp-tools');
+  const spMistakes  = $('#sp-mistakes');
+  const spPeers     = $('#sp-peers');
+  const spCountdown = $('#sp-countdown');
 
+  const fmtVersion = (n) => 'v0.' + String(n).padStart(4, '0');
+
+  // 3a. fill mastery bars once the card is on screen
+  const masteries = $$('.mastery');
+  setTimeout(() => {
+    masteries.forEach((el, i) => {
+      setTimeout(() => el.classList.add('is-filled'), i * 180);
+    });
+  }, 1400);
+
+  // 3b. animate tonight counters on reveal
+  setTimeout(() => {
+    if (spLessons) countTo(spLessons, 38, 1600);
+    if (spPeers)   countTo(spPeers, 847, 1800);
+  }, 1800);
+
+  // 3c. version ticker + bump every ~7s
+  let verN = 841;
   setInterval(() => {
-    if (hudBio)  hudBio.textContent  = (97 + Math.random() * 2.9).toFixed(1);
-    if (hudFreq) hudFreq.textContent = (143.5 + Math.random() * 1.4).toFixed(2);
-    if (hudX)    hudX.textContent    = (rand(-0.5, 0.5)).toFixed(2);
-    if (hudY)    hudY.textContent    = (rand(-0.5, 0.5)).toFixed(2);
-  }, 900);
-
-  const missions = [
-    'scanning environment',
-    'indexing memory',
-    'swarm handshake',
-    'claude handshake · ok',
-    'chip registry sync',
-    'trust posture nominal',
-    'awaiting mission',
-    'telegram channel idle',
-    'reasoning loop armed',
-  ];
-  let missionI = 0;
-  setInterval(() => {
-    if (!hudStat) return;
-    missionI = (missionI + 1) % missions.length;
-    hudStat.style.opacity = '0';
+    if (!specVer || !specVerNext) return;
+    verN += 1;
+    specVer.textContent     = fmtVersion(verN);
+    specVerNext.textContent = fmtVersion(verN + 1);
+    specVer.classList.add('pulse');
+    if (specState) specState.classList.add('tick');
     setTimeout(() => {
-      hudStat.textContent = missions[missionI];
-      hudStat.style.opacity = '1';
-    }, 180);
-  }, 3400);
+      specVer.classList.remove('pulse');
+      if (specState) specState.classList.remove('tick');
+    }, 900);
 
-  // 3. cursor parallax on the avatar
-  const avStage = $('#avatar-stage');
-  if (avStage && !isTouch) {
-    const svg = $('.avatar-svg', avStage);
-    avStage.addEventListener('mousemove', (e) => {
-      const r = avStage.getBoundingClientRect();
-      const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
-      const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
-      if (svg) svg.style.transform = `translate(${dx * 16}px, ${dy * 16}px)`;
-    });
-    avStage.addEventListener('mouseleave', () => {
-      if (svg) svg.style.transform = '';
-    });
+    // lessons + peers drift with the version
+    if (spLessons) {
+      const cur = parseInt(spLessons.textContent || '38', 10);
+      spLessons.textContent = String(clamp(cur + Math.floor(rand(0, 3)), 38, 999));
+    }
+    if (spPeers) {
+      const cur = parseInt(spPeers.textContent || '847', 10);
+      spPeers.textContent = String(clamp(cur + Math.floor(rand(-2, 5)), 800, 1200));
+    }
+    // occasionally bump tools / mistakes
+    if (spTools && Math.random() < 0.28) {
+      spTools.textContent = String(parseInt(spTools.textContent || '2', 10) + 1);
+    }
+    if (spMistakes && Math.random() < 0.18) {
+      spMistakes.textContent = String(parseInt(spMistakes.textContent || '1', 10) + 1);
+    }
+  }, 7000);
+
+  // 3d. recursive loop strip · active step cycles, loops counter increments
+  const slSteps = $$('#sl-steps li');
+  const slLoops = $('#sl-loops');
+  if (slSteps.length) {
+    let step = 0;
+    const tickStep = () => {
+      slSteps.forEach((el, i) => el.classList.toggle('active', i === step));
+      step = (step + 1) % slSteps.length;
+      // when wrapping back to 0, a full loop just completed
+      if (step === 0 && slLoops) {
+        const cur = parseInt((slLoops.textContent || '27418').replace(/,/g, ''), 10);
+        slLoops.textContent = (cur + 1).toLocaleString('en-US');
+      }
+    };
+    tickStep();
+    setInterval(tickStep, 1800);
   }
 
-  // 4. hero-field canvas · sparkswarm-style node network behind the avatar
-  makeNodeField($('#hero-field'), {
-    density: 18,
-    linkDist: 140,
-    hoverDist: 150,
-    irisPct: 0.18,
-    broadcast: false,
-    cursorReactive: true,
-  });
+  // 3e. countdown to next compound · decrements every second
+  if (spCountdown) {
+    let totalSec = 4 * 3600 + 12 * 60 + 8;
+    const fmt = (s) => {
+      const h = Math.floor(s / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const sec = s % 60;
+      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+    };
+    spCountdown.textContent = fmt(totalSec);
+    setInterval(() => {
+      totalSec = totalSec > 0 ? totalSec - 1 : 6 * 3600; // reset to 6h when hits zero
+      spCountdown.textContent = fmt(totalSec);
+    }, 1000);
+  }
+
+  // 4. hero background is now a CSS dot field · canvas disabled
 
   /* ══════════════════════════════════════════════════════════════
      BOARD · draggable nodes + cables
