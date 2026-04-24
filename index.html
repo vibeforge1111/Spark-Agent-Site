@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=12">
+<link rel="stylesheet" href="styles.css?v=14">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -125,12 +125,10 @@
   </a>
 
   <nav class="topnav" aria-label="Primary">
-    <a href="#trust">Trust</a>
     <a href="#board">Board</a>
     <a href="#modules">Modules</a>
     <a href="#brain">Brain</a>
     <a href="#swarm">Swarm</a>
-    <a href="#pricing">Pricing</a>
   </nav>
 
   <div class="topbar-right">
@@ -156,15 +154,18 @@
   <div class="hero-grid">
     <!-- ═══ LEFT · the promise ═══ -->
     <div class="hero-left">
-      <span class="overline hero-overline">// recursive self-improving personal ai agent · always-on</span>
+      <span class="overline hero-overline">// recursive personal agent · trains itself nightly</span>
 
       <h1 class="hero-title">
-        Everyone has AI.<br>
-        You'll have one <em>that knows you.</em>
+        Your self-improving agent,<br>
+        that <em>trains itself even while you sleep.</em>
       </h1>
 
       <p class="hero-lead">
-        Other AI agents only get better while you're talking to them. Spark runs a recursive self-improving loop around the clock. It trains itself in gyms, grading itself against benchmarks you care about, and mastering new domains through chips you install. A year from now, it's an expert in <strong>your</strong> work. Not because you taught it. Because it taught itself.
+        Other AI agents only improve when you're using them. Spark never stops. Every night it runs a recursive loop, grades itself against benchmarks, and masters the domains you care about.
+      </p>
+      <p class="hero-lead">
+        A year from now, you wake up next to an agent that's an expert in <strong>your</strong> work. Not because you taught it. Because it taught itself.
       </p>
 
       <div class="hero-cta-row">
@@ -184,23 +185,9 @@
     <!-- ═══ RIGHT · the living specimen ═══ -->
     <aside class="hero-spec" aria-label="Live Spark agent specimen">
       <div class="spec-head">
-        <div class="cursor-blocks" aria-hidden="true">
-          <span class="cb-block" style="height:14px"></span>
-          <span class="cb-block" style="height:10px"></span>
-          <span class="cb-block" style="height:7px"></span>
-        </div>
-        <div class="spec-head-meta">
-          <div class="spec-title-row">
-            <span class="spec-name">your.spark</span>
-            <span class="slash-tag"><span class="st-pulse"></span>live</span>
-          </div>
-          <div class="spec-meta">
-            <span class="spec-owner">cem@seedify</span>
-            <span class="spec-sep">·</span>
-            <strong class="spec-v" id="spec-version">v0.0841</strong>
-            <span class="spec-arrow">→</span>
-            <strong class="spec-v-next" id="spec-version-next">v0.0842</strong>
-          </div>
+        <div class="spec-title-row">
+          <span class="spec-name">your.spark</span>
+          <span class="slash-tag"><span class="st-pulse"></span>live</span>
         </div>
       </div>
 
@@ -301,45 +288,6 @@
     <span class="of-dot"></span>
     all local. all yours. all forever.
   </p>
-</section>
-
-<!-- ═══ 003 / TRUST POSTURE ═══ -->
-<section class="trust section" id="trust">
-  <div class="section-head">
-    <span class="num">003</span>
-    <h2 class="section-title">An AI you can finally <br>hand your real work to.</h2>
-    <p class="section-lead">
-      Every other AI asks for the keys to everything: your files, your shell, your whole machine. That's why most people never give it the work that actually matters. Spark flips it. It only sees what you point it at. So you can hand it the client list, the deal memo, the codebase, the thing you've been afraid to hand anything else. That's when AI stops being a toy and starts being the reason your week got shorter.
-    </p>
-  </div>
-
-  <div class="trust-table">
-    <div class="trust-row trust-head">
-      <div>decision</div>
-      <div class="spark-col">Spark</div>
-      <div class="other-col">the other agents</div>
-    </div>
-    <div class="trust-row" data-reveal>
-      <div class="trust-label"><span>01</span>who pays for intelligence</div>
-      <div class="trust-spark">Keeps your Claude Code subscription. No second bill.</div>
-      <div class="trust-other">Wants a fresh API key on a separate invoice.</div>
-    </div>
-    <div class="trust-row" data-reveal>
-      <div class="trust-label"><span>02</span>what it can touch</div>
-      <div class="trust-spark">Only the apps you already signed into. That's the list.</div>
-      <div class="trust-other">Unrestricted shell on your machine. Hope it behaves.</div>
-    </div>
-    <div class="trust-row" data-reveal>
-      <div class="trust-label"><span>03</span>what it can do</div>
-      <div class="trust-spark">Exactly the missions you designed. Nothing more.</div>
-      <div class="trust-other">Free-form autonomous actions. Fingers crossed.</div>
-    </div>
-    <div class="trust-row" data-reveal>
-      <div class="trust-label"><span>04</span>where your work lives</div>
-      <div class="trust-spark">On your laptop. Under your hand.</div>
-      <div class="trust-other">In someone else's cloud, with a toggle somewhere.</div>
-    </div>
-  </div>
 </section>
 
 <!-- ═══ 003 / VISUAL BOARD ═══ -->
@@ -745,10 +693,10 @@
   </p>
 </section>
 
-<!-- ═══ 009 / PRICING ═══ -->
-<section class="pricing section" id="pricing">
+<!-- ═══ 009 / PRICING · hidden until Pro opens ═══ -->
+<section class="pricing section" id="pricing" hidden>
   <div class="section-head center">
-    <span class="num">008</span>
+    <span class="num">009</span>
     <h2 class="section-title">Free to start. <br><i>$19.99</i> when you want to compound faster.</h2>
     <p class="section-lead">
       Less than a gym membership. More leverage than hiring a junior. One Pro tier, no à la carte, no surprise add-ons. The free tier is real: you'll already be saving hours a week. Pro unlocks the whole experience: 593+ expert skills, memory that follows you across devices, and the orchestrator that routes your hardest questions across Claude, GPT, and Gemini until the answer is one you can actually defend.
@@ -827,7 +775,7 @@
   </div>
 </section>
 
-<!-- ═══ 009 / INSTALL CTA ═══ -->
+<!-- ═══ 010 / INSTALL CTA ═══ -->
 <section class="install section" id="install">
   <div class="install-inner">
     <div class="install-marker"><span class="num">010</span><span>your future agent is ten minutes away</span></div>
@@ -892,7 +840,6 @@
       <a href="#modules">Modules</a>
       <a href="#brain">Research engine</a>
       <a href="#swarm">Spark Swarm</a>
-      <a href="#pricing">Pricing</a>
     </div>
     <div class="foot-col">
       <h5>Sparkswarm</h5>

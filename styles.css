@@ -412,9 +412,9 @@ body {
 }
 
 .hero-title {
-  font: 600 clamp(36px, 4.2vw, 56px) var(--font-sans);
+  font: 600 clamp(26px, 2.9vw, 38px) var(--font-sans);
   letter-spacing: -0.02em;
-  line-height: 1.04;
+  line-height: 1.08;
   color: var(--text);
   margin: 0;
   opacity: 0;
@@ -737,7 +737,7 @@ body {
 }
 @media (max-width: 720px) {
   .hero { padding: calc(96px + 24px) var(--side-pad) 72px; }
-  .hero-title { font-size: clamp(32px, 8vw, 42px); }
+  .hero-title { font-size: clamp(24px, 6vw, 32px); }
   .hero-lead { font-size: 14px; }
   .capabilities { grid-template-columns: 1fr; gap: 8px 0; padding: 16px 0; }
   .capabilities > div { grid-template-columns: 90px 1fr; }
@@ -2061,7 +2061,7 @@ body {
   .closed-grid { grid-template-columns: 1fr; }
   .foot-grid { grid-template-columns: 1fr; }
   .foot-bottom { flex-direction: column; gap: 10px; text-align: center; }
-  .hero-title { font-size: clamp(44px, 11vw, 64px); }
+  .hero-title { font-size: clamp(22px, 6vw, 28px); }
   .subdomain-switcher { display: none; }
   .cmd-row { grid-template-columns: 32px 1fr; }
   .cmd-row .copy-btn { grid-column: 2; justify-self: start; margin-top: 4px; }
@@ -2187,7 +2187,7 @@ body {
   :root { --side-pad: 22px; }
   .topbar { gap: 8px; padding: 12px var(--side-pad); }
   .brand-name { font-size: 14px; }
-  .hero-title { font-size: clamp(28px, 9.5vw, 36px); line-height: 1.08; }
+  .hero-title { font-size: clamp(20px, 7vw, 26px); line-height: 1.12; }
   .section-title { font-size: clamp(24px, 9vw, 34px); }
   .hero-spec { padding: 14px; gap: 14px; }
   .spec-name { font-size: 13px; }
