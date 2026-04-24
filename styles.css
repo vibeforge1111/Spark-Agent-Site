@@ -1456,34 +1456,40 @@ body {
   to   { background-position: 0% 0%; }
 }
 
-/* the newly-forged brick · Spark just wrote this one */
+/* the newly-forged brick · Spark just made this one (softer now) */
 .brick.brick-forged {
-  border-color: var(--accent);
+  border-color: rgba(47,202,148,0.55);
   box-shadow:
-    inset 0 0 30px rgba(47,202,148,0.18),
-    0 0 60px -4px rgba(47,202,148,0.55);
-  animation: forgedAura 3.2s ease-in-out infinite;
+    1px 0 0 rgba(47,202,148,0.22),
+    -1px 0 0 rgba(184,168,220,0.22),
+    inset 0 0 22px rgba(47,202,148,0.08),
+    0 0 32px -6px rgba(47,202,148,0.3);
+  animation: forgedAura 3.6s ease-in-out infinite, holoFlicker 6s ease-in-out infinite;
+  animation-delay: 0s, calc(var(--bd, 0ms) + 1200ms);
 }
 .brick.brick-forged::before,
 .brick.brick-forged::after {
-  border-color: var(--accent);
-  width: 12px; height: 12px;
+  border-color: rgba(47,202,148,0.8);
 }
 .brick.brick-forged .brick-name { color: var(--accent); }
 .brick.brick-forged .brick-studs i {
-  animation-duration: 1.6s;
-  box-shadow: 0 0 14px var(--accent), 0 0 2px var(--accent);
+  animation-duration: 2.2s;
+  box-shadow: 0 0 10px var(--accent-glow), 0 0 2px var(--accent);
 }
 @keyframes forgedAura {
   0%, 100% {
     box-shadow:
-      inset 0 0 30px rgba(47,202,148,0.18),
-      0 0 40px -4px rgba(47,202,148,0.4);
+      1px 0 0 rgba(47,202,148,0.22),
+      -1px 0 0 rgba(184,168,220,0.22),
+      inset 0 0 22px rgba(47,202,148,0.06),
+      0 0 28px -6px rgba(47,202,148,0.22);
   }
   50% {
     box-shadow:
-      inset 0 0 40px rgba(47,202,148,0.28),
-      0 0 80px -4px rgba(47,202,148,0.7);
+      1px 0 0 rgba(47,202,148,0.3),
+      -1px 0 0 rgba(184,168,220,0.3),
+      inset 0 0 26px rgba(47,202,148,0.12),
+      0 0 42px -6px rgba(47,202,148,0.4);
   }
 }
 .brick-pulse-tag {
@@ -1497,24 +1503,57 @@ body {
   animation: pulseDot 1.6s infinite;
 }
 
-/* side note · explains what you're looking at */
+/* side story · for the kid who loved tools */
 .build-note {
-  max-width: 360px;
+  max-width: 420px;
 }
 .build-note .overline {
   display: block;
   color: var(--accent);
-  margin-bottom: 14px;
+  margin-bottom: 28px;
 }
 .build-note p {
   font: 400 15px var(--font-sans);
   color: var(--text-secondary);
-  line-height: 1.65;
-  margin: 0;
+  line-height: 1.7;
+  margin: 0 0 24px;
+  letter-spacing: 0.05px;
 }
+.build-note p:last-of-type { margin-bottom: 0; }
 .build-note strong {
   color: var(--text-bright);
   font-weight: 500;
+}
+.build-note em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* the standout middle line · grown up */
+.build-note-hero {
+  font-size: 19px !important;
+  line-height: 1.4 !important;
+  color: var(--text-bright) !important;
+  padding: 6px 0 !important;
+  letter-spacing: -0.01em !important;
+}
+.build-note-hero em {
+  font-style: italic;
+  background: linear-gradient(110deg, var(--accent) 30%, var(--iris) 90%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.build-note-close {
+  margin-top: 32px !important;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text) !important;
+  font-weight: 500;
+  font-size: 15px !important;
 }
 
 @media (max-width: 960px) {
