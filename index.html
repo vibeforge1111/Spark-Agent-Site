@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=39">
+<link rel="stylesheet" href="styles.css?v=41">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -170,14 +170,11 @@
       </p>
 
       <div class="hero-cta-row">
-        <button class="cta-primary" id="cta-install" data-magnetic>
+        <button class="cta-primary" id="cta-install">
           <span class="cta-prompt">$</span>
           <span class="cta-cmd">open safe install path</span>
           <span class="cta-copy" id="cta-copy">copy link</span>
         </button>
-        <a href="#brain" class="cta-secondary" data-magnetic>
-          see the loop running <span class="arrow">↓</span>
-        </a>
       </div>
 
       <p class="hero-fineprint">local-first · bring your own llm · secrets stay local · free forever tier</p>
@@ -308,7 +305,7 @@
     <span class="num">003</span>
     <h2 class="section-title">Stop crossing fingers <br>every time you <i>hit send.</i></h2>
     <p class="section-lead">
-      Black-box AI drifts. Spark shows exactly what it's about to do, step by step. When something breaks, you fix the one step. Not the whole day.
+      Spark ships with its own <strong>mission control</strong>. You see every move before your agent makes it. Every domain chip it runs deepens a <strong>specialization path</strong>. The work you get out keeps getting better.
     </p>
   </div>
 
@@ -375,17 +372,17 @@
       <div>
         <span class="k">01</span>
         <h4>Ship with confidence</h4>
-        <p>You'll know today's output is the same quality as yesterday's, before you send it.</p>
+        <p>Missions are canvases you can read. Every run takes the same path. You know what shipped before you ship it.</p>
       </div>
       <div>
         <span class="k">02</span>
-        <h4>Debug in seconds, not days</h4>
-        <p>When something drifts, you point at the step that broke. No more prompt-rewrite-pray cycles.</p>
+        <h4>See every move it makes</h4>
+        <p>Click any node. See what it saw. See what it said. Fix the one that broke. The rest of the mission keeps working.</p>
       </div>
       <div>
         <span class="k">03</span>
-        <h4>Change your mind, keep your work</h4>
-        <p>New model drops. New chip ships. Swap one piece. Your entire mission graph keeps running.</p>
+        <h4>Swap the piece, keep the build</h4>
+        <p>A better model drops. A sharper chip ships. Drop it into your canvas. Everything else keeps running, with zero rework.</p>
       </div>
     </div>
   </div>
@@ -744,122 +741,38 @@
   </div>
 </section>
 
-<!-- ═══ 009 / INSTALL CTA ═══ -->
+<!-- ═══ 008 / INSTALL ═══ -->
 <section class="install section" id="install">
   <div class="install-inner">
-    <div class="install-marker"><span class="num">009 · install</span></div>
-    <h2 class="install-title">One safe path. <i>The whole Spark stack.</i></h2>
-    <p class="install-lead">
-      Use this page as the copy-paste path for a terminal, Codex Cloud, WSL, or any agent harness. The installer brings the starter ecosystem together: Researcher, Builder, Memory, Spawner UI, and Telegram bot.
+    <div class="install-marker"><span class="num">008 · install</span></div>
+    <h2 class="install-title">Pick your machine. <i>Copy one line.</i></h2>
+    <p class="install-lead">One click copies the install command. Paste it into your terminal. Spark handles the rest.</p>
+
+    <div class="install-pick">
+      <button type="button" class="install-option" data-copy-value='irm https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; powershell -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1"'>
+        <span class="io-label">I'm on Windows</span>
+        <span class="io-hint">PowerShell. One command.</span>
+        <code class="io-cmd">irm https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; powershell -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1"</code>
+        <span class="io-copy">click to copy</span>
+      </button>
+
+      <button type="button" class="install-option" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o /tmp/spark-install.sh && bash /tmp/spark-install.sh">
+        <span class="io-label">I'm on Mac / Linux</span>
+        <span class="io-hint">Terminal. One command.</span>
+        <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o /tmp/spark-install.sh &amp;&amp; bash /tmp/spark-install.sh</code>
+        <span class="io-copy">click to copy</span>
+      </button>
+    </div>
+
+    <button type="button" class="install-option alt" data-copy-value="Install Spark from https://agent.sparkswarm.ai using the official installer for this machine, then run spark guide and help me configure Telegram BotFather plus my LLM provider.">
+      <span class="io-label">I'm using Codex or Claude</span>
+      <span class="io-hint">Paste this into your agent. It does the rest.</span>
+      <span class="io-copy">click to copy instruction</span>
+    </button>
+
+    <p class="install-after">
+      After install, run <code>spark guide</code> for the walkthrough. Then <code>spark status</code>, <code>spark start spawner-ui</code>, or <code>spark start spark-telegram-bot</code>.
     </p>
-
-    <div class="install-stack" aria-label="Default starter modules">
-      <span>spark-researcher</span>
-      <span>spark-intelligence-builder</span>
-      <span>domain-chip-memory</span>
-      <span>spawner-ui</span>
-      <span>spark-telegram-bot</span>
-    </div>
-
-    <div class="install-command-grid">
-      <article class="install-command-card">
-        <div class="install-card-head">
-          <span class="ic-k">WSL / Linux / macOS</span>
-          <strong>Download, inspect, run</strong>
-        </div>
-        <div class="cmd-row tall">
-          <code class="cmd install-code" data-copy data-copy-value="curl -fsSLO https://agent.sparkswarm.ai/install.sh&#10;less install.sh&#10;bash ./install.sh">curl -fsSLO https://agent.sparkswarm.ai/install.sh
-less install.sh
-bash ./install.sh</code>
-          <button class="copy-btn" data-copy-btn>copy</button>
-        </div>
-      </article>
-
-      <article class="install-command-card">
-        <div class="install-card-head">
-          <span class="ic-k">Windows PowerShell</span>
-          <strong>Download, inspect, run</strong>
-        </div>
-        <div class="cmd-row tall">
-          <code class="cmd install-code" data-copy data-copy-value="iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\install.ps1&#10;Get-Content .\install.ps1&#10;powershell -ExecutionPolicy Bypass -File .\install.ps1">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\install.ps1
-Get-Content .\install.ps1
-powershell -ExecutionPolicy Bypass -File .\install.ps1</code>
-          <button class="copy-btn" data-copy-btn>copy</button>
-        </div>
-      </article>
-    </div>
-
-    <div class="install-flow">
-      <article>
-        <span class="flow-num">01</span>
-        <h3>Install the CLI</h3>
-        <p>The script installs Spark CLI, checks Python and Node, and prepares an isolated Spark home instead of scattering files across your machine.</p>
-      </article>
-      <article>
-        <span class="flow-num">02</span>
-        <h3>Run setup</h3>
-        <p><code>spark setup</code> defaults to the starter bundle and asks for Telegram and LLM provider configuration in one wizard.</p>
-      </article>
-      <article>
-        <span class="flow-num">03</span>
-        <h3>Verify the agent</h3>
-        <p>Run <code>spark status</code>, start Telegram long polling, then send <code>/start</code>, <code>/myid</code>, and a normal message to the bot.</p>
-      </article>
-    </div>
-
-    <div class="install-cmds verify">
-      <div class="cmd-row">
-        <span class="cmd-num">check</span>
-        <code class="cmd" data-copy>spark status</code>
-        <button class="copy-btn" data-copy-btn>copy</button>
-      </div>
-      <div class="cmd-row">
-        <span class="cmd-num">bot</span>
-        <code class="cmd" data-copy>spark start spark-telegram-bot</code>
-        <button class="copy-btn" data-copy-btn>copy</button>
-      </div>
-      <div class="cmd-row">
-        <span class="cmd-num">ui</span>
-        <code class="cmd" data-copy>spark start spawner-ui</code>
-        <button class="copy-btn" data-copy-btn>copy</button>
-      </div>
-    </div>
-
-    <div class="install-safety-grid">
-      <div>
-        <span class="ic-k">secure by default</span>
-        <p>No webhook exposure in the launch path. Telegram runs by long polling, and generated relay secrets are stored in Spark configuration instead of being printed into docs.</p>
-      </div>
-      <div>
-        <span class="ic-k">bring your LLM</span>
-        <p>Setup asks for your provider and key. Spark can use GLM/z.ai or another OpenAI-compatible endpoint without hardcoding secrets into the repo.</p>
-      </div>
-      <div>
-        <span class="ic-k">agent friendly</span>
-        <p>Give this page to Codex, a cloud terminal, or another harness. It has the exact modules, commands, and verification checks needed to finish onboarding.</p>
-      </div>
-    </div>
-
-    <div class="install-cards">
-      <a href="https://t.me/SparkAGI_bot" class="install-card" data-magnetic>
-        <span class="ic-k">alt</span>
-        <strong>Prefer Telegram?</strong>
-        <em>Ping @SparkAGI_bot. Your agent in a chat in 30 seconds.</em>
-        <span class="ic-arrow">→</span>
-      </a>
-      <a href="https://github.com/vibeforge1111/spark-cli" class="install-card" data-magnetic>
-        <span class="ic-k">source</span>
-        <strong>Review the installer</strong>
-        <em>Read the CLI, scripts, manifests, and tests before you run anything locally.</em>
-        <span class="ic-arrow">→</span>
-      </a>
-      <a href="https://docs.sparkswarm.ai" class="install-card" data-magnetic>
-        <span class="ic-k">docs</span>
-        <strong>Docs &amp; reference</strong>
-        <em>How modules work. How to build one. How the runtime boots.</em>
-        <span class="ic-arrow">→</span>
-      </a>
-    </div>
   </div>
 </section>
 
@@ -890,6 +803,6 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1</code>
   </div>
 </footer>
 
-<script src="app.js?v=18" defer></script>
+<script src="app.js?v=19" defer></script>
 </body>
 </html>

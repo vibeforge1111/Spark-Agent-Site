@@ -2247,207 +2247,96 @@ body {
   color: var(--text-secondary);
 }
 
-.install-stack {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  max-width: 900px;
-  margin: 0 auto 28px;
-}
-.install-stack span {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-xs);
-  background: var(--surface);
-  color: var(--text-secondary);
-  font: 500 11px var(--font-mono);
-}
-
-.install-command-grid {
+.install-pick {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
-  margin: 0 auto 24px;
+  margin: 0 auto 16px;
+  max-width: 920px;
 }
-.install-command-card {
-  padding: 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  background: var(--surface);
-  text-align: left;
-}
-.install-card-head {
+.install-option {
+  position: relative;
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 14px;
-}
-.install-card-head strong {
-  font: 500 15px var(--font-sans);
-  color: var(--text);
-}
-
-.install-cmds {
-  display: flex; flex-direction: column; gap: 8px;
-  max-width: 520px; margin: 0 auto 32px;
-}
-.cmd-row {
-  display: grid;
-  grid-template-columns: 32px 1fr auto;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
+  flex-direction: column;
+  gap: 10px;
+  padding: 28px 28px 22px;
   background: var(--surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--r-md);
   text-align: left;
-  transition: border-color var(--t-fast);
+  cursor: pointer;
+  transition: border-color var(--t-fast), background var(--t-fast), transform var(--t-fast);
 }
-.cmd-row:hover { border-color: var(--accent); }
-.cmd-row.tall {
-  grid-template-columns: 1fr auto;
-  align-items: start;
-  padding: 14px;
+.install-option:hover {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  transform: translateY(-2px);
 }
-.cmd-num {
-  font: 500 11px var(--font-mono);
-  color: var(--text-ghost);
-  letter-spacing: 2px;
+.install-option .io-label {
+  font: 500 22px var(--font-sans);
+  letter-spacing: -0.01em;
+  color: var(--text);
 }
-.cmd {
-  font: 500 13px var(--font-mono);
-  color: var(--accent);
-  letter-spacing: 0.2px;
+.install-option .io-hint {
+  font: 400 13px var(--font-sans);
+  color: var(--text-tertiary);
 }
-.cmd::before {
-  content: '$ ';
-  color: var(--text-ghost);
-}
-.install-code {
+.install-option .io-cmd {
   display: block;
-  max-width: 100%;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  line-height: 1.7;
+  margin-top: 6px;
+  padding: 10px 12px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xs);
+  font: 500 12px/1.5 var(--font-mono);
+  color: var(--accent);
+  word-break: break-all;
 }
-.install-code::before {
-  content: '';
-}
-.copy-btn {
-  padding: 6px 12px;
-  font: 500 11px var(--font-mono);
+.install-option .io-copy {
+  margin-top: auto;
+  padding-top: 8px;
+  font: 500 10px var(--font-mono);
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--text-tertiary);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--r-xs);
-  transition: border-color var(--t-fast), color var(--t-fast);
+  color: var(--text-ghost);
 }
-.copy-btn:hover { border-color: var(--accent); color: var(--accent); }
-.copy-btn.copied {
+.install-option:hover .io-copy { color: var(--accent); }
+.install-option.copied {
   border-color: var(--accent);
-  color: var(--accent);
   background: var(--accent-subtle);
 }
+.install-option.copied .io-copy::before { content: 'copied · '; color: var(--accent); }
 
-.install-flow,
-.install-safety-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin: 24px auto;
+.install-option.alt {
+  max-width: 920px;
+  margin: 0 auto 24px;
+  padding: 18px 22px;
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  background: transparent;
+  border-style: dashed;
 }
-.install-flow article,
-.install-safety-grid div {
-  padding: 20px;
+.install-option.alt .io-label { font-size: 15px; }
+.install-option.alt .io-hint { flex: 1; }
+.install-option.alt .io-copy { margin-top: 0; padding-top: 0; }
+
+.install-after {
+  max-width: 760px;
+  margin: 8px auto 0;
+  font: 400 13px/1.7 var(--font-sans);
+  color: var(--text-tertiary);
+  text-align: center;
+}
+.install-after code {
+  padding: 2px 6px;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  background: rgba(255, 255, 255, 0.03);
-  text-align: left;
-}
-.flow-num {
-  display: block;
-  margin-bottom: 12px;
-  color: var(--accent);
-  font: 500 11px var(--font-mono);
-  letter-spacing: 2px;
-}
-.install-flow h3 {
-  margin-bottom: 8px;
-  color: var(--text);
-  font: 600 18px var(--font-sans);
-}
-.install-flow p,
-.install-safety-grid p {
-  margin: 0;
-  color: var(--text-secondary);
-  font: 400 14px/1.6 var(--font-sans);
-}
-.install-flow code {
+  border-radius: var(--r-xs);
   font: 500 12px var(--font-mono);
   color: var(--accent);
 }
-.install-cmds.verify {
-  max-width: 760px;
-  margin-top: 8px;
-  margin-bottom: 24px;
-}
-.install-cmds.verify .cmd-num {
-  min-width: 44px;
-  letter-spacing: 1px;
-}
-
-.install-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-.install-card {
-  position: relative;
-  padding: 24px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  text-align: left;
-  transition: border-color var(--t-fast), transform var(--t-fast);
-  display: flex; flex-direction: column;
-}
-.install-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-3px);
-}
-.ic-k {
-  font: 500 10px var(--font-mono);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 16px;
-}
-.install-card strong {
-  display: block;
-  font: 500 18px var(--font-sans);
-  letter-spacing: -0.2px;
-  color: var(--text);
-  margin-bottom: 6px;
-}
-.install-card em {
-  display: block;
-  font: 400 14px var(--font-sans);
-  font-style: normal;
-  color: var(--text-secondary);
-  line-height: 1.55;
-  flex: 1;
-}
-.ic-arrow {
-  align-self: flex-end;
-  margin-top: 16px;
-  font: 500 18px var(--font-mono);
-  color: var(--accent);
-  transition: transform var(--t-fast);
-}
-.install-card:hover .ic-arrow { transform: translateX(4px); }
 
 /* ══════════════════════════════════════════════════════════════
    FOOTER
@@ -2508,10 +2397,7 @@ body {
   .board-bullets { grid-template-columns: 1fr; }
   .closed-grid { grid-template-columns: repeat(2, 1fr); }
   .module-grid { grid-template-columns: repeat(2, 1fr); }
-  .install-command-grid,
-  .install-flow,
-  .install-safety-grid { grid-template-columns: 1fr; }
-  .install-cards { grid-template-columns: 1fr; }
+  .install-pick { grid-template-columns: 1fr; }
   .foot-row { gap: 20px; }
   .section-head { grid-template-columns: 60px 1fr; }
   .section-head.right { direction: ltr; }
@@ -2530,11 +2416,9 @@ body {
   .foot-legal { padding-left: 0; border-left: none; }
   .hero-title { font-size: clamp(22px, 6vw, 28px); }
   .subdomain-switcher { display: none; }
-  .cmd-row { grid-template-columns: 32px 1fr; }
-  .cmd-row.tall { grid-template-columns: 1fr; }
-  .cmd-row .copy-btn { grid-column: 2; justify-self: start; margin-top: 4px; }
-  .cmd-row.tall .copy-btn { grid-column: 1; }
-  .install-card-head { flex-direction: column; gap: 6px; }
+  .install-option { padding: 22px 20px 18px; }
+  .install-option .io-label { font-size: 19px; }
+  .install-option.alt { flex-direction: column; align-items: flex-start; gap: 6px; }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -2671,8 +2555,7 @@ body {
 
   /* PRICING · tighter */
   .price-amount .amount { font-size: 40px; }
-  .install-cmds .cmd-num { font-size: 10px; }
-  .cmd { font-size: 12px; }
+  .install-option .io-cmd { font-size: 11px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

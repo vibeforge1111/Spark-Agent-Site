@@ -847,12 +847,15 @@
     });
   }
 
-  // install cmds
-  $$('.cmd-row').forEach(row => {
-    const code = $('.cmd', row);
-    const btn = $('[data-copy-btn]', row);
-    const action = () => copyText(code.dataset.copyValue || code.textContent.trim(), btn);
-    row.addEventListener('click', action);
+  // install options — click card to copy command
+  $$('.install-option').forEach(opt => {
+    opt.addEventListener('click', async () => {
+      const value = opt.dataset.copyValue || '';
+      if (!value) return;
+      await copyText(value);
+      opt.classList.add('copied');
+      setTimeout(() => opt.classList.remove('copied'), 1800);
+    });
   });
 
   if (window.location.pathname.replace(/\/$/, '') === '/install') {
