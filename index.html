@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=41">
+<link rel="stylesheet" href="styles.css?v=46">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -124,16 +124,9 @@
     <span class="brand-slash"><span class="brand-slash-prefix">/</span>agent</span>
   </a>
 
-  <nav class="topnav" aria-label="Primary">
-    <a href="#board">Board</a>
-    <a href="#modules">Modules</a>
-    <a href="#brain">Brain</a>
-    <a href="#swarm">Swarm</a>
-    <a href="#install">Install</a>
-  </nav>
-
   <div class="topbar-right">
-    <div class="subdomain-switcher" aria-label="Switch Sparkswarm surface">
+    <!-- subdomain switcher · kept hidden; re-enable when skills/docs ship -->
+    <div class="subdomain-switcher" aria-label="Switch Sparkswarm surface" hidden>
       <button class="sd-current">agent<span>.sparkswarm.ai</span><i>▾</i></button>
       <div class="sd-menu">
         <a href="https://sparkswarm.ai">sparkswarm.ai<span>home</span></a>
@@ -143,8 +136,13 @@
         <a href="https://docs.sparkswarm.ai">docs<span>reference</span></a>
       </div>
     </div>
+    <!-- ecosystem links · kept hidden; re-enable when eco surface ships -->
+    <nav class="topbar-ecosystem" aria-label="Ecosystem" hidden>
+      <a href="https://sparkswarm.ai">sparkswarm.ai</a>
+      <a href="https://eco.sparkswarm.ai">eco</a>
+    </nav>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">◐</button>
-    <a href="#install" class="cta-install" data-magnetic>Install<span class="cta-arrow">→</span></a>
+    <a href="#install" class="cta-install" data-magnetic>Get yours<span class="cta-arrow">→</span></a>
   </div>
 </header>
 
@@ -163,17 +161,16 @@
       </h1>
 
       <p class="hero-lead">
-        Other AI agents only improve when you're using them. Spark never stops. Every night it runs a recursive loop, grades itself against benchmarks, and masters the domains you care about.
+        Most AI agents stop improving the moment you close the chat. Spark keeps training on whatever you want: trading, research, writing, code review. It runs recursive loops and scores itself against real benchmarks until it masters the work.
       </p>
       <p class="hero-lead">
-        A year from now, you wake up next to an agent that's an expert in <strong>your</strong> work. Not because you taught it. Because it taught itself.
+        Drop in a domain chip, or build your own. Run the loop as often as you like. Every run makes the next one sharper.
       </p>
 
       <div class="hero-cta-row">
         <button class="cta-primary" id="cta-install">
-          <span class="cta-prompt">$</span>
-          <span class="cta-cmd">open safe install path</span>
-          <span class="cta-copy" id="cta-copy">copy link</span>
+          <span class="cta-cmd">Start your Spark</span>
+          <span class="cta-arrow" aria-hidden="true">→</span>
         </button>
       </div>
 
@@ -491,7 +488,7 @@
     <span class="num">005</span>
     <h2 class="section-title">Every hour here <br>is one you'll <i>never spend</i> on this again.</h2>
     <p class="section-lead">
-      Other AI starts over every chat. Spark closes the loop: see, think, try, learn. Every mission compounds the last one. Your hours compound. Your mistakes don't. That's time back. For your family. For the work that matters.
+      Most agents remember. Spark gets better. Every mission sharpens how it reads your problems, picks its tools, and runs the play. The agent you use next month is measurably stronger than the one today. More gets done. Fewer hours spent. Higher output, from the same you.
     </p>
   </div>
 
@@ -529,22 +526,22 @@
       <li>
         <span class="lk">01</span>
         <h4>See</h4>
-        <p>Pulls only the context this task needs. Your memory, your chips, your tools. Nothing extra. Nothing that leaks into the wrong mission.</p>
+        <p>Scopes the mission to what matters. Your work, your constraints, your chips. Its read on your patterns sharpens every run.</p>
       </li>
       <li>
         <span class="lk">02</span>
         <h4>Think</h4>
-        <p>Breaks the problem into steps you can read. Each step has an input, an output, and a reason it was picked.</p>
+        <p>Picks the right tool and the right path for the move. Every attempt teaches it which tools earn trust for your kind of work.</p>
       </li>
       <li>
         <span class="lk">03</span>
         <h4>Try</h4>
-        <p>Every candidate answer is scored against the outcome you set. Bad ones go back. Good ones ship. Nothing untested reaches you.</p>
+        <p>Runs the plan. Scores it against the outcome you set. Weak attempts rework. Strong ones ship. The bar rises with the agent.</p>
       </li>
       <li>
         <span class="lk">04</span>
         <h4>Learn</h4>
-        <p>What worked gets promoted. What didn't gets a watch-out, forever. Every mission afterward starts from a sharper version of your agent.</p>
+        <p>Promotes what worked into its playbook for your domain. Next mission starts with better tool reach, better judgment, a better first move.</p>
       </li>
     </ol>
   </div>
@@ -556,7 +553,7 @@
     <span class="num">006 · coming soon</span>
     <h2 class="section-title"><i>Smart alone.</i> <br>Smarter together.</h2>
     <p class="section-lead">
-      Your Spark already trains itself 24/7. The next chapter: when your agent masters a specialty, every other Spark in the same specialty inherits the lesson. Collective evolution across agents. No data leaves that you didn't choose to share. Free, forever.
+      Your Spark already trains itself 24/7. The next chapter: when your agent masters a specialty, every other Spark in the same specialty inherits the lesson. Collective evolution across agents. No data leaves that you didn't choose to share.
     </p>
   </div>
 
@@ -567,21 +564,12 @@
         <span class="sk">status</span>
         <strong class="swarm-status">building</strong>
       </div>
-      <div class="swarm-stat">
-        <span class="sk">expected</span>
-        <strong class="swarm-status">late 2026</strong>
-      </div>
-      <div class="swarm-stat">
-        <span class="sk">price</span>
-        <strong class="swarm-status">free forever</strong>
-      </div>
     </div>
   </div>
 
   <div class="swarm-proof">
     <blockquote>
-      "Solo self-improvement is the biggest wedge we have today. Swarm is the multiplier that kicks in next. You'll install your Spark. It'll get sharper at your work every night. Then the network effect lights up."
-      <cite>Spark roadmap · shipping Q4 2026</cite>
+      Solo self-improvement is the biggest wedge we have today. Swarm is the multiplier that kicks in next. You'll install your Spark. It'll get sharper at your work every night. Then the network effect lights up.
     </blockquote>
   </div>
 </section>
@@ -594,6 +582,18 @@
     <p class="section-lead">
       Hermes Agent by Nous Research and OpenClaw are both excellent personal AI agents. Here's the honest, category-wide view of who does what.
     </p>
+  </div>
+
+  <div class="compare-tiers" aria-label="Spark tiers">
+    <div class="ct-tier">
+      <strong>free</strong>
+      <span>open source · full agent</span>
+    </div>
+    <span class="ct-tier-sep" aria-hidden="true"></span>
+    <div class="ct-tier pro">
+      <strong>$19.99<small>/mo</small></strong>
+      <span>pro tools + premium domain chips</span>
+    </div>
   </div>
 
   <div class="compare-table">
@@ -648,7 +648,7 @@
     </div>
     <div class="ct-row">
       <div class="ct-label">price</div>
-      <div class="ct-col ct-spark" data-label="Spark"><span class="ct-yes">free · $19.99/mo pro</span></div>
+      <div class="ct-col ct-spark" data-label="Spark"><span class="ct-yes">free · open source</span><em>$19.99/mo pro tier</em></div>
       <div class="ct-col" data-label="Hermes Agent"><span class="ct-yes">open source</span></div>
       <div class="ct-col" data-label="OpenClaw"><span class="ct-yes">open source</span></div>
     </div>
@@ -785,10 +785,7 @@
     </a>
 
     <nav class="foot-nav" aria-label="Footer">
-      <a href="https://sparkswarm.ai">sparkswarm.ai</a>
-      <a href="https://docs.sparkswarm.ai">docs</a>
-      <a href="https://github.com/vibeforge1111/spark-skill-graphs">github</a>
-      <a href="mailto:hi@sparkswarm.ai">contact</a>
+      <a href="https://github.com/vibeforge1111">github</a>
     </nav>
 
     <nav class="foot-legal" aria-label="Legal">
@@ -803,6 +800,6 @@
   </div>
 </footer>
 
-<script src="app.js?v=19" defer></script>
+<script src="app.js?v=20" defer></script>
 </body>
 </html>

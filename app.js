@@ -834,16 +834,12 @@
     }
   };
 
-  // hero primary cta
+  // hero primary cta — scroll to install section
   const ctaInstall = $('#cta-install');
   if (ctaInstall) {
     ctaInstall.addEventListener('click', (e) => {
       e.preventDefault();
-      const installUrl = `${window.location.origin}/install`;
-      copyText(installUrl, $('#cta-copy'));
       $('#install')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
-      ctaInstall.classList.add('copied');
-      setTimeout(() => ctaInstall.classList.remove('copied'), 1600);
     });
   }
 

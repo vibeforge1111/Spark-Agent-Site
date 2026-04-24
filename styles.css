@@ -205,6 +205,20 @@ img, svg { display: block; max-width: 100%; }
   display: flex; align-items: center; gap: 10px;
   flex-shrink: 0;
 }
+.topbar-ecosystem {
+  display: flex; align-items: center; gap: 18px;
+  padding-right: 16px;
+  margin-right: 2px;
+  border-right: 1px solid var(--border);
+}
+.topbar-ecosystem a {
+  font: 500 11px var(--font-mono);
+  color: var(--text-tertiary);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  transition: color var(--t-fast);
+}
+.topbar-ecosystem a:hover { color: var(--accent); }
 
 .subdomain-switcher { position: relative; }
 .sd-current {
@@ -456,27 +470,28 @@ body {
 }
 .cta-primary {
   display: inline-flex; align-items: center; gap: 10px;
-  padding: 9px 15px;
+  padding: 14px 24px;
   background: var(--accent);
   color: var(--accent-fg);
   border: none;
   border-radius: var(--r-md);
-  font: 600 13px var(--font-sans);
-  letter-spacing: 0.1px;
-  transition: background var(--t-fast);
+  font: 600 15px var(--font-sans);
+  letter-spacing: -0.01em;
+  transition: background var(--t-fast), transform var(--t-fast);
   cursor: pointer;
+  box-shadow: 0 6px 24px rgba(47, 202, 148, 0.25);
 }
-.cta-primary:hover { background: var(--accent-hover); }
-.cta-prompt { opacity: 0.55; font-family: var(--font-mono); }
-.cta-cmd { font-family: var(--font-mono); font-weight: 500; }
-.cta-copy {
-  padding: 2px 7px;
-  border: 1px solid rgba(10,56,32,0.3);
-  border-radius: var(--r-sm);
-  font: 500 10px var(--font-mono);
-  opacity: 0.85;
+.cta-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(47, 202, 148, 0.35);
 }
-.cta-primary.copied .cta-copy { background: rgba(10,56,32,0.3); }
+.cta-cmd { font-weight: 600; }
+.cta-arrow {
+  font: 500 16px var(--font-sans);
+  transition: transform var(--t-fast);
+}
+.cta-primary:hover .cta-arrow { transform: translateX(3px); }
 
 .cta-secondary {
   display: inline-flex; align-items: center; gap: 6px;
@@ -1769,40 +1784,32 @@ body {
 }
 
 .swarm-proof {
-  margin-top: 40px;
+  margin-top: 88px;
   text-align: center;
 }
 .swarm-proof blockquote {
   max-width: 720px;
   margin: 0 auto;
-  font: 400 22px var(--font-sans);
+  font: 400 20px var(--font-sans);
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.55;
   font-style: italic;
   letter-spacing: -0.2px;
-  padding: 0 40px;
+  padding: 0 36px;
   position: relative;
 }
 .swarm-proof blockquote::before,
 .swarm-proof blockquote::after {
   content: '"';
   position: absolute;
-  font: 500 64px var(--font-sans);
+  font: 500 44px var(--font-sans);
   color: var(--accent);
-  opacity: 0.3;
+  opacity: 0.85;
   line-height: 1;
+  text-shadow: 0 0 18px var(--accent-mid);
 }
-.swarm-proof blockquote::before { left: 0; top: -12px; }
-.swarm-proof blockquote::after { right: 0; bottom: -40px; content: '"'; }
-.swarm-proof cite {
-  display: block;
-  margin-top: 20px;
-  font: 500 12px var(--font-mono);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-ghost);
-  font-style: normal;
-}
+.swarm-proof blockquote::before { left: 6px; top: -4px; }
+.swarm-proof blockquote::after { right: 6px; bottom: -18px; content: '"'; }
 
 /* ══════════════════════════════════════════════════════════════
    008 / CLOSED (no takeover)
@@ -1904,6 +1911,54 @@ body {
 /* ══════════════════════════════════════════════════════════════
    008 / COMPARE · Spark vs Hermes Agent vs OpenClaw
    ══════════════════════════════════════════════════════════════ */
+.compare-tiers {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin: -8px auto 32px;
+  padding: 0;
+  width: fit-content;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  overflow: hidden;
+}
+.compare-tiers .ct-tier {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 22px;
+  text-align: left;
+}
+.compare-tiers .ct-tier strong {
+  font: 600 18px var(--font-sans);
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.compare-tiers .ct-tier strong small {
+  font: 500 11px var(--font-mono);
+  color: var(--text-tertiary);
+  letter-spacing: 0.5px;
+  margin-left: 2px;
+}
+.compare-tiers .ct-tier span {
+  font: 400 11px var(--font-mono);
+  color: var(--text-tertiary);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.compare-tiers .ct-tier.pro {
+  background: rgba(47, 202, 148, 0.05);
+  border-left: 1px solid var(--border);
+}
+.compare-tiers .ct-tier.pro strong { color: var(--accent); }
+.compare-tiers .ct-tier-sep { display: none; }
+
+@media (max-width: 560px) {
+  .compare-tiers { flex-direction: column; }
+  .compare-tiers .ct-tier.pro { border-left: none; border-top: 1px solid var(--border); }
+}
+
 .compare-table {
   border: 1px solid var(--border-strong);
   border-radius: var(--r-lg);
@@ -2486,6 +2541,7 @@ body {
   .topbar { gap: 12px; padding: 14px var(--side-pad); }
   .brand-slash { display: none; }
   .theme-toggle { display: none; }
+  .topbar-ecosystem { display: none; }
   .cta-install { padding: 8px 12px; font-size: 12px; }
   .cta-install .cta-arrow { display: none; }
 
