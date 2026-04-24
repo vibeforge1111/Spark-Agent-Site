@@ -1,0 +1,136 @@
+/* ══════════════════════════════════════════════════════════════
+   Spark legal pages · prose layout
+   Uses the core tokens from styles.css (--text, --accent, etc.)
+   ══════════════════════════════════════════════════════════════ */
+
+.legal {
+  padding: calc(96px + 48px) var(--side-pad) 96px;
+  max-width: var(--container);
+  margin: 0 auto;
+  min-height: calc(100vh - 180px);
+}
+
+.legal-body {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.legal-body .overline {
+  display: block;
+  margin-bottom: 24px;
+  color: var(--text-tertiary);
+}
+
+.legal-body h1 {
+  font: 600 clamp(32px, 3.8vw, 48px) var(--font-sans);
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  color: var(--text);
+  margin: 0 0 24px;
+}
+
+.legal-body .lead {
+  font: 400 clamp(16px, 1.25vw, 18px) var(--font-sans);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-body h2 {
+  font: 600 18px var(--font-sans);
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin: 40px 0 12px;
+}
+
+.legal-body p,
+.legal-body ul,
+.legal-body ol {
+  font: 400 15px var(--font-sans);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0 0 16px;
+}
+
+.legal-body ul,
+.legal-body ol {
+  padding-left: 22px;
+}
+
+.legal-body li {
+  margin-bottom: 6px;
+}
+
+.legal-body strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.legal-body a {
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent-mid);
+  transition: border-color var(--t-fast);
+}
+.legal-body a:hover { border-bottom-color: var(--accent); }
+
+.legal-body code {
+  font: 500 13px var(--font-mono);
+  color: var(--accent);
+  background: var(--bg-subtle);
+  padding: 2px 6px;
+  border-radius: var(--r-xs);
+  border: 1px solid var(--border);
+}
+
+.legal-body .legal-footnote {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font: 500 12px var(--font-mono);
+  color: var(--text-ghost);
+  letter-spacing: 0.3px;
+}
+
+/* cookie table */
+.cookie-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 32px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  font: 400 13px var(--font-sans);
+}
+.cookie-table thead {
+  background: var(--bg-subtle);
+}
+.cookie-table th {
+  text-align: left;
+  padding: 12px 14px;
+  font: 500 11px var(--font-mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-ghost);
+  border-bottom: 1px solid var(--border-strong);
+}
+.cookie-table td {
+  padding: 14px;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+  vertical-align: top;
+}
+.cookie-table td code {
+  font-size: 12px;
+  padding: 1px 5px;
+}
+
+@media (max-width: 720px) {
+  .legal { padding: calc(96px + 24px) var(--side-pad) 64px; }
+  .legal-body h1 { font-size: clamp(28px, 7vw, 36px); }
+  .legal-body h2 { font-size: 16px; margin-top: 32px; }
+  .legal-body .lead { font-size: 15px; margin-bottom: 32px; padding-bottom: 24px; }
+  .cookie-table { font-size: 12px; }
+  .cookie-table td, .cookie-table th { padding: 10px 12px; }
+}
