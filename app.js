@@ -147,34 +147,6 @@
   };
 
   /* ══════════════════════════════════════════════════════════════
-     LOADER
-     ══════════════════════════════════════════════════════════════ */
-  const loader = $('#loader');
-  const counter = $('#loader-counter');
-  const runLoader = () => {
-    if (reduced) { loader.classList.add('done'); return; }
-    let v = 0;
-    const tick = () => {
-      v += rand(1.2, 4.5);
-      if (v >= 100) {
-        counter.textContent = '100';
-        setTimeout(() => {
-          loader.classList.add('reveal');
-          setTimeout(() => {
-            loader.classList.add('reveal-out');
-            setTimeout(() => loader.classList.add('done'), 750);
-          }, 350);
-        }, 200);
-        return;
-      }
-      counter.textContent = String(Math.floor(v)).padStart(3, '0');
-      setTimeout(tick, rand(14, 40));
-    };
-    tick();
-  };
-  runLoader();
-
-  /* ══════════════════════════════════════════════════════════════
      CUSTOM CURSOR
      ══════════════════════════════════════════════════════════════ */
   if (isTouch) {
@@ -845,7 +817,43 @@
     tickLoop();
   }
 
-  // Cycle active anchor (matches the marker's 9s loop · 2250ms per quarter)
+  // Inject 4 anchors dynamically along the Spark logo path (positions = 4 evenly
+  // spaced fractions of the brand-mark path length). Labels sit above or below
+  // each dot based on which half of the logo the point falls in.
+  const infPath = document.getElementById('infPath');
+  const slAnchorContainer = document.getElementById('sl-anchors');
+  if (infPath && slAnchorContainer && infPath.getTotalLength) {
+    const NS = 'http://www.w3.org/2000/svg';
+    const L = infPath.getTotalLength();
+    const stepsInfo = [
+      { name: 'see',   frac: 0.04 },
+      { name: 'think', frac: 0.28 },
+      { name: 'try',   frac: 0.52 },
+      { name: 'learn', frac: 0.78 },
+    ];
+    stepsInfo.forEach((s, i) => {
+      const p = infPath.getPointAtLength(L * s.frac);
+      const above = p.y < 50;
+      const labelOffset = above ? -14 : 22;
+      const g = document.createElementNS(NS, 'g');
+      g.setAttribute('class', 'sl-anchor');
+      g.setAttribute('data-step', String(i));
+      const c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', String(p.x));
+      c.setAttribute('cy', String(p.y));
+      c.setAttribute('r', '5');
+      const t = document.createElementNS(NS, 'text');
+      t.setAttribute('x', String(p.x));
+      t.setAttribute('y', String(p.y + labelOffset));
+      t.setAttribute('text-anchor', 'middle');
+      t.textContent = s.name;
+      g.appendChild(c);
+      g.appendChild(t);
+      slAnchorContainer.appendChild(g);
+    });
+  }
+
+  // Cycle active anchor (matches the marker's 10s loop · 2500ms per quarter)
   const slAnchors = $$('.sl-anchor');
   if (slAnchors.length) {
     let step = 0;
@@ -854,7 +862,7 @@
       step = (step + 1) % slAnchors.length;
     };
     cycle();
-    setInterval(cycle, 2250);
+    setInterval(cycle, 2500);
   }
 
   /* ══════════════════════════════════════════════════════════════

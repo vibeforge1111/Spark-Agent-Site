@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="styles.css?v=11">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -93,20 +93,23 @@
 </head>
 <body>
 
-<!-- ═══ LOADING GATE ═══ -->
-<div class="loader" id="loader">
-  <div class="loader-inner">
-    <div class="loader-brand">
-      <svg class="loader-logo" width="70" height="30" viewBox="0 0 264 113" fill="none" aria-hidden="true">
-        <path fill="currentColor" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
-      </svg>
-      <span>Spark</span>
-    </div>
-    <div class="loader-counter" id="loader-counter">000</div>
-    <div class="loader-label">initialising runtime</div>
-  </div>
-  <div class="loader-curtain"></div>
-</div>
+<!-- ═══ SPARK BRAND · mark + wordmark symbols · per branding guidelines v1.1 ═══ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="spark-mark" viewBox="0 0 264 113" overflow="visible">
+      <path fill="currentColor" d="M 189.07,0.85 c -24.30,4.40 -39.50,14.70 -80.50,54.50 -35.20,34.20 -37.30,35.90 -49.80,39.70 -18.40,5.60 -39.10,-3.20 -47.40,-20.00 -6.50,-13.20 -2.60,-32.50 8.40,-42.10 8.70,-7.70 14.10,-9.60 27.30,-9.60 14.70,-0.00 19.40,2.10 37.40,16.50 12.80,10.30 12.80,10.30 15.40,7.60 2.70,-2.70 2.70,-2.70 -1.30,-6.20 -25.20,-21.90 -34.30,-26.70 -51.00,-26.80 -14.70,-0.00 -25.70,4.60 -35.00,14.60 -30.70,33.20 -0.90,83.40 44.40,74.80 14.00,-2.60 23.60,-9.70 54.30,-39.80 46.80,-46.00 63.70,-56.20 92.80,-56.30 61.20,-0.10 73.10,80.10 14.20,95.20 -24.00,6.10 -50.20,-3.00 -81.40,-28.30 -10.10,-8.20 -11.30,-8.60 -14.60,-4.50 -2.70,3.30 25.80,25.10 43.30,33.20 31.90,14.80 63.10,11.80 82.90,-8.00 31.20,-31.20 15.80,-83.80 -27.50,-94.00 -6.80,-1.60 -24.10,-1.80 -31.90,-0.50 z"/>
+    </symbol>
+    <symbol id="spark-wordmark" viewBox="0 0 218 59" overflow="visible">
+      <g transform="translate(-0.253195,59.000000) scale(0.100000,-0.100000)" fill="currentColor">
+        <path d="M52 435 c-38 -16 -56 -56 -47 -101 9 -50 42 -65 153 -69 100 -3 122 -13 122 -55 0 -40 -31 -50 -153 -50 -112 0 -117 -1 -117 -21 0 -20 4 -20 129 -17 155 4 181 17 181 94 0 66 -30 84 -136 84 -101 0 -130 10 -137 45 -9 52 18 65 143 65 103 0 110 1 110 20 0 26 -192 29 -248 5z"/>
+        <path d="M573 443 c-31 -6 -70 -48 -77 -84 -14 -72 -7 -349 9 -356 24 -9 28 1 31 74 1 38 3 69 3 71 1 1 14 -4 31 -13 73 -38 229 -11 257 45 17 34 16 163 -1 204 -23 56 -134 82 -253 59z m180 -44 c63 -29 64 -209 2 -233 -53 -20 -187 -2 -207 28 -10 14 -10 168 0 182 22 33 151 48 205 23z"/>
+        <path d="M1152 443 c-10 -4 -162 -303 -162 -319 0 -2 10 -4 23 -4 19 0 31 21 86 140 35 77 70 140 76 140 6 0 22 -24 34 -52 82 -188 104 -228 127 -228 l23 0 -18 43 c-113 256 -142 299 -189 280z"/>
+        <path d="M1520 285 c0 -158 1 -165 20 -165 19 0 20 7 20 114 0 63 3 122 6 131 10 25 58 45 109 45 38 0 45 3 45 20 0 25 -79 28 -124 5 -35 -18 -36 -18 -36 0 0 8 -9 15 -20 15 -19 0 -20 -7 -20 -165z"/>
+        <path d="M1880 355 c0 -228 1 -235 20 -235 16 0 20 7 20 33 0 26 10 42 46 77 l45 45 37 -40 c20 -22 51 -57 67 -78 23 -30 37 -38 55 -35 23 3 21 6 -35 73 -33 39 -66 78 -74 88 -13 16 -8 25 60 93 72 72 73 74 44 74 -25 0 -48 -18 -130 -100 -55 -55 -103 -100 -107 -100 -5 0 -8 77 -8 170 0 163 -1 170 -20 170 -19 0 -20 -7 -20 -235z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
 
 <!-- ═══ DECORATION LAYERS ═══ -->
 <div class="grain" aria-hidden="true"></div>
@@ -115,12 +118,11 @@
 
 <!-- ═══ TOPBAR ═══ -->
 <header class="topbar">
-  <a href="#top" class="brand" aria-label="Spark home">
-    <svg class="brand-logo" width="56" height="24" viewBox="0 0 264 113" fill="none" aria-hidden="true">
-      <path fill="currentColor" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
-    </svg>
-    <span class="brand-name">Spark</span>
-    <span class="brand-slash">/ agent</span>
+  <a href="#top" class="brand" aria-label="Spark agent home">
+    <svg class="brand-mark" viewBox="0 0 264 113" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-mark"/></svg>
+    <svg class="brand-wordmark" viewBox="0 0 218 59" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-wordmark"/></svg>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-slash"><span class="brand-slash-prefix">/</span>agent</span>
   </a>
 
   <nav class="topnav" aria-label="Primary">
@@ -540,45 +542,31 @@
 
   <div class="brain-stage">
     <div class="spark-loop" aria-label="Recursive loop visualization">
-      <svg viewBox="0 0 440 220" class="spark-loop-svg" aria-hidden="true">
+      <svg viewBox="-10 -42 284 200" class="spark-loop-svg" aria-hidden="true">
         <defs>
           <linearGradient id="infGrad" x1="0%" x2="100%">
             <stop offset="0%" stop-color="#2FCA94"/>
             <stop offset="100%" stop-color="#B8A8DC"/>
           </linearGradient>
-          <path id="infPath" d="M 220 110 C 220 50, 40 50, 40 110 C 40 170, 220 170, 220 110 C 220 50, 400 50, 400 110 C 400 170, 220 170, 220 110 Z"/>
+          <!-- Spark brand mark · the actual logo as the recursive loop path -->
+          <path id="infPath" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
         </defs>
 
-        <!-- backing track -->
+        <!-- backing track (full Spark logo outline) -->
         <use href="#infPath" class="sl-track"/>
 
-        <!-- animated flowing gradient stroke -->
+        <!-- animated flowing gradient stroke along the brand mark -->
         <use href="#infPath" class="sl-flow"/>
 
-        <!-- marker that travels the path -->
-        <circle r="6" class="sl-marker">
-          <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
+        <!-- marker that travels the Spark logo -->
+        <circle r="4" class="sl-marker">
+          <animateMotion dur="10s" repeatCount="indefinite" rotate="auto">
             <mpath href="#infPath"/>
           </animateMotion>
         </circle>
 
-        <!-- 4 anchors (sequence: SEE → THINK → TRY → LEARN) -->
-        <g class="sl-anchor" data-step="0">
-          <circle cx="130" cy="65" r="5"/>
-          <text x="130" y="34" text-anchor="middle">see</text>
-        </g>
-        <g class="sl-anchor" data-step="1">
-          <circle cx="130" cy="155" r="5"/>
-          <text x="130" y="195" text-anchor="middle">think</text>
-        </g>
-        <g class="sl-anchor" data-step="2">
-          <circle cx="310" cy="65" r="5"/>
-          <text x="310" y="34" text-anchor="middle">try</text>
-        </g>
-        <g class="sl-anchor" data-step="3">
-          <circle cx="310" cy="155" r="5"/>
-          <text x="310" y="195" text-anchor="middle">learn</text>
-        </g>
+        <!-- 4 anchors injected by JS at computed positions along the path -->
+        <g id="sl-anchors"></g>
       </svg>
 
       <div class="sl-center">
@@ -892,10 +880,8 @@
   <div class="foot-grid">
     <div class="foot-brand">
       <div class="foot-logo">
-        <svg width="56" height="24" viewBox="0 0 264 113" fill="none" aria-hidden="true">
-          <path fill="currentColor" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z"/>
-        </svg>
-        <span>Spark</span>
+        <svg class="brand-mark" viewBox="0 0 264 113" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-mark"/></svg>
+        <svg class="brand-wordmark" viewBox="0 0 218 59" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-wordmark"/></svg>
       </div>
       <p>A personal AI runtime by the Sparkswarm team.</p>
       <p class="foot-build">build · agent.sparkswarm.ai · v1.0</p>
@@ -932,6 +918,6 @@
   </div>
 </footer>
 
-<script src="app.js?v=7" defer></script>
+<script src="app.js?v=8" defer></script>
 </body>
 </html>

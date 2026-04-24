@@ -112,49 +112,6 @@ button { font-family: inherit; background: none; border: none; color: inherit; c
 img, svg { display: block; max-width: 100%; }
 
 /* ══════════════════════════════════════════════════════════════
-   LOADING GATE
-   ══════════════════════════════════════════════════════════════ */
-.loader {
-  position: fixed; inset: 0; z-index: 200;
-  background: var(--bg-deep);
-  display: flex; align-items: center; justify-content: center;
-  transition: opacity 0.4s var(--ease), visibility 0s 0.8s;
-}
-.loader.done { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader-inner { text-align: center; z-index: 2; color: var(--text); }
-.loader-brand {
-  display: inline-flex; align-items: center; gap: 10px;
-  color: var(--accent); margin-bottom: 32px;
-  font: 500 14px var(--font-mono); letter-spacing: 2px;
-  text-transform: uppercase;
-}
-.loader-brand span { color: var(--text); letter-spacing: 1px; }
-.loader-counter {
-  font: 500 clamp(80px, 14vw, 180px) var(--font-mono);
-  letter-spacing: -0.03em;
-  line-height: 1;
-  color: var(--text);
-  font-variant-numeric: tabular-nums;
-}
-.loader-label {
-  margin-top: 16px;
-  font: 500 11px var(--font-mono);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-ghost);
-}
-.loader-curtain {
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, var(--accent) 0%, var(--iris) 100%);
-  transform: translateY(100%);
-  transition: transform 0.7s var(--ease);
-  z-index: 1;
-}
-.loader.reveal .loader-curtain { transform: translateY(0); }
-.loader.reveal .loader-inner { opacity: 0; }
-.loader.reveal-out .loader-curtain { transform: translateY(-100%); }
-
-/* ══════════════════════════════════════════════════════════════
    GLOBAL DECOR: grain + cursor + particles
    ══════════════════════════════════════════════════════════════ */
 .grain {
@@ -201,23 +158,44 @@ body.hover-target .cursor-dot {
   border-bottom: 1px solid var(--border);
 }
 
+/* SPARK BRAND LOCKUP · canonical nav usage (matches sparkswarm.ai + Spawner UI)
+   Mark 26 / Wordmark 64 / Gap 8 / 1px x 16px divider / mono slash-tag */
 .brand {
   display: inline-flex; align-items: center; gap: 8px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.brand-mark {
   color: var(--accent);
+  display: block;
+  width: 26px; height: auto;
+  flex-shrink: 0;
+  shape-rendering: geometricPrecision;
+}
+.brand-wordmark {
+  color: var(--text);
+  display: block;
+  width: 64px; height: auto;
+  flex-shrink: 0;
+  shape-rendering: geometricPrecision;
+}
+.brand-divider {
+  display: inline-block;
+  width: 1px; height: 16px;
+  background: var(--border-strong);
+  opacity: 0.8;
   flex-shrink: 0;
 }
-.brand-name {
-  color: var(--text);
-  font: 600 15px var(--font-sans);
-  letter-spacing: -0.3px;
-}
 .brand-slash {
-  color: var(--text-ghost);
-  font: 500 12px var(--font-mono);
-  letter-spacing: 1px;
+  display: inline-flex; align-items: center;
+  font: 500 11px var(--font-mono);
+  letter-spacing: 0.02em;
+  color: color-mix(in srgb, var(--text-secondary) 90%, transparent);
   text-transform: lowercase;
-  margin-left: 2px;
+  flex-shrink: 0;
+  line-height: 1;
 }
+.brand-slash-prefix { color: var(--accent); margin-right: 0; }
 
 .topnav {
   display: flex;
@@ -1242,11 +1220,11 @@ body {
   align-items: center;
 }
 
-/* Infinity-loop viz · Spark logo echo */
+/* Spark brand-mark loop viz · logo as recursive path */
 .spark-loop {
   position: relative;
   width: 100%;
-  max-width: 460px;
+  max-width: 540px;
   margin: 0 auto;
 }
 .spark-loop-svg {
@@ -1255,50 +1233,51 @@ body {
   overflow: visible;
 }
 
-/* Static backing curve · operator-grade guideline */
+/* Static backing track · faint Spark outline */
 .sl-track {
   fill: none;
   stroke: var(--border-strong);
-  stroke-width: 1.2;
+  stroke-width: 1;
 }
 
-/* Flowing gradient segment that loops along the infinity */
+/* Flowing gradient segment travels the Spark logo */
 .sl-flow {
   fill: none;
   stroke: url(#infGrad);
-  stroke-width: 2.2;
+  stroke-width: 1.6;
   stroke-linecap: round;
-  stroke-dasharray: 280 1400;
+  stroke-dasharray: 160 900;
   stroke-dashoffset: 0;
-  animation: slFlow 9s linear infinite;
+  animation: slFlow 10s linear infinite;
 }
-@keyframes slFlow { to { stroke-dashoffset: -1680; } }
+@keyframes slFlow { to { stroke-dashoffset: -1060; } }
 
-/* Anchor dots + labels at the 4 outer points of each lobe */
+/* Anchor dots + labels at computed positions on the brand mark */
 .sl-anchor circle {
   fill: var(--surface);
   stroke: var(--accent);
-  stroke-width: 1.5;
+  stroke-width: 1.2;
+  r: 3.5;
   transition: fill 0.3s var(--ease), r 0.3s var(--ease);
 }
 .sl-anchor text {
-  font: 500 12px var(--font-mono);
+  font: 500 8.5px var(--font-mono);
   fill: var(--text-ghost);
-  letter-spacing: 2.5px;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
   transition: fill 0.3s var(--ease);
 }
 .sl-anchor.active circle {
   fill: var(--accent);
-  r: 6;
-  filter: drop-shadow(0 0 8px var(--accent-glow));
+  r: 5;
+  filter: drop-shadow(0 0 6px var(--accent-glow));
 }
 .sl-anchor.active text { fill: var(--text); }
 
-/* Marker dot traveling the infinity path */
+/* Marker dot traveling the Spark logo path */
 .sl-marker {
   fill: var(--accent);
-  filter: drop-shadow(0 0 10px var(--accent-glow));
+  filter: drop-shadow(0 0 8px var(--accent-glow));
 }
 
 /* Centered counter overlay at crossing */
@@ -2023,14 +2002,11 @@ body {
   margin-top: 12px;
   max-width: 32ch;
 }
+/* Footer brand lockup · same canonical scale (26 / 64 / 8) */
 .foot-logo {
   display: inline-flex; align-items: center; gap: 8px;
-  color: var(--accent);
-}
-.foot-logo span {
-  font: 600 16px var(--font-sans);
-  color: var(--text);
-  letter-spacing: -0.3px;
+  line-height: 1;
+  margin-bottom: 16px;
 }
 .foot-build {
   font: 500 11px var(--font-mono) !important;
@@ -2140,11 +2116,11 @@ body {
   .swarm-overlay { top: 16px; left: 16px; gap: 8px; }
   .swarm-stat { padding: 10px 12px; }
 
-  /* BRAIN · collapse grid, shrink infinity-loop viz */
+  /* BRAIN · collapse grid, shrink Spark-logo loop viz */
   .brain-stage { grid-template-columns: 1fr; gap: 40px; }
-  .spark-loop { max-width: 340px; }
-  .sl-anchor text { font-size: 10px; letter-spacing: 2px; }
-  .sl-num { font-size: 22px; }
+  .spark-loop { max-width: 380px; }
+  .sl-anchor text { font-size: 8px; letter-spacing: 1.2px; }
+  .sl-num { font-size: 20px; }
   .sl-sub { font-size: 8px; }
   .sl-center { padding: 5px 10px; }
 
