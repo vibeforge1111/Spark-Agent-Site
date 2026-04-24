@@ -179,6 +179,11 @@ EOF
 run_setup() {
   if [ "$SPARK_SKIP_SETUP" = "1" ]; then
     log "Skipping spark setup"
+    cat <<EOF
+
+Next:
+  $SPARK_PREFIX/bin/spark setup $SPARK_BUNDLE
+EOF
     return
   fi
 
@@ -208,7 +213,17 @@ main() {
   install_cli_venv
   write_wrapper
   run_setup
-  log "Done. Add $SPARK_PREFIX/bin to PATH or run: $SPARK_PREFIX/bin/spark --help"
+  log "Done."
+  cat <<EOF
+
+Spark command:
+  $SPARK_PREFIX/bin/spark --help
+
+Operational checks:
+  $SPARK_PREFIX/bin/spark status
+  $SPARK_PREFIX/bin/spark start spawner-ui
+  $SPARK_PREFIX/bin/spark start spark-telegram-bot
+EOF
 }
 
 main "$@"

@@ -135,6 +135,9 @@ function Run-Setup {
     param([string]$CliDir)
     if ($SkipSetup) {
         Write-SparkLog "Skipping spark setup"
+        Write-Host ""
+        Write-Host "Next:"
+        Write-Host "  $Script:SparkPrefix\bin\spark.cmd setup $Bundle"
         return
     }
     if ($LocalRegistry) {
@@ -159,4 +162,12 @@ $cliDir = Checkout-Cli
 $venvDir = Install-CliVenv -CliDir $cliDir
 Write-Wrapper -NodeDir $nodeDir -VenvDir $venvDir
 Run-Setup -CliDir $cliDir
-Write-SparkLog "Done. Add $Script:SparkPrefix\bin to PATH or run: $Script:SparkPrefix\bin\spark.cmd --help"
+Write-SparkLog "Done."
+Write-Host ""
+Write-Host "Spark command:"
+Write-Host "  $Script:SparkPrefix\bin\spark.cmd --help"
+Write-Host ""
+Write-Host "Operational checks:"
+Write-Host "  $Script:SparkPrefix\bin\spark.cmd status"
+Write-Host "  $Script:SparkPrefix\bin\spark.cmd start spawner-ui"
+Write-Host "  $Script:SparkPrefix\bin\spark.cmd start spark-telegram-bot"
