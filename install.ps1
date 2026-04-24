@@ -6,7 +6,8 @@ param(
     [string]$Bundle = "telegram-starter",
     [string[]]$SetupArg = @(),
     [string]$LocalRegistry = "",
-    [switch]$SkipSetup
+    [switch]$SkipSetup,
+    [switch]$AllowDevSource
 )
 
 $ErrorActionPreference = "Stop"
@@ -29,6 +30,33 @@ function Require-Command {
     param([string]$Name)
     if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
         throw "Missing required command: $Name"
+    }
+}
+
+function Test-InstallSettings {
+    $canonicalSource = "https://github.com/vibeforge1111/spark-cli"
+    if ([string]::IsNullOrWhiteSpace($Script:SparkPrefix)) {
+        throw "Refusing empty install prefix"
+    }
+    $root = [System.IO.Path]::GetPathRoot($Script:SparkPrefix)
+    if ($Script:SparkPrefix.TrimEnd('\') -eq $root.TrimEnd('\')) {
+        throw "Refusing unsafe install prefix: $Script:SparkPrefix"
+    }
+    if ($NodeVersion -notmatch '^\d+\.\d+\.\d+$') {
+        throw "Unsafe Node version value: $NodeVersion"
+    }
+    $normalizedSource = $Source.TrimEnd("/")
+    if ($normalizedSource.EndsWith(".git")) {
+        $normalizedSource = $normalizedSource.Substring(0, $normalizedSource.Length - 4)
+    }
+    if ($normalizedSource -ne $canonicalSource -and -not $AllowDevSource) {
+        throw "Refusing non-canonical Spark CLI source: $Source. Use -AllowDevSource only for local development after reviewing the source."
+    }
+    if ($Ref -and -not $AllowDevSource) {
+        throw "Refusing custom git ref without -AllowDevSource: $Ref"
+    }
+    if ($LocalRegistry -and -not $AllowDevSource) {
+        throw "Refusing local registry override without -AllowDevSource: $LocalRegistry"
     }
 }
 
@@ -154,6 +182,7 @@ function Run-Setup {
 
 Require-Command python
 $Script:SparkPrefix = Resolve-FullPath $Prefix
+Test-InstallSettings
 New-Item -ItemType Directory -Force -Path $Script:SparkPrefix | Out-Null
 $nodeDir = Install-Node
 $env:PATH = "$nodeDir;$env:PATH"

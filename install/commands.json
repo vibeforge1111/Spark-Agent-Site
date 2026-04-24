@@ -25,11 +25,11 @@
       "description": "Download the site-hosted installer, inspect it, then run it. The installer auto-detects Apple Silicon, Intel Mac, Linux x64, Linux arm64, and WSL.",
       "scriptUrl": "https://agent.sparkswarm.ai/install.sh",
       "commands": [
-        "curl -fsSLO https://agent.sparkswarm.ai/install.sh",
-        "less install.sh",
-        "bash ./install.sh"
+        "curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh",
+        "less ./spark-install.sh",
+        "bash ./spark-install.sh"
       ],
-      "singleCopyBlock": "curl -fsSLO https://agent.sparkswarm.ai/install.sh\nless install.sh\nbash ./install.sh"
+      "singleCopyBlock": "curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh\nless ./spark-install.sh\nbash ./spark-install.sh"
     },
     {
       "id": "windows-powershell",
@@ -105,7 +105,7 @@
     "Primary install path downloads scripts for inspection before execution.",
     "Launch path uses Telegram long polling, not webhooks.",
     "LLM provider keys and Telegram bot tokens are configured locally by the user.",
-    "Installer scripts are hosted on agent.sparkswarm.ai and source-reviewed in the public Spark CLI repository."
+    "Installer scripts are hosted on agent.sparkswarm.ai and lock Spark CLI source overrides behind an explicit developer flag."
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",

@@ -2,7 +2,8 @@
 set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
-SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
+SPARK_CANONICAL_CLI_SOURCE="https://github.com/vibeforge1111/spark-cli"
+SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-$SPARK_CANONICAL_CLI_SOURCE}"
 SPARK_CLI_REF="${SPARK_CLI_REF:-}"
 SPARK_NODE_VERSION="${SPARK_NODE_VERSION:-22.18.0}"
 SPARK_SKIP_SETUP="${SPARK_SKIP_SETUP:-0}"
@@ -10,6 +11,7 @@ SPARK_BUNDLE="${SPARK_BUNDLE:-telegram-starter}"
 SPARK_SETUP_ARGS="${SPARK_SETUP_ARGS:-}"
 SPARK_LOCAL_REGISTRY="${SPARK_LOCAL_REGISTRY:-}"
 SPARK_NODE_PLATFORM="${SPARK_NODE_PLATFORM:-}"
+SPARK_ALLOW_DEV_SOURCE="${SPARK_ALLOW_DEV_SOURCE:-0}"
 
 usage() {
   cat <<'EOF'
@@ -19,19 +21,20 @@ Install Spark CLI into a local prefix without depending on system Node.
 
 Options:
   --prefix DIR              Install prefix (default: ~/.spark)
-  --source URL_OR_PATH      spark-cli git URL or local path
-  --ref REF                 Optional git ref to checkout
+  --source URL_OR_PATH      developer override for spark-cli source; requires --allow-dev-source
+  --ref REF                 developer override for git ref; requires --allow-dev-source
   --node-version VERSION    Managed Node version (default: 22.18.0)
   --bundle NAME             Bundle for setup (default: telegram-starter)
   --setup-arg ARG           Extra arg passed to `spark setup`; repeatable
-  --local-registry PATH     Copy a registry.json override before setup
+  --local-registry PATH     developer registry override; requires --allow-dev-source
+  --allow-dev-source        Allow source/ref/local-registry overrides for local development
   --skip-setup              Install CLI only; do not run spark setup
   -h, --help                Show this help
 
 Environment mirrors these flags:
   SPARK_PREFIX, SPARK_CLI_SOURCE, SPARK_CLI_REF, SPARK_NODE_VERSION,
   SPARK_BUNDLE, SPARK_SETUP_ARGS, SPARK_LOCAL_REGISTRY, SPARK_SKIP_SETUP,
-  SPARK_NODE_PLATFORM.
+  SPARK_NODE_PLATFORM, SPARK_ALLOW_DEV_SOURCE.
 EOF
 }
 
@@ -52,6 +55,8 @@ while [ "$#" -gt 0 ]; do
       extra_setup_args+=("$2"); shift 2 ;;
     --local-registry)
       SPARK_LOCAL_REGISTRY="$2"; shift 2 ;;
+    --allow-dev-source)
+      SPARK_ALLOW_DEV_SOURCE=1; shift ;;
     --skip-setup)
       SPARK_SKIP_SETUP=1; shift ;;
     -h|--help)
@@ -79,6 +84,49 @@ normalize_path() {
 import os, sys
 print(os.path.abspath(os.path.expanduser(sys.argv[1])))
 PY
+}
+
+validate_install_settings() {
+  case "$SPARK_PREFIX" in
+    ""|"/")
+      echo "Refusing unsafe install prefix: $SPARK_PREFIX" >&2
+      exit 1
+      ;;
+  esac
+
+  case "$SPARK_NODE_VERSION" in
+    *[!0-9.]*|.*|*..*|*.)
+      echo "Unsafe Node version value: $SPARK_NODE_VERSION" >&2
+      exit 1
+      ;;
+  esac
+
+  case "$SPARK_NODE_PLATFORM" in
+    ""|linux-x64|linux-arm64|darwin-x64|darwin-arm64) ;;
+    *)
+      echo "Unsafe managed Node platform value: $SPARK_NODE_PLATFORM" >&2
+      exit 1
+      ;;
+  esac
+
+  local source_without_git="${SPARK_CLI_SOURCE%.git}"
+  if [ "$source_without_git" != "$SPARK_CANONICAL_CLI_SOURCE" ]; then
+    if [ "$SPARK_ALLOW_DEV_SOURCE" != "1" ]; then
+      echo "Refusing non-canonical Spark CLI source: $SPARK_CLI_SOURCE" >&2
+      echo "Use --allow-dev-source only for local development after reviewing the source." >&2
+      exit 1
+    fi
+  fi
+
+  if [ -n "$SPARK_CLI_REF" ] && [ "$SPARK_ALLOW_DEV_SOURCE" != "1" ]; then
+    echo "Refusing custom git ref without --allow-dev-source: $SPARK_CLI_REF" >&2
+    exit 1
+  fi
+
+  if [ -n "$SPARK_LOCAL_REGISTRY" ] && [ "$SPARK_ALLOW_DEV_SOURCE" != "1" ]; then
+    echo "Refusing local registry override without --allow-dev-source: $SPARK_LOCAL_REGISTRY" >&2
+    exit 1
+  fi
 }
 
 detect_node_platform() {
@@ -236,6 +284,7 @@ main() {
   if [ -z "$SPARK_NODE_PLATFORM" ]; then
     SPARK_NODE_PLATFORM="$(detect_node_platform)"
   fi
+  validate_install_settings
   mkdir -p "$SPARK_PREFIX"
   install_node
   export PATH="$SPARK_PREFIX/tools/node-v$SPARK_NODE_VERSION-$SPARK_NODE_PLATFORM/bin:$PATH"
