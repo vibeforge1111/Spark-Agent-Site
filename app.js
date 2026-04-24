@@ -242,19 +242,10 @@
     }, base);
   });
 
-  // 2. LIVING SPEC CARD · the transformation proof
-  const specVer     = $('#spec-version');
-  const specVerNext = $('#spec-version-next');
-  const specState   = specVer ? specVer.closest('.spec-meta') : null;
-  const spLessons   = $('#sp-lessons');
-  const spTools     = $('#sp-tools');
-  const spMistakes  = $('#sp-mistakes');
-  const spPeers     = $('#sp-peers');
+  // 2. LIVING SPEC CARD · mastery bar fill + countdown
   const spCountdown = $('#sp-countdown');
 
-  const fmtVersion = (n) => 'v0.' + String(n).padStart(4, '0');
-
-  // 3a. fill mastery bars once the card is on screen
+  // fill mastery bars once the card is on screen
   const masteries = $$('.mastery');
   setTimeout(() => {
     masteries.forEach((el, i) => {
@@ -262,46 +253,7 @@
     });
   }, 1400);
 
-  // 3b. animate tonight counters on reveal
-  setTimeout(() => {
-    if (spLessons) countTo(spLessons, 3, 1200);
-    if (spPeers)   countTo(spPeers, 4829, 1800);
-  }, 1800);
-
-  // 3c. version ticker + bump every ~7s
-  let verN = 841;
-  setInterval(() => {
-    if (!specVer || !specVerNext) return;
-    verN += 1;
-    specVer.textContent     = fmtVersion(verN);
-    specVerNext.textContent = fmtVersion(verN + 1);
-    specVer.classList.add('pulse');
-    if (specState) specState.classList.add('tick');
-    setTimeout(() => {
-      specVer.classList.remove('pulse');
-      if (specState) specState.classList.remove('tick');
-    }, 900);
-
-    // lessons + peers drift with the version
-    if (spLessons) {
-      const cur = parseInt(spLessons.textContent || '3', 10);
-      spLessons.textContent = String(clamp(cur + (Math.random() < 0.15 ? 1 : 0), 3, 12));
-    }
-    if (spPeers) {
-      const cur = parseInt((spPeers.textContent || '4829').replace(/,/g, ''), 10);
-      const next = clamp(cur + Math.floor(rand(1, 6)), 4829, 9999);
-      spPeers.textContent = next.toLocaleString('en-US');
-    }
-    // occasionally bump tools / mistakes
-    if (spTools && Math.random() < 0.28) {
-      spTools.textContent = String(parseInt(spTools.textContent || '2', 10) + 1);
-    }
-    if (spMistakes && Math.random() < 0.18) {
-      spMistakes.textContent = String(parseInt(spMistakes.textContent || '1', 10) + 1);
-    }
-  }, 7000);
-
-  // 3d. recursive loop strip · active step cycles, loops counter increments
+  // recursive loop strip · active step cycles, loops counter increments
   const slSteps = $$('#sl-steps li');
   const slLoops = $('#sl-loops');
   if (slSteps.length) {
@@ -424,27 +376,31 @@
   const mq = $('#marquee-track');
   if (mq) {
     const tiles = [
-      { name: 'memory',       tier: 'free' },
-      { name: 'telegram',     tier: 'free' },
-      { name: 'discord',      tier: 'free' },
-      { name: 'browser',      tier: 'free' },
-      { name: 'researcher',   tier: 'free' },
-      { name: 'swarm',        tier: 'free' },
-      { name: 'voice',        tier: 'free' },
-      { name: 'x-twitter',    tier: 'free' },
-      { name: 'h70-corpus',   tier: 'pro'  },
-      { name: 'orchestrator', tier: 'pro'  },
-      { name: 'memory-sync',  tier: 'pro'  },
-      { name: 'security-chip',tier: 'pro'  },
-      { name: 'growth-chip',  tier: 'pro'  },
-      { name: 'ops-chip',     tier: 'pro'  },
-      { name: 'trading-chip', tier: 'pro'  },
-      { name: 'calendar',     tier: 'free' },
-      { name: 'gmail',        tier: 'free' },
-      { name: 'github',       tier: 'free' },
+      { slug: 'memory',       tier: 'free', line: 'never forgets who you are' },
+      { slug: 'telegram',     tier: 'free', line: 'in your pocket, on your terms' },
+      { slug: 'discord',      tier: 'free', line: 'lives in your server' },
+      { slug: 'browser',      tier: 'free', line: 'sees only what you show it' },
+      { slug: 'researcher',   tier: 'free', line: 'every answer, with the work shown' },
+      { slug: 'voice',        tier: 'free', line: 'talks back when you ask' },
+      { slug: 'x',            tier: 'free', line: 'posts in your voice, not a bot' },
+      { slug: 'calendar',     tier: 'free', line: 'books like you would' },
+      { slug: 'gmail',        tier: 'free', line: 'drafts like you taught it' },
+      { slug: 'github',       tier: 'free', line: 'ships code with your fingerprints' },
+      { slug: 'h70-corpus',   tier: 'pro',  line: '593 expert skills, unlocked' },
+      { slug: 'orchestrator', tier: 'pro',  line: 'claude + gpt + gemini, orchestrated' },
+      { slug: 'memory-sync',  tier: 'pro',  line: 'same context, every device you own' },
+      { slug: 'security',     tier: 'pro',  line: 'red-teams its own output' },
+      { slug: 'growth',       tier: 'pro',  line: 'tests your hooks before you ship' },
+      { slug: 'ops',          tier: 'pro',  line: 'runs the schedule you never keep' },
+      { slug: 'trading',      tier: 'pro',  line: 'reads markets, graded on wins' },
+      { slug: 'yours',        tier: 'free', line: 'build your own, the format is open' },
     ];
     const make = () => tiles.map(t =>
-      `<span class="marquee-tile ${t.tier}"><span class="mt-k">${t.tier === 'pro' ? '◆' : '▸'}</span>spark install ${t.name}</span>`
+      `<span class="marquee-tile ${t.tier}" tabindex="0">
+        <span class="mt-slash">/</span><span class="mt-slug">${t.slug}</span>
+        <span class="mt-sep">·</span>
+        <span class="mt-line">${t.line}</span>
+      </span>`
     ).join('');
     mq.innerHTML = make() + make();
   }
@@ -851,7 +807,9 @@
   if (ctaInstall) {
     ctaInstall.addEventListener('click', (e) => {
       e.preventDefault();
-      copyText('brew install spark', $('#cta-copy'));
+      const installUrl = `${window.location.origin}/install`;
+      copyText(installUrl, $('#cta-copy'));
+      $('#install')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
       ctaInstall.classList.add('copied');
       setTimeout(() => ctaInstall.classList.remove('copied'), 1600);
     });
@@ -861,9 +819,15 @@
   $$('.cmd-row').forEach(row => {
     const code = $('.cmd', row);
     const btn = $('[data-copy-btn]', row);
-    const action = () => copyText(code.textContent, btn);
+    const action = () => copyText(code.dataset.copyValue || code.textContent.trim(), btn);
     row.addEventListener('click', action);
   });
+
+  if (window.location.pathname.replace(/\/$/, '') === '/install') {
+    window.requestAnimationFrame(() => {
+      $('#install')?.scrollIntoView({ behavior: 'auto', block: 'start' });
+    });
+  }
 
   /* ══════════════════════════════════════════════════════════════
      THEME TOGGLE

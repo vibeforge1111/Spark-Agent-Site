@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=30">
+<link rel="stylesheet" href="styles.css?v=33">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -129,6 +129,7 @@
     <a href="#modules">Modules</a>
     <a href="#brain">Brain</a>
     <a href="#swarm">Swarm</a>
+    <a href="#install">Install</a>
   </nav>
 
   <div class="topbar-right">
@@ -171,8 +172,8 @@
       <div class="hero-cta-row">
         <button class="cta-primary" id="cta-install" data-magnetic>
           <span class="cta-prompt">$</span>
-          <span class="cta-cmd">brew install spark</span>
-          <span class="cta-copy" id="cta-copy">copy</span>
+          <span class="cta-cmd">open safe install path</span>
+          <span class="cta-copy" id="cta-copy">copy link</span>
         </button>
         <a href="#brain" class="cta-secondary" data-magnetic>
           see the loop running <span class="arrow">↓</span>
@@ -259,28 +260,39 @@
 
   <div class="outcome-grid">
     <article class="outcome-card" data-reveal>
-      <div class="oc-head">
-        <span class="oc-tag">+mastered</span>
+      <div class="oc-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+          <path d="M4 22h16"/>
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+        </svg>
       </div>
-      <strong class="oc-num" id="sp-lessons">3</strong>
-      <p class="oc-copy">skills now at expert level</p>
-      <p class="oc-sub">every skill you install gets benchmarked until it scores higher than its last version. no chip stays at v1.</p>
+      <h3 class="oc-title">Expert-level masteries</h3>
+      <p class="oc-copy">Every chip you install gets tested against real benchmarks until it scores higher than the version before. You end up with deep expertise in the domains that matter to you, without lifting a finger.</p>
     </article>
     <article class="outcome-card" data-reveal>
-      <div class="oc-head">
-        <span class="oc-tag">+built</span>
+      <div class="oc-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
       </div>
-      <strong class="oc-num" id="sp-tools">12</strong>
-      <p class="oc-copy">tools spark wrote for itself</p>
-      <p class="oc-sub">when something's missing, spark writes it, tests it, and keeps the winner. your toolkit compounds while you sleep.</p>
+      <h3 class="oc-title">Tools built on demand</h3>
+      <p class="oc-copy">When Spark hits a problem its toolkit can't solve, it writes a new tool, tests it, keeps what works. You wake up to a bigger toolbox than you had yesterday, without opening an editor.</p>
     </article>
     <article class="outcome-card" data-reveal>
-      <div class="oc-head">
-        <span class="oc-tag">+trained</span>
+      <div class="oc-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+          <path d="M21 3v5h-5"/>
+          <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+          <path d="M3 21v-5h5"/>
+        </svg>
       </div>
-      <strong class="oc-num" id="sp-peers">4829</strong>
-      <p class="oc-copy">training runs completed overnight</p>
-      <p class="oc-sub">spark runs its own gyms around the clock and promotes every improvement. your agent is measurably sharper than yesterday.</p>
+      <h3 class="oc-title">Trains itself 24/7</h3>
+      <p class="oc-copy">Every night Spark puts itself through gyms and grades every run. Every pass that beats yesterday gets promoted. Your agent never plateaus, and every morning starts sharper than the one before.</p>
     </article>
   </div>
 
@@ -737,23 +749,95 @@
 <section class="install section" id="install">
   <div class="install-inner">
     <div class="install-marker"><span class="num">009 · install</span></div>
-    <h2 class="install-title">Three commands. <i>That's it.</i></h2>
+    <h2 class="install-title">One safe path. <i>The whole Spark stack.</i></h2>
+    <p class="install-lead">
+      Use this page as the copy-paste path for a terminal, Codex Cloud, WSL, or any agent harness. The installer brings the starter ecosystem together: Researcher, Builder, Memory, Spawner UI, and Telegram bot.
+    </p>
 
-    <div class="install-cmds">
+    <div class="install-stack" aria-label="Default starter modules">
+      <span>spark-researcher</span>
+      <span>spark-intelligence-builder</span>
+      <span>domain-chip-memory</span>
+      <span>spawner-ui</span>
+      <span>spark-telegram-bot</span>
+    </div>
+
+    <div class="install-command-grid">
+      <article class="install-command-card">
+        <div class="install-card-head">
+          <span class="ic-k">WSL / Linux / macOS</span>
+          <strong>Download, inspect, run</strong>
+        </div>
+        <div class="cmd-row tall">
+          <code class="cmd install-code" data-copy data-copy-value="curl -fsSLO https://agent.sparkswarm.ai/install.sh&#10;less install.sh&#10;bash ./install.sh">curl -fsSLO https://agent.sparkswarm.ai/install.sh
+less install.sh
+bash ./install.sh</code>
+          <button class="copy-btn" data-copy-btn>copy</button>
+        </div>
+      </article>
+
+      <article class="install-command-card">
+        <div class="install-card-head">
+          <span class="ic-k">Windows PowerShell</span>
+          <strong>Download, inspect, run</strong>
+        </div>
+        <div class="cmd-row tall">
+          <code class="cmd install-code" data-copy data-copy-value="iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\install.ps1&#10;Get-Content .\install.ps1&#10;powershell -ExecutionPolicy Bypass -File .\install.ps1">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\install.ps1
+Get-Content .\install.ps1
+powershell -ExecutionPolicy Bypass -File .\install.ps1</code>
+          <button class="copy-btn" data-copy-btn>copy</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="install-flow">
+      <article>
+        <span class="flow-num">01</span>
+        <h3>Install the CLI</h3>
+        <p>The script installs Spark CLI, checks Python and Node, and prepares an isolated Spark home instead of scattering files across your machine.</p>
+      </article>
+      <article>
+        <span class="flow-num">02</span>
+        <h3>Run setup</h3>
+        <p><code>spark setup</code> defaults to the starter bundle and asks for Telegram and LLM provider configuration in one wizard.</p>
+      </article>
+      <article>
+        <span class="flow-num">03</span>
+        <h3>Verify the agent</h3>
+        <p>Run <code>spark status</code>, start Telegram long polling, then send <code>/start</code>, <code>/myid</code>, and a normal message to the bot.</p>
+      </article>
+    </div>
+
+    <div class="install-cmds verify">
       <div class="cmd-row">
-        <span class="cmd-num">01</span>
-        <code class="cmd" data-copy>brew install spark</code>
+        <span class="cmd-num">check</span>
+        <code class="cmd" data-copy>spark status</code>
         <button class="copy-btn" data-copy-btn>copy</button>
       </div>
       <div class="cmd-row">
-        <span class="cmd-num">02</span>
-        <code class="cmd" data-copy>spark setup</code>
+        <span class="cmd-num">bot</span>
+        <code class="cmd" data-copy>spark start spark-telegram-bot</code>
         <button class="copy-btn" data-copy-btn>copy</button>
       </div>
       <div class="cmd-row">
-        <span class="cmd-num">03</span>
-        <code class="cmd" data-copy>spark run hello.spark</code>
+        <span class="cmd-num">ui</span>
+        <code class="cmd" data-copy>spark start spawner-ui</code>
         <button class="copy-btn" data-copy-btn>copy</button>
+      </div>
+    </div>
+
+    <div class="install-safety-grid">
+      <div>
+        <span class="ic-k">secure by default</span>
+        <p>No webhook exposure in the launch path. Telegram runs by long polling, and generated relay secrets are stored in Spark configuration instead of being printed into docs.</p>
+      </div>
+      <div>
+        <span class="ic-k">bring your LLM</span>
+        <p>Setup asks for your provider and key. Spark can use GLM/z.ai or another OpenAI-compatible endpoint without hardcoding secrets into the repo.</p>
+      </div>
+      <div>
+        <span class="ic-k">agent friendly</span>
+        <p>Give this page to Codex, a cloud terminal, or another harness. It has the exact modules, commands, and verification checks needed to finish onboarding.</p>
       </div>
     </div>
 
@@ -764,16 +848,16 @@
         <em>Ping @SparkAGI_bot. Your agent in a chat in 30 seconds.</em>
         <span class="ic-arrow">→</span>
       </a>
+      <a href="https://github.com/vibeforge1111/spark-cli" class="install-card" data-magnetic>
+        <span class="ic-k">source</span>
+        <strong>Review the installer</strong>
+        <em>Read the CLI, scripts, manifests, and tests before you run anything locally.</em>
+        <span class="ic-arrow">→</span>
+      </a>
       <a href="https://docs.sparkswarm.ai" class="install-card" data-magnetic>
         <span class="ic-k">docs</span>
         <strong>Docs &amp; reference</strong>
         <em>How modules work. How to build one. How the runtime boots.</em>
-        <span class="ic-arrow">→</span>
-      </a>
-      <a href="https://eco.sparkswarm.ai" class="install-card" data-magnetic>
-        <span class="ic-k">map</span>
-        <strong>See the ecosystem</strong>
-        <em>Every tool, agent, and intelligence system in the galaxy.</em>
         <span class="ic-arrow">→</span>
       </a>
     </div>
@@ -807,6 +891,6 @@
   </div>
 </footer>
 
-<script src="app.js?v=14" defer></script>
+<script src="app.js?v=17" defer></script>
 </body>
 </html>
