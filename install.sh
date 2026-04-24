@@ -218,6 +218,7 @@ main() {
 
 Spark command:
   $SPARK_PREFIX/bin/spark --help
+  $SPARK_PREFIX/bin/spark guide
 
 Operational checks:
   $SPARK_PREFIX/bin/spark status

@@ -47,6 +47,10 @@
   ],
   "postInstallChecks": [
     {
+      "label": "Read the first-run guide",
+      "command": "spark guide"
+    },
+    {
       "label": "Check Spark status",
       "command": "spark status"
     },
@@ -66,6 +70,36 @@
     "Send a normal message and confirm the LLM responds.",
     "/remember launch test memory",
     "/recall launch test memory"
+  ],
+  "botFatherSetup": [
+    "Open Telegram and message @BotFather.",
+    "Send /newbot and follow BotFather's prompts.",
+    "Copy the token BotFather gives you.",
+    "Start your new bot and send /myid.",
+    "Use that numeric id as the admin Telegram id in spark setup."
+  ],
+  "llmProviderExamples": [
+    "spark setup --llm-provider zai --zai-api-key <ZAI_API_KEY>",
+    "spark setup --llm-provider openai --openai-api-key <OPENAI_API_KEY> --openai-model gpt-5.5",
+    "spark setup --llm-provider anthropic --anthropic-api-key <ANTHROPIC_API_KEY>",
+    "spark setup --llm-provider ollama --ollama-url http://localhost:11434 --ollama-model kimi-k2.5:cloud"
+  ],
+  "telegramCommands": [
+    { "command": "/start", "use": "Show the basic command surface." },
+    { "command": "/myid", "use": "Show your numeric Telegram id for admin setup." },
+    { "command": "/diagnose", "use": "Check Telegram, LLM, memory, Builder, and mission relay health." },
+    { "command": "/remember <note>", "use": "Save a memory through Spark's memory path when available." },
+    { "command": "/recall <query>", "use": "Search your Spark memory when available." },
+    { "command": "/run <goal>", "use": "Create a Spawner mission from Telegram." },
+    { "command": "/board", "use": "Show current mission board/status." },
+    { "command": "normal message", "use": "Ask Spark to answer through the configured LLM provider." }
+  ],
+  "moduleRoles": [
+    { "module": "spark-telegram-bot", "role": "Telegram front door. Owns the bot token, runs long polling, and receives chat commands." },
+    { "module": "spark-intelligence-builder", "role": "Runtime brain. Handles identity, memory bridge, provider routing, and domain-chip activation." },
+    { "module": "domain-chip-memory", "role": "Default memory chip. Provides memory contracts, benchmark checks, and memory-oriented skills." },
+    { "module": "spark-researcher", "role": "Research and advisory runtime. Helps with research, evidence packets, and domain-chip authoring." },
+    { "module": "spawner-ui", "role": "Local mission control. Creates and tracks missions, projects, and execution workflows." }
   ],
   "securityNotes": [
     "Primary install path downloads scripts for inspection before execution.",
