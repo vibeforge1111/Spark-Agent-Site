@@ -852,16 +852,17 @@ body {
   position: relative;
   z-index: 2;
 }
-/* Longer outcomes heading · bigger + wider, sized to fit 2 lines on desktop */
+/* Longer outcomes heading · sized so line 1 (52 chars) always fits on one line */
 .outcomes .section-head {
   grid-template-columns: 60px 1fr;
   gap: 28px;
 }
 .outcomes .section-title {
-  font-size: clamp(28px, 4vw, 46px);
-  letter-spacing: -0.035em;
-  line-height: 1.08;
+  font-size: clamp(14px, 2.8vw, 44px);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
   max-width: none;
+  text-wrap: balance;
 }
 .outcome-grid {
   display: grid;
