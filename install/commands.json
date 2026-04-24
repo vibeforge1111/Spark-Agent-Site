@@ -20,9 +20,9 @@
   "installOptions": [
     {
       "id": "mac-linux-wsl",
-      "label": "Mac, Linux, WSL",
+      "label": "macOS, Linux, WSL",
       "shell": "bash",
-      "description": "Download the site-hosted installer, inspect it, then run it.",
+      "description": "Download the site-hosted installer, inspect it, then run it. The installer auto-detects Apple Silicon, Intel Mac, Linux x64, Linux arm64, and WSL.",
       "scriptUrl": "https://agent.sparkswarm.ai/install.sh",
       "commands": [
         "curl -fsSLO https://agent.sparkswarm.ai/install.sh",
