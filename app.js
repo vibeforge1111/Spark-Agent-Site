@@ -147,29 +147,6 @@
   };
 
   /* ══════════════════════════════════════════════════════════════
-     CUSTOM CURSOR
-     ══════════════════════════════════════════════════════════════ */
-  if (isTouch) {
-    document.body.classList.add('cursor-native');
-  } else {
-    const dot = $('#cursor-dot');
-    let mx = innerWidth / 2, my = innerHeight / 2;
-    addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
-    const loop = () => {
-      dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
-      requestAnimationFrame(loop);
-    };
-    loop();
-
-    const markHover = () => document.body.classList.add('hover-target');
-    const unmarkHover = () => document.body.classList.remove('hover-target');
-    $$('a, button, [data-magnetic], .mod-card, .cmd-row, .board-node, .orbit-node').forEach(el => {
-      el.addEventListener('mouseenter', markHover);
-      el.addEventListener('mouseleave', unmarkHover);
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════════════
      MAGNETIC BUTTONS
      ══════════════════════════════════════════════════════════════ */
   if (!isTouch) {
