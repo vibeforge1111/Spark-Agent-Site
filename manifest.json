@@ -1,0 +1,13 @@
+{
+  "name": "Spark · Recursive Self-Improving Personal AI Agent",
+  "short_name": "Spark",
+  "description": "Personal AI agent that trains itself 24/7 in gyms and against benchmarks. Recursive self-improvement. Local-first.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0E1018",
+  "theme_color": "#0E1018",
+  "categories": ["productivity", "developer", "ai"],
+  "lang": "en-US"
+}

@@ -293,19 +293,7 @@
     }, base);
   });
 
-  // 2. swarm count in the hero lead
-  const rtSwarm = $('#rt-swarm');
-  setTimeout(() => {
-    if (rtSwarm) countTo(rtSwarm, 4829, 1600);
-  }, 1100);
-  setInterval(() => {
-    if (!rtSwarm) return;
-    const cur = parseInt((rtSwarm.textContent || '4829').replace(/,/g, ''), 10);
-    const next = clamp(cur + Math.floor(rand(-2, 4)), 4780, 4950);
-    rtSwarm.textContent = next.toLocaleString('en-US');
-  }, 2800);
-
-  // 3. LIVING SPEC CARD · the transformation proof
+  // 2. LIVING SPEC CARD · the transformation proof
   const specVer     = $('#spec-version');
   const specVerNext = $('#spec-version-next');
   const specState   = specVer ? specVer.closest('.spec-meta') : null;
@@ -328,7 +316,7 @@
   // 3b. animate tonight counters on reveal
   setTimeout(() => {
     if (spLessons) countTo(spLessons, 38, 1600);
-    if (spPeers)   countTo(spPeers, 847, 1800);
+    if (spPeers)   countTo(spPeers, 127, 1800);
   }, 1800);
 
   // 3c. version ticker + bump every ~7s
@@ -351,8 +339,8 @@
       spLessons.textContent = String(clamp(cur + Math.floor(rand(0, 3)), 38, 999));
     }
     if (spPeers) {
-      const cur = parseInt(spPeers.textContent || '847', 10);
-      spPeers.textContent = String(clamp(cur + Math.floor(rand(-2, 5)), 800, 1200));
+      const cur = parseInt(spPeers.textContent || '127', 10);
+      spPeers.textContent = String(clamp(cur + Math.floor(rand(0, 4)), 127, 400));
     }
     // occasionally bump tools / mistakes
     if (spTools && Math.random() < 0.28) {
@@ -608,27 +596,30 @@
     };
 
     const layout = () => {
-      // Use the larger dimension so nodes push against + past edges (zoomed-in feel)
-      const R = Math.max(W, H);
+      // Portrait-aware: on mobile use width as base (keeps cluster inside visible area);
+      // on wide screens use the larger dimension for a zoomed-in feel.
+      const isPortrait = W < H;
+      const R = isPortrait ? W * 1.1 : Math.max(W, H);
+      const yF = isPortrait ? 0.9 : 0.66;
       specs.forEach((s, i) => {
         const a = (i / specs.length) * Math.PI * 2 + 0.3;
         const r = R * 0.22;
-        s.x = Math.cos(a) * r; s.y = Math.sin(a) * r * 0.6;
+        s.x = Math.cos(a) * r; s.y = Math.sin(a) * r * (isPortrait ? 0.85 : 0.6);
       });
       agents.forEach((n) => {
         const a = rand(0, Math.PI * 2);
         const r = R * 0.42 * (0.5 + Math.random() * 0.75);
-        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.66;
+        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * yF;
       });
       paths.forEach((n, i) => {
         const a = (i / paths.length) * Math.PI * 2 - 0.2;
         const r = R * 0.5;
-        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.66;
+        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * yF;
       });
       insights.forEach((n, i) => {
         const a = (i / insights.length) * Math.PI * 2 + 0.7;
         const r = R * 0.56;
-        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * 0.66;
+        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * yF;
       });
     };
 
@@ -843,7 +834,7 @@
   makeSwarmNetwork($('#swarm-canvas'));
 
   /* ══════════════════════════════════════════════════════════════
-     LOOP COUNTER
+     INFINITY LOOP VIZ · counter + active anchor cycle
      ══════════════════════════════════════════════════════════════ */
   const loopCount = $('#loop-count');
   if (loopCount) {
@@ -854,6 +845,18 @@
     tickLoop();
   }
 
+  // Cycle active anchor (matches the marker's 9s loop · 2250ms per quarter)
+  const slAnchors = $$('.sl-anchor');
+  if (slAnchors.length) {
+    let step = 0;
+    const cycle = () => {
+      slAnchors.forEach((el, i) => el.classList.toggle('active', i === step));
+      step = (step + 1) % slAnchors.length;
+    };
+    cycle();
+    setInterval(cycle, 2250);
+  }
+
   /* ══════════════════════════════════════════════════════════════
      INTERSECTION OBSERVER · reveals + triggers
      ══════════════════════════════════════════════════════════════ */
@@ -861,15 +864,6 @@
     entries.forEach(e => {
       if (e.isIntersecting) {
         e.target.classList.add('is-in');
-        // swarm counters
-        if (e.target.id === 'swarm') {
-          const a = $('#swarm-agents');
-          const b = $('#swarm-lessons');
-          const c = $('#swarm-graphs');
-          if (a && !a.dataset.done) { countTo(a, 4829); a.dataset.done = '1'; }
-          if (b && !b.dataset.done) { countTo(b, 1274); b.dataset.done = '1'; }
-          if (c && !c.dataset.done) { countTo(c, 138);  c.dataset.done = '1'; }
-        }
         io.unobserve(e.target);
       }
     });
