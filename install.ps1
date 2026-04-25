@@ -177,6 +177,28 @@ function Add-SparkBinToUserPath {
     }
 }
 
+function Warn-SparkCommandConflict {
+    $expected = (Join-Path $Script:SparkPrefix "bin\spark.cmd").TrimEnd("\")
+    $machinePath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+    $pathEntries = @($machinePath -split ";" | Where-Object { $_ -and $_.Trim() })
+    $pathEntries += @($userPath -split ";" | Where-Object { $_ -and $_.Trim() })
+    foreach ($entry in $pathEntries) {
+        $expanded = [Environment]::ExpandEnvironmentVariables($entry)
+        foreach ($name in @("spark.exe", "spark.cmd", "spark.bat")) {
+            $candidate = Join-Path $expanded $name
+            if (Test-Path -LiteralPath $candidate) {
+                if ($candidate.TrimEnd("\") -ine $expected) {
+                    Write-Warning "A different spark command is earlier on fresh Windows PATH: $candidate"
+                    Write-Host "Use this Spark wrapper until that old command is removed or PATH is reordered:"
+                    Write-Host "  $expected"
+                }
+                return
+            }
+        }
+    }
+}
+
 function Run-Setup {
     param([string]$CliDir)
     if ($SkipSetup) {
@@ -235,6 +257,7 @@ $cliDir = Checkout-Cli
 $venvDir = Install-CliVenv -CliDir $cliDir
 Write-Wrapper -NodeDir $nodeDir -VenvDir $venvDir
 Add-SparkBinToUserPath
+Warn-SparkCommandConflict
 Run-Setup -CliDir $cliDir
 Run-Autostart
 Write-SparkLog "Done."
