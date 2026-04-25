@@ -55,12 +55,20 @@
       "command": "spark status"
     },
     {
-      "label": "Start Telegram gateway",
-      "command": "spark start spark-telegram-bot"
+      "label": "Check LLM provider roles",
+      "command": "spark providers status"
     },
     {
-      "label": "Start Spawner UI",
-      "command": "spark start spawner-ui"
+      "label": "Verify launch wiring",
+      "command": "spark verify"
+    },
+    {
+      "label": "Prove Builder memory wiring",
+      "command": "spark verify --deep"
+    },
+    {
+      "label": "Repair a quiet Telegram bot",
+      "command": "spark fix telegram"
     }
   ],
   "telegramSmokeTest": [
@@ -79,10 +87,13 @@
     "Use that numeric id as the admin Telegram id in spark setup."
   ],
   "llmProviderExamples": [
-    "spark setup --llm-provider zai --zai-api-key <ZAI_API_KEY>",
+    "spark setup --llm-provider codex --codex-model gpt-5.5",
+    "spark setup --llm-provider openai",
     "spark setup --llm-provider openai --openai-api-key <OPENAI_API_KEY> --openai-model gpt-5.5",
     "spark setup --llm-provider anthropic --anthropic-api-key <ANTHROPIC_API_KEY>",
-    "spark setup --llm-provider ollama --ollama-url http://localhost:11434 --ollama-model kimi-k2.5:cloud"
+    "spark setup --llm-provider zai --zai-api-key <ZAI_API_KEY>",
+    "spark setup --llm-provider ollama --ollama-url http://localhost:11434 --ollama-model <MODEL>",
+    "spark setup --chat-llm-provider openai --builder-llm-provider openai --memory-llm-provider ollama --mission-llm-provider openai"
   ],
   "telegramCommands": [
     { "command": "/start", "use": "Show the basic command surface." },

@@ -12,6 +12,7 @@ SPARK_SETUP_ARGS="${SPARK_SETUP_ARGS:-}"
 SPARK_LOCAL_REGISTRY="${SPARK_LOCAL_REGISTRY:-}"
 SPARK_NODE_PLATFORM="${SPARK_NODE_PLATFORM:-}"
 SPARK_ALLOW_DEV_SOURCE="${SPARK_ALLOW_DEV_SOURCE:-0}"
+SPARK_AUTOSTART="${SPARK_AUTOSTART:-1}"
 
 usage() {
   cat <<'EOF'
@@ -29,12 +30,13 @@ Options:
   --local-registry PATH     developer registry override; requires --allow-dev-source
   --allow-dev-source        Allow source/ref/local-registry overrides for local development
   --skip-setup              Install CLI only; do not run spark setup
+  --no-autostart            Do not install the OS login/startup hook after setup
   -h, --help                Show this help
 
 Environment mirrors these flags:
   SPARK_PREFIX, SPARK_CLI_SOURCE, SPARK_CLI_REF, SPARK_NODE_VERSION,
   SPARK_BUNDLE, SPARK_SETUP_ARGS, SPARK_LOCAL_REGISTRY, SPARK_SKIP_SETUP,
-  SPARK_NODE_PLATFORM, SPARK_ALLOW_DEV_SOURCE.
+  SPARK_NODE_PLATFORM, SPARK_ALLOW_DEV_SOURCE, SPARK_AUTOSTART.
 EOF
 }
 
@@ -59,6 +61,8 @@ while [ "$#" -gt 0 ]; do
       SPARK_ALLOW_DEV_SOURCE=1; shift ;;
     --skip-setup)
       SPARK_SKIP_SETUP=1; shift ;;
+    --no-autostart)
+      SPARK_AUTOSTART=0; shift ;;
     -h|--help)
       usage; exit 0 ;;
     *)
@@ -84,6 +88,14 @@ normalize_path() {
 import os, sys
 print(os.path.abspath(os.path.expanduser(sys.argv[1])))
 PY
+}
+
+normalize_macos_locale() {
+  if [ "$(uname -s)" != "Darwin" ]; then
+    return
+  fi
+  export LC_ALL="${LC_ALL:-en_US.UTF-8}"
+  export LANG="${LANG:-en_US.UTF-8}"
 }
 
 validate_install_settings() {
@@ -288,8 +300,37 @@ EOF
   "${spark_setup_cmd[@]}"
 }
 
+run_autostart() {
+  if [ "$SPARK_SKIP_SETUP" = "1" ]; then
+    return
+  fi
+  if [ "$SPARK_AUTOSTART" != "1" ]; then
+    log "Skipping Spark autostart"
+    cat <<EOF
+
+To start Spark manually:
+  $SPARK_PREFIX/bin/spark start $SPARK_BUNDLE
+EOF
+    return
+  fi
+
+  log "Installing Spark autostart"
+  if ! "$SPARK_PREFIX/bin/spark" autostart install "$SPARK_BUNDLE" --now; then
+    cat <<EOF
+
+Spark autostart could not be enabled automatically.
+Manual fallback for this session:
+  $SPARK_PREFIX/bin/spark start $SPARK_BUNDLE
+
+To try autostart again:
+  $SPARK_PREFIX/bin/spark autostart install --now
+EOF
+  fi
+}
+
 main() {
   need_cmd python3
+  normalize_macos_locale
   SPARK_PREFIX="$(normalize_path "$SPARK_PREFIX")"
   if [ -z "$SPARK_NODE_PLATFORM" ]; then
     SPARK_NODE_PLATFORM="$(detect_node_platform)"
@@ -303,12 +344,14 @@ main() {
   install_cli_venv
   write_wrapper
   run_setup
+  run_autostart
   log "Done."
   cat <<EOF
 
 Spark command:
   $SPARK_PREFIX/bin/spark --help
   $SPARK_PREFIX/bin/spark guide
+  $SPARK_PREFIX/bin/spark providers list
 
 To use `spark` by name in this terminal:
   source "$SPARK_PREFIX/env"
@@ -318,8 +361,14 @@ To make that permanent, add this line to your shell profile:
 
 Operational checks:
   $SPARK_PREFIX/bin/spark status
-  $SPARK_PREFIX/bin/spark start spawner-ui
-  $SPARK_PREFIX/bin/spark start spark-telegram-bot
+  $SPARK_PREFIX/bin/spark providers status
+  $SPARK_PREFIX/bin/spark verify
+  $SPARK_PREFIX/bin/spark verify --deep
+  $SPARK_PREFIX/bin/spark autostart status
+
+If Telegram is quiet or memory is not responding:
+  $SPARK_PREFIX/bin/spark fix telegram
+  $SPARK_PREFIX/bin/spark logs spark-telegram-bot
 EOF
 }
 

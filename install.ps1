@@ -7,6 +7,7 @@ param(
     [string[]]$SetupArg = @(),
     [string]$LocalRegistry = "",
     [switch]$SkipSetup,
+    [switch]$NoAutostart,
     [switch]$AllowDevSource
 )
 
@@ -159,6 +160,23 @@ set "PATH=$NodeDir;%PATH%"
     Write-SparkLog "Wrote wrapper $wrapper"
 }
 
+function Add-SparkBinToUserPath {
+    $binDir = Join-Path $Script:SparkPrefix "bin"
+    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+    $parts = @($userPath -split ";" | Where-Object { $_ -and $_.Trim() })
+    $alreadyPresent = $parts | Where-Object { $_.TrimEnd("\") -ieq $binDir.TrimEnd("\") } | Select-Object -First 1
+    if (-not $alreadyPresent) {
+        $newPath = (($binDir) + ";" + ($parts -join ";")).TrimEnd(";")
+        [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
+        $env:PATH = "$binDir;$env:PATH"
+        Write-SparkLog "Added $binDir to your user PATH"
+        Write-SparkLog "Open a new terminal before running `spark` by name."
+    } else {
+        $env:PATH = "$binDir;$env:PATH"
+        Write-SparkLog "$binDir is already on your user PATH"
+    }
+}
+
 function Run-Setup {
     param([string]$CliDir)
     if ($SkipSetup) {
@@ -180,6 +198,32 @@ function Run-Setup {
     }
 }
 
+function Run-Autostart {
+    if ($SkipSetup) {
+        return
+    }
+    $sparkCmd = Join-Path $Script:SparkPrefix "bin\spark.cmd"
+    if ($NoAutostart) {
+        Write-SparkLog "Skipping Spark autostart"
+        Write-Host ""
+        Write-Host "To start Spark manually:"
+        Write-Host "  $sparkCmd start $Bundle"
+        return
+    }
+
+    Write-SparkLog "Installing Spark autostart"
+    & $sparkCmd autostart install $Bundle --now
+    if ($LASTEXITCODE -ne 0) {
+        Write-Warning "Spark autostart could not be enabled automatically."
+        Write-Host ""
+        Write-Host "Manual fallback for this session:"
+        Write-Host "  $sparkCmd start $Bundle"
+        Write-Host ""
+        Write-Host "To try autostart again:"
+        Write-Host "  $sparkCmd autostart install --now"
+    }
+}
+
 Require-Command python
 $Script:SparkPrefix = Resolve-FullPath $Prefix
 Test-InstallSettings
@@ -190,14 +234,30 @@ Write-SparkLog "Node runtime: $(& (Join-Path $nodeDir "node.exe") -v)"
 $cliDir = Checkout-Cli
 $venvDir = Install-CliVenv -CliDir $cliDir
 Write-Wrapper -NodeDir $nodeDir -VenvDir $venvDir
+Add-SparkBinToUserPath
 Run-Setup -CliDir $cliDir
+Run-Autostart
 Write-SparkLog "Done."
 Write-Host ""
 Write-Host "Spark command:"
+Write-Host "  spark --help"
+Write-Host "  spark guide"
+Write-Host "  spark providers list"
+Write-Host ""
+Write-Host "Direct wrapper path:"
 Write-Host "  $Script:SparkPrefix\bin\spark.cmd --help"
 Write-Host "  $Script:SparkPrefix\bin\spark.cmd guide"
+Write-Host "  $Script:SparkPrefix\bin\spark.cmd providers list"
+Write-Host ""
+Write-Host "If `spark` is not found in this terminal yet, close and reopen the terminal."
 Write-Host ""
 Write-Host "Operational checks:"
-Write-Host "  $Script:SparkPrefix\bin\spark.cmd status"
-Write-Host "  $Script:SparkPrefix\bin\spark.cmd start spawner-ui"
-Write-Host "  $Script:SparkPrefix\bin\spark.cmd start spark-telegram-bot"
+Write-Host "  spark status"
+Write-Host "  spark providers status"
+Write-Host "  spark verify"
+Write-Host "  spark verify --deep"
+Write-Host "  spark autostart status"
+Write-Host ""
+Write-Host "If Telegram is quiet or memory is not responding:"
+Write-Host "  spark fix telegram"
+Write-Host "  spark logs spark-telegram-bot"

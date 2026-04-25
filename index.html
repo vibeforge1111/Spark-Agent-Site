@@ -743,10 +743,10 @@
     <h2 class="install-title">One paste. <i>And you're set.</i></h2>
     <p class="install-lead">Works on Windows, macOS, Linux, and WSL. Spark detects your machine and walks you through Telegram + LLM setup.</p>
 
-    <button type="button" class="install-option primary" data-copy-value="Set up Spark from https://agent.sparkswarm.ai/install using the official setup script for this machine. Once it's running, start with `spark guide`, then help me configure Telegram BotFather, my admin Telegram ID, and my preferred LLM provider.">
+    <button type="button" class="install-option primary" data-copy-value="Set up Spark from https://agent.sparkswarm.ai/install using the official setup script for this machine. Once it's running, start with `spark guide`, `spark providers status`, and `spark verify --deep`, then help me configure Telegram BotFather, my admin Telegram ID, and my preferred LLM providers for chat, builder, memory, and missions.">
       <span class="io-kicker">easiest way · paste into Codex, Claude, or any LLM</span>
       <span class="io-label">Let your agent set it up</span>
-      <code class="io-cmd">Set up Spark from https://agent.sparkswarm.ai/install using the official setup script for this machine. Once it's running, start with `spark guide`, then help me configure Telegram BotFather, my admin Telegram ID, and my preferred LLM provider.</code>
+      <code class="io-cmd">Set up Spark from https://agent.sparkswarm.ai/install using the official setup script for this machine. Once it's running, start with `spark guide`, `spark providers status`, and `spark verify --deep`, then help me configure Telegram BotFather, my admin Telegram ID, and my preferred LLM providers for chat, builder, memory, and missions.</code>
       <span class="io-copy">click to copy instruction</span>
     </button>
 
@@ -771,8 +771,9 @@
       <ul>
         <li><code>spark guide</code><span>open the walkthrough</span></li>
         <li><code>spark status</code><span>check health</span></li>
-        <li><code>spark start spawner-ui</code><span>open the canvas</span></li>
-        <li><code>spark start spark-telegram-bot</code><span>start the bot</span></li>
+        <li><code>spark providers status</code><span>check LLM roles</span></li>
+        <li><code>spark verify --deep</code><span>prove memory wiring</span></li>
+        <li><code>spark fix telegram</code><span>repair quiet bot</span></li>
       </ul>
     </div>
   </div>
