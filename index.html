@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=53">
+<link rel="stylesheet" href="styles.css?v=54">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -751,24 +751,30 @@
     </button>
 
     <div class="install-pick compact">
-      <button type="button" class="install-option" data-copy-value='irm https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; powershell -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1"'>
+      <button type="button" class="install-option" data-copy-value='irm https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1"'>
         <span class="io-label">I'm on Windows</span>
         <span class="io-hint">PowerShell one-liner</span>
-        <code class="io-cmd">irm https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; powershell -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1"</code>
+        <code class="io-cmd">irm https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1"</code>
         <span class="io-copy">click to copy</span>
       </button>
 
-      <button type="button" class="install-option" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh && less ./spark-install.sh && bash ./spark-install.sh">
+      <button type="button" class="install-option" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh && chmod +x ./spark-install.sh && ./spark-install.sh">
         <span class="io-label">I'm on Mac / Linux</span>
-        <span class="io-hint">download, inspect, run</span>
-        <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh &amp;&amp; less ./spark-install.sh &amp;&amp; bash ./spark-install.sh</code>
+        <span class="io-hint">download and run</span>
+        <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh &amp;&amp; chmod +x ./spark-install.sh &amp;&amp; ./spark-install.sh</code>
         <span class="io-copy">click to copy</span>
       </button>
     </div>
 
-    <p class="install-after">
-      Once it's running, try <code>spark guide</code> for the walkthrough. Then <code>spark status</code>, <code>spark start spawner-ui</code>, or <code>spark start spark-telegram-bot</code>.
-    </p>
+    <div class="install-after">
+      <p class="ia-k">Once it's running</p>
+      <ul>
+        <li><code>spark guide</code><span>open the walkthrough</span></li>
+        <li><code>spark status</code><span>check health</span></li>
+        <li><code>spark start spawner-ui</code><span>open the canvas</span></li>
+        <li><code>spark start spark-telegram-bot</code><span>start the bot</span></li>
+      </ul>
+    </div>
   </div>
 </section>
 
