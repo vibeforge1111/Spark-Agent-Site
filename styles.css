@@ -2461,7 +2461,8 @@ body {
 
 .install-option.primary .io-cmd {
   word-break: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  hyphens: none;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -2542,27 +2543,6 @@ body {
   .foot-legal { padding-left: 0; border-left: none; }
   .hero-title { font-size: clamp(22px, 6vw, 28px); }
   .subdomain-switcher { display: none; }
-  .install-pick { margin-inline: 14px; gap: 12px; }
-  .install-option { padding: 20px 18px 16px; }
-  .install-option .io-label { font-size: 18px; }
-  .install-option .io-cmd { font-size: 11.5px; padding: 9px 10px; }
-  .install-option.primary {
-    margin-inline: 14px;
-    padding: 22px 20px 18px;
-  }
-  .install-option.primary .io-label { font-size: 20px; }
-  .install-option.primary .io-cmd { font-size: 12px; }
-  .install-pick.compact .install-option .io-label { font-size: 15px; }
-  .install-pick.compact .install-option .io-cmd { font-size: 10.5px; }
-
-  .install-after { margin-inline: 14px; }
-  .install-after li {
-    grid-template-columns: 1fr;
-    gap: 4px;
-    padding: 10px 12px;
-  }
-  .install-after li span { white-space: normal; font-size: 10.5px; }
-  .install-after code { font-size: 11.5px; }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -2679,6 +2659,47 @@ body {
   .foot-row { gap: 16px; }
   .foot-nav, .foot-legal { gap: 14px; font-size: 11px; }
   .foot-bottom { font-size: 10px; }
+}
+
+/* INSTALL · mobile polish (kept late in the file so it wins over
+   .section padding resets from the generic @960 / @720 mobile passes) */
+@media (max-width: 600px) {
+  /* Unify the inner wrapper's side padding so title, lead, boxes,
+     and after-list all share one consistent left/right edge */
+  .install { padding-inline: 0; }
+  .install-inner { padding-inline: 18px; }
+  .install-title { margin-bottom: 18px; }
+  .install-lead { font-size: 14px; line-height: 1.55; margin: -6px auto 22px; }
+
+  .install-pick { gap: 10px; }
+  .install-option { padding: 20px 18px 16px; }
+  .install-option .io-label { font-size: 18px; }
+  .install-option .io-cmd { font-size: 11.5px; padding: 9px 10px; }
+  .install-option.primary { padding: 22px 20px 18px; margin-bottom: 16px; }
+  .install-option.primary .io-label { font-size: 20px; }
+  .install-option.primary .io-cmd { font-size: 12px; }
+  .install-pick.compact { gap: 10px; }
+  .install-pick.compact .install-option { padding: 14px 16px 12px; }
+  .install-pick.compact .install-option .io-label { font-size: 15px; }
+  .install-pick.compact .install-option .io-cmd { font-size: 10.5px; }
+
+  /* INSTALL-AFTER · drop the per-item cards, render as a tight chip row */
+  .install-after { margin-top: 16px; }
+  .install-after .ia-k { margin-bottom: 8px; }
+  .install-after ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+  .install-after li {
+    display: inline-flex;
+    grid-template-columns: none;
+    padding: 6px 10px;
+    gap: 8px;
+  }
+  .install-after li span { display: none; }
+  .install-after code { font-size: 11px; }
 }
 
 @media (max-width: 420px) {
