@@ -241,6 +241,7 @@ install_cli_venv() {
 write_wrapper() {
   local bin_dir="$SPARK_PREFIX/bin"
   local wrapper="$bin_dir/spark"
+  local env_file="$SPARK_PREFIX/env"
   mkdir -p "$bin_dir"
   cat > "$wrapper" <<EOF
 #!/usr/bin/env bash
@@ -249,7 +250,12 @@ export PATH="$SPARK_PREFIX/tools/node-v$SPARK_NODE_VERSION-$SPARK_NODE_PLATFORM/
 exec "$SPARK_PREFIX/tools/spark-cli-venv/bin/python" -m spark_cli.cli "\$@"
 EOF
   chmod +x "$wrapper"
+  cat > "$env_file" <<EOF
+export SPARK_HOME="$SPARK_PREFIX"
+export PATH="$SPARK_PREFIX/bin:$SPARK_PREFIX/tools/node-v$SPARK_NODE_VERSION-$SPARK_NODE_PLATFORM/bin:\$PATH"
+EOF
   log "Wrote wrapper $wrapper"
+  log "Wrote shell env helper $env_file"
 }
 
 run_setup() {
@@ -303,6 +309,12 @@ main() {
 Spark command:
   $SPARK_PREFIX/bin/spark --help
   $SPARK_PREFIX/bin/spark guide
+
+To use `spark` by name in this terminal:
+  source "$SPARK_PREFIX/env"
+
+To make that permanent, add this line to your shell profile:
+  source "$SPARK_PREFIX/env"
 
 Operational checks:
   $SPARK_PREFIX/bin/spark status
