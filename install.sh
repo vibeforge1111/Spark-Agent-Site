@@ -269,13 +269,17 @@ EOF
     cp "$SPARK_LOCAL_REGISTRY" "$cli_dir/registry.json"
   fi
 
-  local setup_words=()
+  local spark_setup_cmd=("$SPARK_PREFIX/bin/spark" setup "$SPARK_BUNDLE")
   if [ -n "$SPARK_SETUP_ARGS" ]; then
     # shellcheck disable=SC2206
-    setup_words=($SPARK_SETUP_ARGS)
+    local setup_words=($SPARK_SETUP_ARGS)
+    spark_setup_cmd+=("${setup_words[@]}")
+  fi
+  if [ "${#extra_setup_args[@]}" -gt 0 ]; then
+    spark_setup_cmd+=("${extra_setup_args[@]}")
   fi
   log "Running spark setup $SPARK_BUNDLE"
-  "$SPARK_PREFIX/bin/spark" setup "$SPARK_BUNDLE" "${setup_words[@]}" "${extra_setup_args[@]}"
+  "${spark_setup_cmd[@]}"
 }
 
 main() {
