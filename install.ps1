@@ -4,6 +4,16 @@ param(
     [string]$Ref = "",
     [string]$NodeVersion = "22.18.0",
     [string]$Bundle = "telegram-starter",
+    [string]$BotToken = "",
+    [string]$AdminTelegramIds = "",
+    [string]$LlmProvider = "",
+    [string]$ZaiApiKey = "",
+    [string]$OpenAIApiKey = "",
+    [string]$AnthropicApiKey = "",
+    [switch]$NonInteractiveSetup,
+    [switch]$SetupSkipInstallCommands,
+    [switch]$SetupSkipRuntimeCheck,
+    [switch]$ManagedNode,
     [string[]]$SetupArg = @(),
     [string]$LocalRegistry = "",
     [switch]$SkipSetup,
@@ -34,6 +44,14 @@ function Require-Command {
     }
 }
 
+function Get-MajorVersion {
+    param([string]$VersionText)
+    if ($VersionText -match '(\d+)') {
+        return [int]$Matches[1]
+    }
+    return $null
+}
+
 function Test-InstallSettings {
     $canonicalSource = "https://github.com/vibeforge1111/spark-cli"
     if ([string]::IsNullOrWhiteSpace($Script:SparkPrefix)) {
@@ -61,7 +79,33 @@ function Test-InstallSettings {
     }
 }
 
+function Find-SystemNodeDir {
+    if ($ManagedNode) {
+        return $null
+    }
+    $nodeCommand = Get-Command node -ErrorAction SilentlyContinue
+    $npmCommand = Get-Command npm -ErrorAction SilentlyContinue
+    if (-not $nodeCommand -or -not $npmCommand) {
+        return $null
+    }
+    $requiredMajor = Get-MajorVersion $NodeVersion
+    $actualVersion = (& $nodeCommand.Source -v 2>$null)
+    $actualMajor = Get-MajorVersion $actualVersion
+    if ($null -eq $requiredMajor -or $null -eq $actualMajor -or $actualMajor -lt $requiredMajor) {
+        return $null
+    }
+    $nodeDir = Split-Path -Parent $nodeCommand.Source
+    Write-SparkLog "Using system Node $actualVersion at $nodeDir"
+    Write-SparkLog "Use -ManagedNode to force Spark's verified managed Node download."
+    return $nodeDir
+}
+
 function Install-Node {
+    $systemNodeDir = Find-SystemNodeDir
+    if ($systemNodeDir) {
+        return $systemNodeDir
+    }
+
     $toolsDir = Join-Path $Script:SparkPrefix "tools"
     $nodeDir = Join-Path $toolsDir "node-v$NodeVersion-win-x64"
     $nodeExe = Join-Path $nodeDir "node.exe"
@@ -79,6 +123,7 @@ function Install-Node {
     Invoke-WebRequest -Uri $url -OutFile $archive
     Invoke-WebRequest -Uri $shasumsUrl -OutFile $shasums
     Test-NodeArchiveHash -Archive $archive -Shasums $shasums
+    Write-SparkLog "Extracting Node $NodeVersion"
     Expand-Archive -Path $archive -DestinationPath $toolsDir -Force
     return $nodeDir
 }
@@ -139,7 +184,9 @@ function Install-CliVenv {
     $venvDir = Join-Path $Script:SparkPrefix "tools\spark-cli-venv"
     Write-SparkLog "Creating Spark CLI virtualenv"
     python -m venv $venvDir
+    Write-SparkLog "Upgrading pip in Spark CLI virtualenv"
     & (Join-Path $venvDir "Scripts\python.exe") -m pip install --upgrade pip | Out-Null
+    Write-SparkLog "Installing Spark CLI package"
     & (Join-Path $venvDir "Scripts\python.exe") -m pip install -e $CliDir | Out-Null
     return $venvDir
 }
@@ -162,6 +209,12 @@ set "PATH=$NodeDir;%PATH%"
 
 function Add-SparkBinToUserPath {
     $binDir = Join-Path $Script:SparkPrefix "bin"
+    $tempRoot = Resolve-FullPath $env:TEMP
+    if ($Script:SparkPrefix.StartsWith($tempRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $env:PATH = "$binDir;$env:PATH"
+        Write-SparkLog "Skipping persistent PATH update for temporary install prefix $Script:SparkPrefix"
+        return
+    }
     $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
     $parts = @($userPath -split ";" | Where-Object { $_ -and $_.Trim() })
     $alreadyPresent = $parts | Where-Object { $_.TrimEnd("\") -ieq $binDir.TrimEnd("\") } | Select-Object -First 1
@@ -213,8 +266,19 @@ function Run-Setup {
         Copy-Item -LiteralPath $LocalRegistry -Destination (Join-Path $CliDir "registry.json") -Force
     }
     $sparkCmd = Join-Path $Script:SparkPrefix "bin\spark.cmd"
+    $setupArgs = @()
+    if ($NonInteractiveSetup) { $setupArgs += "--non-interactive" }
+    if ($SetupSkipInstallCommands) { $setupArgs += "--skip-install-commands" }
+    if ($SetupSkipRuntimeCheck) { $setupArgs += "--skip-runtime-check" }
+    if ($BotToken) { $setupArgs += @("--bot-token", $BotToken) }
+    if ($AdminTelegramIds) { $setupArgs += @("--admin-telegram-ids", $AdminTelegramIds) }
+    if ($LlmProvider) { $setupArgs += @("--llm-provider", $LlmProvider) }
+    if ($ZaiApiKey) { $setupArgs += @("--zai-api-key", $ZaiApiKey) }
+    if ($OpenAIApiKey) { $setupArgs += @("--openai-api-key", $OpenAIApiKey) }
+    if ($AnthropicApiKey) { $setupArgs += @("--anthropic-api-key", $AnthropicApiKey) }
+    $setupArgs += $SetupArg
     Write-SparkLog "Running spark setup $Bundle"
-    & $sparkCmd setup $Bundle @SetupArg
+    & $sparkCmd setup $Bundle @setupArgs
     if ($LASTEXITCODE -ne 0) {
         throw "spark setup failed with exit code $LASTEXITCODE"
     }
@@ -278,7 +342,6 @@ Write-Host "Operational checks:"
 Write-Host "  spark status"
 Write-Host "  spark providers status"
 Write-Host "  spark verify"
-Write-Host "  spark verify --deep"
 Write-Host "  spark autostart status"
 Write-Host ""
 Write-Host "If Telegram is quiet or memory is not responding:"

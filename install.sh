@@ -2,17 +2,28 @@
 set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
-SPARK_CANONICAL_CLI_SOURCE="https://github.com/vibeforge1111/spark-cli"
-SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-$SPARK_CANONICAL_CLI_SOURCE}"
+SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
 SPARK_CLI_REF="${SPARK_CLI_REF:-}"
 SPARK_NODE_VERSION="${SPARK_NODE_VERSION:-22.18.0}"
 SPARK_SKIP_SETUP="${SPARK_SKIP_SETUP:-0}"
+SPARK_AUTOSTART="${SPARK_AUTOSTART:-1}"
 SPARK_BUNDLE="${SPARK_BUNDLE:-telegram-starter}"
 SPARK_SETUP_ARGS="${SPARK_SETUP_ARGS:-}"
 SPARK_LOCAL_REGISTRY="${SPARK_LOCAL_REGISTRY:-}"
 SPARK_NODE_PLATFORM="${SPARK_NODE_PLATFORM:-}"
+SPARK_MANAGED_NODE="${SPARK_MANAGED_NODE:-0}"
+SPARK_BOT_TOKEN="${SPARK_BOT_TOKEN:-}"
+SPARK_ADMIN_TELEGRAM_IDS="${SPARK_ADMIN_TELEGRAM_IDS:-}"
+SPARK_LLM_PROVIDER="${SPARK_LLM_PROVIDER:-}"
+SPARK_ZAI_API_KEY="${SPARK_ZAI_API_KEY:-}"
+SPARK_OPENAI_API_KEY="${SPARK_OPENAI_API_KEY:-}"
+SPARK_ANTHROPIC_API_KEY="${SPARK_ANTHROPIC_API_KEY:-}"
+SPARK_NON_INTERACTIVE_SETUP="${SPARK_NON_INTERACTIVE_SETUP:-0}"
+SPARK_SETUP_SKIP_INSTALL_COMMANDS="${SPARK_SETUP_SKIP_INSTALL_COMMANDS:-0}"
+SPARK_SETUP_SKIP_RUNTIME_CHECK="${SPARK_SETUP_SKIP_RUNTIME_CHECK:-0}"
+SPARK_NODE_BIN_DIR=""
+SPARK_CANONICAL_CLI_SOURCE="https://github.com/vibeforge1111/spark-cli"
 SPARK_ALLOW_DEV_SOURCE="${SPARK_ALLOW_DEV_SOURCE:-0}"
-SPARK_AUTOSTART="${SPARK_AUTOSTART:-1}"
 
 usage() {
   cat <<'EOF'
@@ -25,18 +36,35 @@ Options:
   --source URL_OR_PATH      developer override for spark-cli source; requires --allow-dev-source
   --ref REF                 developer override for git ref; requires --allow-dev-source
   --node-version VERSION    Managed Node version (default: 22.18.0)
+  --managed-node            Force Spark's verified managed Node download even if system Node is good
   --bundle NAME             Bundle for setup (default: telegram-starter)
+  --bot-token TOKEN         Telegram BotFather token passed to setup
+  --admin-telegram-ids IDS  Comma-separated Telegram admin IDs passed to setup
+  --llm-provider PROVIDER   Provider passed to setup: openai, codex, anthropic, zai, or ollama
+  --zai-api-key KEY         Z.AI / GLM API key passed to setup
+  --openai-api-key KEY      OpenAI API key passed to setup
+  --anthropic-api-key KEY   Anthropic API key passed to setup
+  --non-interactive-setup   Pass --non-interactive to setup
+  --setup-skip-install-commands
+                            Pass --skip-install-commands to setup
+  --setup-skip-runtime-check
+                            Pass --skip-runtime-check to setup
   --setup-arg ARG           Extra arg passed to `spark setup`; repeatable
   --local-registry PATH     developer registry override; requires --allow-dev-source
   --allow-dev-source        Allow source/ref/local-registry overrides for local development
   --skip-setup              Install CLI only; do not run spark setup
-  --no-autostart            Do not install the OS login/startup hook after setup
+  --no-autostart            Do not install the login autostart hook after setup
   -h, --help                Show this help
 
 Environment mirrors these flags:
   SPARK_PREFIX, SPARK_CLI_SOURCE, SPARK_CLI_REF, SPARK_NODE_VERSION,
   SPARK_BUNDLE, SPARK_SETUP_ARGS, SPARK_LOCAL_REGISTRY, SPARK_SKIP_SETUP,
-  SPARK_NODE_PLATFORM, SPARK_ALLOW_DEV_SOURCE, SPARK_AUTOSTART.
+  SPARK_AUTOSTART, SPARK_ALLOW_DEV_SOURCE, SPARK_MANAGED_NODE,
+  SPARK_BOT_TOKEN, SPARK_ADMIN_TELEGRAM_IDS, SPARK_LLM_PROVIDER,
+  SPARK_ZAI_API_KEY, SPARK_OPENAI_API_KEY, SPARK_ANTHROPIC_API_KEY,
+  SPARK_NON_INTERACTIVE_SETUP, SPARK_SETUP_SKIP_INSTALL_COMMANDS,
+  SPARK_SETUP_SKIP_RUNTIME_CHECK,
+  SPARK_NODE_PLATFORM.
 EOF
 }
 
@@ -51,8 +79,28 @@ while [ "$#" -gt 0 ]; do
       SPARK_CLI_REF="$2"; shift 2 ;;
     --node-version)
       SPARK_NODE_VERSION="$2"; shift 2 ;;
+    --managed-node)
+      SPARK_MANAGED_NODE=1; shift ;;
     --bundle)
       SPARK_BUNDLE="$2"; shift 2 ;;
+    --bot-token)
+      SPARK_BOT_TOKEN="$2"; shift 2 ;;
+    --admin-telegram-ids)
+      SPARK_ADMIN_TELEGRAM_IDS="$2"; shift 2 ;;
+    --llm-provider)
+      SPARK_LLM_PROVIDER="$2"; shift 2 ;;
+    --zai-api-key)
+      SPARK_ZAI_API_KEY="$2"; shift 2 ;;
+    --openai-api-key)
+      SPARK_OPENAI_API_KEY="$2"; shift 2 ;;
+    --anthropic-api-key)
+      SPARK_ANTHROPIC_API_KEY="$2"; shift 2 ;;
+    --non-interactive-setup)
+      SPARK_NON_INTERACTIVE_SETUP=1; shift ;;
+    --setup-skip-install-commands)
+      SPARK_SETUP_SKIP_INSTALL_COMMANDS=1; shift ;;
+    --setup-skip-runtime-check)
+      SPARK_SETUP_SKIP_RUNTIME_CHECK=1; shift ;;
     --setup-arg)
       extra_setup_args+=("$2"); shift 2 ;;
     --local-registry)
@@ -83,19 +131,26 @@ log() {
   printf '[spark-install] %s\n' "$*"
 }
 
+normalize_macos_locale() {
+  if [ "$(uname -s)" != "Darwin" ]; then
+    return
+  fi
+  if [ "${LC_ALL:-}" = "C.UTF-8" ]; then
+    export LC_ALL="en_US.UTF-8"
+  fi
+  if [ "${LC_CTYPE:-}" = "C.UTF-8" ]; then
+    export LC_CTYPE="en_US.UTF-8"
+  fi
+  if [ "${LANG:-}" = "C.UTF-8" ]; then
+    export LANG="en_US.UTF-8"
+  fi
+}
+
 normalize_path() {
   python3 - "$1" <<'PY'
 import os, sys
 print(os.path.abspath(os.path.expanduser(sys.argv[1])))
 PY
-}
-
-normalize_macos_locale() {
-  if [ "$(uname -s)" != "Darwin" ]; then
-    return
-  fi
-  export LC_ALL="${LC_ALL:-en_US.UTF-8}"
-  export LANG="${LANG:-en_US.UTF-8}"
 }
 
 validate_install_settings() {
@@ -168,8 +223,23 @@ detect_node_platform() {
 }
 
 install_node() {
+  local required_major actual_version actual_major
+  if [ "$SPARK_MANAGED_NODE" != "1" ] && command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
+    required_major="${SPARK_NODE_VERSION%%.*}"
+    actual_version="$(node -v 2>/dev/null || true)"
+    actual_major="${actual_version#v}"
+    actual_major="${actual_major%%.*}"
+    if [ -n "$actual_major" ] && [ "$actual_major" -ge "$required_major" ] 2>/dev/null; then
+      SPARK_NODE_BIN_DIR="$(dirname "$(command -v node)")"
+      log "Using system Node $actual_version at $SPARK_NODE_BIN_DIR"
+      log "Use --managed-node to force Spark's verified managed Node download."
+      return
+    fi
+  fi
+
   local tools_dir="$SPARK_PREFIX/tools"
   local node_dir="$tools_dir/node-v$SPARK_NODE_VERSION-$SPARK_NODE_PLATFORM"
+  SPARK_NODE_BIN_DIR="$node_dir/bin"
   if [ -x "$node_dir/bin/node" ]; then
     log "Node $SPARK_NODE_VERSION already installed at $node_dir"
     return
@@ -246,7 +316,9 @@ install_cli_venv() {
   local venv_dir="$SPARK_PREFIX/tools/spark-cli-venv"
   log "Creating Spark CLI virtualenv"
   python3 -m venv "$venv_dir"
+  log "Upgrading pip in Spark CLI virtualenv"
   "$venv_dir/bin/python" -m pip install --upgrade pip >/dev/null
+  log "Installing Spark CLI package"
   "$venv_dir/bin/python" -m pip install -e "$cli_dir"
 }
 
@@ -258,13 +330,13 @@ write_wrapper() {
   cat > "$wrapper" <<EOF
 #!/usr/bin/env bash
 export SPARK_HOME="$SPARK_PREFIX"
-export PATH="$SPARK_PREFIX/tools/node-v$SPARK_NODE_VERSION-$SPARK_NODE_PLATFORM/bin:\$PATH"
+export PATH="$SPARK_NODE_BIN_DIR:\$PATH"
 exec "$SPARK_PREFIX/tools/spark-cli-venv/bin/python" -m spark_cli.cli "\$@"
 EOF
   chmod +x "$wrapper"
   cat > "$env_file" <<EOF
 export SPARK_HOME="$SPARK_PREFIX"
-export PATH="$SPARK_PREFIX/bin:$SPARK_PREFIX/tools/node-v$SPARK_NODE_VERSION-$SPARK_NODE_PLATFORM/bin:\$PATH"
+export PATH="$SPARK_PREFIX/bin:$SPARK_NODE_BIN_DIR:\$PATH"
 EOF
   log "Wrote wrapper $wrapper"
   log "Wrote shell env helper $env_file"
@@ -288,6 +360,33 @@ EOF
   fi
 
   local spark_setup_cmd=("$SPARK_PREFIX/bin/spark" setup "$SPARK_BUNDLE")
+  if [ "$SPARK_NON_INTERACTIVE_SETUP" = "1" ]; then
+    spark_setup_cmd+=("--non-interactive")
+  fi
+  if [ "$SPARK_SETUP_SKIP_INSTALL_COMMANDS" = "1" ]; then
+    spark_setup_cmd+=("--skip-install-commands")
+  fi
+  if [ "$SPARK_SETUP_SKIP_RUNTIME_CHECK" = "1" ]; then
+    spark_setup_cmd+=("--skip-runtime-check")
+  fi
+  if [ -n "$SPARK_BOT_TOKEN" ]; then
+    spark_setup_cmd+=("--bot-token" "$SPARK_BOT_TOKEN")
+  fi
+  if [ -n "$SPARK_ADMIN_TELEGRAM_IDS" ]; then
+    spark_setup_cmd+=("--admin-telegram-ids" "$SPARK_ADMIN_TELEGRAM_IDS")
+  fi
+  if [ -n "$SPARK_LLM_PROVIDER" ]; then
+    spark_setup_cmd+=("--llm-provider" "$SPARK_LLM_PROVIDER")
+  fi
+  if [ -n "$SPARK_ZAI_API_KEY" ]; then
+    spark_setup_cmd+=("--zai-api-key" "$SPARK_ZAI_API_KEY")
+  fi
+  if [ -n "$SPARK_OPENAI_API_KEY" ]; then
+    spark_setup_cmd+=("--openai-api-key" "$SPARK_OPENAI_API_KEY")
+  fi
+  if [ -n "$SPARK_ANTHROPIC_API_KEY" ]; then
+    spark_setup_cmd+=("--anthropic-api-key" "$SPARK_ANTHROPIC_API_KEY")
+  fi
   if [ -n "$SPARK_SETUP_ARGS" ]; then
     # shellcheck disable=SC2206
     local setup_words=($SPARK_SETUP_ARGS)
@@ -338,7 +437,7 @@ main() {
   validate_install_settings
   mkdir -p "$SPARK_PREFIX"
   install_node
-  export PATH="$SPARK_PREFIX/tools/node-v$SPARK_NODE_VERSION-$SPARK_NODE_PLATFORM/bin:$PATH"
+  export PATH="$SPARK_NODE_BIN_DIR:$PATH"
   log "Node runtime: $(node -v)"
   checkout_cli
   install_cli_venv
@@ -353,7 +452,7 @@ Spark command:
   $SPARK_PREFIX/bin/spark guide
   $SPARK_PREFIX/bin/spark providers list
 
-To use `spark` by name in this terminal:
+To use \`spark\` by name in this terminal:
   source "$SPARK_PREFIX/env"
 
 To make that permanent, add this line to your shell profile:
@@ -363,7 +462,6 @@ Operational checks:
   $SPARK_PREFIX/bin/spark status
   $SPARK_PREFIX/bin/spark providers status
   $SPARK_PREFIX/bin/spark verify
-  $SPARK_PREFIX/bin/spark verify --deep
   $SPARK_PREFIX/bin/spark autostart status
 
 If Telegram is quiet or memory is not responding:
