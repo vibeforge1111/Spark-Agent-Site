@@ -107,6 +107,12 @@ html, body {
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; background: none; border: none; color: inherit; cursor: pointer; }
 img, svg { display: block; max-width: 100%; }
+.svg-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
 
 /* ══════════════════════════════════════════════════════════════
    GLOBAL DECOR: grain + particles
@@ -682,6 +688,9 @@ body {
   gap: 14px;
 }
 .mastery { display: flex; flex-direction: column; gap: 6px; }
+.mastery-fill-78 { --fill: 78%; }
+.mastery-fill-62 { --fill: 62%; }
+.mastery-fill-54 { --fill: 54%; }
 .m-row {
   display: flex; justify-content: space-between; align-items: baseline;
   gap: 10px;
@@ -1071,6 +1080,11 @@ body {
   cursor: grab;
   box-shadow: 0 8px 24px -8px rgba(0,0,0,0.35);
 }
+.board-node-input { left: 6%; top: 24%; }
+.board-node-memory { left: 32%; top: 8%; }
+.board-node-brain { left: 32%; top: 54%; }
+.board-node-chip { left: 60%; top: 14%; }
+.board-node-output { left: 74%; top: 52%; }
 .board-node.dragging { cursor: grabbing; z-index: 3; }
 .board-node:hover {
   border-color: var(--accent);

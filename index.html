@@ -94,7 +94,7 @@
 <body>
 
 <!-- ═══ SPARK BRAND · mark + wordmark symbols · per branding guidelines v1.1 ═══ -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<svg class="svg-sprite" width="0" height="0" aria-hidden="true">
   <defs>
     <symbol id="spark-mark" viewBox="0 0 264 113" overflow="visible">
       <path fill="currentColor" d="M 189.07,0.85 c -24.30,4.40 -39.50,14.70 -80.50,54.50 -35.20,34.20 -37.30,35.90 -49.80,39.70 -18.40,5.60 -39.10,-3.20 -47.40,-20.00 -6.50,-13.20 -2.60,-32.50 8.40,-42.10 8.70,-7.70 14.10,-9.60 27.30,-9.60 14.70,-0.00 19.40,2.10 37.40,16.50 12.80,10.30 12.80,10.30 15.40,7.60 2.70,-2.70 2.70,-2.70 -1.30,-6.20 -25.20,-21.90 -34.30,-26.70 -51.00,-26.80 -14.70,-0.00 -25.70,4.60 -35.00,14.60 -30.70,33.20 -0.90,83.40 44.40,74.80 14.00,-2.60 23.60,-9.70 54.30,-39.80 46.80,-46.00 63.70,-56.20 92.80,-56.30 61.20,-0.10 73.10,80.10 14.20,95.20 -24.00,6.10 -50.20,-3.00 -81.40,-28.30 -10.10,-8.20 -11.30,-8.60 -14.60,-4.50 -2.70,3.30 25.80,25.10 43.30,33.20 31.90,14.80 63.10,11.80 82.90,-8.00 31.20,-31.20 15.80,-83.80 -27.50,-94.00 -6.80,-1.60 -24.10,-1.80 -31.90,-0.50 z"/>
@@ -203,17 +203,17 @@
           <span class="spec-section-hint">benchmark-graded</span>
         </div>
         <ul class="spec-masteries">
-          <li class="mastery" style="--fill:78%">
+          <li class="mastery mastery-fill-78">
             <div class="m-row"><span class="m-name">/xcontent-virality</span><span class="m-ver">v3.2 <em>↑0.4</em></span></div>
             <div class="m-bar"><span class="m-fill"></span></div>
             <div class="m-meta"><span>47 evals passed</span><span class="m-sv">benchmark-verified</span></div>
           </li>
-          <li class="mastery" style="--fill:62%">
+          <li class="mastery mastery-fill-62">
             <div class="m-row"><span class="m-name">/security-audits</span><span class="m-ver">v2.7 <em>↑0.2</em></span></div>
             <div class="m-bar"><span class="m-fill"></span></div>
             <div class="m-meta"><span>31 evals passed</span><span class="m-sv">benchmark-verified</span></div>
           </li>
-          <li class="mastery" style="--fill:54%">
+          <li class="mastery mastery-fill-54">
             <div class="m-row"><span class="m-name">/code-refactor</span><span class="m-ver">v2.4 <em>↑0.3</em></span></div>
             <div class="m-bar"><span class="m-fill"></span></div>
             <div class="m-meta"><span>22 evals passed</span><span class="m-sv">local</span></div>
@@ -304,7 +304,7 @@
   <div class="board-stage" id="board-stage">
     <svg class="board-cables" id="board-cables" aria-hidden="true"></svg>
 
-    <div class="board-node" data-node="input"   style="left:6%;top:24%">
+    <div class="board-node board-node-input" data-node="input">
       <div class="node-chrome"><span>IN</span><i>input</i></div>
       <div class="node-body">
         <div class="node-title">User message</div>
@@ -313,7 +313,7 @@
       <span class="port port-out" data-port="input:out"></span>
     </div>
 
-    <div class="board-node" data-node="memory"  style="left:32%;top:8%">
+    <div class="board-node board-node-memory" data-node="memory">
       <div class="node-chrome"><span>MEM</span><i>recall</i></div>
       <div class="node-body">
         <div class="node-title">Memory recall</div>
@@ -323,7 +323,7 @@
       <span class="port port-out" data-port="memory:out"></span>
     </div>
 
-    <div class="board-node glow" data-node="brain" style="left:32%;top:54%">
+    <div class="board-node board-node-brain glow" data-node="brain">
       <div class="node-chrome accent"><span>LLM</span><i>claude 4.7</i></div>
       <div class="node-body">
         <div class="node-title">Reason + score</div>
@@ -333,7 +333,7 @@
       <span class="port port-out" data-port="brain:out"></span>
     </div>
 
-    <div class="board-node" data-node="chip"    style="left:60%;top:14%">
+    <div class="board-node board-node-chip" data-node="chip">
       <div class="node-chrome iris"><span>CHIP</span><i>domain · xcontent</i></div>
       <div class="node-body">
         <div class="node-title">Domain chip</div>
@@ -343,7 +343,7 @@
       <span class="port port-out" data-port="chip:out"></span>
     </div>
 
-    <div class="board-node" data-node="output"  style="left:74%;top:52%">
+    <div class="board-node board-node-output" data-node="output">
       <div class="node-chrome"><span>OUT</span><i>deliver</i></div>
       <div class="node-body">
         <div class="node-title">Send reply</div>
