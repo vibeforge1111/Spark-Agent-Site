@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "2e383fbe8c544b6a25a81c5e8768a7aa26a39bec",
+    [string]$Ref = "bcd5b03e973ccf7087adae5742a9bf6f08085db0",
     [string]$NodeVersion = "22.18.0",
     [string]$Bundle = "telegram-starter",
     [string]$BotToken = "",
@@ -10,6 +10,7 @@ param(
     [string]$ZaiApiKey = "",
     [string]$OpenAIApiKey = "",
     [string]$AnthropicApiKey = "",
+    [string]$MiniMaxApiKey = "",
     [switch]$NonInteractiveSetup,
     [switch]$SetupSkipInstallCommands,
     [switch]$SetupSkipRuntimeCheck,
@@ -22,7 +23,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$CanonicalSparkCliRef = "2e383fbe8c544b6a25a81c5e8768a7aa26a39bec"
+$CanonicalSparkCliRef = "bcd5b03e973ccf7087adae5742a9bf6f08085db0"
 
 function Write-SparkLog {
     param([string]$Message)
@@ -294,6 +295,7 @@ function Run-Setup {
     if ($ZaiApiKey) { $setupArgs += @("--zai-api-key", $ZaiApiKey) }
     if ($OpenAIApiKey) { $setupArgs += @("--openai-api-key", $OpenAIApiKey) }
     if ($AnthropicApiKey) { $setupArgs += @("--anthropic-api-key", $AnthropicApiKey) }
+    if ($MiniMaxApiKey) { $setupArgs += @("--minimax-api-key", $MiniMaxApiKey) }
     $setupArgs += $SetupArg
     Write-SparkLog "Running spark setup $Bundle"
     & $sparkCmd setup $Bundle @setupArgs
@@ -359,8 +361,15 @@ Write-Host ""
 Write-Host "Operational checks:"
 Write-Host "  spark status"
 Write-Host "  spark providers status"
-Write-Host "  spark verify"
+Write-Host "  spark verify --onboarding"
 Write-Host "  spark autostart status"
+Write-Host ""
+Write-Host "Finish in Telegram:"
+Write-Host "  1. Open your Spark bot and send /start"
+Write-Host "  2. Pick an access level when Spark asks. Most people should use /access 3"
+Write-Host "  3. Send /diagnose"
+Write-Host "  4. Try memory: /remember I like concise warm replies"
+Write-Host "  5. Try a tiny build: /run say exactly OK"
 Write-Host ""
 Write-Host "If Telegram is quiet or memory is not responding:"
 Write-Host "  spark fix telegram"
