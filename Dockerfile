@@ -17,6 +17,7 @@ COPY legal.css     /usr/share/nginx/html/legal.css
 COPY install.sh    /usr/share/nginx/html/install.sh
 COPY install.ps1   /usr/share/nginx/html/install.ps1
 COPY install       /usr/share/nginx/html/install
+COPY docs          /usr/share/nginx/html/docs
 COPY vendor       /usr/share/nginx/html/vendor
 
 EXPOSE 8080

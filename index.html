@@ -77,7 +77,7 @@
       "sameAs": [
         "https://github.com/vibeforge1111",
         "https://x.com/sparkswarm",
-        "https://docs.sparkswarm.ai"
+        "https://agent.sparkswarm.ai/docs"
       ]
     },
     {
@@ -133,7 +133,7 @@
         <a href="https://eco.sparkswarm.ai">eco<span>ecosystem map</span></a>
         <a href="https://agent.sparkswarm.ai" class="is-active">agent<span>the runtime</span></a>
         <a href="https://skills.sparkswarm.ai">skills<span>H70 corpus</span></a>
-        <a href="https://docs.sparkswarm.ai">docs<span>reference</span></a>
+        <a href="/docs">docs<span>knowledgebase</span></a>
       </div>
     </div>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">◐</button>
@@ -743,25 +743,25 @@
     <h2 class="install-title">One paste. <i>And you're set.</i></h2>
     <p class="install-lead">Works on Windows, macOS, Linux, and WSL. Spark detects your machine and walks you through Telegram + LLM setup.</p>
 
-    <button type="button" class="install-option primary" data-copy-value="Set up Spark from https://agent.sparkswarm.ai/install using the official setup script for this machine. Once it's running, start with `spark guide`, `spark providers status`, and `spark verify --deep`, then help me configure Telegram BotFather, my admin Telegram ID, and my preferred LLM providers for chat, builder, memory, and missions.">
+    <button type="button" class="install-option primary" data-copy-value="Set up Spark from https://agent.sparkswarm.ai/install using the official setup script for this machine. Download the installer over HTTPS, show me the script contents and SHA-256 checksum first, and ask for confirmation before executing it. Once it's running, start with `spark guide`, `spark providers status`, and `spark verify --deep`, then help me configure Telegram BotFather, my admin Telegram ID, and my preferred LLM providers for chat, builder, memory, and missions.">
       <span class="io-kicker">easiest way · paste into Codex, Claude, or any LLM</span>
       <span class="io-label">Let your agent set it up</span>
-      <code class="io-cmd">Set up Spark from https://agent.sparkswarm.ai/install using the official setup script for this machine. Once it's running, start with `spark guide`, `spark providers status`, and `spark verify --deep`, then help me configure Telegram BotFather, my admin Telegram ID, and my preferred LLM providers for chat, builder, memory, and missions.</code>
+      <code class="io-cmd">Set up Spark from https://agent.sparkswarm.ai/install using the official setup script for this machine. Download the installer over HTTPS, show me the script contents and SHA-256 checksum first, and ask for confirmation before executing it. Once it's running, start with `spark guide`, `spark providers status`, and `spark verify --deep`, then help me configure Telegram BotFather, my admin Telegram ID, and my preferred LLM providers for chat, builder, memory, and missions.</code>
       <span class="io-copy">click to copy instruction</span>
     </button>
 
     <div class="install-pick compact">
-      <button type="button" class="install-option" data-copy-value='irm https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1"'>
+      <button type="button" class="install-option" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; if ((Get-FileHash "$env:TEMP\spark-install.ps1" -Algorithm SHA256).Hash.ToLowerInvariant() -ne "7bd0d7500ecf308493cb6e40ae060ad80c78008dc74e9015daa5494a2307eef6") { throw "spark installer checksum mismatch" }; Get-Content "$env:TEMP\spark-install.ps1"; if ((Read-Host "Run Spark installer now? Type yes") -eq "yes") { powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1" } else { Write-Host "Skipped." }'>
         <span class="io-label">I'm on Windows</span>
-        <span class="io-hint">PowerShell one-liner</span>
-        <code class="io-cmd">irm https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1"</code>
+        <span class="io-hint">download, inspect, then run</span>
+        <code class="io-cmd">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile "$env:TEMP\spark-install.ps1"; if ((Get-FileHash "$env:TEMP\spark-install.ps1" -Algorithm SHA256).Hash.ToLowerInvariant() -ne "7bd0d7500ecf308493cb6e40ae060ad80c78008dc74e9015daa5494a2307eef6") { throw "spark installer checksum mismatch" }; Get-Content "$env:TEMP\spark-install.ps1"; if ((Read-Host "Run Spark installer now? Type yes") -eq "yes") { powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\spark-install.ps1" } else { Write-Host "Skipped." }</code>
         <span class="io-copy">click to copy</span>
       </button>
 
-      <button type="button" class="install-option" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh && chmod +x ./spark-install.sh && ./spark-install.sh">
+      <button type="button" class="install-option" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh && printf '%s  %s\n' '732deb5ec9a83a3056e91fc822a9769b86a0ed7e48374de6eace43cb921b1daa' './spark-install.sh' | sha256sum -c - && less ./spark-install.sh && read -r -p 'Run Spark installer now? Type yes: ' answer && case &quot;$answer&quot; in yes) bash ./spark-install.sh ;; *) echo 'Skipped.' ;; esac">
         <span class="io-label">I'm on Mac / Linux</span>
-        <span class="io-hint">download and run</span>
-        <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh &amp;&amp; chmod +x ./spark-install.sh &amp;&amp; ./spark-install.sh</code>
+        <span class="io-hint">download, inspect, then run</span>
+        <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh &amp;&amp; printf '%s  %s\n' '732deb5ec9a83a3056e91fc822a9769b86a0ed7e48374de6eace43cb921b1daa' './spark-install.sh' | sha256sum -c - &amp;&amp; less ./spark-install.sh &amp;&amp; read -r -p 'Run Spark installer now? Type yes: ' answer &amp;&amp; case "$answer" in yes) bash ./spark-install.sh ;; *) echo 'Skipped.' ;; esac</code>
         <span class="io-copy">click to copy</span>
       </button>
     </div>

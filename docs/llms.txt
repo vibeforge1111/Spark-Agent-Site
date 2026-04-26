@@ -1,0 +1,26 @@
+# Spark Agent Docs
+
+> Spark Agent is a local-first AI runtime. Its docs surface is being wired to Lore by Spark, the agent-native knowledgebase from `spark-knowledgebase`.
+
+## Canonical URLs
+
+- Human docs: https://agent.sparkswarm.ai/docs
+- Agent guide: https://agent.sparkswarm.ai/docs/AGENTS.md
+- Installer page: https://agent.sparkswarm.ai/install
+- Installer checksums: https://agent.sparkswarm.ai/install/checksums.txt
+
+## Agent Instructions
+
+- Read `/docs/AGENTS.md` before installer or setup actions.
+- Do not pipe remote installer scripts into a shell.
+- Download, verify SHA-256, inspect, then ask for confirmation.
+- Treat trace-derived or draft knowledge as non-canonical until promoted.
+- Prefer citing exact docs URLs, repo paths, file hashes, and command outputs.
+
+## Knowledgebase Model
+
+- Markdown plus frontmatter source of truth.
+- MCP read tools: search, read_page, list_pages, get_provenance, list_recent_changes, get_agents_md.
+- MCP write tools: propose_edit, propose_new_page, comment, flag_stale, submit_trace.
+- Trace harvesting: search misses, failed claims, rejected edits, and broken runbook steps become draft pages with provenance.
+- Page actions: selected docs can declare callable actions through frontmatter and MCP.

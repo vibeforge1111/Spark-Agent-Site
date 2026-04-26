@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "",
+    [string]$Ref = "2e383fbe8c544b6a25a81c5e8768a7aa26a39bec",
     [string]$NodeVersion = "22.18.0",
     [string]$Bundle = "telegram-starter",
     [string]$BotToken = "",
@@ -22,6 +22,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$CanonicalSparkCliRef = "2e383fbe8c544b6a25a81c5e8768a7aa26a39bec"
 
 function Write-SparkLog {
     param([string]$Message)
@@ -71,12 +72,17 @@ function Test-InstallSettings {
     if ($normalizedSource -ne $canonicalSource -and -not $AllowDevSource) {
         throw "Refusing non-canonical Spark CLI source: $Source. Use -AllowDevSource only for local development after reviewing the source."
     }
-    if ($Ref -and -not $AllowDevSource) {
+    if ($Ref -and $Ref -ne $CanonicalSparkCliRef -and -not $AllowDevSource) {
         throw "Refusing custom git ref without -AllowDevSource: $Ref"
     }
     if ($LocalRegistry -and -not $AllowDevSource) {
         throw "Refusing local registry override without -AllowDevSource: $LocalRegistry"
     }
+}
+
+function Test-CommitSha {
+    param([string]$Value)
+    return $Value -match '^[0-9a-f]{40}$'
 }
 
 function Find-SystemNodeDir {
@@ -165,16 +171,28 @@ function Checkout-Cli {
     Require-Command git
     if (Test-Path (Join-Path $target ".git")) {
         Write-SparkLog "Updating existing spark-cli checkout"
-        git -C $target fetch --depth=1 origin $(if ($Ref) { $Ref } else { "HEAD" })
+        if (Test-CommitSha $Ref) {
+            git -C $target fetch origin
+        } else {
+            git -C $target fetch --depth=1 origin $(if ($Ref) { $Ref } else { "HEAD" })
+        }
     } else {
         if (Test-Path $target) {
             Remove-Item -LiteralPath $target -Recurse -Force
         }
         Write-SparkLog "Cloning spark-cli from $Source"
-        git clone --depth=1 $Source $target
+        if (Test-CommitSha $Ref) {
+            git clone $Source $target
+        } else {
+            git clone --depth=1 $Source $target
+        }
     }
     if ($Ref) {
         git -C $target checkout $Ref
+        $actualRef = (git -C $target rev-parse HEAD).Trim()
+        if ($Ref -eq $CanonicalSparkCliRef -and $actualRef -ne $CanonicalSparkCliRef) {
+            throw "Spark CLI checkout mismatch: expected $CanonicalSparkCliRef, got $actualRef"
+        }
     }
     return $target
 }

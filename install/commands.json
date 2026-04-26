@@ -1,10 +1,18 @@
 {
   "version": 1,
-  "updated": "2026-04-25",
+  "updated": "2026-04-26",
   "canonicalInstallPage": "https://agent.sparkswarm.ai/install",
   "scripts": {
     "unix": "https://agent.sparkswarm.ai/install.sh",
     "windows": "https://agent.sparkswarm.ai/install.ps1"
+  },
+  "checksums": {
+    "text": "https://agent.sparkswarm.ai/install/checksums.txt",
+    "json": "https://agent.sparkswarm.ai/install/checksums.json",
+    "sha256": {
+      "install.sh": "732deb5ec9a83a3056e91fc822a9769b86a0ed7e48374de6eace43cb921b1daa",
+      "install.ps1": "7bd0d7500ecf308493cb6e40ae060ad80c78008dc74e9015daa5494a2307eef6"
+    }
   },
   "starterBundle": {
     "name": "telegram-starter",
@@ -22,27 +30,29 @@
       "id": "mac-linux-wsl",
       "label": "macOS, Linux, WSL",
       "shell": "bash",
-      "description": "Download the site-hosted installer, inspect it, then run it. The installer auto-detects Apple Silicon, Intel Mac, Linux x64, Linux arm64, and WSL.",
+      "description": "Download the site-hosted installer, verify the SHA-256 checksum, inspect it, then run it. The installer auto-detects Apple Silicon, Intel Mac, Linux x64, Linux arm64, and WSL.",
       "scriptUrl": "https://agent.sparkswarm.ai/install.sh",
       "commands": [
         "curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh",
+        "printf '%s  %s\\n' '732deb5ec9a83a3056e91fc822a9769b86a0ed7e48374de6eace43cb921b1daa' './spark-install.sh' | sha256sum -c -",
         "less ./spark-install.sh",
-        "bash ./spark-install.sh"
+        "read -r -p 'Run Spark installer now? Type yes: ' answer && case \"$answer\" in yes) bash ./spark-install.sh ;; *) echo 'Skipped.' ;; esac"
       ],
-      "singleCopyBlock": "curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh\nless ./spark-install.sh\nbash ./spark-install.sh"
+      "singleCopyBlock": "curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh\nprintf '%s  %s\\n' '732deb5ec9a83a3056e91fc822a9769b86a0ed7e48374de6eace43cb921b1daa' './spark-install.sh' | sha256sum -c -\nless ./spark-install.sh\nread -r -p 'Run Spark installer now? Type yes: ' answer && case \"$answer\" in yes) bash ./spark-install.sh ;; *) echo 'Skipped.' ;; esac"
     },
     {
       "id": "windows-powershell",
       "label": "Windows PowerShell",
       "shell": "powershell",
-      "description": "Download the site-hosted installer, inspect it, then run it.",
+      "description": "Download the site-hosted installer, verify the SHA-256 checksum, inspect it, then run it.",
       "scriptUrl": "https://agent.sparkswarm.ai/install.ps1",
       "commands": [
         "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\\install.ps1",
+        "if ((Get-FileHash .\\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne '7bd0d7500ecf308493cb6e40ae060ad80c78008dc74e9015daa5494a2307eef6') { throw 'install.ps1 checksum mismatch' }",
         "Get-Content .\\install.ps1",
-        "powershell -ExecutionPolicy Bypass -File .\\install.ps1"
+        "if ((Read-Host 'Run Spark installer now? Type yes') -eq 'yes') { powershell -ExecutionPolicy Bypass -File .\\install.ps1 } else { Write-Host 'Skipped.' }"
       ],
-      "singleCopyBlock": "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\\install.ps1\nGet-Content .\\install.ps1\npowershell -ExecutionPolicy Bypass -File .\\install.ps1"
+      "singleCopyBlock": "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\\install.ps1\nif ((Get-FileHash .\\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne '7bd0d7500ecf308493cb6e40ae060ad80c78008dc74e9015daa5494a2307eef6') { throw 'install.ps1 checksum mismatch' }\nGet-Content .\\install.ps1\nif ((Read-Host 'Run Spark installer now? Type yes') -eq 'yes') { powershell -ExecutionPolicy Bypass -File .\\install.ps1 } else { Write-Host 'Skipped.' }"
     }
   ],
   "postInstallChecks": [
@@ -114,12 +124,14 @@
   ],
   "securityNotes": [
     "Primary install path downloads scripts for inspection before execution.",
+    "Installer SHA-256 checksums are published beside the scripts for local verification.",
     "Launch path uses Telegram long polling, not webhooks.",
     "LLM provider keys and Telegram bot tokens are configured locally by the user.",
     "Installer scripts are hosted on agent.sparkswarm.ai and lock Spark CLI source overrides behind an explicit developer flag."
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
+    "ref": "2e383fbe8c544b6a25a81c5e8768a7aa26a39bec",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"

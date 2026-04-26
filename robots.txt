@@ -8,4 +8,4 @@ Sitemap: https://agent.sparkswarm.ai/sitemap.xml
 # sparkswarm.ai       · home
 # eco.sparkswarm.ai   · ecosystem map
 # skills.sparkswarm.ai · H70 corpus
-# docs.sparkswarm.ai  · reference
+# agent.sparkswarm.ai/docs · knowledgebase

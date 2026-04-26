@@ -1,0 +1,92 @@
+name: Install hardening
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  install-hardening:
+    name: install-hardening
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+      - name: Validate installer syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash -n install.sh
+          pwsh -NoProfile -Command '$tokens = $null; $errors = $null; [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path "./install.ps1"), [ref] $tokens, [ref] $errors) | Out-Null; if ($errors.Count) { $errors | ForEach-Object { Write-Error $_ }; exit 1 }'
+
+      - name: Validate checksums and manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import pathlib
+          import sys
+
+          root = pathlib.Path(".")
+          expected = {}
+
+          for line in (root / "install/checksums.txt").read_text(encoding="utf-8").splitlines():
+              line = line.strip()
+              if not line:
+                  continue
+              digest, relpath = line.split(maxsplit=1)
+              expected[relpath] = digest
+
+          for relpath, digest in expected.items():
+              actual = hashlib.sha256((root / relpath).read_bytes()).hexdigest()
+              if actual != digest:
+                  sys.exit(f"{relpath} checksum mismatch: {actual} != {digest}")
+
+          checksums = json.loads((root / "install/checksums.json").read_text(encoding="utf-8"))
+          commands = json.loads((root / "install/commands.json").read_text(encoding="utf-8"))
+
+          json_hashes = {entry["path"]: entry["sha256"] for entry in checksums["files"]}
+          command_hashes = commands["checksums"]["sha256"]
+
+          if json_hashes != expected:
+              sys.exit("checksums.json does not match checksums.txt")
+          if command_hashes != expected:
+              sys.exit("commands.json checksums do not match checksums.txt")
+
+          for relpath, digest in expected.items():
+              for haystack in [
+                  (root / "index.html").read_text(encoding="utf-8"),
+                  (root / "docs/index.html").read_text(encoding="utf-8"),
+                  (root / "install/commands.json").read_text(encoding="utf-8"),
+              ]:
+                  if digest not in haystack:
+                      sys.exit(f"{digest} missing from install UI/docs")
+          PY
+
+      - name: Validate trust boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          canonical_ref="2e383fbe8c544b6a25a81c5e8768a7aa26a39bec"
+          grep -q "$canonical_ref" install.sh
+          grep -q "$canonical_ref" install.ps1
+          grep -q "$canonical_ref" install/commands.json
+          grep -q "SPARK_ALLOW_DEV_SOURCE" install.sh
+          grep -q "AllowDevSource" install.ps1
+          grep -q "Strict-Transport-Security" nginx.conf
+          grep -q "location = /install" nginx.conf
+          grep -q "location = /docs" nginx.conf
+          ! git grep -n -I -E '301a16435504eaf2|9d32b1d17df505|docs\.sparkswarm\.ai|sparkswarm\.ai/docs/insight' -- .
+
+      - name: Build container
+        shell: bash
+        run: docker build -t spark-agent-site-hardening .
