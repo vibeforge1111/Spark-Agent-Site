@@ -85,6 +85,7 @@ jobs:
           grep -q "Strict-Transport-Security" nginx.conf
           grep -q "location = /install" nginx.conf
           grep -q "location = /docs" nginx.conf
+          ! grep -q "add_header Cache-Control" nginx.conf
           ! git grep -n -I -E '301a16435504eaf2|9d32b1d17df505|docs\.sparkswarm\.ai|sparkswarm\.ai/docs/insight' -- . ':!.github/workflows/install-hardening.yml'
 
       - name: Build container
