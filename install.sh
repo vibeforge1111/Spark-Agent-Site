@@ -3,7 +3,7 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_CANONICAL_CLI_REF="bcd5b03e973ccf7087adae5742a9bf6f08085db0"
+SPARK_CANONICAL_CLI_REF="2e383fbe8c544b6a25a81c5e8768a7aa26a39bec"
 SPARK_CLI_REF="${SPARK_CLI_REF:-$SPARK_CANONICAL_CLI_REF}"
 SPARK_NODE_VERSION="${SPARK_NODE_VERSION:-22.18.0}"
 SPARK_SKIP_SETUP="${SPARK_SKIP_SETUP:-0}"
@@ -23,6 +23,7 @@ SPARK_MINIMAX_API_KEY="${SPARK_MINIMAX_API_KEY:-}"
 SPARK_NON_INTERACTIVE_SETUP="${SPARK_NON_INTERACTIVE_SETUP:-0}"
 SPARK_SETUP_SKIP_INSTALL_COMMANDS="${SPARK_SETUP_SKIP_INSTALL_COMMANDS:-0}"
 SPARK_SETUP_SKIP_RUNTIME_CHECK="${SPARK_SETUP_SKIP_RUNTIME_CHECK:-0}"
+SPARK_SHELL_PROFILE="${SPARK_SHELL_PROFILE:-auto}"
 SPARK_NODE_BIN_DIR=""
 SPARK_CANONICAL_CLI_SOURCE="https://github.com/vibeforge1111/spark-cli"
 SPARK_ALLOW_DEV_SOURCE="${SPARK_ALLOW_DEV_SOURCE:-0}"
@@ -53,6 +54,7 @@ Options:
   --setup-skip-runtime-check
                             Pass --skip-runtime-check to setup
   --setup-arg ARG           Extra arg passed to `spark setup`; repeatable
+  --no-shell-profile        Do not add Spark to the user's shell profile
   --local-registry PATH     developer registry override; requires --allow-dev-source
   --allow-dev-source        Allow source/ref/local-registry overrides for local development
   --skip-setup              Install CLI only; do not run spark setup
@@ -67,7 +69,7 @@ Environment mirrors these flags:
   SPARK_ZAI_API_KEY, SPARK_OPENAI_API_KEY, SPARK_ANTHROPIC_API_KEY,
   SPARK_MINIMAX_API_KEY,
   SPARK_NON_INTERACTIVE_SETUP, SPARK_SETUP_SKIP_INSTALL_COMMANDS,
-  SPARK_SETUP_SKIP_RUNTIME_CHECK,
+  SPARK_SETUP_SKIP_RUNTIME_CHECK, SPARK_SHELL_PROFILE,
   SPARK_NODE_PLATFORM.
 EOF
 }
@@ -109,6 +111,8 @@ while [ "$#" -gt 0 ]; do
       SPARK_SETUP_SKIP_RUNTIME_CHECK=1; shift ;;
     --setup-arg)
       extra_setup_args+=("$2"); shift 2 ;;
+    --no-shell-profile)
+      SPARK_SHELL_PROFILE=0; shift ;;
     --local-registry)
       SPARK_LOCAL_REGISTRY="$2"; shift 2 ;;
     --allow-dev-source)
@@ -135,6 +139,13 @@ need_cmd() {
 
 log() {
   printf '[spark-install] %s\n' "$*"
+}
+
+is_commit_sha() {
+  case "$1" in
+    [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]) return 0 ;;
+    *) return 1 ;;
+  esac
 }
 
 normalize_macos_locale() {
@@ -292,17 +303,6 @@ verify_node_archive() {
   fi
 }
 
-is_commit_sha() {
-  case "$1" in
-    [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f])
-      return 0
-      ;;
-    *)
-      return 1
-      ;;
-  esac
-}
-
 checkout_cli() {
   local target="$SPARK_PREFIX/tools/spark-cli"
   mkdir -p "$SPARK_PREFIX/tools"
@@ -373,6 +373,57 @@ EOF
   log "Wrote shell env helper $env_file"
 }
 
+write_shell_profile_hook() {
+  if [ "$SPARK_SHELL_PROFILE" = "0" ]; then
+    log "Skipping shell profile update"
+    return
+  fi
+
+  local default_prefix
+  default_prefix="$(normalize_path "$HOME/.spark")"
+  if [ "$SPARK_SHELL_PROFILE" = "auto" ] && [ "$SPARK_PREFIX" != "$default_prefix" ]; then
+    log "Skipping shell profile update for non-default prefix $SPARK_PREFIX"
+    return
+  fi
+
+  local profile=""
+  local shell_name
+  shell_name="$(basename "${SHELL:-}")"
+  case "$shell_name" in
+    zsh)
+      profile="$HOME/.zshrc"
+      ;;
+    bash)
+      if [ "$(uname -s)" = "Darwin" ]; then
+        profile="$HOME/.bash_profile"
+      else
+        profile="$HOME/.bashrc"
+      fi
+      ;;
+    *)
+      profile="$HOME/.profile"
+      ;;
+  esac
+
+  mkdir -p "$(dirname "$profile")"
+  touch "$profile"
+  if grep -F "$SPARK_PREFIX/env" "$profile" >/dev/null 2>&1; then
+    log "Shell profile already sources $SPARK_PREFIX/env"
+    return
+  fi
+  if [ "$SPARK_PREFIX" = "$default_prefix" ] && grep -F '$HOME/.spark/env' "$profile" >/dev/null 2>&1; then
+    log "Shell profile already sources $SPARK_PREFIX/env"
+    return
+  fi
+
+  cat >> "$profile" <<EOF
+
+# Spark CLI
+[ -f "$SPARK_PREFIX/env" ] && source "$SPARK_PREFIX/env"
+EOF
+  log "Added Spark CLI to shell profile $profile"
+}
+
 run_setup() {
   if [ "$SPARK_SKIP_SETUP" = "1" ]; then
     log "Skipping spark setup"
@@ -391,6 +442,17 @@ EOF
   fi
 
   local spark_setup_cmd=("$SPARK_PREFIX/bin/spark" setup "$SPARK_BUNDLE")
+  local spark_secret_files=()
+  local spark_secret_ref_value=""
+  spark_secret_ref() {
+    local value="$1"
+    local secret_file
+    secret_file="$(mktemp "${TMPDIR:-/tmp}/spark-secret.XXXXXX")"
+    chmod 600 "$secret_file"
+    printf '%s' "$value" > "$secret_file"
+    spark_secret_files+=("$secret_file")
+    spark_secret_ref_value="@file:$secret_file"
+  }
   if [ "$SPARK_NON_INTERACTIVE_SETUP" = "1" ]; then
     spark_setup_cmd+=("--non-interactive")
   fi
@@ -401,7 +463,8 @@ EOF
     spark_setup_cmd+=("--skip-runtime-check")
   fi
   if [ -n "$SPARK_BOT_TOKEN" ]; then
-    spark_setup_cmd+=("--bot-token" "$SPARK_BOT_TOKEN")
+    spark_secret_ref "$SPARK_BOT_TOKEN"
+    spark_setup_cmd+=("--bot-token" "$spark_secret_ref_value")
   fi
   if [ -n "$SPARK_ADMIN_TELEGRAM_IDS" ]; then
     spark_setup_cmd+=("--admin-telegram-ids" "$SPARK_ADMIN_TELEGRAM_IDS")
@@ -410,16 +473,20 @@ EOF
     spark_setup_cmd+=("--llm-provider" "$SPARK_LLM_PROVIDER")
   fi
   if [ -n "$SPARK_ZAI_API_KEY" ]; then
-    spark_setup_cmd+=("--zai-api-key" "$SPARK_ZAI_API_KEY")
+    spark_secret_ref "$SPARK_ZAI_API_KEY"
+    spark_setup_cmd+=("--zai-api-key" "$spark_secret_ref_value")
   fi
   if [ -n "$SPARK_OPENAI_API_KEY" ]; then
-    spark_setup_cmd+=("--openai-api-key" "$SPARK_OPENAI_API_KEY")
+    spark_secret_ref "$SPARK_OPENAI_API_KEY"
+    spark_setup_cmd+=("--openai-api-key" "$spark_secret_ref_value")
   fi
   if [ -n "$SPARK_ANTHROPIC_API_KEY" ]; then
-    spark_setup_cmd+=("--anthropic-api-key" "$SPARK_ANTHROPIC_API_KEY")
+    spark_secret_ref "$SPARK_ANTHROPIC_API_KEY"
+    spark_setup_cmd+=("--anthropic-api-key" "$spark_secret_ref_value")
   fi
   if [ -n "$SPARK_MINIMAX_API_KEY" ]; then
-    spark_setup_cmd+=("--minimax-api-key" "$SPARK_MINIMAX_API_KEY")
+    spark_secret_ref "$SPARK_MINIMAX_API_KEY"
+    spark_setup_cmd+=("--minimax-api-key" "$spark_secret_ref_value")
   fi
   if [ -n "$SPARK_SETUP_ARGS" ]; then
     # shellcheck disable=SC2206
@@ -430,7 +497,12 @@ EOF
     spark_setup_cmd+=("${extra_setup_args[@]}")
   fi
   log "Running spark setup $SPARK_BUNDLE"
-  "${spark_setup_cmd[@]}"
+  local setup_exit=0
+  "${spark_setup_cmd[@]}" || setup_exit=$?
+  if [ "${#spark_secret_files[@]}" -gt 0 ]; then
+    rm -f "${spark_secret_files[@]}"
+  fi
+  return "$setup_exit"
 }
 
 run_autostart() {
@@ -476,6 +548,7 @@ main() {
   checkout_cli
   install_cli_venv
   write_wrapper
+  write_shell_profile_hook
   run_setup
   run_autostart
   log "Done."
@@ -489,7 +562,7 @@ Spark command:
 To use \`spark\` by name in this terminal:
   source "$SPARK_PREFIX/env"
 
-To make that permanent, add this line to your shell profile:
+For default installs, the installer also adds this line to your shell profile:
   source "$SPARK_PREFIX/env"
 
 Operational checks:

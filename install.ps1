@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "bcd5b03e973ccf7087adae5742a9bf6f08085db0",
+    [string]$Ref = "2e383fbe8c544b6a25a81c5e8768a7aa26a39bec",
     [string]$NodeVersion = "22.18.0",
     [string]$Bundle = "telegram-starter",
     [string]$BotToken = "",
@@ -23,7 +23,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$CanonicalSparkCliRef = "bcd5b03e973ccf7087adae5742a9bf6f08085db0"
+$CanonicalSparkCliRef = "2e383fbe8c544b6a25a81c5e8768a7aa26a39bec"
 
 function Write-SparkLog {
     param([string]$Message)
@@ -54,6 +54,11 @@ function Get-MajorVersion {
     return $null
 }
 
+function Test-CommitSha {
+    param([string]$Value)
+    return $Value -match '^[0-9a-f]{40}$'
+}
+
 function Test-InstallSettings {
     $canonicalSource = "https://github.com/vibeforge1111/spark-cli"
     if ([string]::IsNullOrWhiteSpace($Script:SparkPrefix)) {
@@ -79,11 +84,6 @@ function Test-InstallSettings {
     if ($LocalRegistry -and -not $AllowDevSource) {
         throw "Refusing local registry override without -AllowDevSource: $LocalRegistry"
     }
-}
-
-function Test-CommitSha {
-    param([string]$Value)
-    return $Value -match '^[0-9a-f]{40}$'
 }
 
 function Find-SystemNodeDir {
@@ -285,22 +285,36 @@ function Run-Setup {
         Copy-Item -LiteralPath $LocalRegistry -Destination (Join-Path $CliDir "registry.json") -Force
     }
     $sparkCmd = Join-Path $Script:SparkPrefix "bin\spark.cmd"
+    $secretFiles = [System.Collections.Generic.List[string]]::new()
+    function New-SetupSecretRef {
+        param([string]$Value)
+        $secretFile = [System.IO.Path]::GetTempFileName()
+        [System.IO.File]::WriteAllText($secretFile, $Value, [System.Text.UTF8Encoding]::new($false))
+        [void]$secretFiles.Add($secretFile)
+        return "@file:$secretFile"
+    }
     $setupArgs = @()
     if ($NonInteractiveSetup) { $setupArgs += "--non-interactive" }
     if ($SetupSkipInstallCommands) { $setupArgs += "--skip-install-commands" }
     if ($SetupSkipRuntimeCheck) { $setupArgs += "--skip-runtime-check" }
-    if ($BotToken) { $setupArgs += @("--bot-token", $BotToken) }
+    if ($BotToken) { $setupArgs += @("--bot-token", (New-SetupSecretRef $BotToken)) }
     if ($AdminTelegramIds) { $setupArgs += @("--admin-telegram-ids", $AdminTelegramIds) }
     if ($LlmProvider) { $setupArgs += @("--llm-provider", $LlmProvider) }
-    if ($ZaiApiKey) { $setupArgs += @("--zai-api-key", $ZaiApiKey) }
-    if ($OpenAIApiKey) { $setupArgs += @("--openai-api-key", $OpenAIApiKey) }
-    if ($AnthropicApiKey) { $setupArgs += @("--anthropic-api-key", $AnthropicApiKey) }
-    if ($MiniMaxApiKey) { $setupArgs += @("--minimax-api-key", $MiniMaxApiKey) }
+    if ($ZaiApiKey) { $setupArgs += @("--zai-api-key", (New-SetupSecretRef $ZaiApiKey)) }
+    if ($OpenAIApiKey) { $setupArgs += @("--openai-api-key", (New-SetupSecretRef $OpenAIApiKey)) }
+    if ($AnthropicApiKey) { $setupArgs += @("--anthropic-api-key", (New-SetupSecretRef $AnthropicApiKey)) }
+    if ($MiniMaxApiKey) { $setupArgs += @("--minimax-api-key", (New-SetupSecretRef $MiniMaxApiKey)) }
     $setupArgs += $SetupArg
     Write-SparkLog "Running spark setup $Bundle"
-    & $sparkCmd setup $Bundle @setupArgs
-    if ($LASTEXITCODE -ne 0) {
-        throw "spark setup failed with exit code $LASTEXITCODE"
+    try {
+        & $sparkCmd setup $Bundle @setupArgs
+        if ($LASTEXITCODE -ne 0) {
+            throw "spark setup failed with exit code $LASTEXITCODE"
+        }
+    } finally {
+        foreach ($secretFile in $secretFiles) {
+            Remove-Item -LiteralPath $secretFile -Force -ErrorAction SilentlyContinue
+        }
     }
 }
 
