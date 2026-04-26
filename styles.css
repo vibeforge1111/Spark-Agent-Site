@@ -1747,25 +1747,81 @@ body {
 /* ══════════════════════════════════════════════════════════════
    007 / SWARM
    ══════════════════════════════════════════════════════════════ */
-.swarm-stage {
-  position: relative;
-  height: 520px;
-  background:
-    radial-gradient(circle at 50% 50%, var(--accent-subtle), transparent 60%),
-    var(--bg-subtle);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--r-lg);
+.swarm.section {
+  max-width: none;
+  margin-left: calc(-1 * var(--side-pad));
+  margin-right: calc(-1 * var(--side-pad));
+  padding-top: clamp(80px, 9vw, 120px);
+  padding-bottom: clamp(220px, 26vw, 380px);
   overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.swarm-stage {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  overflow: hidden;
+  z-index: 0;
 }
 .swarm-canvas {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
+  z-index: 0;
+}
+.swarm-inner {
+  position: relative;
+  z-index: 2;
+  max-width: var(--container);
+  margin: 0 auto;
 }
 .swarm-overlay {
   position: absolute;
-  top: 24px; left: 24px;
+  bottom: 24px; right: 24px;
   display: flex; flex-direction: column; gap: 12px;
   z-index: 2;
+}
+
+/* Glass-card module — matches sparkswarm.ai/WaitlistPage card */
+.swarm-card {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 65%, transparent);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.35);
+  padding: clamp(40px, 5vw, 64px) clamp(28px, 4vw, 56px);
+  text-align: center;
+}
+.swarm-card .section-head {
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+.swarm-card .section-head .num {
+  display: block;
+  margin: 0 auto;
+  padding: 0;
+}
+.swarm-card .section-title {
+  max-width: none;
+  margin: 8px auto 0;
+}
+.swarm-card .section-lead {
+  grid-column: auto;
+  margin: 20px auto 0;
+  max-width: 56ch;
+}
+.swarm-detail {
+  margin: 24px auto 0;
+  max-width: 56ch;
+  font: 400 18px var(--font-sans);
+  color: var(--text-secondary);
+  line-height: 1.65;
 }
 .swarm-stat {
   background: color-mix(in srgb, var(--bg) 70%, transparent);
@@ -1796,34 +1852,6 @@ body {
   margin-top: 4px;
   font-variant-numeric: tabular-nums;
 }
-
-.swarm-proof {
-  margin-top: 88px;
-  text-align: center;
-}
-.swarm-proof blockquote {
-  max-width: 720px;
-  margin: 0 auto;
-  font: 400 20px var(--font-sans);
-  color: var(--text);
-  line-height: 1.55;
-  font-style: italic;
-  letter-spacing: -0.2px;
-  padding: 0 36px;
-  position: relative;
-}
-.swarm-proof blockquote::before,
-.swarm-proof blockquote::after {
-  content: '"';
-  position: absolute;
-  font: 500 44px var(--font-sans);
-  color: var(--accent);
-  opacity: 0.85;
-  line-height: 1;
-  text-shadow: 0 0 18px var(--accent-mid);
-}
-.swarm-proof blockquote::before { left: 6px; top: -4px; }
-.swarm-proof blockquote::after { right: 6px; bottom: -18px; content: '"'; }
 
 /* ══════════════════════════════════════════════════════════════
    008 / CLOSED (no takeover)
@@ -2582,9 +2610,8 @@ body {
   }
   .board-hint { display: none; }
 
-  /* SWARM · shorter stage, tighter overlay */
-  .swarm-stage { height: 420px; }
-  .swarm-overlay { top: 16px; left: 16px; gap: 8px; }
+  /* SWARM · tighter overlay; stage stays as full-section background */
+  .swarm-overlay { bottom: 16px; right: 16px; gap: 8px; }
   .swarm-stat { padding: 10px 12px; }
 
   /* BRAIN · collapse grid, shrink Spark-logo loop viz */
@@ -2666,7 +2693,6 @@ body {
   .mod-card { padding: 20px; }
   .outcome-card { padding: 22px 20px 20px; }
   .sf-count { font-size: 18px; }
-  .swarm-stage { height: 340px; }
   .board-stage { padding: 14px; }
 
   /* FOOTER · single column on very narrow */

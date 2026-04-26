@@ -444,6 +444,10 @@
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
+    /* Direct port of sparkswarm.ai/components/WaitlistNetworkCanvas.
+       80 agents + 10 specs + 8 paths + 10 insights, force-directed layout,
+       camera drift, edge particles, side fades, center radial dim. */
+
     const CATEGORY_COLORS = {
       agent:          '#2FCA94',
       specialization: '#B8A8DC',
@@ -460,7 +464,12 @@
       'iron-lattice','jade-planner','kite-render','lyra-mapper','mesa-scout','noir-agent',
       'orbit-sync','pike-analyst','reef-solver','sage-tuner','thorn-watch','ultra-parse',
       'vale-miner','wren-seeker','xeno-pattern','yoke-bridge','zeal-runner','arc-welder',
-      'bolt-finder','core-drift','dusk-agent','edge-pulse','fern-logic','grid-hawk'
+      'bolt-finder','core-drift','dusk-agent','edge-pulse','fern-logic','grid-hawk',
+      'halo-scan','ink-tracer','jest-probe','knox-shield','leaf-engine','myth-solver',
+      'neon-spark','opal-miner','pine-runner','quill-writer','rust-guard','silk-thread',
+      'tusk-mover','umber-trace','vine-climber','wave-rider','yarn-weaver','zinc-alloy',
+      'aura-field','brine-deep','clay-former','dawn-sweep','elm-branch','flint-coder',
+      'glyph-reader','helm-steer'
     ];
     const specNames = [
       'content-strategy','yc-startup','devops','ml-pipelines','b2b-sales',
@@ -472,7 +481,8 @@
     ];
     const insightNames = [
       'audience-segments','founder-led-sales','canary-deploys','lora-fine-tune',
-      'churn-predictor','prompt-patterns'
+      'churn-predictor','prompt-patterns','viral-loops','blue-green-deploy',
+      'threat-modeling','drift-detection'
     ];
 
     const rawNodes = [
@@ -481,93 +491,119 @@
       ...pathNames.map((slash, i) => ({ id: 'p'+i, slash, category: 'path' })),
       ...insightNames.map((slash, i) => ({ id: 'i'+i, slash, category: 'insight' })),
     ];
-
-    const nodes = rawNodes.map((n) => ({
-      ...n,
-      x: 0, y: 0,
-      renderX: 0, renderY: 0,
-      radius: n.category === 'specialization' ? 24
-            : n.category === 'path'           ? 18
-            : n.category === 'insight'        ? 16
-            :                                    6.5,
-      orbitAngle:  rand(0, Math.PI * 2),
-      orbitRadius: rand(3, 9),
-      orbitSpeed:  rand(-1, 1) * 0.0015,
-      entranceT:   0,
-    }));
     const nodeMap = {};
-    nodes.forEach(n => { nodeMap[n.id] = n; });
+    rawNodes.forEach(n => { nodeMap[n.id] = n; });
 
-    const byCat = c => nodes.filter(n => n.category === c);
-    const agents  = byCat('agent');
-    const specs   = byCat('specialization');
-    const paths   = byCat('path');
-    const insights= byCat('insight');
+    const byCat = c => rawNodes.filter(n => n.category === c);
+    const agents = byCat('agent');
+    const specs = byCat('specialization');
+    const paths = byCat('path');
+    const insights = byCat('insight');
 
     const edges = [];
     agents.forEach(a => {
-      const spec = specs[Math.floor(Math.random() * specs.length)];
-      edges.push({ source: a.id, target: spec.id });
-      if (Math.random() < 0.28) {
-        const spec2 = specs[Math.floor(Math.random() * specs.length)];
-        if (spec2.id !== spec.id) edges.push({ source: a.id, target: spec2.id });
+      const k = 1 + (Math.random() < 0.6 ? 1 : 0) + (Math.random() < 0.2 ? 1 : 0);
+      const picked = new Set();
+      for (let i = 0; i < k; i++) {
+        const s = specs[Math.floor(Math.random() * specs.length)];
+        if (!picked.has(s.id)) { picked.add(s.id); edges.push({ source: a.id, target: s.id }); }
       }
     });
     specs.forEach(s => {
-      paths.forEach(p => { if (Math.random() < 0.35) edges.push({ source: s.id, target: p.id }); });
+      paths.forEach(p => { if (Math.random() < 0.4) edges.push({ source: s.id, target: p.id }); });
       insights.forEach(i => { if (Math.random() < 0.25) edges.push({ source: s.id, target: i.id }); });
     });
     paths.forEach(p => {
-      insights.forEach(i => { if (Math.random() < 0.2) edges.push({ source: p.id, target: i.id }); });
+      insights.forEach(i => { if (Math.random() < 0.22) edges.push({ source: p.id, target: i.id }); });
     });
+    for (let i = 0; i < specs.length; i++) {
+      const j = (i + 3 + Math.floor(Math.random() * 3)) % specs.length;
+      if (j !== i) edges.push({ source: specs[i].id, target: specs[j].id });
+    }
+    for (let i = 0; i < 12; i++) {
+      const a = agents[Math.floor(Math.random() * agents.length)];
+      const b = agents[Math.floor(Math.random() * agents.length)];
+      if (a.id !== b.id) edges.push({ source: a.id, target: b.id });
+    }
+
+    const connCount = {};
+    rawNodes.forEach(n => { connCount[n.id] = 0; });
+    edges.forEach(e => {
+      connCount[e.source] = (connCount[e.source] || 0) + 1;
+      connCount[e.target] = (connCount[e.target] || 0) + 1;
+    });
+
+    const nodes = rawNodes.map((n, i) => {
+      const cc = connCount[n.id] || 1;
+      const baseR = n.category === 'agent'          ? 8 + Math.min(cc, 3) * 1.5
+                  : n.category === 'specialization' ? 28 + cc * 1.2
+                  : n.category === 'path'           ? 18 + cc * 1
+                  :                                    12 + cc * 0.8;
+      const angle = (i / rawNodes.length) * Math.PI * 2 + Math.random() * 0.3;
+      const r0 = 300 + Math.random() * 200;
+      return Object.assign(n, {
+        x: Math.cos(angle) * r0,
+        y: Math.sin(angle) * r0,
+        vx: 0, vy: 0,
+        renderX: 0, renderY: 0,
+        radius: baseR,
+        orbitAngle: rand(0, Math.PI * 2),
+        orbitRadius: n.category === 'agent' ? 1.5 + Math.random() * 3 : 3 + Math.random() * 5,
+        orbitSpeed: (0.0002 + Math.random() * 0.0002) * (Math.random() > 0.5 ? 1 : -1),
+        entranceT: 0,
+        connCount: cc,
+      });
+    });
+
+    /* Force-directed layout — runs once, gives organic clustering.
+       Tuned for more spread: stronger repulsion + longer ideal edge. */
+    const runForceLayout = (iterations) => {
+      for (let iter = 0; iter < iterations; iter++) {
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const a = nodes[i], b = nodes[j];
+            const dx = b.x - a.x, dy = b.y - a.y;
+            const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+            const f = 16000 / (dist * dist);
+            const fx = (dx/dist) * f, fy = (dy/dist) * f;
+            a.vx -= fx; a.vy -= fy;
+            b.vx += fx; b.vy += fy;
+          }
+        }
+        edges.forEach(e => {
+          const a = nodeMap[e.source], b = nodeMap[e.target];
+          if (!a || !b) return;
+          const dx = b.x - a.x, dy = b.y - a.y;
+          const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+          const f = (dist - 200) * 0.012;
+          const fx = (dx/dist) * f, fy = (dy/dist) * f;
+          a.vx += fx; a.vy += fy;
+          b.vx -= fx; b.vy -= fy;
+        });
+        nodes.forEach(n => { n.vx -= n.x * 0.0008; n.vy -= n.y * 0.0008; });
+        nodes.forEach(n => { n.vx *= 0.88; n.vy *= 0.88; n.x += n.vx; n.y += n.vy; });
+      }
+      nodes.forEach(n => { n.renderX = n.x; n.renderY = n.y; n.vx = 0; n.vy = 0; });
+    };
+    runForceLayout(260);
 
     let W = 0, H = 0, dpr = 1;
     const resizeSN = () => {
       const rect = canvas.getBoundingClientRect();
       W = rect.width; H = rect.height;
-      dpr = Math.min(devicePixelRatio || 1, 2);
+      dpr = Math.min(devicePixelRatio || 1, 1.5);
       canvas.width  = W * dpr;
       canvas.height = H * dpr;
       canvas.style.width  = W + 'px';
       canvas.style.height = H + 'px';
-      layout();
-    };
-
-    const layout = () => {
-      // Portrait-aware: on mobile use width as base (keeps cluster inside visible area);
-      // on wide screens use the larger dimension for a zoomed-in feel.
-      const isPortrait = W < H;
-      const R = isPortrait ? W * 1.1 : Math.max(W, H);
-      const yF = isPortrait ? 0.9 : 0.66;
-      specs.forEach((s, i) => {
-        const a = (i / specs.length) * Math.PI * 2 + 0.3;
-        const r = R * 0.22;
-        s.x = Math.cos(a) * r; s.y = Math.sin(a) * r * (isPortrait ? 0.85 : 0.6);
-      });
-      agents.forEach((n) => {
-        const a = rand(0, Math.PI * 2);
-        const r = R * 0.42 * (0.5 + Math.random() * 0.75);
-        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * yF;
-      });
-      paths.forEach((n, i) => {
-        const a = (i / paths.length) * Math.PI * 2 - 0.2;
-        const r = R * 0.5;
-        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * yF;
-      });
-      insights.forEach((n, i) => {
-        const a = (i / insights.length) * Math.PI * 2 + 0.7;
-        const r = R * 0.56;
-        n.x = Math.cos(a) * r; n.y = Math.sin(a) * r * yF;
-      });
     };
 
     const particles = reduced ? [] : edges
       .filter(e => !(nodeMap[e.source].category === 'agent' && nodeMap[e.target].category === 'agent'))
-      .map(e => ({ edge: e, t: Math.random(), speed: 0.0012 + Math.random() * 0.0014 }));
+      .map(e => ({ edge: e, t: Math.random(), speed: 0.0008 + Math.random() * 0.001 }));
 
-    // camera drift for life (same as sparkswarm.ai)
     const cam = { x: 0, y: 0, angle: Math.random() * Math.PI * 2 };
-    const CAM_SPEED = 0.00009;
+    const CAM_SPEED = 0.00006;
 
     const getBezier = (src, tgt) => {
       const mx = (src.renderX + tgt.renderX) / 2;
@@ -616,20 +652,31 @@
       }
     };
 
+    const readThemeBg = () => {
+      const v = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+      return v || '#0E1018';
+    };
+    let cachedBg = readThemeBg();
+    const themeObs = new MutationObserver(() => { cachedBg = readThemeBg(); });
+    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
     resizeSN();
     addEventListener('resize', resizeSN);
 
     const entranceStart = performance.now();
-    const NODE_STAGGER = reduced ? 0 : 35;
+    const NODE_STAGGER = reduced ? 0 : 50;
     let pulsePhase = 0;
 
     const render = (now) => {
       requestAnimationFrame(render);
       const elapsed = now - entranceStart;
       pulsePhase = now * 0.002;
+      const bg = cachedBg;
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
 
       // dot grid background
       ctx.fillStyle = 'rgba(47,202,148,0.025)';
@@ -642,8 +689,8 @@
       ctx.save();
       if (!reduced) {
         cam.angle += CAM_SPEED;
-        cam.x = Math.cos(cam.angle)         * 28;
-        cam.y = Math.sin(cam.angle * 0.7)   * 20;
+        cam.x = Math.cos(cam.angle)         * 25;
+        cam.y = Math.sin(cam.angle * 0.7)   * 18;
       }
       ctx.translate(W / 2 - cam.x, H / 2 - cam.y);
 
@@ -658,7 +705,7 @@
       }
 
       nodes.forEach((n, i) => {
-        const ns = 100 + i * NODE_STAGGER;
+        const ns = 150 + i * NODE_STAGGER;
         n.entranceT = reduced ? 1 : Math.min(1, Math.max(0, (elapsed - ns) / 700));
       });
 
@@ -671,8 +718,8 @@
         const edgeT = Math.min(src.entranceT, tgt.entranceT);
         const bothAg = src.category === 'agent' && tgt.category === 'agent';
         const hasAg  = src.category === 'agent' || tgt.category === 'agent';
-        const alpha = bothAg ? 0.08 : hasAg ? 0.18 : 0.32;
-        const lw    = bothAg ? 0.5  : hasAg ? 0.85 : 1.2;
+        const alpha = bothAg ? 0.08 : hasAg ? 0.15 : 0.3;
+        const lw    = bothAg ? 0.5  : hasAg ? 0.8 : 1.2;
         ctx.globalAlpha = alpha * edgeT;
         ctx.strokeStyle = color;
         ctx.lineWidth = lw;
@@ -694,12 +741,12 @@
           const pt = pointOnBezier(b, p.t);
           const color = CATEGORY_COLORS[src.category];
           ctx.save();
-          ctx.globalAlpha = 0.65;
+          ctx.globalAlpha = 0.6;
           ctx.shadowColor = color;
           ctx.shadowBlur = 8;
           ctx.fillStyle = color;
           ctx.beginPath();
-          ctx.arc(pt.x, pt.y, 1.9, 0, Math.PI * 2);
+          ctx.arc(pt.x, pt.y, 1.8, 0, Math.PI * 2);
           ctx.fill();
           ctx.restore();
         });
@@ -713,15 +760,15 @@
         const color = CATEGORY_COLORS[n.category];
         const rx = n.renderX, ry = n.renderY + offY;
         const isAg = n.category === 'agent';
-        const pulse = isAg ? 1 + Math.sin(pulsePhase + n.orbitAngle) * 0.08 : 1;
+        const pulse = isAg ? 1 + Math.sin(pulsePhase + n.orbitAngle) * 0.06 : 1;
         const drawR = n.radius * pulse;
 
-        ctx.globalAlpha = isAg ? et * 0.75 : et;
+        ctx.globalAlpha = isAg ? et * 0.7 : et;
 
         if (!isAg) {
           const glowR = drawR * 2.8;
           const grad = ctx.createRadialGradient(rx, ry, drawR * 0.3, rx, ry, glowR);
-          grad.addColorStop(0, color + '22');
+          grad.addColorStop(0, color + '18');
           grad.addColorStop(1, color + '00');
           ctx.fillStyle = grad;
           ctx.beginPath();
@@ -729,9 +776,9 @@
           ctx.fill();
         }
 
-        ctx.fillStyle = isAg ? color + '32' : '#181C26';
-        ctx.strokeStyle = color + (isAg ? '60' : '80');
-        ctx.lineWidth = isAg ? 0.6 : 1.3;
+        ctx.fillStyle = isAg ? color + '30' : '#181C26';
+        ctx.strokeStyle = color + (isAg ? '50' : '70');
+        ctx.lineWidth = isAg ? 0.6 : 1.2;
         ctx.beginPath();
         ctx.arc(rx, ry, drawR, 0, Math.PI * 2);
         ctx.fill();
@@ -739,13 +786,14 @@
 
         if (!isAg) {
           ctx.save();
-          ctx.globalAlpha = et * 0.75;
+          ctx.globalAlpha = et * 0.7;
           drawIcon(ctx, rx, ry, drawR, color, n.category);
           ctx.restore();
         }
 
-        if (n.category === 'specialization') {
-          ctx.font = `500 10px "DM Mono", ui-monospace, monospace`;
+        if (!isAg) {
+          const fontSize = n.category === 'specialization' ? 10 : 8;
+          ctx.font = `500 ${fontSize}px "DM Mono", ui-monospace, monospace`;
           ctx.textAlign = 'center';
           ctx.fillStyle = color;
           ctx.globalAlpha = et * 0.85;
@@ -756,15 +804,30 @@
 
       ctx.restore();
 
-      // edge fades (fade to surface bg)
-      const fadeH = H * 0.18;
-      const bg = '#141820';
+      // edge fades — top/bottom + left/right
+      const fadeH = H * 0.22;
       let g = ctx.createLinearGradient(0, 0, 0, fadeH);
       g.addColorStop(0, bg); g.addColorStop(1, bg + '00');
       ctx.fillStyle = g; ctx.fillRect(0, 0, W, fadeH);
       g = ctx.createLinearGradient(0, H - fadeH, 0, H);
       g.addColorStop(0, bg + '00'); g.addColorStop(1, bg);
       ctx.fillStyle = g; ctx.fillRect(0, H - fadeH, W, fadeH);
+
+      const fadeW = W * 0.15;
+      g = ctx.createLinearGradient(0, 0, fadeW, 0);
+      g.addColorStop(0, bg); g.addColorStop(1, bg + '00');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, fadeW, H);
+      g = ctx.createLinearGradient(W - fadeW, 0, W, 0);
+      g.addColorStop(0, bg + '00'); g.addColorStop(1, bg);
+      ctx.fillStyle = g; ctx.fillRect(W - fadeW, 0, fadeW, H);
+
+      // center radial dim — for card readability
+      const cGrad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, W * 0.38);
+      cGrad.addColorStop(0,   bg + '80');
+      cGrad.addColorStop(0.6, bg + '30');
+      cGrad.addColorStop(1,   bg + '00');
+      ctx.fillStyle = cGrad;
+      ctx.fillRect(0, 0, W, H);
     };
     requestAnimationFrame(render);
   };
