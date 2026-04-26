@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "d086913f4613f5f26b69411b966624501830d1a2ff268c372e6b7da2b3e987cb",
-      "install.ps1": "cfe7e57c392cc7a98069c4adcfb9572fa93a63a0ec2c282af0041628afcafbe9"
+      "install.sh": "62b9fc0d4b1ac0503e06c79aa22cfaa937956794bcf51029d83000ad9cf12ba0",
+      "install.ps1": "b29aa8d919ca50f37b40ef89c1e50abe505d5b975b7e339bb6069120856544cf"
     }
   },
   "attestations": {
@@ -43,13 +43,13 @@
       "scriptUrl": "https://agent.sparkswarm.ai/install.sh",
       "commands": [
         "curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh",
-        "printf '%s  %s\\n' 'd086913f4613f5f26b69411b966624501830d1a2ff268c372e6b7da2b3e987cb' './install.sh' | sha256sum -c -",
+        "printf '%s  %s\\n' '62b9fc0d4b1ac0503e06c79aa22cfaa937956794bcf51029d83000ad9cf12ba0' './install.sh' | sha256sum -c -",
         "(command -v gh >/dev/null 2>&1 || { echo 'GitHub CLI is required for provenance verification: https://cli.github.com/'; exit 1; })",
         "gh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main",
         "less ./install.sh",
         "read -r -p 'Run Spark installer now? Type yes: ' answer && case \"$answer\" in yes) bash ./install.sh ;; *) echo 'Skipped.' ;; esac"
       ],
-      "singleCopyBlock": "curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh\nprintf '%s  %s\\n' 'd086913f4613f5f26b69411b966624501830d1a2ff268c372e6b7da2b3e987cb' './install.sh' | sha256sum -c -\n(command -v gh >/dev/null 2>&1 || { echo 'GitHub CLI is required for provenance verification: https://cli.github.com/'; exit 1; })\ngh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main\nless ./install.sh\nread -r -p 'Run Spark installer now? Type yes: ' answer && case \"$answer\" in yes) bash ./install.sh ;; *) echo 'Skipped.' ;; esac"
+      "singleCopyBlock": "curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh\nprintf '%s  %s\\n' '62b9fc0d4b1ac0503e06c79aa22cfaa937956794bcf51029d83000ad9cf12ba0' './install.sh' | sha256sum -c -\n(command -v gh >/dev/null 2>&1 || { echo 'GitHub CLI is required for provenance verification: https://cli.github.com/'; exit 1; })\ngh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main\nless ./install.sh\nread -r -p 'Run Spark installer now? Type yes: ' answer && case \"$answer\" in yes) bash ./install.sh ;; *) echo 'Skipped.' ;; esac"
     },
     {
       "id": "windows-powershell",
@@ -59,13 +59,13 @@
       "scriptUrl": "https://agent.sparkswarm.ai/install.ps1",
       "commands": [
         "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\\install.ps1",
-        "if ((Get-FileHash .\\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'cfe7e57c392cc7a98069c4adcfb9572fa93a63a0ec2c282af0041628afcafbe9') { throw 'install.ps1 checksum mismatch' }",
+        "if ((Get-FileHash .\\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'b29aa8d919ca50f37b40ef89c1e50abe505d5b975b7e339bb6069120856544cf') { throw 'install.ps1 checksum mismatch' }",
         "if (-not (Get-Command gh -ErrorAction SilentlyContinue)) { throw 'GitHub CLI is required for provenance verification: https://cli.github.com/' }",
         "gh attestation verify .\\install.ps1 --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main",
         "Get-Content .\\install.ps1",
         "if ((Read-Host 'Run Spark installer now? Type yes') -eq 'yes') { powershell -ExecutionPolicy Bypass -File .\\install.ps1 } else { Write-Host 'Skipped.' }"
       ],
-      "singleCopyBlock": "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\\install.ps1\nif ((Get-FileHash .\\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'cfe7e57c392cc7a98069c4adcfb9572fa93a63a0ec2c282af0041628afcafbe9') { throw 'install.ps1 checksum mismatch' }\nif (-not (Get-Command gh -ErrorAction SilentlyContinue)) { throw 'GitHub CLI is required for provenance verification: https://cli.github.com/' }\ngh attestation verify .\\install.ps1 --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main\nGet-Content .\\install.ps1\nif ((Read-Host 'Run Spark installer now? Type yes') -eq 'yes') { powershell -ExecutionPolicy Bypass -File .\\install.ps1 } else { Write-Host 'Skipped.' }"
+      "singleCopyBlock": "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\\install.ps1\nif ((Get-FileHash .\\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'b29aa8d919ca50f37b40ef89c1e50abe505d5b975b7e339bb6069120856544cf') { throw 'install.ps1 checksum mismatch' }\nif (-not (Get-Command gh -ErrorAction SilentlyContinue)) { throw 'GitHub CLI is required for provenance verification: https://cli.github.com/' }\ngh attestation verify .\\install.ps1 --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main\nGet-Content .\\install.ps1\nif ((Read-Host 'Run Spark installer now? Type yes') -eq 'yes') { powershell -ExecutionPolicy Bypass -File .\\install.ps1 } else { Write-Host 'Skipped.' }"
     }
   ],
   "postInstallChecks": [
@@ -144,7 +144,7 @@
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "ref": "2e383fbe8c544b6a25a81c5e8768a7aa26a39bec",
+    "ref": "default branch",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"

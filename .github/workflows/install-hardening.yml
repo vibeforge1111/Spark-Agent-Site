@@ -78,12 +78,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          canonical_ref="2e383fbe8c544b6a25a81c5e8768a7aa26a39bec"
-          grep -q "$canonical_ref" install.sh
-          grep -q "$canonical_ref" install.ps1
-          grep -q "$canonical_ref" install/commands.json
           grep -q "SPARK_ALLOW_DEV_SOURCE" install.sh
           grep -q "AllowDevSource" install.ps1
+          grep -q "Refusing non-canonical Spark CLI source" install.sh
+          grep -q "Refusing non-canonical Spark CLI source" install.ps1
+          grep -q "Refusing custom git ref without --allow-dev-source" install.sh
+          grep -q "Refusing custom git ref without -AllowDevSource" install.ps1
           grep -q "Strict-Transport-Security" nginx.conf
           grep -q "location = /install" nginx.conf
           grep -q "location = /docs" nginx.conf

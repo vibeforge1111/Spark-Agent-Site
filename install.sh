@@ -3,8 +3,7 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_CANONICAL_CLI_REF="2e383fbe8c544b6a25a81c5e8768a7aa26a39bec"
-SPARK_CLI_REF="${SPARK_CLI_REF:-$SPARK_CANONICAL_CLI_REF}"
+SPARK_CLI_REF="${SPARK_CLI_REF:-}"
 SPARK_NODE_VERSION="${SPARK_NODE_VERSION:-22.18.0}"
 SPARK_SKIP_SETUP="${SPARK_SKIP_SETUP:-0}"
 SPARK_AUTOSTART="${SPARK_AUTOSTART:-1}"
@@ -141,13 +140,6 @@ log() {
   printf '[spark-install] %s\n' "$*"
 }
 
-is_commit_sha() {
-  case "$1" in
-    [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]) return 0 ;;
-    *) return 1 ;;
-  esac
-}
-
 normalize_macos_locale() {
   if [ "$(uname -s)" != "Darwin" ]; then
     return
@@ -202,7 +194,7 @@ validate_install_settings() {
     fi
   fi
 
-  if [ -n "$SPARK_CLI_REF" ] && [ "$SPARK_CLI_REF" != "$SPARK_CANONICAL_CLI_REF" ] && [ "$SPARK_ALLOW_DEV_SOURCE" != "1" ]; then
+  if [ -n "$SPARK_CLI_REF" ] && [ "$SPARK_ALLOW_DEV_SOURCE" != "1" ]; then
     echo "Refusing custom git ref without --allow-dev-source: $SPARK_CLI_REF" >&2
     exit 1
   fi
@@ -317,28 +309,14 @@ checkout_cli() {
   need_cmd git
   if [ -d "$target/.git" ]; then
     log "Updating existing spark-cli checkout"
-    if is_commit_sha "$SPARK_CLI_REF"; then
-      git -C "$target" fetch origin
-    else
-      git -C "$target" fetch --depth=1 origin "${SPARK_CLI_REF:-HEAD}"
-    fi
+    git -C "$target" fetch --depth=1 origin "${SPARK_CLI_REF:-HEAD}"
   else
     log "Cloning spark-cli from $SPARK_CLI_SOURCE"
     rm -rf "$target"
-    if is_commit_sha "$SPARK_CLI_REF"; then
-      git clone "$SPARK_CLI_SOURCE" "$target"
-    else
-      git clone --depth=1 "$SPARK_CLI_SOURCE" "$target"
-    fi
+    git clone --depth=1 "$SPARK_CLI_SOURCE" "$target"
   fi
   if [ -n "$SPARK_CLI_REF" ]; then
     git -C "$target" checkout "$SPARK_CLI_REF"
-    local actual_ref
-    actual_ref="$(git -C "$target" rev-parse HEAD)"
-    if [ "$SPARK_CLI_REF" = "$SPARK_CANONICAL_CLI_REF" ] && [ "$actual_ref" != "$SPARK_CANONICAL_CLI_REF" ]; then
-      echo "Spark CLI checkout mismatch: expected $SPARK_CANONICAL_CLI_REF, got $actual_ref" >&2
-      exit 1
-    fi
   fi
 }
 
