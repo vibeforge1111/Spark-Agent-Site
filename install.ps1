@@ -164,16 +164,25 @@ function Copy-DirectoryContents {
         Copy-Item -Destination $To -Recurse -Force
 }
 
+function Invoke-GitQuiet {
+    param([string[]]$Arguments)
+    $oldPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try {
+        & git @Arguments 2>&1 | Out-Null
+        return $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $oldPreference
+    }
+}
+
 function Checkout-CliRef {
     param([string]$Target)
-    git -C $Target checkout $Ref *> $null
-    if ($LASTEXITCODE -eq 0) {
+    if ((Invoke-GitQuiet @("-C", $Target, "checkout", $Ref)) -eq 0) {
         return
     }
-    git -C $Target fetch --depth=1 origin $Ref *> $null
-    if ($LASTEXITCODE -eq 0) {
-        git -C $Target checkout FETCH_HEAD
-        if ($LASTEXITCODE -eq 0) {
+    if ((Invoke-GitQuiet @("-C", $Target, "fetch", "--depth=1", "origin", $Ref)) -eq 0) {
+        if ((Invoke-GitQuiet @("-C", $Target, "checkout", "FETCH_HEAD")) -eq 0) {
             return
         }
     }

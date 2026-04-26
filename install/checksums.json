@@ -11,7 +11,7 @@
     {
       "path": "install.ps1",
       "url": "https://agent.sparkswarm.ai/install.ps1",
-      "sha256": "78d89dea2d3d5d1ce7483b1d975616339c52cc7783f3a67b77bba12e4ccdcd71"
+      "sha256": "c5f8d67f035122b1a40e346a89821190ecf9758ad4b6352e47d1b86fadca3e0c"
     }
   ]
 }
