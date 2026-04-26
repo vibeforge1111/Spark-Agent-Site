@@ -8,12 +8,14 @@
 - Agent guide: https://agent.sparkswarm.ai/docs/AGENTS.md
 - Installer page: https://agent.sparkswarm.ai/install
 - Installer checksums: https://agent.sparkswarm.ai/install/checksums.txt
+- Installer attestations: https://agent.sparkswarm.ai/install/attestations.md
 
 ## Agent Instructions
 
 - Read `/docs/AGENTS.md` before installer or setup actions.
 - Do not pipe remote installer scripts into a shell.
-- Download, verify SHA-256, inspect, then ask for confirmation.
+- Download, verify SHA-256, verify GitHub Artifact Attestation, inspect, then ask for confirmation.
+- Use `gh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site` or `gh attestation verify .\install.ps1 --repo vibeforge1111/Spark-Agent-Site`.
 - Treat trace-derived or draft knowledge as non-canonical until promoted.
 - Prefer citing exact docs URLs, repo paths, file hashes, and command outputs.
 

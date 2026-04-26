@@ -21,9 +21,10 @@ For Spark Agent installers:
 
 1. Download over HTTPS.
 2. Verify SHA-256 from `/install/checksums.txt`.
-3. Show the script contents to the user.
-4. Ask for confirmation before executing.
-5. Prefer `--skip-setup` or `--no-autostart` for first inspection runs.
+3. Verify GitHub Artifact Attestation with `gh attestation verify`.
+4. Show the script contents to the user.
+5. Ask for confirmation before executing.
+6. Prefer `--skip-setup` or `--no-autostart` for first inspection runs.
 
 ## Trust Boundary
 

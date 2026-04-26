@@ -154,15 +154,18 @@
         <h2>The installer path is safer now, but it is still privileged local execution.</h2>
         <p>
           The site now serves <code>/install</code> without the broken HTTP downgrade, and the
-          direct installer files have published SHA-256 checksums. That prevents accidental
-          redirect downgrade and gives operators something concrete to verify after download.
+          direct installer files have published SHA-256 checksums plus GitHub Artifact
+          Attestations. That prevents accidental redirect downgrade and gives operators
+          something concrete to verify after download.
         </p>
-        <pre class="docs-code">curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./spark-install.sh
-printf '%s  %s\n' '732deb5ec9a83a3056e91fc822a9769b86a0ed7e48374de6eace43cb921b1daa' './spark-install.sh' | sha256sum -c -
-less ./spark-install.sh
-read -r -p 'Run Spark installer now? Type yes: ' answer && case "$answer" in yes) bash ./spark-install.sh ;; *) echo 'Skipped.' ;; esac</pre>
+        <pre class="docs-code">curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh
+printf '%s  %s\n' '732deb5ec9a83a3056e91fc822a9769b86a0ed7e48374de6eace43cb921b1daa' './install.sh' | sha256sum -c -
+gh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site
+less ./install.sh
+read -r -p 'Run Spark installer now? Type yes: ' answer && case "$answer" in yes) bash ./install.sh ;; *) echo 'Skipped.' ;; esac</pre>
         <pre class="docs-code">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\install.ps1
 if ((Get-FileHash .\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne '7bd0d7500ecf308493cb6e40ae060ad80c78008dc74e9015daa5494a2307eef6') { throw 'install.ps1 checksum mismatch' }
+gh attestation verify .\install.ps1 --repo vibeforge1111/Spark-Agent-Site
 Get-Content .\install.ps1
 if ((Read-Host 'Run Spark installer now? Type yes') -eq 'yes') { powershell -ExecutionPolicy Bypass -File .\install.ps1 } else { Write-Host 'Skipped.' }</pre>
         <p>
@@ -186,6 +189,7 @@ if ((Read-Host 'Run Spark installer now? Type yes') -eq 'yes') { powershell -Exe
           <a class="docs-link" href="/docs/AGENTS.md">Agent guide</a>
           <a class="docs-link" href="/docs/llms.txt">llms.txt</a>
           <a class="docs-link" href="/install/checksums.txt">Installer checksums</a>
+          <a class="docs-link" href="/install/attestations.md">Installer attestations</a>
           <a class="docs-link" href="/install">Install</a>
         </div>
       </section>
