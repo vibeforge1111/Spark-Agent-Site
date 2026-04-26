@@ -3,7 +3,7 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_DEFAULT_CLI_REF="spark-cli-launch-2026-04-26"
+SPARK_DEFAULT_CLI_REF="9f37e045186da2f41ba6966028e6b483e722bbc9"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1

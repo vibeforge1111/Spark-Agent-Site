@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "spark-cli-launch-2026-04-26",
+    [string]$Ref = "9f37e045186da2f41ba6966028e6b483e722bbc9",
     [string]$NodeVersion = "22.18.0",
     [string]$Bundle = "telegram-starter",
     [string]$BotToken = "",
