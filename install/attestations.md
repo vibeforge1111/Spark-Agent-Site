@@ -4,6 +4,12 @@ Spark Agent installer files are attested by GitHub Actions after they pass the i
 
 The attestation binds the downloaded file digest to this repository and workflow using GitHub Artifact Attestations backed by Sigstore.
 
+Spark also publishes separate Cosign keyless blob signatures as GitHub Release assets. See:
+
+```text
+https://agent.sparkswarm.ai/install/signatures.md
+```
+
 ## Release Manifest
 
 The pinned installer inputs are published at:
@@ -43,9 +49,10 @@ For maximum transparency:
 1. Download the installer without running it.
 2. Verify `install/checksums.txt`.
 3. Verify GitHub Artifact Attestations.
-4. Read the installer script.
-5. Run dry-run only.
-6. Run the installer after the plan looks correct.
+4. Verify the Sigstore signature bundle from the latest GitHub Release.
+5. Read the installer script.
+6. Run dry-run only.
+7. Run the installer after the plan looks correct.
 
 ## Required Tool
 

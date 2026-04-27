@@ -22,9 +22,10 @@ For Spark Agent installers:
 1. Download over HTTPS.
 2. Verify SHA-256 from `/install/checksums.txt`.
 3. Verify GitHub Artifact Attestation with `gh attestation verify`.
-4. Show the script contents to the user.
-5. Ask for confirmation before executing.
-6. Prefer `--skip-setup` or `--no-autostart` for first inspection runs.
+4. Verify Sigstore signature bundles with `cosign verify-blob` when Cosign is available.
+5. Show the script contents to the user.
+6. Ask for confirmation before executing.
+7. Prefer `--skip-setup` or `--no-autostart` for first inspection runs.
 
 Read `/docs/install-safety.md` before installing. Read `/docs/lifecycle.md` before repair, uninstall, or autostart changes.
 

@@ -1,0 +1,149 @@
+name: Release signing
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "install.sh"
+      - "install.ps1"
+      - "install/**"
+      - ".github/workflows/release-signing.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "install.sh"
+      - "install.ps1"
+      - "install/**"
+      - ".github/workflows/release-signing.yml"
+
+permissions:
+  contents: read
+
+env:
+  COSIGN_CERT_IDENTITY: https://github.com/vibeforge1111/Spark-Agent-Site/.github/workflows/release-signing.yml@refs/heads/main
+  COSIGN_CERT_ISSUER: https://token.actions.githubusercontent.com
+
+jobs:
+  validate-release-signing-config:
+    name: validate-release-signing-config
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Validate signing docs and workflow pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q "sigstore/cosign-installer@ba7bc0a3fef59531c69a25acd34668d6d3fe6f22" .github/workflows/release-signing.yml
+          grep -q "$COSIGN_CERT_IDENTITY" install/signatures.md
+          grep -q "$COSIGN_CERT_ISSUER" install/signatures.md
+          grep -q "cosign verify-blob" install/signatures.md
+          grep -q "GitHub Release Sigstore bundles" install/commands.json
+
+  sign-and-release:
+    name: sign-and-release
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@ba7bc0a3fef59531c69a25acd34668d6d3fe6f22
+
+      - name: Sign installer release files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          short_sha="${GITHUB_SHA::12}"
+          tag="installer-${short_sha}"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $tag already exists."
+            exit 0
+          fi
+
+          dist="$(mktemp -d)"
+          mkdir -p "$dist/signatures"
+
+          files=(
+            install.sh
+            install.ps1
+            install/checksums.txt
+            install/checksums.json
+            install/commands.json
+            install/release-manifest.json
+          )
+
+          for file in "${files[@]}"; do
+            cp "$file" "$dist/$(basename "$file")"
+            cosign sign-blob "$file" --bundle "$dist/signatures/$(basename "$file").sigstore.json" --yes
+            cosign verify-blob "$file" \
+              --bundle "$dist/signatures/$(basename "$file").sigstore.json" \
+              --certificate-identity "$COSIGN_CERT_IDENTITY" \
+              --certificate-oidc-issuer "$COSIGN_CERT_ISSUER"
+          done
+
+          python3 - "$dist" "$GITHUB_SHA" "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$tag" <<'PY'
+          import hashlib
+          import json
+          import pathlib
+          import sys
+
+          dist = pathlib.Path(sys.argv[1])
+          sha, run_id, repo, tag = sys.argv[2:6]
+          files = []
+          for path in sorted(p for p in dist.iterdir() if p.is_file()):
+              files.append({
+                  "name": path.name,
+                  "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                  "signatureBundle": f"signatures/{path.name}.sigstore.json",
+              })
+          manifest = {
+              "version": 1,
+              "repository": repo,
+              "commit": sha,
+              "tag": tag,
+              "workflow": ".github/workflows/release-signing.yml",
+              "runUrl": f"https://github.com/{repo}/actions/runs/{run_id}",
+              "certificateIdentity": "https://github.com/vibeforge1111/Spark-Agent-Site/.github/workflows/release-signing.yml@refs/heads/main",
+              "certificateOidcIssuer": "https://token.actions.githubusercontent.com",
+              "files": files,
+          }
+          (dist / "signed-release.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+          PY
+
+          cat > "$dist/RELEASE-NOTES.md" <<EOF
+          Production installer signing bundle for commit \`$GITHUB_SHA\`.
+
+          Each listed installer and metadata file has a Sigstore keyless blob signature bundle.
+
+          Verify example:
+
+          \`\`\`bash
+          cosign verify-blob ./install.sh \\
+            --bundle ./signatures/install.sh.sigstore.json \\
+            --certificate-identity "$COSIGN_CERT_IDENTITY" \\
+            --certificate-oidc-issuer "$COSIGN_CERT_ISSUER"
+          \`\`\`
+          EOF
+
+          gh release create "$tag" \
+            "$dist"/*.sh \
+            "$dist"/*.ps1 \
+            "$dist"/*.txt \
+            "$dist"/*.json \
+            "$dist"/signatures/*.sigstore.json \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "Spark production installer ${short_sha}" \
+            --notes-file "$dist/RELEASE-NOTES.md" \
+            --latest

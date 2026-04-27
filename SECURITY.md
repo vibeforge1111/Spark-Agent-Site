@@ -9,6 +9,7 @@
 - Installer scripts and checksum manifests are served without cache.
 - Security headers are set in `nginx.conf`, including CSP, HSTS, `nosniff`, and frame denial.
 - Installer provenance is documented in `install/attestations.md`.
+- Installer Sigstore signatures are documented in `install/signatures.md`.
 - Installer release inputs are pinned in `install/release-manifest.json`.
 - GitHub Actions validates installer syntax, checksum manifests, trust-boundary strings, container build, and attestation generation.
 - Security contact metadata is published at `/.well-known/security.txt`.
@@ -42,6 +43,7 @@ Installer changes must keep these invariants:
 - `install/checksums.json` and `install/commands.json` match `install/checksums.txt`
 - UI/docs display the current hashes
 - attestation verification instructions remain valid
+- signature verification instructions remain valid
 
 ## Required Verification
 

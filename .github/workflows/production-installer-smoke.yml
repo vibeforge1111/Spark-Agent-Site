@@ -163,3 +163,47 @@ jobs:
           }
 
           powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -Prefix "$env:RUNNER_TEMP\spark-production-dry-run" -DryRun
+
+  production-installer-real-install:
+    name: production-installer-real-install (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Production Bash real install
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL "$SPARK_INSTALL_HOST/install.sh" -o spark-install.sh
+          curl -fsSL "$SPARK_INSTALL_HOST/install/checksums.txt" -o checksums.txt
+          expected="$(awk '$2 == "install.sh" {print $1}' checksums.txt)"
+          actual="$(if command -v sha256sum >/dev/null 2>&1; then sha256sum spark-install.sh | awk '{print $1}'; else shasum -a 256 spark-install.sh | awk '{print $1}'; fi)"
+          test "$actual" = "$expected"
+
+          prefix="$RUNNER_TEMP/spark-production-real-install"
+          SPARK_PREFIX="$prefix" bash spark-install.sh --yes --skip-setup --no-autostart --no-shell-profile --managed-node
+          test -x "$prefix/bin/spark"
+          "$prefix/bin/spark" --help >/dev/null
+          "$prefix/bin/spark" guide >/dev/null
+          rm -rf "$prefix"
+
+      - name: Production PowerShell real install
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "$env:SPARK_INSTALL_HOST/install.ps1" -OutFile ".\spark-install.ps1"
+          Invoke-WebRequest -Uri "$env:SPARK_INSTALL_HOST/install/checksums.txt" -OutFile ".\checksums.txt"
+          $expected = (Get-Content .\checksums.txt | Where-Object { $_ -match '\sinstall\.ps1$' } | ForEach-Object { ($_ -split '\s+')[0] })
+          if (-not $expected) { throw "install.ps1 checksum missing from production checksums.txt" }
+          $actual = (Get-FileHash .\spark-install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne $expected) { throw "install.ps1 checksum mismatch: $actual != $expected" }
+
+          $prefix = Join-Path $env:RUNNER_TEMP "spark-production-real-install"
+          powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -Prefix $prefix -Yes -SkipSetup -NoAutostart -ManagedNode
+          if (-not (Test-Path (Join-Path $prefix "bin\spark.cmd"))) { throw "spark.cmd wrapper missing" }
+          & (Join-Path $prefix "bin\spark.cmd") --help | Out-Null
+          & (Join-Path $prefix "bin\spark.cmd") guide | Out-Null
+          Remove-Item -LiteralPath $prefix -Recurse -Force
