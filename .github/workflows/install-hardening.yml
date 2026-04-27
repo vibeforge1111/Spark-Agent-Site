@@ -55,6 +55,7 @@ jobs:
 
           checksums = json.loads((root / "install/checksums.json").read_text(encoding="utf-8"))
           commands = json.loads((root / "install/commands.json").read_text(encoding="utf-8"))
+          manifest = json.loads((root / "install/release-manifest.json").read_text(encoding="utf-8"))
 
           json_hashes = {entry["path"]: entry["sha256"] for entry in checksums["files"]}
           command_hashes = commands["checksums"]["sha256"]
@@ -63,15 +64,19 @@ jobs:
               sys.exit("checksums.json does not match checksums.txt")
           if command_hashes != expected:
               sys.exit("commands.json checksums do not match checksums.txt")
+          if commands["source"]["ref"] != manifest["sparkCli"]["commit"]:
+              sys.exit("commands.json source ref does not match release manifest")
+          if not all(len(value) == 64 for value in manifest["runtimes"]["uv"]["assets"].values()):
+              sys.exit("release manifest uv asset hashes must be sha256 digests")
 
           for relpath, digest in expected.items():
               for haystack in [
-                  (root / "index.html").read_text(encoding="utf-8"),
-                  (root / "docs/index.html").read_text(encoding="utf-8"),
+                  (root / "install/checksums.json").read_text(encoding="utf-8"),
                   (root / "install/commands.json").read_text(encoding="utf-8"),
+                  (root / "install/attestations.md").read_text(encoding="utf-8"),
               ]:
                   if digest not in haystack:
-                      sys.exit(f"{digest} missing from install UI/docs")
+                      sys.exit(f"{digest} missing from published verification metadata")
           PY
 
       - name: Validate trust boundary
@@ -89,6 +94,13 @@ jobs:
           grep -q "location = /docs" nginx.conf
           grep -q "location = /install/attestations.md" nginx.conf
           grep -q "gh attestation verify" install/commands.json
+          grep -q "release-manifest.json" index.html
+          grep -q "f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0" install.sh
+          grep -q "f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0" install.ps1
+          grep -q "uv archive checksum mismatch" install.sh
+          grep -q "uv archive checksum mismatch" install.ps1
+          ! grep -q "astral.sh/uv/install.sh | sh" install.sh
+          ! grep -q "Invoke-Expression" install.ps1
           grep -q "actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26" .github/workflows/install-hardening.yml
           ! grep -q "add_header Cache-Control" nginx.conf
           ! git grep -n -I -E '301a16435504eaf2|9d32b1d17df505|docs\.sparkswarm\.ai|sparkswarm\.ai/docs/insight' -- . ':!.github/workflows/install-hardening.yml'
@@ -97,8 +109,46 @@ jobs:
         shell: bash
         run: docker build -t spark-agent-site-hardening .
 
+      - name: Attest release manifest
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26
+        with:
+          subject-path: install/release-manifest.json
+
       - name: Attest installer provenance
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26
         with:
           subject-checksums: install/checksums.txt
+
+  installer-smoke:
+    name: installer-smoke (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Bash installer dry-run
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash -n install.sh
+          SPARK_PREFIX="$RUNNER_TEMP/spark-installer-dry-run" bash install.sh --dry-run
+
+      - name: PowerShell installer dry-run
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path "./install.ps1"), [ref] $tokens, [ref] $errors) | Out-Null
+          if ($errors.Count) {
+            $errors | ForEach-Object { Write-Error $_ }
+            exit 1
+          }
+          powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 -Prefix "$env:RUNNER_TEMP\spark-installer-dry-run" -DryRun

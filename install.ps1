@@ -1,9 +1,10 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "spark-cli-launch-2026-04-27",
+    [string]$Ref = "f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
+    [string]$UvVersion = "0.11.7",
     [string]$Bundle = "telegram-starter",
     [string]$BotToken = "",
     [string]$AdminTelegramIds = "",
@@ -28,6 +29,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$SparkCliReleaseName = "spark-cli-launch-2026-04-27"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
@@ -91,16 +93,68 @@ function Find-Uv {
     return $false
 }
 
+function Get-UvPlatform {
+    $arch = $env:PROCESSOR_ARCHITECTURE
+    if ($arch -eq "ARM64") {
+        return "aarch64-pc-windows-msvc"
+    }
+    if ($arch -eq "AMD64" -or $arch -eq "x86_64") {
+        return "x86_64-pc-windows-msvc"
+    }
+    throw "Unsupported Windows architecture for uv: $arch"
+}
+
+function Get-UvAssetSha256 {
+    param([string]$Asset)
+    switch ($Asset) {
+        "uv-aarch64-pc-windows-msvc.zip" { return "1387e1c94e15196351196b79fce4c1e6f4b30f19cdaaf9ff85fbd6b046018aa2" }
+        "uv-x86_64-pc-windows-msvc.zip" { return "fe0c7815acf4fc45f8a5eff58ed3cf7ae2e15c3cf1dceadbd10c816ec1690cc1" }
+        default { throw "No pinned uv checksum for asset: $Asset" }
+    }
+}
+
 function Install-Uv {
     if (Find-Uv) {
         Write-SparkLog "Using uv at $Script:UvExe"
         return
     }
-    Write-SparkLog "Installing uv to manage Python $PythonVersion"
-    Invoke-RestMethod https://astral.sh/uv/install.ps1 | Invoke-Expression
-    if (-not (Find-Uv)) {
-        throw "uv installed but was not found. Add %USERPROFILE%\.local\bin to PATH and rerun the installer."
+    $uvPlatform = Get-UvPlatform
+    $asset = "uv-$uvPlatform.zip"
+    $expected = Get-UvAssetSha256 $asset
+    $toolsDir = Join-Path $Script:SparkPrefix "tools"
+    $uvDir = Join-Path $toolsDir "uv-v$UvVersion-$uvPlatform"
+    $archive = Join-Path $toolsDir $asset
+    $extractDir = Join-Path $toolsDir "uv-extract-$UvVersion-$uvPlatform"
+    $uvExe = Join-Path $uvDir "uv.exe"
+    if (Test-Path -LiteralPath $uvExe) {
+        $Script:UvExe = $uvExe
+        Write-SparkLog "Using managed uv at $Script:UvExe"
+        return
     }
+    New-Item -ItemType Directory -Force -Path $toolsDir, $uvDir | Out-Null
+    Write-SparkLog "Downloading pinned uv $UvVersion for $uvPlatform"
+    Invoke-WebRequest -Uri "https://github.com/astral-sh/uv/releases/download/$UvVersion/$asset" -OutFile $archive
+    $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash.ToLowerInvariant()
+    if ($actual -ne $expected) {
+        throw "uv archive checksum mismatch for $asset"
+    }
+    if (Test-Path -LiteralPath $extractDir) {
+        Remove-Item -LiteralPath $extractDir -Recurse -Force
+    }
+    New-Item -ItemType Directory -Force -Path $extractDir | Out-Null
+    Expand-Archive -Path $archive -DestinationPath $extractDir -Force
+    $extractedUv = Get-ChildItem -LiteralPath $extractDir -Filter uv.exe -Recurse | Select-Object -First 1
+    if (-not $extractedUv) {
+        throw "uv archive did not contain uv.exe"
+    }
+    Copy-Item -LiteralPath $extractedUv.FullName -Destination $uvExe -Force
+    $extractedUvx = Get-ChildItem -LiteralPath $extractDir -Filter uvx.exe -Recurse | Select-Object -First 1
+    if ($extractedUvx) {
+        Copy-Item -LiteralPath $extractedUvx.FullName -Destination (Join-Path $uvDir "uvx.exe") -Force
+    }
+    Remove-Item -LiteralPath $extractDir -Recurse -Force
+    $Script:UvExe = $uvExe
+    Write-SparkLog "Using managed uv at $Script:UvExe"
 }
 
 function Ensure-PythonRuntime {
@@ -131,7 +185,12 @@ function Test-ExistingInstall {
 
 function Invoke-Preflight {
     Write-SparkLog "Preflight checks"
-    Ensure-PythonRuntime
+    if (Find-SystemPython) {
+        $versionText = (& $Script:PythonExe --version 2>$null)
+        Write-SparkLog "Python runtime: $versionText at $Script:PythonExe"
+    } else {
+        Write-SparkLog "Python runtime: Python 3.11+ not found; pinned uv $UvVersion will be downloaded after confirmation"
+    }
     Require-Command git
     Write-SparkLog "Install prefix: $Script:SparkPrefix"
     Write-SparkLog "Spark CLI source: $Source"
@@ -178,10 +237,11 @@ function Show-DryRunPlan {
     Write-Host "  Node platform:       win-x64"
     Write-Host "  Node version:        $NodeVersion"
     Write-Host "  Python version:      $PythonVersion"
-    Write-Host "  Python source:       existing Python 3.11+ or managed with uv if needed"
+    Write-Host "  Python source:       existing Python 3.11+ or pinned uv $UvVersion if needed"
     Write-Host "  Managed Node forced: $ManagedNode"
     Write-Host "  CLI source:          $Source"
-    Write-Host "  CLI ref:             $Ref"
+    Write-Host "  CLI release:         $SparkCliReleaseName"
+    Write-Host "  CLI commit:          $Ref"
     Write-Host "  Bundle:              $Bundle"
     Write-Host "  Setup enabled:       $setupEnabled"
     Write-Host "  User PATH edit:      yes"
@@ -198,9 +258,14 @@ function Show-DryRunPlan {
     Write-Host ""
     Write-Host "Would download if needed:"
     Write-Host "  Node $NodeVersion from nodejs.org"
-    Write-Host "  uv from astral.sh when Python 3.11+ is missing"
+    Write-Host "  uv $UvVersion from github.com/astral-sh/uv when Python 3.11+ is missing"
     Write-Host "  Python $PythonVersion via uv when Python 3.11+ is missing"
     Write-Host "  Spark CLI from $Source at $Ref"
+    Write-Host ""
+    Write-Host "Network allowlist:"
+    Write-Host "  nodejs.org"
+    Write-Host "  github.com/astral-sh/uv"
+    Write-Host "  github.com/vibeforge1111/spark-cli"
     Write-Host ""
     Write-Host "Would run:"
     Write-Host "  python -m venv `"$Script:SparkPrefix\tools\spark-cli-venv`""
@@ -284,6 +349,12 @@ function Test-InstallSettings {
     }
     if ($PythonVersion -notmatch '^\d+\.\d+(\.\d+)?$') {
         throw "Unsafe Python version value: $PythonVersion"
+    }
+    if ($UvVersion -notmatch '^\d+\.\d+\.\d+$') {
+        throw "Unsafe uv version value: $UvVersion"
+    }
+    if (-not $RefWasProvided -and $Ref -notmatch '^[0-9a-f]{40}$') {
+        throw "Default Spark CLI ref must be an immutable 40-character commit SHA: $Ref"
     }
     $normalizedSource = $Source.TrimEnd("/")
     if ($normalizedSource.EndsWith(".git")) {
@@ -593,6 +664,7 @@ function Invoke-Install {
         return
     }
     New-Item -ItemType Directory -Force -Path $Script:SparkPrefix | Out-Null
+    Ensure-PythonRuntime
     Start-InstallLog
     Acquire-InstallLock
     $nodeDir = Install-Node

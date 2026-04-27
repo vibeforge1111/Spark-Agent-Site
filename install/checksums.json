@@ -6,12 +6,12 @@
     {
       "path": "install.sh",
       "url": "https://agent.sparkswarm.ai/install.sh",
-      "sha256": "c6aed707ca460bcab1ccedcc5d5fa105968c97695d3173029ad26a35a4e37e37"
+      "sha256": "0ebada64dfebd127f40ab7b4d8d04dc22a546f2b12562de50516be3f87d32e77"
     },
     {
       "path": "install.ps1",
       "url": "https://agent.sparkswarm.ai/install.ps1",
-      "sha256": "5c5f7a71c1c52385c832425afb04d8d654613e0445dc5af73b1b3f749ece1f33"
+      "sha256": "fb4619737e96b5a84e93f9252c8c05e930e731064d17d85b9ad126a5c238a8e6"
     }
   ]
 }

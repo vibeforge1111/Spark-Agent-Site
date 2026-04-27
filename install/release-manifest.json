@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "updated": "2026-04-27",
+  "installerHost": "https://agent.sparkswarm.ai",
+  "sparkCli": {
+    "repository": "https://github.com/vibeforge1111/spark-cli",
+    "releaseName": "spark-cli-launch-2026-04-27",
+    "commit": "f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0"
+  },
+  "runtimes": {
+    "node": {
+      "version": "22.18.0",
+      "source": "https://nodejs.org/dist/v22.18.0/"
+    },
+    "python": {
+      "version": "3.11",
+      "manager": "uv"
+    },
+    "uv": {
+      "version": "0.11.7",
+      "repository": "https://github.com/astral-sh/uv",
+      "assets": {
+        "uv-aarch64-apple-darwin.tar.gz": "66e37d91f839e12481d7b932a1eccbfe732560f42c1cfb89faddfa2454534ba8",
+        "uv-x86_64-apple-darwin.tar.gz": "0a4bc8fcde4974ea3560be21772aeecab600a6f43fa6e58169f9fa7b3b71d302",
+        "uv-aarch64-unknown-linux-gnu.tar.gz": "f2ee1cde9aabb4c6e43bd3f341dadaf42189a54e001e521346dc31547310e284",
+        "uv-x86_64-unknown-linux-gnu.tar.gz": "6681d691eb7f9c00ac6a3af54252f7ab29ae72f0c8f95bdc7f9d1401c23ea868",
+        "uv-aarch64-pc-windows-msvc.zip": "1387e1c94e15196351196b79fce4c1e6f4b30f19cdaaf9ff85fbd6b046018aa2",
+        "uv-x86_64-pc-windows-msvc.zip": "fe0c7815acf4fc45f8a5eff58ed3cf7ae2e15c3cf1dceadbd10c816ec1690cc1"
+      }
+    }
+  },
+  "networkAllowlist": [
+    "agent.sparkswarm.ai",
+    "github.com/vibeforge1111/spark-cli",
+    "github.com/astral-sh/uv",
+    "nodejs.org"
+  ],
+  "installers": {
+    "unix": "install.sh",
+    "windows": "install.ps1"
+  }
+}
