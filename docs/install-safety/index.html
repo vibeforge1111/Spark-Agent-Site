@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<title>Spark Install Safety</title>
+<meta name="description" content="Plain-English Spark install safety guide for humans and local coding agents.">
+<link rel="canonical" href="https://agent.sparkswarm.ai/docs/install-safety/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/docs/docs.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header class="topbar">
+  <a href="/" class="brand" aria-label="Spark agent home">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-wordmark docs-wordmark">Spark</span>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-slash"><span class="brand-slash-prefix">/</span>docs</span>
+  </a>
+  <div class="topbar-right"><a href="/#install" class="cta-install">Install<span class="cta-arrow">-&gt;</span></a></div>
+</header>
+<main class="docs-shell">
+  <nav class="docs-nav" aria-label="Docs navigation">
+    <p>Docs Map</p>
+    <div class="docs-nav-links">
+      <a href="/docs/">Overview</a>
+      <a href="/docs/install-safety/">Install</a>
+      <a href="/docs/suites/">Suites</a>
+      <a href="/docs/lifecycle/">Fix</a>
+      <a href="/docs/self-improvement/">Improve</a>
+      <a href="/llms.txt">Agents</a>
+    </div>
+  </nav>
+  <article class="doc-page">
+    <section class="doc-hero">
+      <span class="overline">Install Safety</span>
+      <h1>Install Spark without guessing what happens.</h1>
+      <p>Spark should feel inspectable. Download first, dry-run first, then install only after the plan makes sense.</p>
+      <div class="doc-mini-nav">
+        <a href="/docs/install-safety.md">Agent Markdown</a>
+        <a href="/install/checksums.txt">Checksums</a>
+        <a href="/install/release-manifest.json">Manifest</a>
+        <a href="/install/signatures.md">Signatures</a>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>The safe path.</h2>
+      <p>This is the install flow we want humans and agents to follow.</p>
+      <div class="doc-flowline" aria-label="Safe install flow">
+        <span>Download</span>
+        <span>Verify</span>
+        <span>Dry-run</span>
+        <span>Install</span>
+        <span>Check</span>
+      </div>
+      <div class="doc-callout">
+        <h3>Golden rule</h3>
+        <p>Do not paste Telegram tokens or LLM keys into the website. Give secrets only to local Spark setup.</p>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Human steps.</h2>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <span class="doc-kicker">macOS, Linux, WSL</span>
+          <h3>Download, dry-run, install</h3>
+          <pre class="docs-code">curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh
+bash spark-install.sh --dry-run
+bash spark-install.sh</pre>
+        </div>
+        <div class="doc-card">
+          <span class="doc-kicker">Windows</span>
+          <h3>Download, dry-run, install</h3>
+          <pre class="docs-code">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>What Spark may touch.</h2>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <h3>Network</h3>
+          <ul>
+            <li><code>agent.sparkswarm.ai</code></li>
+            <li><code>github.com/vibeforge1111/spark-cli</code></li>
+            <li><code>github.com/astral-sh/uv</code></li>
+            <li><code>nodejs.org</code></li>
+          </ul>
+        </div>
+        <div class="doc-card">
+          <h3>Local files</h3>
+          <ul>
+            <li><code>~/.spark</code> on macOS, Linux, and WSL.</li>
+            <li><code>%USERPROFILE%\.spark</code> on Windows.</li>
+            <li>Autostart files when autostart is enabled.</li>
+            <li>Install logs under the Spark folder.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="doc-callout" data-tone="test">
+        <h3>Needs testing</h3>
+        <p>We should keep running production installer smoke tests whenever this list changes. New network destinations should be treated as a security review item.</p>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Agent install schema.</h2>
+      <p>Use this shape when an agent explains the install plan to a user.</p>
+      <div class="doc-schema">
+        <header><span>spark-install-plan.v1</span><span>for agents</span></header>
+        <pre>{
+  "downloaded": ["install.sh or install.ps1"],
+  "verified": ["sha256", "attestation if available", "signature if available"],
+  "dryRunShown": true,
+  "writes": ["~/.spark or %USERPROFILE%\\.spark", "autostart files if enabled"],
+  "secretsStayLocal": true,
+  "needsUserApprovalBeforeInstall": true
+}</pre>
+      </div>
+    </section>
+  </article>
+</main>
+</body>
+</html>

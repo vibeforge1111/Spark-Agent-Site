@@ -15,7 +15,14 @@ If a user asks how to install Spark:
 
 ## Read Order
 
-Use these pages first:
+Use these pages first for humans:
+
+- `/docs/install-safety/` before install
+- `/docs/suites/` to explain what Spark installs
+- `/docs/self-improvement/` to explain domain chips, recursive loops, and benchmarks
+- `/docs/lifecycle/` for repair, checks, autostart, and uninstall
+
+Use these Markdown pages first for agents:
 
 - `/docs/install-safety.md` before install
 - `/docs/suites.md` to explain what Spark installs
@@ -74,6 +81,8 @@ For domain chips and recursive loops, keep the answer grounded:
 - save lessons and failures
 - require review before risky changes
 
+If a command, workflow, provider detail, or chip behavior has not been verified in a real run, label it `Needs testing` instead of presenting it as proven.
+
 ## Current Installer Pins
 
 - Spark CLI commit: `f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0`
@@ -98,7 +107,7 @@ Allowed installer network destinations:
 - `spark doctor`
 - `spark fix telegram`
 - `spark autostart status`
-- `spark autostart remove`
+- `spark autostart uninstall`
 - `spark uninstall`
 
 ## Current Status

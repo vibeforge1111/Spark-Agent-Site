@@ -99,7 +99,7 @@ spark autostart status
 Turn it off:
 
 ```bash
-spark autostart remove
+spark autostart uninstall
 ```
 
 ## Uninstall
@@ -107,7 +107,7 @@ spark autostart remove
 Prefer:
 
 ```bash
-spark autostart remove
+spark autostart uninstall
 spark uninstall
 ```
 

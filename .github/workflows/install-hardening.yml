@@ -101,11 +101,19 @@ jobs:
           grep -q "location = /llms-full.txt" nginx.conf
           grep -q "location = /.well-known/llms.txt" nginx.conf
           grep -q "X-Llms-Txt" nginx.conf
+          grep -q "location = /docs/install-safety/" nginx.conf
+          grep -q "location = /docs/suites/" nginx.conf
+          grep -q "location = /docs/self-improvement/" nginx.conf
+          grep -q "location = /docs/lifecycle/" nginx.conf
           grep -q "location = /docs/install-safety.md" nginx.conf
           grep -q "location = /docs/suites.md" nginx.conf
           grep -q "location = /docs/self-improvement.md" nginx.conf
           grep -q "location = /docs/lifecycle.md" nginx.conf
           grep -q "location \\^~ /docs/pages/" nginx.conf
+          grep -q "Install Spark without guessing" docs/install-safety/index.html
+          grep -q "The starter kit in normal words" docs/suites/index.html
+          grep -q "When Spark is quiet" docs/lifecycle/index.html
+          grep -q "Make Spark better by giving it a score" docs/self-improvement/index.html
           grep -q "Spark Suites" docs/suites.md
           grep -q "Spark Self-Improvement" docs/self-improvement.md
           grep -q "Spark Agent Full Context" llms-full.txt

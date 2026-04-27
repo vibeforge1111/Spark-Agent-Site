@@ -4,6 +4,8 @@ Use this page before installing Spark.
 
 It is written for humans and local coding agents.
 
+Human page: `/docs/install-safety/`
+
 ## The Short Version
 
 Download the installer first.

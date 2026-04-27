@@ -4,6 +4,8 @@ Spark installs a starter kit called `telegram-starter`.
 
 This page explains what each part does.
 
+Human page: `/docs/suites/`
+
 ## Telegram Bot
 
 This is the front door.
@@ -81,5 +83,5 @@ It is on by default.
 Turn it off with:
 
 ```bash
-spark autostart remove
+spark autostart uninstall
 ```

@@ -6,6 +6,10 @@
 
 - [Human docs](https://agent.sparkswarm.ai/docs): Plain-language overview.
 - [Install page](https://agent.sparkswarm.ai/install): Main install UI.
+- [Human install safety](https://agent.sparkswarm.ai/docs/install-safety/): Polished install safety page.
+- [Human suites](https://agent.sparkswarm.ai/docs/suites/): Polished module map.
+- [Human self-improvement](https://agent.sparkswarm.ai/docs/self-improvement/): Polished domain-chip and benchmark guide.
+- [Human fixes](https://agent.sparkswarm.ai/docs/lifecycle/): Polished repair and daily checks page.
 - [Install safety](https://agent.sparkswarm.ai/docs/install-safety.md): Safe install steps, hashes, downloads, writes, and secret rules.
 - [Spark suites](https://agent.sparkswarm.ai/docs/suites.md): What Telegram Bot, Builder, memory, Mission Control, and Researcher do.
 - [Self-improvement](https://agent.sparkswarm.ai/docs/self-improvement.md): Domain chips, recursive loops, benchmarks, and safe Spark prompts.

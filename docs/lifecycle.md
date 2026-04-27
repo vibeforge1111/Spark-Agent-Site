@@ -4,6 +4,8 @@ Use this page after Spark is installed.
 
 It is for quiet bots, broken setup, memory issues, autostart, and uninstall.
 
+Human page: `/docs/lifecycle/`
+
 ## First Checks
 
 Run these in Terminal:
@@ -108,7 +110,7 @@ spark autostart status
 Turn it off:
 
 ```bash
-spark autostart remove
+spark autostart uninstall
 ```
 
 Turn it back on:
@@ -122,7 +124,7 @@ spark autostart install telegram-starter --now
 Prefer:
 
 ```bash
-spark autostart remove
+spark autostart uninstall
 spark uninstall
 ```
 
