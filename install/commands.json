@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "0ebada64dfebd127f40ab7b4d8d04dc22a546f2b12562de50516be3f87d32e77",
-      "install.ps1": "fb4619737e96b5a84e93f9252c8c05e930e731064d17d85b9ad126a5c238a8e6"
+      "install.sh": "b5a3e3a35b8a7bfa2def28fd9d6834ea3b67232c219bcd6cb43c9455d8c82d45",
+      "install.ps1": "1225b11848c4ec011e163c7370673e702a4a529d41eea3937fbad122051823a6"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -37,9 +37,10 @@
   },
   "starterBundle": {
     "name": "telegram-starter",
-    "summary": "Researcher + Builder runtime + default memory + Spawner execution plane + Telegram gateway",
+    "summary": "Researcher + character runtime + Builder runtime + default memory + Spawner execution plane + Telegram gateway",
     "modules": [
       "spark-researcher",
+      "spark-character",
       "spark-intelligence-builder",
       "domain-chip-memory",
       "spawner-ui",
@@ -134,6 +135,7 @@
   ],
   "moduleRoles": [
     { "module": "spark-telegram-bot", "role": "Telegram front door. Owns the bot token, runs long polling, and receives chat commands." },
+    { "module": "spark-character", "role": "Identity and access-level runtime. Keeps persona, consent, and self-improvement signals understandable." },
     { "module": "spark-intelligence-builder", "role": "Runtime brain. Handles identity, memory bridge, provider routing, and domain-chip activation." },
     { "module": "domain-chip-memory", "role": "Default memory chip. Provides memory contracts, benchmark checks, and memory-oriented skills." },
     { "module": "spark-researcher", "role": "Research and advisory runtime. Helps with research, evidence packets, and domain-chip authoring." },
@@ -150,8 +152,8 @@
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "releaseName": "spark-cli-launch-2026-04-27",
-    "ref": "f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0",
+    "releaseName": "spark-cli-launch-2026-04-27-2",
+    "ref": "674ed7463c49ea4c2ac0d868ae10d277a16d49a1",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"

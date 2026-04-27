@@ -31,8 +31,8 @@ Only then run the real install.
 ## Current Hashes
 
 ```text
-0ebada64dfebd127f40ab7b4d8d04dc22a546f2b12562de50516be3f87d32e77  install.sh
-fb4619737e96b5a84e93f9252c8c05e930e731064d17d85b9ad126a5c238a8e6  install.ps1
+b5a3e3a35b8a7bfa2def28fd9d6834ea3b67232c219bcd6cb43c9455d8c82d45  install.sh
+1225b11848c4ec011e163c7370673e702a4a529d41eea3937fbad122051823a6  install.ps1
 ```
 
 ## Safe Human Procedure
@@ -99,7 +99,7 @@ Expected files:
 
 ## Pinned Parts
 
-- Spark CLI commit: `f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0`
+- Spark CLI commit: `674ed7463c49ea4c2ac0d868ae10d277a16d49a1`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
