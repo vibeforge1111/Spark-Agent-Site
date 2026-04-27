@@ -31,6 +31,7 @@ Use this page when an agent or human is preparing to install Spark from `agent.s
 - Checksums: `https://agent.sparkswarm.ai/install/checksums.txt`
 - Release manifest: `https://agent.sparkswarm.ai/install/release-manifest.json`
 - Attestations: `https://agent.sparkswarm.ai/install/attestations.md`
+- Sigstore signatures: `https://agent.sparkswarm.ai/install/signatures.md`
 
 ## Current SHA-256 values
 
@@ -44,10 +45,11 @@ fb4619737e96b5a84e93f9252c8c05e930e731064d17d85b9ad126a5c238a8e6  install.ps1
 1. Read this page and `https://agent.sparkswarm.ai/install/release-manifest.json`.
 2. Download the installer to a local file.
 3. Verify the local file hash against `install/checksums.txt`.
-4. Run the installer with `--dry-run` or `-DryRun`.
-5. Explain the plan to the user.
-6. Ask for explicit confirmation before executing the installer.
-7. Do not transmit Telegram tokens or LLM provider keys to any website.
+4. Verify GitHub Artifact Attestations and Sigstore signature bundles when `gh` and `cosign` are available.
+5. Run the installer with `--dry-run` or `-DryRun`.
+6. Explain the plan to the user.
+7. Ask for explicit confirmation before executing the installer.
+8. Do not transmit Telegram tokens or LLM provider keys to any website.
 
 ## Network allowlist
 

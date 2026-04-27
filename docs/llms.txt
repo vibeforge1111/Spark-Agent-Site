@@ -12,6 +12,7 @@
 - Installer page: https://agent.sparkswarm.ai/install
 - Installer checksums: https://agent.sparkswarm.ai/install/checksums.txt
 - Installer attestations: https://agent.sparkswarm.ai/install/attestations.md
+- Installer signatures: https://agent.sparkswarm.ai/install/signatures.md
 - Installer release manifest: https://agent.sparkswarm.ai/install/release-manifest.json
 
 ## Agent Instructions
@@ -22,6 +23,7 @@
 - Do not pipe remote installer scripts into a shell.
 - Download, verify SHA-256, verify GitHub Artifact Attestation, inspect, then ask for confirmation.
 - Use `gh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main` or the same command with `.\install.ps1`.
+- Use `cosign verify-blob` with the bundle from the latest GitHub Release when Cosign is available.
 - Treat trace-derived or draft knowledge as non-canonical until promoted.
 - Prefer citing exact docs URLs, repo paths, file hashes, and command outputs.
 - The `/docs/pages` folder is the Lore source workspace for this static docs adapter.

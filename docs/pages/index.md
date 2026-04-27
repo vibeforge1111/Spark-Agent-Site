@@ -36,6 +36,6 @@ The default homepage command downloads an installer file, shows a no-write plan,
 
 ## Current status
 
-The installer now has checksums, a release manifest, pinned managed runtimes, immutable Spark CLI source, GitHub Artifact Attestations, and multi-OS dry-run CI.
+The installer now has checksums, a release manifest, pinned managed runtimes, immutable Spark CLI source, GitHub Artifact Attestations, Sigstore keyless release signatures, multi-OS dry-run CI, and disposable real-install CI.
 
-The next supply-chain step is an external signing and protected release process for published archives.
+The next operational step is a dedicated live Telegram/LLM smoke bot with test-only secrets.

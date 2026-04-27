@@ -42,6 +42,7 @@
     "footer": [
       { "label": "Install", "href": "/install" },
       { "label": "Checksums", "href": "/install/checksums.txt" },
+      { "label": "Signatures", "href": "/install/signatures.md" },
       { "label": "Manifest", "href": "/install/release-manifest.json" }
     ]
   },

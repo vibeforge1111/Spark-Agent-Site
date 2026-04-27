@@ -1,0 +1,127 @@
+name: Live Telegram and LLM smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SPARK_INSTALL_HOST: https://agent.sparkswarm.ai
+  SPARK_TEST_BOT_TOKEN: ${{ secrets.SPARK_TEST_BOT_TOKEN }}
+  SPARK_TEST_ADMIN_TELEGRAM_ID: ${{ secrets.SPARK_TEST_ADMIN_TELEGRAM_ID }}
+  SPARK_TEST_LLM_PROVIDER: ${{ secrets.SPARK_TEST_LLM_PROVIDER }}
+  SPARK_TEST_OPENAI_API_KEY: ${{ secrets.SPARK_TEST_OPENAI_API_KEY }}
+  SPARK_TEST_ANTHROPIC_API_KEY: ${{ secrets.SPARK_TEST_ANTHROPIC_API_KEY }}
+  SPARK_TEST_ZAI_API_KEY: ${{ secrets.SPARK_TEST_ZAI_API_KEY }}
+  SPARK_TEST_MINIMAX_API_KEY: ${{ secrets.SPARK_TEST_MINIMAX_API_KEY }}
+
+jobs:
+  live-credential-smoke:
+    name: live-credential-smoke
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check required test secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          missing=0
+          for name in SPARK_TEST_BOT_TOKEN SPARK_TEST_ADMIN_TELEGRAM_ID SPARK_TEST_LLM_PROVIDER; do
+            if [ -z "${!name:-}" ]; then
+              echo "::error::$name is required for live smoke testing"
+              missing=1
+            fi
+          done
+          case "${SPARK_TEST_LLM_PROVIDER:-}" in
+            openai)
+              [ -n "${SPARK_TEST_OPENAI_API_KEY:-}" ] || { echo "::error::SPARK_TEST_OPENAI_API_KEY is required for openai"; missing=1; }
+              ;;
+            anthropic)
+              [ -n "${SPARK_TEST_ANTHROPIC_API_KEY:-}" ] || { echo "::error::SPARK_TEST_ANTHROPIC_API_KEY is required for anthropic"; missing=1; }
+              ;;
+            zai)
+              [ -n "${SPARK_TEST_ZAI_API_KEY:-}" ] || { echo "::error::SPARK_TEST_ZAI_API_KEY is required for zai"; missing=1; }
+              ;;
+            minimax)
+              [ -n "${SPARK_TEST_MINIMAX_API_KEY:-}" ] || { echo "::error::SPARK_TEST_MINIMAX_API_KEY is required for minimax"; missing=1; }
+              ;;
+            codex|ollama)
+              ;;
+            "")
+              ;;
+            *)
+              echo "::error::Unsupported SPARK_TEST_LLM_PROVIDER: $SPARK_TEST_LLM_PROVIDER"
+              missing=1
+              ;;
+          esac
+          exit "$missing"
+
+      - name: Verify Telegram bot token
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          token = os.environ["SPARK_TEST_BOT_TOKEN"]
+          with urllib.request.urlopen(f"https://api.telegram.org/bot{token}/getMe", timeout=20) as response:
+              payload = json.loads(response.read().decode("utf-8"))
+          if not payload.get("ok"):
+              raise SystemExit("Telegram getMe failed")
+          print(f"telegram bot ok: @{payload['result'].get('username', 'unknown')}")
+          PY
+
+      - name: Install Spark from production
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL "$SPARK_INSTALL_HOST/install.sh" -o spark-install.sh
+          curl -fsSL "$SPARK_INSTALL_HOST/install/checksums.txt" -o checksums.txt
+          expected="$(awk '$2 == "install.sh" {print $1}' checksums.txt)"
+          actual="$(sha256sum spark-install.sh | awk '{print $1}')"
+          test "$actual" = "$expected"
+
+          prefix="$RUNNER_TEMP/spark-live-smoke"
+          args=(
+            --prefix "$prefix"
+            --yes
+            --no-autostart
+            --no-shell-profile
+            --managed-node
+            --bundle telegram-starter
+            --bot-token "$SPARK_TEST_BOT_TOKEN"
+            --admin-telegram-ids "$SPARK_TEST_ADMIN_TELEGRAM_ID"
+            --llm-provider "$SPARK_TEST_LLM_PROVIDER"
+            --non-interactive-setup
+            --setup-skip-install-commands
+          )
+          case "$SPARK_TEST_LLM_PROVIDER" in
+            openai) args+=(--openai-api-key "$SPARK_TEST_OPENAI_API_KEY") ;;
+            anthropic) args+=(--anthropic-api-key "$SPARK_TEST_ANTHROPIC_API_KEY") ;;
+            zai) args+=(--zai-api-key "$SPARK_TEST_ZAI_API_KEY") ;;
+            minimax) args+=(--minimax-api-key "$SPARK_TEST_MINIMAX_API_KEY") ;;
+          esac
+
+          bash spark-install.sh "${args[@]}"
+          "$prefix/bin/spark" providers status
+          "$prefix/bin/spark" verify --onboarding
+
+      - name: Send Telegram confirmation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os
+          import urllib.parse
+          import urllib.request
+
+          token = os.environ["SPARK_TEST_BOT_TOKEN"]
+          chat_id = os.environ["SPARK_TEST_ADMIN_TELEGRAM_ID"].split(",")[0].strip()
+          text = "Spark live CI smoke finished installer, provider, and onboarding checks."
+          data = urllib.parse.urlencode({"chat_id": chat_id, "text": text}).encode("utf-8")
+          with urllib.request.urlopen(f"https://api.telegram.org/bot{token}/sendMessage", data=data, timeout=20) as response:
+              response.read()
+          print("telegram confirmation sent")
+          PY

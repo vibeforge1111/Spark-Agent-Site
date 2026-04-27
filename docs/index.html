@@ -231,8 +231,8 @@ Then help me finish Telegram BotFather and LLM provider setup locally.</pre>
         <h2>What is still not a complete supply-chain story.</h2>
         <p>
           The installer now has checksums, a release manifest, pinned managed runtimes, immutable Spark CLI source,
-          GitHub Artifact Attestations, and multi-OS dry-run CI. The next serious upgrade is an external
-          release signing process for published artifacts under a protected release flow.
+          GitHub Artifact Attestations, Sigstore keyless release signatures, multi-OS dry-run CI,
+          and disposable real-install CI.
         </p>
         <div class="docs-grid">
           <div class="docs-card">
@@ -241,7 +241,8 @@ Then help me finish Telegram BotFather and LLM provider setup locally.</pre>
               <li>No remote-script piping required</li>
               <li>No-write dry-run plan</li>
               <li>Published hashes and release manifest</li>
-              <li>Ubuntu, macOS, and Windows installer smoke tests</li>
+              <li>Ubuntu, macOS, and Windows dry-run plus real-install smoke tests</li>
+              <li>Cosign keyless signatures in GitHub Releases</li>
             </ul>
           </div>
           <div class="docs-card">
@@ -250,7 +251,7 @@ Then help me finish Telegram BotFather and LLM provider setup locally.</pre>
               <li>Signed release archives</li>
               <li>Protected production deploy approvals</li>
               <li>Verified organization ownership</li>
-              <li>Public security contact and vulnerability policy</li>
+              <li>Dedicated live Telegram/LLM smoke secrets</li>
             </ul>
           </div>
         </div>

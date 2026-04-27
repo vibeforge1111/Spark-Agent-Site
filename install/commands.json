@@ -24,6 +24,17 @@
       "install.ps1": "gh attestation verify .\\install.ps1 --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main"
     }
   },
+  "signatures": {
+    "provider": "GitHub Release Sigstore bundles / Cosign keyless",
+    "latestRelease": "https://github.com/vibeforge1111/Spark-Agent-Site/releases/latest",
+    "docs": "https://agent.sparkswarm.ai/install/signatures.md",
+    "certificateIdentity": "https://github.com/vibeforge1111/Spark-Agent-Site/.github/workflows/release-signing.yml@refs/heads/main",
+    "certificateOidcIssuer": "https://token.actions.githubusercontent.com",
+    "verify": {
+      "install.sh": "cosign verify-blob ./install.sh --bundle ./spark-signatures/install.sh.sigstore.json --certificate-identity https://github.com/vibeforge1111/Spark-Agent-Site/.github/workflows/release-signing.yml@refs/heads/main --certificate-oidc-issuer https://token.actions.githubusercontent.com",
+      "install.ps1": "cosign verify-blob .\\install.ps1 --bundle .\\spark-signatures\\install.ps1.sigstore.json --certificate-identity https://github.com/vibeforge1111/Spark-Agent-Site/.github/workflows/release-signing.yml@refs/heads/main --certificate-oidc-issuer https://token.actions.githubusercontent.com"
+    }
+  },
   "starterBundle": {
     "name": "telegram-starter",
     "summary": "Researcher + Builder runtime + default memory + Spawner execution plane + Telegram gateway",

@@ -93,6 +93,7 @@ jobs:
           grep -q "location = /install" nginx.conf
           grep -q "location = /docs" nginx.conf
           grep -q "location = /install/attestations.md" nginx.conf
+          grep -q "location = /install/signatures.md" nginx.conf
           grep -q "location = /install/release-manifest.json" nginx.conf
           grep -q "location = /SECURITY.md" nginx.conf
           grep -q "location = /.well-known/security.txt" nginx.conf
@@ -102,6 +103,8 @@ jobs:
           grep -q "Canonical: https://agent.sparkswarm.ai/.well-known/security.txt" .well-known/security.txt
           grep -q "Contact: mailto:" .well-known/security.txt
           grep -q "gh attestation verify" install/commands.json
+          grep -q "cosign verify-blob" install/commands.json
+          grep -q "cosign verify-blob" install/signatures.md
           grep -q "release-manifest.json" index.html
           grep -q "f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0" install.sh
           grep -q "f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0" install.ps1

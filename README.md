@@ -14,6 +14,7 @@ The site serves:
 - `/install/checksums.txt` and `/install/checksums.json`
 - `/install/commands.json`
 - `/install/attestations.md`
+- `/install/signatures.md`
 - `/docs` agent-readable install and safety docs
 
 ## Trust Boundary
@@ -25,6 +26,7 @@ Installer scripts are privileged local execution. A site deploy must preserve:
 - no-cache behavior for installer files and checksum manifests
 - checksum references in the UI and docs
 - GitHub Artifact Attestations for installer bytes
+- Sigstore keyless release signatures for installer files and install metadata
 - refusal of non-canonical Spark CLI sources unless explicitly using the development override
 
 Users and agents should download, verify, inspect, then run installers. Do not document or encourage piping remote scripts directly into a shell.
@@ -66,8 +68,9 @@ PY
 1. Run the install-hardening workflow locally where practical.
 2. Push to `main`.
 3. Confirm GitHub Actions generated installer attestations.
-4. Confirm hosted files match committed checksums.
-5. Run hosted installer verification from `spark-cli`:
+4. Confirm release signing generated a GitHub Release with Sigstore bundles.
+5. Confirm hosted files match committed checksums.
+6. Run hosted installer verification from `spark-cli`:
 
 ```bash
 spark verify --installers --hosted-installers
@@ -76,5 +79,6 @@ spark verify --installers --hosted-installers
 ## Related Docs
 
 - [install/attestations.md](install/attestations.md)
+- [install/signatures.md](install/signatures.md)
 - [docs/AGENTS.md](docs/AGENTS.md)
 - [SECURITY.md](SECURITY.md)
