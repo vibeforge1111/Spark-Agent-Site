@@ -76,7 +76,7 @@ For domain chips and recursive loops, keep the answer grounded:
 
 ## Current Installer Pins
 
-- Spark CLI commit: `f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0`
+- Spark CLI commit: `674ed7463c49ea4c2ac0d868ae10d277a16d49a1`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
