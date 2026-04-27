@@ -112,7 +112,7 @@ Do not send Telegram tokens or LLM keys to websites.
 
 ## Current Installer Pins
 
-- Spark CLI commit: `660830f2684cffa847a677ee74a5c9c6d1712285`
+- Spark CLI commit: `1bab6494a46ac425c4202e0c1094b7804cdbd455`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
