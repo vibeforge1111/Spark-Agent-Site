@@ -1,3 +1,4 @@
 *.sh text eol=lf
 install.sh text eol=lf
 install.ps1 text eol=lf
+install/checksums.txt text eol=lf

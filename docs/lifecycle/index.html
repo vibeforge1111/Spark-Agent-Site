@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<title>Spark Fixes And Daily Checks</title>
+<meta name="description" content="Plain-English Spark troubleshooting and daily checks.">
+<link rel="canonical" href="https://agent.sparkswarm.ai/docs/lifecycle/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/docs/docs.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header class="topbar">
+  <a href="/" class="brand" aria-label="Spark agent home">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-wordmark docs-wordmark">Spark</span>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-slash"><span class="brand-slash-prefix">/</span>docs</span>
+  </a>
+  <div class="topbar-right"><a href="/#install" class="cta-install">Install<span class="cta-arrow">-&gt;</span></a></div>
+</header>
+<main class="docs-shell">
+  <nav class="docs-nav" aria-label="Docs navigation">
+    <p>Docs Map</p>
+    <div class="docs-nav-links">
+      <a href="/docs/">Overview</a>
+      <a href="/docs/install-safety/">Install</a>
+      <a href="/docs/suites/">Suites</a>
+      <a href="/docs/lifecycle/">Fix</a>
+      <a href="/docs/self-improvement/">Improve</a>
+      <a href="/llms.txt">Agents</a>
+    </div>
+  </nav>
+  <article class="doc-page">
+    <section class="doc-hero">
+      <span class="overline">Fixes And Daily Checks</span>
+      <h1>When Spark is quiet, test one layer at a time.</h1>
+      <p>Most issues are not mysterious. Check local Spark, then provider, then Telegram, then memory, then missions.</p>
+      <div class="doc-mini-nav">
+        <a href="/docs/lifecycle.md">Agent Markdown</a>
+        <a href="/docs/suites/">Suites</a>
+        <a href="/docs/install-safety/">Install safety</a>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>The daily health path.</h2>
+      <div class="doc-flowline" aria-label="Spark health flow">
+        <span>Status</span>
+        <span>Provider</span>
+        <span>Telegram</span>
+        <span>Memory</span>
+        <span>Missions</span>
+      </div>
+      <pre class="docs-code">spark guide
+spark status
+spark providers status
+spark verify --onboarding</pre>
+    </section>
+
+    <section class="doc-section">
+      <h2>Symptom map.</h2>
+      <div class="doc-grid">
+        <div class="doc-card"><h3>No Telegram reply</h3><p>Run <code>spark fix telegram</code>, then <code>spark logs spark-telegram-bot</code>.</p><p>Check token, admin ID, and duplicate polling.</p></div>
+        <div class="doc-card"><h3>Only memory labels</h3><p>Run <code>spark providers status</code> and <code>spark verify --deep</code>.</p><p>The LLM role or memory bridge may not be wired.</p></div>
+        <div class="doc-card"><h3>Memory missing</h3><p>Send <code>/remember</code> and <code>/recall</code>. Then run <code>spark verify --deep</code>.</p></div>
+        <div class="doc-card"><h3>Missions missing</h3><p>Send <code>/run</code>, then <code>/board</code>. If nothing appears, run <code>spark verify --deep</code>.</p></div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Autostart and uninstall.</h2>
+      <div class="doc-grid">
+        <div class="doc-card"><h3>Autostart</h3><pre class="docs-code">spark autostart status
+spark autostart uninstall
+spark autostart install telegram-starter --now</pre></div>
+        <div class="doc-card"><h3>Uninstall</h3><pre class="docs-code">spark autostart uninstall
+spark uninstall</pre><p>Deleting local files is destructive. Agents must ask first.</p></div>
+      </div>
+      <div class="doc-callout" data-tone="test">
+        <h3>Needs testing</h3>
+        <p>We should keep adding real failure examples from support runs: exact error line, likely cause, and the smallest fix.</p>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Health report schema.</h2>
+      <div class="doc-schema">
+        <header><span>spark-health-report.v1</span><span>for agents</span></header>
+        <pre>{
+  "sparkStatus": "ok | needs_attention | unknown",
+  "providerStatus": "ok | missing | miswired | unknown",
+  "telegramStatus": "ok | quiet | token_error | duplicate_polling | unknown",
+  "memoryStatus": "ok | not_configured | failing | unknown",
+  "missionStatus": "ok | not_configured | failing | unknown",
+  "nextSmallestFix": "one command or one question"
+}</pre>
+      </div>
+    </section>
+  </article>
+</main>
+</body>
+</html>

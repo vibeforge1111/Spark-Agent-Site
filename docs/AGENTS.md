@@ -15,7 +15,14 @@ If a user asks how to install Spark:
 
 ## Read Order
 
-Use these pages first:
+Use these pages first for humans:
+
+- `/docs/install-safety/` before install
+- `/docs/suites/` to explain what Spark installs
+- `/docs/self-improvement/` to explain domain chips, recursive loops, and benchmarks
+- `/docs/lifecycle/` for repair, checks, autostart, and uninstall
+
+Use these Markdown pages first for agents:
 
 - `/docs/install-safety.md` before install
 - `/docs/suites.md` to explain what Spark installs
@@ -36,6 +43,8 @@ Safe installer flow:
 5. Run dry-run.
 6. Explain the plan.
 7. Ask the user before executing.
+
+If Spark is already installed and the user wants to update it, use `--upgrade-existing` only after showing the dry-run plan.
 
 ## Secrets
 
@@ -74,9 +83,11 @@ For domain chips and recursive loops, keep the answer grounded:
 - save lessons and failures
 - require review before risky changes
 
+If a command, workflow, provider detail, or chip behavior has not been verified in a real run, label it `Needs testing` instead of presenting it as proven.
+
 ## Current Installer Pins
 
-- Spark CLI commit: `674ed7463c49ea4c2ac0d868ae10d277a16d49a1`
+- Spark CLI commit: `d8081962d1b788da4c23ced3ca86cc912e363c87`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
@@ -98,7 +109,7 @@ Allowed installer network destinations:
 - `spark doctor`
 - `spark fix telegram`
 - `spark autostart status`
-- `spark autostart remove`
+- `spark autostart uninstall`
 - `spark uninstall`
 
 ## Current Status

@@ -12,6 +12,10 @@ Spark can remember useful facts, run missions, and help with research or buildin
 
 - Human docs: https://agent.sparkswarm.ai/docs
 - Install page: https://agent.sparkswarm.ai/install
+- Human install safety: https://agent.sparkswarm.ai/docs/install-safety/
+- Human suites: https://agent.sparkswarm.ai/docs/suites/
+- Human self-improvement: https://agent.sparkswarm.ai/docs/self-improvement/
+- Human fixes and daily checks: https://agent.sparkswarm.ai/docs/lifecycle/
 - Install safety: https://agent.sparkswarm.ai/docs/install-safety.md
 - Spark suites: https://agent.sparkswarm.ai/docs/suites.md
 - Self-improvement: https://agent.sparkswarm.ai/docs/self-improvement.md
@@ -108,7 +112,7 @@ Do not send Telegram tokens or LLM keys to websites.
 
 ## Current Installer Pins
 
-- Spark CLI commit: `674ed7463c49ea4c2ac0d868ae10d277a16d49a1`
+- Spark CLI commit: `d8081962d1b788da4c23ced3ca86cc912e363c87`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`

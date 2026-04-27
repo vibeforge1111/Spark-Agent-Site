@@ -50,8 +50,8 @@ Only then run the real install.
 ## Current Hashes
 
 ```text
-b5a3e3a35b8a7bfa2def28fd9d6834ea3b67232c219bcd6cb43c9455d8c82d45  install.sh
-1225b11848c4ec011e163c7370673e702a4a529d41eea3937fbad122051823a6  install.ps1
+242af6d15ed5cf7ba86e8a08b1248363f8faf242fdac2bd63dd60d7f0cc05270  install.sh
+09da3a7c5df9434339e08343027ac518dc47f74ffd689411e68fc8341323d6ae  install.ps1
 ```
 
 ## Safe Human Procedure
@@ -60,6 +60,15 @@ b5a3e3a35b8a7bfa2def28fd9d6834ea3b67232c219bcd6cb43c9455d8c82d45  install.sh
 2. Run dry-run.
 3. Read what Spark says it will do.
 4. Continue only if the plan looks right.
+
+Already installed:
+
+```bash
+bash spark-install.sh --dry-run --upgrade-existing
+bash spark-install.sh --upgrade-existing
+```
+
+Use upgrade mode only after reading the dry-run. It updates the existing Spark CLI inside the same Spark folder.
 
 ## Safe Agent Procedure
 

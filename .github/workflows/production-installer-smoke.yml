@@ -137,7 +137,7 @@ jobs:
           set -euo pipefail
           curl -fsSL "$SPARK_INSTALL_HOST/install.sh" -o spark-install.sh
           curl -fsSL "$SPARK_INSTALL_HOST/install/checksums.txt" -o checksums.txt
-          expected="$(awk '$2 == "install.sh" {print $1}' checksums.txt)"
+          expected="$(tr -d '\r' < checksums.txt | awk '$2 == "install.sh" {print $1}')"
           actual="$(if command -v sha256sum >/dev/null 2>&1; then sha256sum spark-install.sh | awk '{print $1}'; else shasum -a 256 spark-install.sh | awk '{print $1}'; fi)"
           test "$actual" = "$expected"
           bash -n spark-install.sh
@@ -179,7 +179,7 @@ jobs:
           set -euo pipefail
           curl -fsSL "$SPARK_INSTALL_HOST/install.sh" -o spark-install.sh
           curl -fsSL "$SPARK_INSTALL_HOST/install/checksums.txt" -o checksums.txt
-          expected="$(awk '$2 == "install.sh" {print $1}' checksums.txt)"
+          expected="$(tr -d '\r' < checksums.txt | awk '$2 == "install.sh" {print $1}')"
           actual="$(if command -v sha256sum >/dev/null 2>&1; then sha256sum spark-install.sh | awk '{print $1}'; else shasum -a 256 spark-install.sh | awk '{print $1}'; fi)"
           test "$actual" = "$expected"
 

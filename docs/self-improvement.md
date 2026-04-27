@@ -6,6 +6,8 @@ The score is what keeps the loop honest.
 
 Without a score, the agent is only guessing.
 
+Human page: `/docs/self-improvement/`
+
 ## The Simple Loop
 
 Spark's improvement loop is:

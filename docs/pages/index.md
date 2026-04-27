@@ -24,10 +24,17 @@ They also include clean Markdown files for agents.
 ## Start here
 
 - Install Spark from `/install`.
-- Read `/docs/install-safety.md` before running installers.
-- Read `/docs/suites.md` to understand what gets installed.
-- Read `/docs/self-improvement.md` to understand domain chips, recursive loops, and benchmarks.
-- Read `/docs/lifecycle.md` when Telegram, memory, missions, or autostart need help.
+- Read `/docs/install-safety/` before running installers.
+- Read `/docs/suites/` to understand what gets installed.
+- Read `/docs/self-improvement/` to understand domain chips, recursive loops, and benchmarks.
+- Read `/docs/lifecycle/` when Telegram, memory, missions, or autostart need help.
+
+Agents can use the matching Markdown pages:
+
+- `/docs/install-safety.md`
+- `/docs/suites.md`
+- `/docs/self-improvement.md`
+- `/docs/lifecycle.md`
 
 ## What Spark is
 
@@ -46,5 +53,7 @@ Domain chips teach Spark how to improve one specialist area without bloating the
 ## Current status
 
 The installer has checksums, a release manifest, pinned managed runtimes, immutable Spark CLI source, GitHub Artifact Attestations, Sigstore keyless release signatures, multi-OS dry-run CI, and disposable real-install CI.
+
+The docs now include human-friendly inner pages, agent-readable Markdown routes, simple schemas, visual flow diagrams, and `Needs testing` markers where behavior still needs a live run.
 
 The next operational step is a dedicated live Telegram/LLM smoke bot with test-only secrets.

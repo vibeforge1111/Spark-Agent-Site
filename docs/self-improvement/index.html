@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<title>Spark Self-Improvement</title>
+<meta name="description" content="Plain-English guide to Spark domain chips, recursive loops, and benchmarks.">
+<link rel="canonical" href="https://agent.sparkswarm.ai/docs/self-improvement/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/docs/docs.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header class="topbar">
+  <a href="/" class="brand" aria-label="Spark agent home">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-wordmark docs-wordmark">Spark</span>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-slash"><span class="brand-slash-prefix">/</span>docs</span>
+  </a>
+  <div class="topbar-right"><a href="/#install" class="cta-install">Install<span class="cta-arrow">-&gt;</span></a></div>
+</header>
+<main class="docs-shell">
+  <nav class="docs-nav" aria-label="Docs navigation">
+    <p>Docs Map</p>
+    <div class="docs-nav-links">
+      <a href="/docs/">Overview</a>
+      <a href="/docs/install-safety/">Install</a>
+      <a href="/docs/suites/">Suites</a>
+      <a href="/docs/lifecycle/">Fix</a>
+      <a href="/docs/self-improvement/">Improve</a>
+      <a href="/llms.txt">Agents</a>
+    </div>
+  </nav>
+  <article class="doc-page">
+    <section class="doc-hero">
+      <span class="overline">Self-Improvement</span>
+      <h1>Make Spark better by giving it a score.</h1>
+      <p>A domain chip tells Spark what good means. A benchmark keeps it honest. A loop tries small changes and records what happened.</p>
+      <div class="doc-mini-nav">
+        <a href="/docs/self-improvement.md">Agent Markdown</a>
+        <a href="/docs/suites/">Suites</a>
+        <a href="/llms-full.txt">Agent context</a>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>The loop.</h2>
+      <div class="doc-flowline" aria-label="Spark self-improvement loop">
+        <span>Task</span>
+        <span>Score</span>
+        <span>Ledger</span>
+        <span>Memory</span>
+        <span>Next try</span>
+      </div>
+      <p>This is recursive, but bounded. Spark should not get unlimited permission. It should run a small trial, score it, explain it, and wait for review when changes are risky.</p>
+    </section>
+
+    <section class="doc-section">
+      <h2>What each part means.</h2>
+      <div class="doc-grid">
+        <div class="doc-card"><span class="doc-kicker">Domain Chip</span><h3>The specialist brain</h3><p>Owns domain scoring, suggestions, packets, and watchtower pages.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Benchmark</span><h3>The truth meter</h3><p>Scores real outcomes so the agent cannot confuse more words with more progress.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Ledger</span><h3>The paper trail</h3><p>Records what was tried, what changed, and what happened.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Memory</span><h3>The lesson shelf</h3><p>Saves only useful patterns, boundaries, evidence, and frontier ideas.</p></div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Prompt Spark.</h2>
+      <pre class="docs-code">Create a Spark domain chip for &lt;task&gt;.
+Primary metric: &lt;metric_name&gt;.
+Goal: &lt;maximize|minimize&gt;.
+Allowed mutations: &lt;field list&gt;.
+
+Implement:
+- evaluate
+- suggest
+- packets
+- watchtower
+
+Run bounded loops.
+Save grounded doctrine, boundaries, benchmark evidence, and frontier ideas.
+Do not auto-apply risky changes without review.</pre>
+      <div class="doc-callout" data-tone="test">
+        <h3>Needs testing</h3>
+        <p>Exact chip creation commands should be verified against the installed Spark CLI before we present them as one-click instructions. Until then, this page gives prompt shapes and contracts.</p>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Chip brief schema.</h2>
+      <div class="doc-schema">
+        <header><span>spark-chip-brief.v1</span><span>for humans and agents</span></header>
+        <pre>{
+  "task": "what should improve",
+  "metric": "the score Spark should watch",
+  "goal": "maximize | minimize",
+  "allowedMutations": ["small changes Spark may try"],
+  "packetTypes": ["grounded_doctrine", "grounded_boundary", "benchmark_evidence", "exploratory_frontier"],
+  "reviewRequiredFor": ["file deletion", "secret handling", "public changes", "production writes"]
+}</pre>
+      </div>
+    </section>
+  </article>
+</main>
+</body>
+</html>
