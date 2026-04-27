@@ -40,8 +40,12 @@ jobs:
 
           root = pathlib.Path(".")
           expected = {}
+          checksums_text = root / "install/checksums.txt"
 
-          for line in (root / "install/checksums.txt").read_text(encoding="utf-8").splitlines():
+          if b"\r" in checksums_text.read_bytes():
+              sys.exit("install/checksums.txt must use LF line endings so shasum -c works on macOS")
+
+          for line in checksums_text.read_text(encoding="utf-8").splitlines():
               line = line.strip()
               if not line:
                   continue
@@ -78,6 +82,7 @@ jobs:
                   if digest not in haystack:
                       sys.exit(f"{digest} missing from published verification metadata")
           PY
+          shasum -a 256 -c install/checksums.txt
 
       - name: Validate trust boundary
         shell: bash
