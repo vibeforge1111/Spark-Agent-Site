@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=59">
+<link rel="stylesheet" href="styles.css?v=60">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -752,21 +752,32 @@
       <span class="io-copy">copy prompt</span>
     </button>
 
-    <p class="install-mode-label">Run it yourself</p>
-    <div class="install-pick compact">
-      <button type="button" class="install-option" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1'>
-        <span class="io-label">I'm on Windows</span>
-        <span class="io-hint">downloads, shows plan, asks before install</span>
-        <code class="io-cmd">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code>
-        <span class="io-copy">click to copy</span>
-      </button>
+    <div class="install-switcher" data-install-switcher>
+      <div class="install-switch-head">
+        <p class="install-mode-label" data-install-mode-label>Run it yourself</p>
+        <div class="install-tabs" role="tablist" aria-label="Installer platform">
+          <button type="button" class="install-tab" id="install-tab-unix" role="tab" aria-controls="install-panel-unix" aria-selected="true" data-install-target="unix">Mac / Linux / WSL</button>
+          <button type="button" class="install-tab" id="install-tab-windows" role="tab" aria-controls="install-panel-windows" aria-selected="false" data-install-target="windows">Windows</button>
+        </div>
+      </div>
 
-      <button type="button" class="install-option" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh && bash spark-install.sh">
-        <span class="io-label">I'm on Mac / Linux</span>
-        <span class="io-hint">downloads, shows plan, asks before install</span>
-        <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh &amp;&amp; bash spark-install.sh</code>
-        <span class="io-copy">click to copy</span>
-      </button>
+      <div class="install-carousel">
+        <button type="button" class="install-option install-panel" id="install-panel-unix" role="tabpanel" aria-labelledby="install-tab-unix" data-install-panel="unix" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh && bash spark-install.sh">
+          <span class="io-kicker install-rec">recommended for this device</span>
+          <span class="io-label">Mac / Linux / WSL</span>
+          <span class="io-hint">downloads, shows plan, asks before install</span>
+          <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh &amp;&amp; bash spark-install.sh</code>
+          <span class="io-copy">click to copy</span>
+        </button>
+
+        <button type="button" class="install-option install-panel" id="install-panel-windows" role="tabpanel" aria-labelledby="install-tab-windows" hidden data-install-panel="windows" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1'>
+          <span class="io-kicker install-rec">recommended for this device</span>
+          <span class="io-label">Windows PowerShell</span>
+          <span class="io-hint">downloads, shows plan, asks before install</span>
+          <code class="io-cmd">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code>
+          <span class="io-copy">click to copy</span>
+        </button>
+      </div>
     </div>
 
     <div class="install-after">
@@ -807,6 +818,6 @@
   </div>
 </footer>
 
-<script src="app.js?v=23" defer></script>
+<script src="app.js?v=24" defer></script>
 </body>
 </html>

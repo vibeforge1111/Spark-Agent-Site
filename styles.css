@@ -2431,45 +2431,93 @@ body {
 }
 
 .install-mode-label {
-  max-width: 920px;
-  margin: 0 auto 10px;
+  margin: 0;
   font: 500 10px var(--font-mono);
   letter-spacing: 1.7px;
   text-transform: uppercase;
   color: var(--text-ghost);
-  text-align: center;
 }
 
-.install-pick.compact { gap: 14px; margin-top: 4px; opacity: 0.85; }
-.install-pick.compact:hover { opacity: 1; }
-.install-pick.compact .install-option {
-  padding: 16px 18px 14px;
-  gap: 6px;
+.install-switcher {
+  max-width: 920px;
+  margin: 0 auto 16px;
+  padding-top: 4px;
+}
+.install-switch-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.install-tabs {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xs);
+}
+.install-tab {
+  appearance: none;
+  border: 0;
+  border-radius: calc(var(--r-xs) - 2px);
+  padding: 7px 10px;
+  background: transparent;
+  color: var(--text-tertiary);
+  font: 500 10px var(--font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.install-tab:hover {
+  color: var(--text);
+}
+.install-tab.is-active,
+.install-tab[aria-selected="true"] {
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+.install-carousel {
+  position: relative;
+}
+.install-panel {
+  width: 100%;
+  padding: 18px 20px 16px;
+  gap: 7px;
   background: transparent;
   border: 1px dashed var(--border);
   box-shadow: none;
 }
-.install-pick.compact .install-option:hover {
+.install-panel[hidden] {
+  display: none;
+}
+.install-panel:hover {
   background: var(--surface);
   border-style: solid;
   border-color: var(--accent);
   transform: none;
 }
-.install-pick.compact .install-option .io-label {
-  font-size: 15px;
-  color: var(--text-secondary);
+.install-panel .io-kicker {
+  font: 500 10px var(--font-mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.install-panel .io-label {
+  font-size: 18px;
+  color: var(--text);
   font-weight: 500;
 }
-.install-pick.compact .install-option:hover .io-label { color: var(--text); }
-.install-pick.compact .install-option .io-hint { font-size: 11px; }
-.install-pick.compact .install-option .io-cmd {
-  margin-top: 4px;
-  padding: 7px 9px;
-  font-size: 10.5px;
+.install-panel .io-hint { font-size: 12px; }
+.install-panel .io-cmd {
+  margin-top: 5px;
+  padding: 9px 10px;
+  font-size: 11px;
   background: var(--surface);
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
 }
-.install-pick.compact .install-option:hover .io-cmd { color: var(--accent); }
+.install-panel:hover .io-cmd { color: var(--accent); }
 
 .install-after {
   max-width: 560px;
@@ -2731,11 +2779,17 @@ body {
   .install-option.primary { padding: 22px 20px 18px; margin-bottom: 16px; }
   .install-option.primary .io-label { font-size: 20px; }
   .install-option.primary .io-cmd { font-size: 12px; }
-  .install-mode-label { padding-inline: 2px; margin-bottom: 8px; }
-  .install-pick.compact { gap: 10px; }
-  .install-pick.compact .install-option { padding: 14px 16px 12px; }
-  .install-pick.compact .install-option .io-label { font-size: 15px; }
-  .install-pick.compact .install-option .io-cmd { font-size: 10.5px; }
+  .install-switcher { margin-bottom: 14px; }
+  .install-switch-head {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .install-tabs { width: 100%; }
+  .install-tab { flex: 1; padding-inline: 6px; }
+  .install-panel { padding: 14px 16px 12px; }
+  .install-panel .io-label { font-size: 16px; }
+  .install-panel .io-cmd { font-size: 10.5px; }
 
   /* INSTALL-AFTER · drop the per-item cards, render as a tight chip row */
   .install-after { margin-top: 16px; }
