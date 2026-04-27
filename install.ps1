@@ -3,6 +3,7 @@ param(
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
     [string]$Ref = "spark-cli-launch-2026-04-27",
     [string]$NodeVersion = "22.18.0",
+    [string]$PythonVersion = "3.11",
     [string]$Bundle = "telegram-starter",
     [string]$BotToken = "",
     [string]$AdminTelegramIds = "",
@@ -29,6 +30,8 @@ param(
 $ErrorActionPreference = "Stop"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
+$Script:PythonExe = ""
+$Script:UvExe = ""
 
 function Write-SparkLog {
     param([string]$Message)
@@ -51,13 +54,68 @@ function Require-Command {
     }
 }
 
-function Require-PythonVersion {
-    $versionText = (& python -c "import sys; print('.'.join(map(str, sys.version_info[:3])))")
-    & python -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)' | Out-Null
-    $ok = $LASTEXITCODE
-    if ($ok -ne 0) {
-        throw "Python >= 3.11 is required for Spark. Found Python $versionText. Install a newer Python and rerun the installer."
+function Test-PythonCompatible {
+    param([string]$PythonExe)
+    & $PythonExe -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)' 2>$null | Out-Null
+    return $LASTEXITCODE -eq 0
+}
+
+function Find-SystemPython {
+    foreach ($name in @("python", "python3")) {
+        $cmd = Get-Command $name -ErrorAction SilentlyContinue
+        if ($cmd -and (Test-PythonCompatible $cmd.Source)) {
+            $Script:PythonExe = $cmd.Source
+            return $true
+        }
     }
+    return $false
+}
+
+function Find-Uv {
+    $cmd = Get-Command uv -ErrorAction SilentlyContinue
+    if ($cmd) {
+        $Script:UvExe = $cmd.Source
+        return $true
+    }
+    foreach ($candidate in @(
+        (Join-Path $HOME ".local\bin\uv.exe"),
+        (Join-Path $HOME ".cargo\bin\uv.exe")
+    )) {
+        if (Test-Path -LiteralPath $candidate) {
+            $Script:UvExe = $candidate
+            return $true
+        }
+    }
+    return $false
+}
+
+function Install-Uv {
+    if (Find-Uv) {
+        Write-SparkLog "Using uv at $Script:UvExe"
+        return
+    }
+    Write-SparkLog "Installing uv to manage Python $PythonVersion"
+    Invoke-RestMethod https://astral.sh/uv/install.ps1 | Invoke-Expression
+    if (-not (Find-Uv)) {
+        throw "uv installed but was not found. Add %USERPROFILE%\.local\bin to PATH and rerun the installer."
+    }
+}
+
+function Ensure-PythonRuntime {
+    if (Find-SystemPython) {
+        $versionText = (& $Script:PythonExe --version 2>$null)
+        Write-SparkLog "Using Python runtime: $versionText at $Script:PythonExe"
+        return
+    }
+    Install-Uv
+    Write-SparkLog "Installing Python $PythonVersion via uv"
+    & $Script:UvExe python install $PythonVersion | Out-Null
+    $Script:PythonExe = (& $Script:UvExe python find $PythonVersion)
+    if (-not $Script:PythonExe -or -not (Test-PythonCompatible $Script:PythonExe)) {
+        throw "Could not resolve managed Python $PythonVersion via uv."
+    }
+    $managedVersion = (& $Script:PythonExe --version 2>$null)
+    Write-SparkLog "Using managed Python runtime: $managedVersion at $Script:PythonExe"
 }
 
 function Test-ExistingInstall {
@@ -71,13 +129,13 @@ function Test-ExistingInstall {
 
 function Invoke-Preflight {
     Write-SparkLog "Preflight checks"
-    Require-Command python
-    Require-PythonVersion
+    Ensure-PythonRuntime
     Require-Command git
     Write-SparkLog "Install prefix: $Script:SparkPrefix"
     Write-SparkLog "Spark CLI source: $Source"
     Write-SparkLog "Spark CLI ref: $Ref"
     Write-SparkLog "Node version: $NodeVersion"
+    Write-SparkLog "Python version: $PythonVersion"
     Write-SparkLog "Bundle: $Bundle"
     Write-SparkLog "Autostart: $(-not $NoAutostart)"
     if (Test-ExistingInstall) {
@@ -116,6 +174,7 @@ function Show-DryRunPlan {
     Write-Host "  Prefix:              $Script:SparkPrefix"
     Write-Host "  Node platform:       win-x64"
     Write-Host "  Node version:        $NodeVersion"
+    Write-Host "  Python version:      $PythonVersion"
     Write-Host "  Managed Node forced: $ManagedNode"
     Write-Host "  CLI source:          $Source"
     Write-Host "  CLI ref:             $Ref"
@@ -191,6 +250,9 @@ function Test-InstallSettings {
     }
     if ($NodeVersion -notmatch '^\d+\.\d+\.\d+$') {
         throw "Unsafe Node version value: $NodeVersion"
+    }
+    if ($PythonVersion -notmatch '^\d+\.\d+(\.\d+)?$') {
+        throw "Unsafe Python version value: $PythonVersion"
     }
     $normalizedSource = $Source.TrimEnd("/")
     if ($normalizedSource.EndsWith(".git")) {
@@ -340,7 +402,7 @@ function Install-CliVenv {
     param([string]$CliDir)
     $venvDir = Join-Path $Script:SparkPrefix "tools\spark-cli-venv"
     Write-SparkLog "Creating Spark CLI virtualenv"
-    python -m venv $venvDir
+    & $Script:PythonExe -m venv $venvDir
     Write-SparkLog "Upgrading pip in Spark CLI virtualenv"
     & (Join-Path $venvDir "Scripts\python.exe") -m pip install --upgrade pip | Out-Null
     Write-SparkLog "Installing Spark CLI package"

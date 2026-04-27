@@ -10,6 +10,7 @@ if [ -n "${SPARK_CLI_REF:-}" ]; then
 fi
 SPARK_CLI_REF="${SPARK_CLI_REF:-$SPARK_DEFAULT_CLI_REF}"
 SPARK_NODE_VERSION="${SPARK_NODE_VERSION:-22.18.0}"
+SPARK_PYTHON_VERSION="${SPARK_PYTHON_VERSION:-3.11}"
 SPARK_SKIP_SETUP="${SPARK_SKIP_SETUP:-0}"
 SPARK_AUTOSTART="${SPARK_AUTOSTART:-1}"
 SPARK_BUNDLE="${SPARK_BUNDLE:-telegram-starter}"
@@ -29,6 +30,8 @@ SPARK_SETUP_SKIP_INSTALL_COMMANDS="${SPARK_SETUP_SKIP_INSTALL_COMMANDS:-0}"
 SPARK_SETUP_SKIP_RUNTIME_CHECK="${SPARK_SETUP_SKIP_RUNTIME_CHECK:-0}"
 SPARK_SHELL_PROFILE="${SPARK_SHELL_PROFILE:-auto}"
 SPARK_NODE_BIN_DIR=""
+SPARK_PYTHON_BIN=""
+SPARK_UV_BIN=""
 SPARK_CANONICAL_CLI_SOURCE="https://github.com/vibeforge1111/spark-cli"
 SPARK_ALLOW_DEV_SOURCE="${SPARK_ALLOW_DEV_SOURCE:-0}"
 SPARK_DRY_RUN="${SPARK_DRY_RUN:-0}"
@@ -49,6 +52,7 @@ Options:
   --source URL_OR_PATH      developer override for spark-cli source; requires --allow-dev-source
   --ref REF                 developer override for git ref; requires --allow-dev-source
   --node-version VERSION    Managed Node version (default: 22.18.0)
+  --python-version VERSION  Managed Python version used via uv when needed (default: 3.11)
   --managed-node            Force Spark's verified managed Node download even if system Node is good
   --bundle NAME             Bundle for setup (default: telegram-starter)
   --bot-token TOKEN         Telegram BotFather token passed to setup
@@ -78,7 +82,7 @@ Options:
 
 Environment mirrors these flags:
   SPARK_PREFIX, SPARK_CLI_SOURCE, SPARK_CLI_REF, SPARK_NODE_VERSION,
-  SPARK_BUNDLE, SPARK_SETUP_ARGS, SPARK_LOCAL_REGISTRY, SPARK_SKIP_SETUP,
+  SPARK_PYTHON_VERSION, SPARK_BUNDLE, SPARK_SETUP_ARGS, SPARK_LOCAL_REGISTRY, SPARK_SKIP_SETUP,
   SPARK_AUTOSTART, SPARK_ALLOW_DEV_SOURCE, SPARK_MANAGED_NODE,
   SPARK_BOT_TOKEN, SPARK_ADMIN_TELEGRAM_IDS, SPARK_LLM_PROVIDER,
   SPARK_ZAI_API_KEY, SPARK_OPENAI_API_KEY, SPARK_ANTHROPIC_API_KEY,
@@ -101,6 +105,8 @@ while [ "$#" -gt 0 ]; do
       SPARK_CLI_REF="$2"; SPARK_CLI_REF_USER_SET=1; shift 2 ;;
     --node-version)
       SPARK_NODE_VERSION="$2"; shift 2 ;;
+    --python-version)
+      SPARK_PYTHON_VERSION="$2"; shift 2 ;;
     --managed-node)
       SPARK_MANAGED_NODE=1; shift ;;
     --bundle)
@@ -205,26 +211,79 @@ normalize_macos_locale() {
 }
 
 normalize_path() {
-  python3 - "$1" <<'PY'
-import os, sys
-print(os.path.abspath(os.path.expanduser(sys.argv[1])))
+  local path="$1"
+  case "$path" in
+    "~") path="$HOME" ;;
+    "~/"*) path="$HOME/${path#~/}" ;;
+  esac
+  case "$path" in
+    /*) printf '%s\n' "$path" ;;
+    *) printf '%s/%s\n' "$PWD" "$path" ;;
+  esac
+}
+
+python_is_compatible() {
+  "$1" - <<'PY' >/dev/null 2>&1
+import sys
+raise SystemExit(0 if sys.version_info >= (3, 11) else 1)
 PY
 }
 
-require_python_version() {
-  python3 - <<'PY'
-import sys
+find_system_python() {
+  local candidate
+  for candidate in python3.11 python3 python; do
+    if command -v "$candidate" >/dev/null 2>&1 && python_is_compatible "$candidate"; then
+      SPARK_PYTHON_BIN="$(command -v "$candidate")"
+      return 0
+    fi
+  done
+  return 1
+}
 
-required = (3, 11)
-if sys.version_info < required:
-    version = ".".join(str(part) for part in sys.version_info[:3])
-    print(
-        f"Python >= {required[0]}.{required[1]} is required for Spark. Found Python {version}. "
-        "Install a newer python3 and rerun the installer.",
-        file=sys.stderr,
-    )
-    raise SystemExit(1)
-PY
+find_uv() {
+  if command -v uv >/dev/null 2>&1; then
+    SPARK_UV_BIN="$(command -v uv)"
+    return 0
+  fi
+  if [ -x "$HOME/.local/bin/uv" ]; then
+    SPARK_UV_BIN="$HOME/.local/bin/uv"
+    return 0
+  fi
+  if [ -x "$HOME/.cargo/bin/uv" ]; then
+    SPARK_UV_BIN="$HOME/.cargo/bin/uv"
+    return 0
+  fi
+  return 1
+}
+
+install_uv() {
+  if find_uv; then
+    log "Using uv at $SPARK_UV_BIN"
+    return
+  fi
+  need_cmd curl
+  log "Installing uv to manage Python $SPARK_PYTHON_VERSION"
+  curl -LsSf https://astral.sh/uv/install.sh | sh >/dev/null
+  if ! find_uv; then
+    echo "uv installed but was not found. Add ~/.local/bin to PATH and rerun the installer." >&2
+    exit 1
+  fi
+}
+
+ensure_python_runtime() {
+  if find_system_python; then
+    log "Using Python runtime: $("$SPARK_PYTHON_BIN" --version 2>/dev/null) at $SPARK_PYTHON_BIN"
+    return
+  fi
+  install_uv
+  log "Installing Python $SPARK_PYTHON_VERSION via uv"
+  "$SPARK_UV_BIN" python install "$SPARK_PYTHON_VERSION" >/dev/null
+  SPARK_PYTHON_BIN="$("$SPARK_UV_BIN" python find "$SPARK_PYTHON_VERSION")"
+  if [ -z "$SPARK_PYTHON_BIN" ] || ! python_is_compatible "$SPARK_PYTHON_BIN"; then
+    echo "Could not resolve managed Python $SPARK_PYTHON_VERSION via uv." >&2
+    exit 1
+  fi
+  log "Using managed Python runtime: $("$SPARK_PYTHON_BIN" --version 2>/dev/null) at $SPARK_PYTHON_BIN"
 }
 
 validate_install_settings() {
@@ -238,6 +297,13 @@ validate_install_settings() {
   case "$SPARK_NODE_VERSION" in
     *[!0-9.]*|.*|*..*|*.)
       echo "Unsafe Node version value: $SPARK_NODE_VERSION" >&2
+      exit 1
+      ;;
+  esac
+
+  case "$SPARK_PYTHON_VERSION" in
+    *[!0-9.]*|.*|*..*|*.)
+      echo "Unsafe Python version value: $SPARK_PYTHON_VERSION" >&2
       exit 1
       ;;
   esac
@@ -315,8 +381,7 @@ acquire_install_lock() {
 
 preflight() {
   log "Preflight checks"
-  need_cmd python3
-  require_python_version
+  ensure_python_runtime
   need_cmd git
   need_cmd curl
   need_cmd tar
@@ -328,6 +393,7 @@ preflight() {
   log "Install prefix: $SPARK_PREFIX"
   log "Spark CLI source: $SPARK_CLI_SOURCE"
   log "Spark CLI ref: $SPARK_CLI_REF"
+  log "Python version: $SPARK_PYTHON_VERSION"
   log "Bundle: $SPARK_BUNDLE"
   log "Autostart: $SPARK_AUTOSTART"
   if has_existing_install; then
@@ -364,6 +430,7 @@ print_plan() {
   Prefix:              $SPARK_PREFIX
   Node platform:       $SPARK_NODE_PLATFORM
   Node version:        $SPARK_NODE_VERSION
+  Python version:      $SPARK_PYTHON_VERSION
   Managed Node forced: $SPARK_MANAGED_NODE
   CLI source:          $SPARK_CLI_SOURCE
   CLI ref:             $SPARK_CLI_REF
@@ -382,7 +449,7 @@ Would write:
   $SPARK_PREFIX/env
 
 Would run:
-  python3 -m venv "$SPARK_PREFIX/tools/spark-cli-venv"
+  python -m venv "$SPARK_PREFIX/tools/spark-cli-venv"
   "$SPARK_PREFIX/bin/spark" setup "$SPARK_BUNDLE"
 EOF
   if [ "$SPARK_AUTOSTART" = "1" ]; then
@@ -514,7 +581,7 @@ install_cli_venv() {
   local cli_dir="$SPARK_PREFIX/tools/spark-cli"
   local venv_dir="$SPARK_PREFIX/tools/spark-cli-venv"
   log "Creating Spark CLI virtualenv"
-  python3 -m venv "$venv_dir"
+  "$SPARK_PYTHON_BIN" -m venv "$venv_dir"
   log "Upgrading pip in Spark CLI virtualenv"
   "$venv_dir/bin/python" -m pip install --upgrade pip >/dev/null
   log "Installing Spark CLI package"
@@ -699,7 +766,6 @@ EOF
 }
 
 main() {
-  need_cmd python3
   normalize_macos_locale
   SPARK_PREFIX="$(normalize_path "$SPARK_PREFIX")"
   if [ -z "$SPARK_NODE_PLATFORM" ]; then
