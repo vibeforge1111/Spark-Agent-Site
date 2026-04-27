@@ -37,13 +37,15 @@
     "primary": [
       { "label": "Overview", "href": "/docs" },
       { "label": "Install Safety", "href": "/docs/install-safety.md" },
+      { "label": "Suites", "href": "/docs/suites.md" },
       { "label": "Lifecycle", "href": "/docs/lifecycle.md" }
     ],
     "footer": [
       { "label": "Install", "href": "/install" },
       { "label": "Checksums", "href": "/install/checksums.txt" },
       { "label": "Signatures", "href": "/install/signatures.md" },
-      { "label": "Manifest", "href": "/install/release-manifest.json" }
+      { "label": "Manifest", "href": "/install/release-manifest.json" },
+      { "label": "llms.txt", "href": "/llms.txt" }
     ]
   },
   "agent_rendering": {

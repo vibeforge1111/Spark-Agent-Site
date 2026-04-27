@@ -1,5 +1,5 @@
 ---
-title: Spark Install Trust Center
+title: Spark Docs
 slug: index
 status: published
 verified_at: "2026-04-27T00:00:00Z"
@@ -15,27 +15,31 @@ sources:
     fetched_at: "2026-04-27T00:00:00Z"
 ---
 
-# Install Spark with receipts
+# Spark Docs
 
-Spark's public installer is designed to be inspectable before it touches your machine.
+Spark's docs are written for humans first.
 
-The default homepage command downloads an installer file, shows a no-write plan, and asks before install. The advanced path verifies SHA-256 checksums, GitHub Artifact Attestations, and the release manifest first.
+They also include clean Markdown files for agents.
 
-## What the trust center covers
+## Start here
 
-- What the installer may download.
-- What files it may write.
-- Where Telegram and LLM provider secrets stay.
-- How to run dry-run, repair, autostart, and uninstall checks.
-- What a local agent should read before helping with setup.
+- Install Spark from `/install`.
+- Read `/docs/install-safety.md` before running installers.
+- Read `/docs/suites.md` to understand what gets installed.
+- Read `/docs/lifecycle.md` when Telegram, memory, missions, or autostart need help.
 
-## Primary docs
+## What Spark is
 
-- [Install safety](install-safety): exact hashes, pinned inputs, network allowlist, and agent procedure.
-- [Lifecycle](lifecycle): post-install checks, Telegram smoke tests, repair commands, autostart, and uninstall.
+Spark is a local-first personal agent.
+
+You talk to it from Telegram.
+
+It uses your LLM provider.
+
+It can remember things and run missions.
 
 ## Current status
 
-The installer now has checksums, a release manifest, pinned managed runtimes, immutable Spark CLI source, GitHub Artifact Attestations, Sigstore keyless release signatures, multi-OS dry-run CI, and disposable real-install CI.
+The installer has checksums, a release manifest, pinned managed runtimes, immutable Spark CLI source, GitHub Artifact Attestations, Sigstore keyless release signatures, multi-OS dry-run CI, and disposable real-install CI.
 
 The next operational step is a dedicated live Telegram/LLM smoke bot with test-only secrets.

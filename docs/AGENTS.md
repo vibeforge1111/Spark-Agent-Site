@@ -2,38 +2,62 @@
 
 This is the agent-readable entry point for `agent.sparkswarm.ai/docs`.
 
-## Scope
+Keep answers short, plain, and action-focused.
 
-Use these docs for Spark Agent install safety, lifecycle operations, module roles, and runtime setup guidance.
+## Best First Answer
 
-The knowledgebase model comes from `spark-knowledgebase` / Lore by Spark:
+If a user asks how to install Spark:
 
-- Markdown and frontmatter are the source of truth.
-- Agents read via Markdown, `llms.txt`, `AGENTS.md`, and MCP tools.
-- Agents write by proposing changes with claim-to-source mappings.
-- Trace-derived draft pages start low-authority and must not be used as canonical facts until promoted.
+1. Send them to `https://agent.sparkswarm.ai/install`.
+2. Tell them the installer downloads first and shows a dry-run plan.
+3. Tell them not to paste Telegram tokens or LLM keys into the website.
+4. Ask before any real install, autostart change, token setup, or uninstall.
+
+## Read Order
+
+Use these pages first:
+
+- `/docs/install-safety.md` before install
+- `/docs/suites.md` to explain what Spark installs
+- `/docs/lifecycle.md` for repair, checks, autostart, and uninstall
+- `/install/commands.json` for exact commands and current metadata
 
 ## Installer Rule
 
 Never pipe remote installer scripts directly into a shell.
 
-For Spark Agent installers:
+Safe installer flow:
 
-1. Download over HTTPS.
+1. Download the installer.
 2. Verify SHA-256 from `/install/checksums.txt`.
-3. Verify GitHub Artifact Attestation with `gh attestation verify`.
-4. Verify Sigstore signature bundles with `cosign verify-blob` when Cosign is available.
-5. Show the script contents to the user.
-6. Ask for confirmation before executing.
-7. Prefer `--skip-setup` or `--no-autostart` for first inspection runs.
+3. Verify GitHub Artifact Attestation when `gh` is available.
+4. Verify Sigstore signature bundles when `cosign` is available.
+5. Run dry-run.
+6. Explain the plan.
+7. Ask the user before executing.
 
-Read `/docs/install-safety.md` before installing. Read `/docs/lifecycle.md` before repair, uninstall, or autostart changes.
+## Secrets
 
-## Trust Boundary
+Treat these as private:
 
-Treat installer scripts, Telegram tokens, provider API keys, local env files, and `~/.spark` config as privileged local execution/data.
+- Telegram bot tokens
+- LLM provider API keys
+- local env files
+- `~/.spark` config and memory
+- install logs
 
-Do not print or commit secrets. If a token appears in chat, logs, or a terminal transcript, tell the user to rotate it.
+Do not print or commit secrets.
+
+If a token appears in chat, logs, screenshots, GitHub issues, or commits, tell the user to rotate it.
+
+## Plain-Language Map
+
+- Telegram Bot: where the user talks to Spark.
+- Intelligence Builder: routes Spark to the chosen LLM provider.
+- Domain Chip Memory: remembers useful facts.
+- Spawner UI: Mission Control for bigger tasks.
+- Spark Researcher: gathers context and evidence.
+- Autostart: starts Spark after login.
 
 ## Current Installer Pins
 
@@ -49,12 +73,13 @@ Allowed installer network destinations:
 - `github.com/astral-sh/uv`
 - `nodejs.org`
 
-## Lifecycle Commands
+## Useful Commands
 
 - `spark guide`
 - `spark status`
 - `spark providers status`
 - `spark verify --onboarding`
+- `spark verify --deep`
 - `spark doctor`
 - `spark fix telegram`
 - `spark autostart status`
@@ -63,4 +88,8 @@ Allowed installer network destinations:
 
 ## Current Status
 
-This is a static docs adapter with installer trust docs. The full Lore backend, MCP endpoint, trace inbox, and authenticated write tools live in the `spark-knowledgebase` implementation and still need deployment wiring for this domain.
+This domain serves the static Spark docs adapter.
+
+Lore source pages live under `/docs/pages`.
+
+Agent indexes are available at `/llms.txt`, `/llms-full.txt`, `/docs/llms.txt`, and `/docs/llms-full.txt`.
