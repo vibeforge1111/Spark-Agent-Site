@@ -271,6 +271,26 @@
     setInterval(tickStep, 1800);
   }
 
+  const runlog = $('#runlog-list');
+  if (runlog && !reduced) {
+    const events = [
+      ['04:12', '/xcontent-virality', 'benchmark passed +0.4'],
+      ['04:10', 'thread_score_v3', 'tool kept after 12 evals'],
+      ['04:07', 'memory', 'launch strategy salience raised'],
+      ['04:03', '/security-audits', 'false-positive rate dropped 8%'],
+      ['03:58', 'browser_probe', 'retired after weak score'],
+      ['03:51', '/code-refactor', 'rubric promoted to v2.4'],
+    ];
+    let head = 0;
+    setInterval(() => {
+      head = (head + 1) % events.length;
+      const visible = [0, 1, 2].map(i => events[(head + i) % events.length]);
+      runlog.innerHTML = visible.map((event, i) => (
+        `<li${i === 0 ? ' class="active"' : ''}><span>${event[0]}</span><strong>${event[1]}</strong> ${event[2]}</li>`
+      )).join('');
+    }, 2600);
+  }
+
   // 3e. countdown to next compound · decrements every second
   if (spCountdown) {
     let totalSec = 4 * 3600 + 12 * 60 + 8;
@@ -303,6 +323,65 @@
     ['brain',  'output'],
   ];
   const nodeEl = (id) => $(`.board-node[data-node="${id}"]`, stage);
+  const inspectorData = {
+    input: {
+      title: 'User message',
+      node: 'IN',
+      score: '1.00',
+      latency: '0.1s',
+      seen: 'Telegram message, user profile, and the active mission constraints enter the run.',
+      learned: 'Shorter task framing improved downstream scoring, so Spark kept the normalized prompt shape.',
+    },
+    memory: {
+      title: 'Memory recall',
+      node: 'MEM',
+      score: '0.86',
+      latency: '0.4s',
+      seen: 'Six high-salience memories, recent launches, and the user preference for terse tactical replies.',
+      learned: 'Older launch notes were useful again, so their decay was slowed for this domain chip.',
+    },
+    brain: {
+      title: 'Reason + score',
+      node: 'LLM',
+      score: '0.91',
+      latency: '2.4s',
+      seen: 'User intent, recalled memory, chip guidance, and the latest benchmark rubric.',
+      learned: 'Third pass produced a clearer answer, so this scoring rubric was kept for the next run.',
+    },
+    chip: {
+      title: 'Domain chip',
+      node: 'CHIP',
+      score: '0.88',
+      latency: '0.7s',
+      seen: 'Virality signals, hook patterns, anti-clickbait rules, and examples that passed prior evals.',
+      learned: 'The chip promoted a sharper opening-hook test after beating yesterday by 0.4 points.',
+    },
+    output: {
+      title: 'Send reply',
+      node: 'OUT',
+      score: '0.94',
+      latency: '0.2s',
+      seen: 'Final response, delivery channel constraints, and safety checks before sending.',
+      learned: 'Delivery stayed under the preferred length, so the compact output template remained active.',
+    },
+  };
+
+  const setInspector = (id) => {
+    const data = inspectorData[id];
+    if (!stage || !data) return;
+    $$('.board-node', stage).forEach(node => node.classList.toggle('is-selected', node.dataset.node === id));
+    $$('[data-step-node]', stage).forEach(btn => btn.classList.toggle('active', btn.dataset.stepNode === id));
+    const setText = (sel, text) => {
+      const el = $(sel);
+      if (el) el.textContent = text;
+    };
+    setText('#bi-title', data.title);
+    setText('#bi-node', data.node);
+    setText('#bi-score', data.score);
+    setText('#bi-latency', data.latency);
+    setText('#bi-seen', data.seen);
+    setText('#bi-learned', data.learned);
+  };
 
   const drawCables = () => {
     if (!stage) return;
@@ -364,6 +443,14 @@
       };
       node.addEventListener('mousedown', onDown);
       node.addEventListener('touchstart', onDown, { passive: true });
+      node.addEventListener('click', () => setInspector(node.dataset.node));
+      node.addEventListener('focus', () => setInspector(node.dataset.node));
+    });
+    $$('[data-step-node]', stage).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.stepNode;
+        setInspector(id);
+      });
     });
   };
 
@@ -438,156 +525,139 @@
   }
 
   /* ══════════════════════════════════════════════════════════════
-     SWARM CANVAS · port of sparkswarm.ai's WaitlistNetworkCanvas
+     SWARM CANVAS · calmer mastery map
      ══════════════════════════════════════════════════════════════ */
   const makeSwarmNetwork = (canvas) => {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
-    /* Direct port of sparkswarm.ai/components/WaitlistNetworkCanvas.
-       80 agents + 10 specs + 8 paths + 10 insights, force-directed layout,
-       camera drift, edge particles, side fades, center radial dim. */
-
-    const CATEGORY_COLORS = {
-      agent:          '#2FCA94',
-      specialization: '#B8A8DC',
-      path:           '#D8C868',
-      insight:        '#8890B0',
-    };
-
-    const agentNames = [
-      'nova-research','zero-to-one','atlas-build','drift-ops','signal-hunter','echo-analyst',
-      'forge-engine','pulse-monitor','vortex-scan','helix-runner','quasar-mind','nebula-trace',
-      'cipher-flow','apex-solver','tide-watch','ember-logic','prism-lens','rift-walker',
-      'bloom-synth','frost-core','storm-pilot','volt-spark','onyx-guard','zenith-probe',
-      'cobalt-mind','lumen-index','stratos-agent','crest-builder','flux-engine','gale-tracker',
-      'iron-lattice','jade-planner','kite-render','lyra-mapper','mesa-scout','noir-agent',
-      'orbit-sync','pike-analyst','reef-solver','sage-tuner','thorn-watch','ultra-parse',
-      'vale-miner','wren-seeker','xeno-pattern','yoke-bridge','zeal-runner','arc-welder',
-      'bolt-finder','core-drift','dusk-agent','edge-pulse','fern-logic','grid-hawk',
-      'halo-scan','ink-tracer','jest-probe','knox-shield','leaf-engine','myth-solver',
-      'neon-spark','opal-miner','pine-runner','quill-writer','rust-guard','silk-thread',
-      'tusk-mover','umber-trace','vine-climber','wave-rider','yarn-weaver','zinc-alloy',
-      'aura-field','brine-deep','clay-former','dawn-sweep','elm-branch','flint-coder',
-      'glyph-reader','helm-steer'
-    ];
-    const specNames = [
-      'content-strategy','yc-startup','devops','ml-pipelines','b2b-sales',
-      'growth-hacking','security-audit','data-science','ai-agents','product-strategy'
-    ];
-    const pathNames = [
-      'lead-qualifier','launch-sprint','infra-hardener','model-tuner',
-      'copy-editor','metric-driver','audit-trail','feature-engine'
-    ];
-    const insightNames = [
-      'audience-segments','founder-led-sales','canary-deploys','lora-fine-tune',
-      'churn-predictor','prompt-patterns','viral-loops','blue-green-deploy',
-      'threat-modeling','drift-detection'
-    ];
-
-    const rawNodes = [
-      ...agentNames.map((slash, i) => ({ id: 'a'+i, slash, category: 'agent' })),
-      ...specNames.map((slash, i) => ({ id: 's'+i, slash, category: 'specialization' })),
-      ...pathNames.map((slash, i) => ({ id: 'p'+i, slash, category: 'path' })),
-      ...insightNames.map((slash, i) => ({ id: 'i'+i, slash, category: 'insight' })),
-    ];
-    const nodeMap = {};
-    rawNodes.forEach(n => { nodeMap[n.id] = n; });
-
-    const byCat = c => rawNodes.filter(n => n.category === c);
-    const agents = byCat('agent');
-    const specs = byCat('specialization');
-    const paths = byCat('path');
-    const insights = byCat('insight');
-
-    const edges = [];
-    agents.forEach(a => {
-      const k = 1 + (Math.random() < 0.6 ? 1 : 0) + (Math.random() < 0.2 ? 1 : 0);
-      const picked = new Set();
-      for (let i = 0; i < k; i++) {
-        const s = specs[Math.floor(Math.random() * specs.length)];
-        if (!picked.has(s.id)) { picked.add(s.id); edges.push({ source: a.id, target: s.id }); }
-      }
-    });
-    specs.forEach(s => {
-      paths.forEach(p => { if (Math.random() < 0.4) edges.push({ source: s.id, target: p.id }); });
-      insights.forEach(i => { if (Math.random() < 0.25) edges.push({ source: s.id, target: i.id }); });
-    });
-    paths.forEach(p => {
-      insights.forEach(i => { if (Math.random() < 0.22) edges.push({ source: p.id, target: i.id }); });
-    });
-    for (let i = 0; i < specs.length; i++) {
-      const j = (i + 3 + Math.floor(Math.random() * 3)) % specs.length;
-      if (j !== i) edges.push({ source: specs[i].id, target: specs[j].id });
-    }
-    for (let i = 0; i < 12; i++) {
-      const a = agents[Math.floor(Math.random() * agents.length)];
-      const b = agents[Math.floor(Math.random() * agents.length)];
-      if (a.id !== b.id) edges.push({ source: a.id, target: b.id });
-    }
-
-    const connCount = {};
-    rawNodes.forEach(n => { connCount[n.id] = 0; });
-    edges.forEach(e => {
-      connCount[e.source] = (connCount[e.source] || 0) + 1;
-      connCount[e.target] = (connCount[e.target] || 0) + 1;
-    });
-
-    const nodes = rawNodes.map((n, i) => {
-      const cc = connCount[n.id] || 1;
-      const baseR = n.category === 'agent'          ? 8 + Math.min(cc, 3) * 1.5
-                  : n.category === 'specialization' ? 28 + cc * 1.2
-                  : n.category === 'path'           ? 18 + cc * 1
-                  :                                    12 + cc * 0.8;
-      const angle = (i / rawNodes.length) * Math.PI * 2 + Math.random() * 0.3;
-      const r0 = 300 + Math.random() * 200;
-      return Object.assign(n, {
-        x: Math.cos(angle) * r0,
-        y: Math.sin(angle) * r0,
-        vx: 0, vy: 0,
-        renderX: 0, renderY: 0,
-        radius: baseR,
-        orbitAngle: rand(0, Math.PI * 2),
-        orbitRadius: n.category === 'agent' ? 1.5 + Math.random() * 3 : 3 + Math.random() * 5,
-        orbitSpeed: (0.0002 + Math.random() * 0.0002) * (Math.random() > 0.5 ? 1 : -1),
-        entranceT: 0,
-        connCount: cc,
-      });
-    });
-
-    /* Force-directed layout — runs once, gives organic clustering.
-       Tuned for more spread: stronger repulsion + longer ideal edge. */
-    const runForceLayout = (iterations) => {
-      for (let iter = 0; iter < iterations; iter++) {
-        for (let i = 0; i < nodes.length; i++) {
-          for (let j = i + 1; j < nodes.length; j++) {
-            const a = nodes[i], b = nodes[j];
-            const dx = b.x - a.x, dy = b.y - a.y;
-            const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-            const f = 16000 / (dist * dist);
-            const fx = (dx/dist) * f, fy = (dy/dist) * f;
-            a.vx -= fx; a.vy -= fy;
-            b.vx += fx; b.vy += fy;
-          }
-        }
-        edges.forEach(e => {
-          const a = nodeMap[e.source], b = nodeMap[e.target];
-          if (!a || !b) return;
-          const dx = b.x - a.x, dy = b.y - a.y;
-          const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-          const f = (dist - 200) * 0.012;
-          const fx = (dx/dist) * f, fy = (dy/dist) * f;
-          a.vx += fx; a.vy += fy;
-          b.vx -= fx; b.vy -= fy;
-        });
-        nodes.forEach(n => { n.vx -= n.x * 0.0008; n.vy -= n.y * 0.0008; });
-        nodes.forEach(n => { n.vx *= 0.88; n.vy *= 0.88; n.x += n.vx; n.y += n.vy; });
-      }
-      nodes.forEach(n => { n.renderX = n.x; n.renderY = n.y; n.vx = 0; n.vy = 0; });
-    };
-    runForceLayout(260);
-
     let W = 0, H = 0, dpr = 1;
+    let skillNodes = [];
+    let agentNodes = [];
+    let lanes = [];
+    let localLinks = [];
+    let signalParticles = [];
+
+    const skillNames = [
+      'content creation', 'startups', 'sales', 'research',
+      'ui/ux', 'trading', 'game dev', 'security',
+      'ops', 'writing', 'automation', 'product'
+    ];
+
+    const desktopSlots = [
+      [0.40, 0.18], [0.62, 0.12], [0.84, 0.19],
+      [0.52, 0.34], [0.76, 0.36],
+      [0.42, 0.55], [0.64, 0.55], [0.86, 0.58],
+      [0.52, 0.76], [0.74, 0.78],
+      [0.92, 0.34], [0.40, 0.34],
+    ];
+    const mobileSlots = [
+      [0.25, 0.23], [0.56, 0.19],
+      [0.40, 0.34], [0.68, 0.36],
+      [0.24, 0.47], [0.55, 0.50],
+      [0.73, 0.58], [0.36, 0.62],
+      [0.62, 0.70], [0.26, 0.78],
+      [0.50, 0.84], [0.72, 0.84],
+    ];
+
+    const stableRand = (seed) => {
+      const n = Math.sin(seed * 127.1) * 43758.5453123;
+      return n - Math.floor(n);
+    };
+    const hexToRgb = (hex) => {
+      const clean = hex.replace('#', '').trim();
+      const full = clean.length === 3 ? clean.split('').map(c => c + c).join('') : clean;
+      return {
+        r: parseInt(full.slice(0, 2), 16),
+        g: parseInt(full.slice(2, 4), 16),
+        b: parseInt(full.slice(4, 6), 16),
+      };
+    };
+    const alpha = (hex, a) => {
+      const c = hexToRgb(hex || '#2FCA94');
+      return `rgba(${c.r}, ${c.g}, ${c.b}, ${a})`;
+    };
+    const cssVar = (name, fallback) =>
+      getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+    const isLightTheme = () => document.documentElement.getAttribute('data-theme') === 'light';
+
+    const buildLayout = () => {
+      const compact = W < 620;
+      const slots = compact ? mobileSlots : desktopSlots;
+      const font = compact ? '10px' : '11px';
+      ctx.save();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.font = `600 ${font} "DM Mono", ui-monospace, monospace`;
+
+      skillNodes = skillNames.map((label, i) => {
+        const slot = slots[i];
+        const textW = ctx.measureText(label).width;
+        const padX = compact ? 11 : 13;
+        const w = Math.ceil(textW + padX * 2 + 13);
+        const h = compact ? 29 : 32;
+        const x = Math.min(Math.max(slot[0] * W, w / 2 + 8), W - w / 2 - 12);
+        const y = Math.min(Math.max(slot[1] * H, h / 2 + 10), H - h / 2 - 12);
+        return {
+          id: i,
+          label,
+          x,
+          y,
+          w,
+          h,
+          hue: i % 4 === 0 ? '#2FCA94' : i % 4 === 1 ? '#B8A8DC' : i % 4 === 2 ? '#D8C868' : '#7EA7FF',
+        };
+      });
+      ctx.restore();
+
+      agentNodes = skillNodes.flatMap((skill, skillIndex) => {
+        const count = compact ? 2 : 3;
+        return Array.from({ length: count }, (_, localIndex) => {
+          const seed = skillIndex * 10 + localIndex + 1;
+          const side = localIndex % 2 === 0 ? -1 : 1;
+          const rx = (compact ? 38 : 54) + stableRand(seed) * (compact ? 24 : 44);
+          const ry = (compact ? 24 : 34) + stableRand(seed + 4) * (compact ? 20 : 36);
+          return {
+            skill,
+            x: Math.min(Math.max(skill.x + side * rx, 12), W - 12),
+            y: Math.min(Math.max(skill.y + (localIndex - 1) * ry * 0.62, 14), H - 14),
+            r: compact ? 2.8 : 3.5,
+            phase: stableRand(seed + 8) * Math.PI * 2,
+            speed: 0.00035 + stableRand(seed + 12) * 0.00025,
+          };
+        });
+      });
+
+      lanes = [
+        [0, 1], [1, 2], [3, 4], [5, 6], [6, 7], [8, 9], [4, 10], [3, 11],
+        [0, 3], [2, 10], [5, 8], [7, 11]
+      ].map(([a, b]) => ({ a: skillNodes[a], b: skillNodes[b] })).filter(l => l.a && l.b);
+
+      localLinks = [];
+      skillNodes.forEach(skill => {
+        const agents = agentNodes.filter(agent => agent.skill === skill);
+        for (let i = 0; i < agents.length - 1; i++) {
+          localLinks.push({ a: agents[i], b: agents[i + 1], skill });
+        }
+      });
+
+      signalParticles = [
+        ...lanes.map((lane, i) => ({
+          type: 'lane',
+          lane,
+          t: stableRand(i + 21),
+          speed: 0.00018 + stableRand(i + 31) * 0.00016,
+          hue: i % 3 === 0 ? lane.a.hue : lane.b.hue,
+        })),
+        ...agentNodes.filter((_, i) => i % (compact ? 3 : 4) === 0).map((agent, i) => ({
+          type: 'spoke',
+          agent,
+          t: stableRand(i + 61),
+          speed: 0.00032 + stableRand(i + 71) * 0.00016,
+          hue: agent.skill.hue,
+        })),
+      ];
+    };
+
     const resizeSN = () => {
       const rect = canvas.getBoundingClientRect();
       W = rect.width; H = rect.height;
@@ -596,236 +666,194 @@
       canvas.height = H * dpr;
       canvas.style.width  = W + 'px';
       canvas.style.height = H + 'px';
+      buildLayout();
     };
 
-    const particles = reduced ? [] : edges
-      .filter(e => !(nodeMap[e.source].category === 'agent' && nodeMap[e.target].category === 'agent'))
-      .map(e => ({ edge: e, t: Math.random(), speed: 0.0008 + Math.random() * 0.001 }));
-
-    const cam = { x: 0, y: 0, angle: Math.random() * Math.PI * 2 };
-    const CAM_SPEED = 0.00006;
-
-    const getBezier = (src, tgt) => {
-      const mx = (src.renderX + tgt.renderX) / 2;
-      const my = (src.renderY + tgt.renderY) / 2;
-      const dx = tgt.renderX - src.renderX;
-      const dy = tgt.renderY - src.renderY;
-      return {
-        sx: src.renderX, sy: src.renderY,
-        cx: mx + (-dy * 0.12), cy: my + (dx * 0.12),
-        ex: tgt.renderX, ey: tgt.renderY,
-      };
-    };
-    const pointOnBezier = (b, t) => {
-      const u = 1 - t;
-      return {
-        x: u*u*b.sx + 2*u*t*b.cx + t*t*b.ex,
-        y: u*u*b.sy + 2*u*t*b.cy + t*t*b.ey,
-      };
-    };
-    const easeOut = t => 1 - Math.pow(1 - t, 3);
-
-    const drawIcon = (ctx, x, y, s, col, cat) => {
-      ctx.strokeStyle = col;
-      ctx.lineWidth = 1.4;
-      if (cat === 'specialization') {
-        ctx.beginPath();
-        ctx.moveTo(x, y - s*0.28);
-        ctx.lineTo(x + s*0.28, y);
-        ctx.lineTo(x, y + s*0.28);
-        ctx.lineTo(x - s*0.28, y);
-        ctx.closePath();
-        ctx.stroke();
-      } else if (cat === 'path') {
-        ctx.beginPath();
-        ctx.moveTo(x - s*0.24, y + s*0.14);
-        ctx.lineTo(x - s*0.08, y - s*0.14);
-        ctx.lineTo(x + s*0.08, y + s*0.14);
-        ctx.lineTo(x + s*0.24, y - s*0.14);
-        ctx.stroke();
-      } else if (cat === 'insight') {
-        const r = s * 0.22;
-        ctx.beginPath(); ctx.moveTo(x, y-r);   ctx.lineTo(x, y+r);   ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(x-r, y);   ctx.lineTo(x+r, y);   ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(x-r*0.6, y-r*0.6); ctx.lineTo(x+r*0.6, y+r*0.6); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(x+r*0.6, y-r*0.6); ctx.lineTo(x-r*0.6, y+r*0.6); ctx.stroke();
-      }
-    };
-
-    const readThemeBg = () => {
-      const v = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
-      return v || '#0E1018';
-    };
-    let cachedBg = readThemeBg();
-    const themeObs = new MutationObserver(() => { cachedBg = readThemeBg(); });
+    const readTheme = () => ({
+      bg: cssVar('--bg', '#0E1018'),
+      surface: cssVar('--surface', '#181C26'),
+      text: cssVar('--text-bright', '#FFFFFF'),
+      muted: cssVar('--text-secondary', '#A4ACB8'),
+      accent: cssVar('--accent', '#2FCA94'),
+      light: isLightTheme(),
+    });
+    let theme = readTheme();
+    const themeObs = new MutationObserver(() => { theme = readTheme(); });
     themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
     resizeSN();
     addEventListener('resize', resizeSN);
 
     const entranceStart = performance.now();
-    const NODE_STAGGER = reduced ? 0 : 50;
-    let pulsePhase = 0;
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+    const lanePoint = (lane, t, bend) => {
+      const mx = (lane.a.x + lane.b.x) / 2;
+      const my = (lane.a.y + lane.b.y) / 2 + bend;
+      const u = 1 - t;
+      return {
+        x: u * u * lane.a.x + 2 * u * t * mx + t * t * lane.b.x,
+        y: u * u * lane.a.y + 2 * u * t * my + t * t * lane.b.y,
+      };
+    };
 
     const render = (now) => {
       requestAnimationFrame(render);
       const elapsed = now - entranceStart;
-      pulsePhase = now * 0.002;
-      const bg = cachedBg;
+      const appear = reduced ? 1 : easeOut(Math.min(1, elapsed / 900));
+      const drift = reduced ? 0 : Math.sin(now * 0.00028) * 8;
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = bg;
+      ctx.fillStyle = theme.bg;
       ctx.fillRect(0, 0, W, H);
 
-      // dot grid background
-      ctx.fillStyle = 'rgba(47,202,148,0.025)';
-      for (let gx = 0; gx < W; gx += 36) {
-        for (let gy = 0; gy < H; gy += 36) {
+      const dotColor = theme.light ? 'rgba(24, 120, 88, 0.09)' : 'rgba(47, 202, 148, 0.055)';
+      ctx.fillStyle = dotColor;
+      for (let gx = 0; gx < W; gx += 42) {
+        for (let gy = 0; gy < H; gy += 42) {
           ctx.fillRect(gx, gy, 1, 1);
         }
       }
 
       ctx.save();
-      if (!reduced) {
-        cam.angle += CAM_SPEED;
-        cam.x = Math.cos(cam.angle)         * 25;
-        cam.y = Math.sin(cam.angle * 0.7)   * 18;
-      }
-      ctx.translate(W / 2 - cam.x, H / 2 - cam.y);
+      ctx.translate(drift, reduced ? 0 : Math.cos(now * 0.0002) * 5);
 
-      if (!reduced) {
-        nodes.forEach(n => {
-          n.orbitAngle += n.orbitSpeed;
-          n.renderX = n.x + Math.cos(n.orbitAngle) * n.orbitRadius;
-          n.renderY = n.y + Math.sin(n.orbitAngle) * n.orbitRadius;
-        });
-      } else {
-        nodes.forEach(n => { n.renderX = n.x; n.renderY = n.y; });
-      }
-
-      nodes.forEach((n, i) => {
-        const ns = 150 + i * NODE_STAGGER;
-        n.entranceT = reduced ? 1 : Math.min(1, Math.max(0, (elapsed - ns) / 700));
-      });
-
-      // edges
-      edges.forEach(e => {
-        const src = nodeMap[e.source], tgt = nodeMap[e.target];
-        if (!src || !tgt || src.entranceT < 0.3 || tgt.entranceT < 0.3) return;
-        const b = getBezier(src, tgt);
-        const color = CATEGORY_COLORS[src.category];
-        const edgeT = Math.min(src.entranceT, tgt.entranceT);
-        const bothAg = src.category === 'agent' && tgt.category === 'agent';
-        const hasAg  = src.category === 'agent' || tgt.category === 'agent';
-        const alpha = bothAg ? 0.08 : hasAg ? 0.15 : 0.3;
-        const lw    = bothAg ? 0.5  : hasAg ? 0.8 : 1.2;
-        ctx.globalAlpha = alpha * edgeT;
-        ctx.strokeStyle = color;
-        ctx.lineWidth = lw;
+      lanes.forEach((lane, i) => {
+        const bend = (i % 2 === 0 ? 1 : -1) * Math.min(62, W * 0.06);
+        const mx = (lane.a.x + lane.b.x) / 2;
+        const my = (lane.a.y + lane.b.y) / 2;
+        ctx.globalAlpha = appear * (theme.light ? 0.17 : 0.28);
+        ctx.strokeStyle = alpha(theme.accent, 1);
+        ctx.lineWidth = i < 8 ? 1.15 : 0.75;
         ctx.beginPath();
-        ctx.moveTo(b.sx, b.sy);
-        ctx.quadraticCurveTo(b.cx, b.cy, b.ex, b.ey);
+        ctx.moveTo(lane.a.x, lane.a.y);
+        ctx.quadraticCurveTo(mx, my + bend, lane.b.x, lane.b.y);
         ctx.stroke();
       });
-      ctx.globalAlpha = 1;
 
-      // particles
+      localLinks.forEach(link => {
+        ctx.globalAlpha = appear * (theme.light ? 0.18 : 0.25);
+        ctx.strokeStyle = alpha(link.skill.hue, 1);
+        ctx.lineWidth = 0.65;
+        ctx.beginPath();
+        ctx.moveTo(link.a.x, link.a.y);
+        ctx.lineTo(link.b.x, link.b.y);
+        ctx.stroke();
+      });
+
+      agentNodes.forEach(agent => {
+        const wobble = reduced ? 0 : Math.sin(now * agent.speed + agent.phase) * 2.2;
+        const x = agent.x + wobble;
+        const y = agent.y + wobble * 0.6;
+        ctx.globalAlpha = appear * (theme.light ? 0.22 : 0.32);
+        ctx.strokeStyle = alpha(agent.skill.hue, 1);
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(agent.skill.x, agent.skill.y);
+        ctx.stroke();
+        const pulse = reduced ? 1 : 1 + Math.sin(now * 0.002 + agent.phase) * 0.22;
+        ctx.globalAlpha = appear * (theme.light ? 0.68 : 0.84);
+        ctx.fillStyle = alpha(agent.skill.hue, theme.light ? 0.62 : 0.82);
+        ctx.shadowColor = alpha(agent.skill.hue, theme.light ? 0.16 : 0.38);
+        ctx.shadowBlur = theme.light ? 4 : 8;
+        ctx.beginPath();
+        ctx.arc(x, y, agent.r * pulse, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
       if (!reduced) {
-        particles.forEach(p => {
-          const src = nodeMap[p.edge.source], tgt = nodeMap[p.edge.target];
-          if (!src || !tgt || src.entranceT < 0.7 || tgt.entranceT < 0.7) return;
-          p.t += p.speed;
-          if (p.t > 1) p.t -= 1;
-          const b = getBezier(src, tgt);
-          const pt = pointOnBezier(b, p.t);
-          const color = CATEGORY_COLORS[src.category];
+        signalParticles.forEach((particle, i) => {
+          particle.t += particle.speed;
+          if (particle.t > 1) particle.t -= 1;
+          let pt;
+          if (particle.type === 'lane') {
+            const laneIndex = lanes.indexOf(particle.lane);
+            const bend = (laneIndex % 2 === 0 ? 1 : -1) * Math.min(62, W * 0.06);
+            pt = lanePoint(particle.lane, particle.t, bend);
+          } else {
+            const agent = particle.agent;
+            const wobble = Math.sin(now * agent.speed + agent.phase) * 2.2;
+            const ax = agent.x + wobble;
+            const ay = agent.y + wobble * 0.6;
+            pt = {
+              x: ax + (agent.skill.x - ax) * particle.t,
+              y: ay + (agent.skill.y - ay) * particle.t,
+            };
+          }
+          const size = particle.type === 'lane' ? 2.3 : 1.6;
           ctx.save();
-          ctx.globalAlpha = 0.6;
-          ctx.shadowColor = color;
-          ctx.shadowBlur = 8;
-          ctx.fillStyle = color;
+          ctx.globalAlpha = appear * (theme.light ? 0.58 : 0.74) * (0.65 + Math.sin(now * 0.003 + i) * 0.2);
+          ctx.shadowColor = alpha(particle.hue, theme.light ? 0.24 : 0.62);
+          ctx.shadowBlur = particle.type === 'lane' ? 12 : 8;
+          ctx.fillStyle = alpha(particle.hue, 1);
           ctx.beginPath();
-          ctx.arc(pt.x, pt.y, 1.8, 0, Math.PI * 2);
+          ctx.arc(pt.x, pt.y, size, 0, Math.PI * 2);
           ctx.fill();
           ctx.restore();
         });
       }
 
-      // nodes
-      nodes.forEach(n => {
-        if (n.entranceT <= 0) return;
-        const et = easeOut(n.entranceT);
-        const offY = (1 - et) * 20;
-        const color = CATEGORY_COLORS[n.category];
-        const rx = n.renderX, ry = n.renderY + offY;
-        const isAg = n.category === 'agent';
-        const pulse = isAg ? 1 + Math.sin(pulsePhase + n.orbitAngle) * 0.06 : 1;
-        const drawR = n.radius * pulse;
-
-        ctx.globalAlpha = isAg ? et * 0.7 : et;
-
-        if (!isAg) {
-          const glowR = drawR * 2.8;
-          const grad = ctx.createRadialGradient(rx, ry, drawR * 0.3, rx, ry, glowR);
-          grad.addColorStop(0, color + '18');
-          grad.addColorStop(1, color + '00');
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(rx, ry, glowR, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        ctx.fillStyle = isAg ? color + '30' : '#181C26';
-        ctx.strokeStyle = color + (isAg ? '50' : '70');
-        ctx.lineWidth = isAg ? 0.6 : 1.2;
+      skillNodes.forEach((skill, i) => {
+        const t = reduced ? 1 : easeOut(Math.min(1, Math.max(0, (elapsed - i * 45) / 700)));
+        const x = skill.x - skill.w / 2;
+        const y = skill.y - skill.h / 2;
+        const ring = reduced ? 0 : Math.sin(now * 0.0014 + i) * 0.5 + 0.5;
+        ctx.globalAlpha = appear * t * (theme.light ? 0.10 : 0.18) * ring;
+        ctx.strokeStyle = alpha(skill.hue, 1);
+        ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.arc(rx, ry, drawR, 0, Math.PI * 2);
+        ctx.roundRect(x - 8 - ring * 5, y - 6 - ring * 4, skill.w + 16 + ring * 10, skill.h + 12 + ring * 8, 11);
+        ctx.stroke();
+
+        ctx.globalAlpha = appear * t;
+        ctx.shadowColor = alpha(skill.hue, theme.light ? 0.12 : 0.28);
+        ctx.shadowBlur = theme.light ? 8 : 18;
+        ctx.fillStyle = theme.light ? 'rgba(255,255,255,0.76)' : 'rgba(14, 16, 24, 0.72)';
+        ctx.strokeStyle = alpha(skill.hue, theme.light ? 0.36 : 0.48);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(x, y, skill.w, skill.h, 8);
         ctx.fill();
         ctx.stroke();
+        ctx.shadowBlur = 0;
 
-        if (!isAg) {
-          ctx.save();
-          ctx.globalAlpha = et * 0.7;
-          drawIcon(ctx, rx, ry, drawR, color, n.category);
-          ctx.restore();
-        }
+        ctx.fillStyle = alpha(skill.hue, theme.light ? 0.86 : 1);
+        ctx.beginPath();
+        ctx.arc(x + 13, skill.y, 3.5, 0, Math.PI * 2);
+        ctx.fill();
 
-        if (!isAg) {
-          const fontSize = n.category === 'specialization' ? 10 : 8;
-          ctx.font = `500 ${fontSize}px "DM Mono", ui-monospace, monospace`;
-          ctx.textAlign = 'center';
-          ctx.fillStyle = color;
-          ctx.globalAlpha = et * 0.85;
-          ctx.fillText(n.slash, rx, ry + drawR + 14);
-        }
+        ctx.fillStyle = theme.light ? '#17201B' : '#F7FFF9';
+        ctx.font = `600 ${W < 620 ? 10 : 11}px "DM Mono", ui-monospace, monospace`;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(skill.label, x + 23, skill.y + 0.5);
       });
-      ctx.globalAlpha = 1;
 
+      ctx.globalAlpha = 1;
       ctx.restore();
 
-      // edge fades — top/bottom + left/right
       const fadeH = H * 0.22;
       let g = ctx.createLinearGradient(0, 0, 0, fadeH);
-      g.addColorStop(0, bg); g.addColorStop(1, bg + '00');
+      g.addColorStop(0, theme.bg); g.addColorStop(1, alpha(theme.bg, 0));
       ctx.fillStyle = g; ctx.fillRect(0, 0, W, fadeH);
       g = ctx.createLinearGradient(0, H - fadeH, 0, H);
-      g.addColorStop(0, bg + '00'); g.addColorStop(1, bg);
+      g.addColorStop(0, alpha(theme.bg, 0)); g.addColorStop(1, theme.bg);
       ctx.fillStyle = g; ctx.fillRect(0, H - fadeH, W, fadeH);
 
       const fadeW = W * 0.15;
       g = ctx.createLinearGradient(0, 0, fadeW, 0);
-      g.addColorStop(0, bg); g.addColorStop(1, bg + '00');
+      g.addColorStop(0, theme.bg); g.addColorStop(1, alpha(theme.bg, 0));
       ctx.fillStyle = g; ctx.fillRect(0, 0, fadeW, H);
       g = ctx.createLinearGradient(W - fadeW, 0, W, 0);
-      g.addColorStop(0, bg + '00'); g.addColorStop(1, bg);
+      g.addColorStop(0, alpha(theme.bg, 0)); g.addColorStop(1, theme.bg);
       ctx.fillStyle = g; ctx.fillRect(W - fadeW, 0, fadeW, H);
 
-      // center radial dim — for card readability
       const cGrad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, W * 0.38);
-      cGrad.addColorStop(0,   bg + '80');
-      cGrad.addColorStop(0.6, bg + '30');
-      cGrad.addColorStop(1,   bg + '00');
+      cGrad.addColorStop(0, alpha(theme.bg, theme.light ? 0.52 : 0.36));
+      cGrad.addColorStop(0.6, alpha(theme.bg, theme.light ? 0.18 : 0.10));
+      cGrad.addColorStop(1, alpha(theme.bg, 0));
       ctx.fillStyle = cGrad;
       ctx.fillRect(0, 0, W, H);
     };
