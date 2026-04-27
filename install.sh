@@ -550,8 +550,10 @@ Network allowlist:
 
 Would run:
   python -m venv "$SPARK_PREFIX/tools/spark-cli-venv"
-  "$SPARK_PREFIX/bin/spark" setup "$SPARK_BUNDLE"
 EOF
+  if [ "$SPARK_SKIP_SETUP" != "1" ]; then
+    printf '  "%s/bin/spark" setup "%s"\n' "$SPARK_PREFIX" "$SPARK_BUNDLE"
+  fi
   if [ "$SPARK_AUTOSTART" = "1" ]; then
     printf '  "%s/bin/spark" autostart install "%s" --now\n' "$SPARK_PREFIX" "$SPARK_BUNDLE"
   fi
@@ -944,9 +946,19 @@ Operational checks:
   $SPARK_PREFIX/bin/spark verify --onboarding
   $SPARK_PREFIX/bin/spark autostart status
 
+$(if [ "$SPARK_AUTOSTART" = "1" ]; then
+    cat <<AUTOSTART_ON
 Spark autostart is enabled by default so Spark comes back after login.
 To disable it later:
   $SPARK_PREFIX/bin/spark autostart uninstall
+AUTOSTART_ON
+  else
+    cat <<AUTOSTART_OFF
+Autostart was not installed for this run.
+To enable it later:
+  $SPARK_PREFIX/bin/spark autostart install telegram-starter --now
+AUTOSTART_OFF
+  fi)
 
 Install log:
   $SPARK_INSTALL_LOG

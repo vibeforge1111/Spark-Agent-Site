@@ -269,7 +269,9 @@ function Show-DryRunPlan {
     Write-Host ""
     Write-Host "Would run:"
     Write-Host "  python -m venv `"$Script:SparkPrefix\tools\spark-cli-venv`""
-    Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`""
+    if (-not $SkipSetup) {
+        Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`""
+    }
     if (-not $NoAutostart) {
         Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" autostart install `"$Bundle`" --now"
     }
@@ -697,9 +699,15 @@ function Invoke-Install {
     Write-Host "  spark verify --onboarding"
     Write-Host "  spark autostart status"
     Write-Host ""
-    Write-Host "Spark autostart is enabled by default so Spark comes back after login."
-    Write-Host "To disable it later:"
-    Write-Host "  spark autostart uninstall"
+    if ($NoAutostart) {
+        Write-Host "Autostart was not installed for this run."
+        Write-Host "To enable it later:"
+        Write-Host "  spark autostart install telegram-starter --now"
+    } else {
+        Write-Host "Spark autostart is enabled by default so Spark comes back after login."
+        Write-Host "To disable it later:"
+        Write-Host "  spark autostart uninstall"
+    }
     Write-Host ""
     Write-Host "Install log:"
     Write-Host "  $Script:InstallLogPath"
