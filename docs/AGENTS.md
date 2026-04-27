@@ -19,6 +19,7 @@ Use these pages first:
 
 - `/docs/install-safety.md` before install
 - `/docs/suites.md` to explain what Spark installs
+- `/docs/self-improvement.md` to explain domain chips, recursive loops, and benchmarks
 - `/docs/lifecycle.md` for repair, checks, autostart, and uninstall
 - `/install/commands.json` for exact commands and current metadata
 
@@ -57,7 +58,21 @@ If a token appears in chat, logs, screenshots, GitHub issues, or commits, tell t
 - Domain Chip Memory: remembers useful facts.
 - Spawner UI: Mission Control for bigger tasks.
 - Spark Researcher: gathers context and evidence.
+- Domain Chip: specialist logic for one domain.
+- Benchmark: fixed score that keeps improvement honest.
+- Recursive Loop: bounded run, score, record, remember, suggest.
 - Autostart: starts Spark after login.
+
+## Self-Improvement Rule
+
+For domain chips and recursive loops, keep the answer grounded:
+
+- name the task
+- name the score
+- name the allowed mutations
+- keep loops bounded
+- save lessons and failures
+- require review before risky changes
 
 ## Current Installer Pins
 

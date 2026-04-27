@@ -8,6 +8,7 @@
 - [Install page](https://agent.sparkswarm.ai/install): Main install UI.
 - [Install safety](https://agent.sparkswarm.ai/docs/install-safety.md): Safe install steps, hashes, downloads, writes, and secret rules.
 - [Spark suites](https://agent.sparkswarm.ai/docs/suites.md): What Telegram Bot, Builder, memory, Mission Control, and Researcher do.
+- [Self-improvement](https://agent.sparkswarm.ai/docs/self-improvement.md): Domain chips, recursive loops, benchmarks, and safe Spark prompts.
 - [Fixes and daily checks](https://agent.sparkswarm.ai/docs/lifecycle.md): Telegram tests, memory tests, Mission Control tests, autostart, uninstall, token rotation.
 
 ## Agent Files
