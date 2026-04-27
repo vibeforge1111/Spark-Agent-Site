@@ -9,6 +9,7 @@
 - Installer scripts and checksum manifests are served without cache.
 - Security headers are set in `nginx.conf`, including CSP, HSTS, `nosniff`, and frame denial.
 - Installer provenance is documented in `install/attestations.md`.
+- Installer release inputs are pinned in `install/release-manifest.json`.
 - GitHub Actions validates installer syntax, checksum manifests, trust-boundary strings, container build, and attestation generation.
 
 ## Secrets
@@ -31,6 +32,9 @@ If any token or private key appears in a commit, chat, log, screenshot, or issue
 Installer changes must keep these invariants:
 
 - no remote-script piping in documentation
+- no installer-managed runtime setup through remote-script piping
+- managed runtime downloads must be version-pinned and checksum-verified
+- default `spark-cli` source must resolve to an immutable commit SHA
 - canonical `spark-cli` source enforced by default
 - development source override requires an explicit flag/env
 - script bytes match `install/checksums.txt`

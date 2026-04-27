@@ -10,10 +10,11 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "07f616ad8ac15686082c244a105add80c41ac61971f3c69e68a48fe965af1ceb",
-      "install.ps1": "c62c2742d2dcd49030936fdbc8425dd628f6ea84c9402b132ca0c74ede4fafb4"
+      "install.sh": "0ebada64dfebd127f40ab7b4d8d04dc22a546f2b12562de50516be3f87d32e77",
+      "install.ps1": "fb4619737e96b5a84e93f9252c8c05e930e731064d17d85b9ad126a5c238a8e6"
     }
   },
+  "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
   "attestations": {
     "provider": "GitHub Artifact Attestations / Sigstore",
     "repository": "vibeforge1111/Spark-Agent-Site",
@@ -39,33 +40,25 @@
       "id": "mac-linux-wsl",
       "label": "macOS, Linux, WSL",
       "shell": "bash",
-      "description": "Download the site-hosted installer, verify the SHA-256 checksum and GitHub Artifact Attestation, inspect it, then run it. The installer auto-detects Apple Silicon, Intel Mac, Linux x64, Linux arm64, and WSL.",
+      "description": "Download the site-hosted installer, show the dry-run plan, then ask before installing. The installer auto-detects Apple Silicon, Intel Mac, Linux x64, Linux arm64, and WSL.",
       "scriptUrl": "https://agent.sparkswarm.ai/install.sh",
       "commands": [
-        "curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh",
-        "expected='07f616ad8ac15686082c244a105add80c41ac61971f3c69e68a48fe965af1ceb'; actual=$(if command -v sha256sum >/dev/null 2>&1; then sha256sum ./install.sh | awk '{print $1}'; elif command -v shasum >/dev/null 2>&1; then shasum -a 256 ./install.sh | awk '{print $1}'; else echo 'Missing sha256sum or shasum'; exit 1; fi); test \"$actual\" = \"$expected\" || { echo 'spark installer checksum mismatch'; exit 1; }",
-        "(command -v gh >/dev/null 2>&1 || { echo 'GitHub CLI is required for provenance verification: https://cli.github.com/'; exit 1; })",
-        "gh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main",
-        "less ./install.sh",
-        "read -r -p 'Run Spark installer now? Type yes: ' answer && case \"$answer\" in yes) bash ./install.sh ;; *) echo 'Skipped.' ;; esac"
+        "curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh",
+        "bash spark-install.sh"
       ],
-      "singleCopyBlock": "curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh\nexpected='07f616ad8ac15686082c244a105add80c41ac61971f3c69e68a48fe965af1ceb'; actual=$(if command -v sha256sum >/dev/null 2>&1; then sha256sum ./install.sh | awk '{print $1}'; elif command -v shasum >/dev/null 2>&1; then shasum -a 256 ./install.sh | awk '{print $1}'; else echo 'Missing sha256sum or shasum'; exit 1; fi); test \"$actual\" = \"$expected\" || { echo 'spark installer checksum mismatch'; exit 1; }\n(command -v gh >/dev/null 2>&1 || { echo 'GitHub CLI is required for provenance verification: https://cli.github.com/'; exit 1; })\ngh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main\nless ./install.sh\nread -r -p 'Run Spark installer now? Type yes: ' answer && case \"$answer\" in yes) bash ./install.sh ;; *) echo 'Skipped.' ;; esac"
+      "singleCopyBlock": "curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh && bash spark-install.sh"
     },
     {
       "id": "windows-powershell",
       "label": "Windows PowerShell",
       "shell": "powershell",
-      "description": "Download the site-hosted installer, verify the SHA-256 checksum and GitHub Artifact Attestation, inspect it, then run it.",
+      "description": "Download the site-hosted installer, show the dry-run plan, then ask before installing.",
       "scriptUrl": "https://agent.sparkswarm.ai/install.ps1",
       "commands": [
-        "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\\install.ps1",
-        "if ((Get-FileHash .\\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'c62c2742d2dcd49030936fdbc8425dd628f6ea84c9402b132ca0c74ede4fafb4') { throw 'install.ps1 checksum mismatch' }",
-        "if (-not (Get-Command gh -ErrorAction SilentlyContinue)) { throw 'GitHub CLI is required for provenance verification: https://cli.github.com/' }",
-        "gh attestation verify .\\install.ps1 --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main",
-        "Get-Content .\\install.ps1",
-        "if ((Read-Host 'Run Spark installer now? Type yes') -eq 'yes') { powershell -ExecutionPolicy Bypass -File .\\install.ps1 } else { Write-Host 'Skipped.' }"
+        "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1",
+        "powershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1"
       ],
-      "singleCopyBlock": "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\\install.ps1\nif ((Get-FileHash .\\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'c62c2742d2dcd49030936fdbc8425dd628f6ea84c9402b132ca0c74ede4fafb4') { throw 'install.ps1 checksum mismatch' }\nif (-not (Get-Command gh -ErrorAction SilentlyContinue)) { throw 'GitHub CLI is required for provenance verification: https://cli.github.com/' }\ngh attestation verify .\\install.ps1 --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main\nGet-Content .\\install.ps1\nif ((Read-Host 'Run Spark installer now? Type yes') -eq 'yes') { powershell -ExecutionPolicy Bypass -File .\\install.ps1 } else { Write-Host 'Skipped.' }"
+      "singleCopyBlock": "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1"
     }
   ],
   "postInstallChecks": [
@@ -140,11 +133,14 @@
     "Installer SHA-256 checksums are published beside the scripts for local verification.",
     "Launch path uses Telegram long polling, not webhooks.",
     "LLM provider keys and Telegram bot tokens are configured locally by the user.",
-    "Installer scripts are hosted on agent.sparkswarm.ai and lock Spark CLI source overrides behind an explicit developer flag."
+    "Installer scripts are hosted on agent.sparkswarm.ai and lock Spark CLI source overrides behind an explicit developer flag.",
+    "Installer manages Python 3.11 with a pinned uv binary when a compatible local Python is not already available.",
+    "Spark CLI installs from an immutable commit SHA by default."
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "ref": "spark-cli-launch-2026-04-27",
+    "releaseName": "spark-cli-launch-2026-04-27",
+    "ref": "f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"

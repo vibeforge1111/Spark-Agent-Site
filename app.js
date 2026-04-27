@@ -907,6 +907,41 @@
   }
 
   // install options — click card to copy command
+  const activateInstallPanel = (target) => {
+    const normalized = target === 'windows' ? 'windows' : 'unix';
+    $$('[data-install-target]').forEach(tab => {
+      const active = tab.dataset.installTarget === normalized;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    $$('[data-install-panel]').forEach(panel => {
+      const active = panel.dataset.installPanel === normalized;
+      panel.hidden = !active;
+      panel.classList.toggle('is-active', active);
+      const rec = $('.install-rec', panel);
+      if (rec) rec.textContent = active ? 'recommended for this device' : 'alternate installer';
+    });
+    const label = $('[data-install-mode-label]');
+    if (label) label.textContent = normalized === 'windows' ? 'Detected: Windows' : 'Detected: Mac / Linux / WSL';
+  };
+
+  const detectInstallPanel = () => {
+    const nav = navigator;
+    const platform = [
+      nav.userAgentData?.platform,
+      nav.platform,
+      nav.userAgent,
+    ].filter(Boolean).join(' ').toLowerCase();
+    return platform.includes('win') ? 'windows' : 'unix';
+  };
+
+  if ($('[data-install-switcher]')) {
+    activateInstallPanel(detectInstallPanel());
+    $$('[data-install-target]').forEach(tab => {
+      tab.addEventListener('click', () => activateInstallPanel(tab.dataset.installTarget));
+    });
+  }
+
   $$('.install-option').forEach(opt => {
     opt.addEventListener('click', async () => {
       const value = opt.dataset.copyValue || '';

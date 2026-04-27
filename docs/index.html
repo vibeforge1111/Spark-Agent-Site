@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index,follow">
 <title>Spark Agent Docs</title>
-<meta name="description" content="Spark Agent docs and knowledgebase architecture, backed by Lore by Spark: Markdown source, provenance, MCP, llms.txt, AGENTS.md, and trace-derived draft pages.">
+<meta name="description" content="Spark Agent install safety docs: what the installer downloads, where secrets stay, how to verify, repair, uninstall, and let an agent set Spark up safely.">
 <link rel="canonical" href="https://agent.sparkswarm.ai/docs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
     <span class="brand-slash"><span class="brand-slash-prefix">/</span>docs</span>
   </a>
   <div class="topbar-right">
-    <a href="/#install" class="cta-install">Install<span class="cta-arrow">-></span></a>
+    <a href="/#install" class="cta-install">Install<span class="cta-arrow">-&gt;</span></a>
   </div>
 </header>
 
@@ -33,167 +33,226 @@
     <aside class="docs-sidebar" aria-label="Docs navigation">
       <p>On this page</p>
       <a href="#overview">Overview</a>
-      <a href="#knowledgebase">Knowledgebase</a>
-      <a href="#agent-contract">Agent contract</a>
-      <a href="#provenance">Provenance</a>
-      <a href="#install-trust">Install trust</a>
-      <a href="#next">Next wiring</a>
+      <a href="#safe-path">Safe path</a>
+      <a href="#install-plan">Install plan</a>
+      <a href="#secrets">Secrets</a>
+      <a href="#repair">Repair</a>
+      <a href="#agent-setup">Agent setup</a>
+      <a href="#limits">Limits</a>
     </aside>
 
     <article class="docs-main">
       <section class="docs-hero" id="overview">
         <span class="overline">Spark Agent Docs</span>
-        <h1>The knowledgebase is part of the agent runtime.</h1>
+        <h1>Install Spark with receipts.</h1>
         <p class="lead">
-          Spark Agent docs are backed by the Lore by Spark model from <code>spark-knowledgebase</code>:
-          Markdown source of truth, agent-readable discovery files, provenance-aware retrieval,
-          MCP read/write tools, and trace-derived drafts when agents fail to find the answer.
+          These docs explain exactly what the installer downloads, what it writes, how to verify it,
+          how to repair or remove it, and what stays local when you configure Telegram plus an LLM provider.
         </p>
         <div class="docs-meta">
-          <span class="docs-pill">source: spark-knowledgebase</span>
-          <span class="docs-pill">surface: /docs</span>
-          <span class="docs-pill">status: static adapter</span>
-          <span class="docs-pill">updated: 2026-04-26</span>
+          <span class="docs-pill">updated: 2026-04-27</span>
+          <span class="docs-pill">installers: macOS, Linux, WSL, Windows</span>
+          <span class="docs-pill">autostart: on by default</span>
+          <span class="docs-pill">secrets: local</span>
         </div>
       </section>
 
-      <section class="docs-section" id="knowledgebase">
-        <span class="overline">Knowledgebase Shape</span>
-        <h2>Lore is the docs engine Spark Agent should mount.</h2>
+      <section class="docs-section" id="safe-path">
+        <span class="overline">Safe Path</span>
+        <h2>The default flow downloads first, shows a no-write plan, then asks before installing.</h2>
         <p>
-          The product brief defines Lore as an agent-native knowledgebase where humans write,
-          agents read, agents propose, and every factual claim carries provenance. For Spark Agent,
-          that means docs are not just marketing copy. They are a runtime surface agents can use
-          before installing, while configuring, and during repair.
+          The homepage keeps installation to one copyable command. For stricter verification, use the
+          staged path below. It works well for humans and for local coding agents that should inspect
+          privileged scripts before running them.
         </p>
         <div class="docs-grid">
           <div class="docs-card">
-            <h3>Human view</h3>
-            <p>Readable setup, architecture, troubleshooting, module roles, and operating checks.</p>
+            <h3>macOS, Linux, WSL</h3>
+            <pre class="docs-code">curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh
+expected='0ebada64dfebd127f40ab7b4d8d04dc22a546f2b12562de50516be3f87d32e77'
+actual=$(if command -v sha256sum &gt;/dev/null 2&gt;&amp;1; then sha256sum spark-install.sh | awk '{print $1}'; else shasum -a 256 spark-install.sh | awk '{print $1}'; fi)
+test "$actual" = "$expected" || { echo 'checksum mismatch'; exit 1; }
+bash spark-install.sh --dry-run
+bash spark-install.sh</pre>
           </div>
           <div class="docs-card">
-            <h3>Agent view</h3>
-            <p><code>llms.txt</code>, <code>AGENTS.md</code>, Markdown responses, and structured context for Codex, Claude, Cursor, and Spark agents.</p>
+            <h3>Windows PowerShell</h3>
+            <pre class="docs-code">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1
+$expected = 'fb4619737e96b5a84e93f9252c8c05e930e731064d17d85b9ad126a5c238a8e6'
+if ((Get-FileHash .\spark-install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expected) { throw 'checksum mismatch' }
+powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</pre>
+          </div>
+        </div>
+        <div class="docs-links">
+          <a class="docs-link" href="/install/checksums.txt">Checksums</a>
+          <a class="docs-link" href="/install/attestations.md">Attestations</a>
+          <a class="docs-link" href="/install/release-manifest.json">Release manifest</a>
+          <a class="docs-link" href="/docs/install-safety.md">Agent install guide</a>
+        </div>
+      </section>
+
+      <section class="docs-section" id="install-plan">
+        <span class="overline">Install Plan</span>
+        <h2>What Spark may create, download, or start.</h2>
+        <div class="docs-grid">
+          <div class="docs-card">
+            <h3>Local paths</h3>
+            <ul>
+              <li><code>~/.spark/tools</code> for managed runtime tools</li>
+              <li><code>~/.spark/bin/spark</code> or <code>%USERPROFILE%\.spark\bin\spark.cmd</code></li>
+              <li><code>~/.spark/env</code> for local setup values</li>
+              <li><code>~/.spark/logs/install.log</code> with known secret values redacted</li>
+            </ul>
           </div>
           <div class="docs-card">
-            <h3>Write path</h3>
-            <p>Agents propose edits or new pages as reviewed change requests, with claim-to-source mappings.</p>
+            <h3>Network allowlist</h3>
+            <ul>
+              <li><code>agent.sparkswarm.ai</code> for installer files and metadata</li>
+              <li><code>github.com/vibeforge1111/spark-cli</code> for Spark CLI source</li>
+              <li><code>github.com/astral-sh/uv</code> for pinned uv binaries if Python is missing</li>
+              <li><code>nodejs.org</code> for managed Node when needed</li>
+            </ul>
           </div>
           <div class="docs-card">
-            <h3>Learning path</h3>
-            <p>Search misses, failed citations, broken runbooks, and rejected edits become trace-derived draft pages.</p>
+            <h3>Pinned inputs</h3>
+            <ul>
+              <li>Spark CLI commit <code>f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0</code></li>
+              <li>Node <code>22.18.0</code></li>
+              <li>Python <code>3.11</code> through uv when local Python is not compatible</li>
+              <li>uv <code>0.11.7</code> with platform-specific SHA-256 checks</li>
+            </ul>
+          </div>
+          <div class="docs-card">
+            <h3>Autostart</h3>
+            <p>
+              Autostart is enabled by default so Telegram replies continue after reboot. Use
+              <code>--no-autostart</code> or <code>-NoAutostart</code> for an inspection-only first install.
+            </p>
           </div>
         </div>
       </section>
 
-      <section class="docs-section" id="agent-contract">
-        <span class="overline">Agent Contract</span>
-        <h2>Every connected agent should know where to start and how to behave.</h2>
+      <section class="docs-section" id="secrets">
+        <span class="overline">Secrets</span>
+        <h2>Telegram bot tokens and LLM keys are configured locally.</h2>
         <p>
-          The Spark Agent knowledgebase should expose a compact self-onboarding contract before
-          any tool call or install command runs.
+          The website does not need your Telegram token or provider API key. The installer can pass them
+          into local setup when you choose to provide them, and the install log redacts the known secret
+          values from its output.
         </p>
         <div class="docs-steps">
           <div class="docs-step">
             <div>
-              <strong>Read discovery first</strong>
-              <span>Agents start from <code>/docs/AGENTS.md</code> and <code>/docs/llms.txt</code> before touching installers or local services.</span>
+              <strong>BotFather token</strong>
+              <span>Create the bot in Telegram, paste the token only into local setup, then rotate it if it appears in chat, screenshots, or logs.</span>
             </div>
           </div>
           <div class="docs-step">
             <div>
-              <strong>Use docs as source, not memory theater</strong>
-              <span>Answers cite pages, checksums, command outputs, or repo paths. If evidence is missing, the agent says so.</span>
+              <strong>LLM provider key</strong>
+              <span>Use your provider console to create the key. Spark stores provider settings locally with the runtime, not on this website.</span>
             </div>
           </div>
           <div class="docs-step">
             <div>
-              <strong>Propose, do not silently mutate</strong>
-              <span>Knowledgebase writes land as diffs with provenance. Agent-authored content starts low-authority until reviewed.</span>
-            </div>
-          </div>
-          <div class="docs-step">
-            <div>
-              <strong>Submit traces when docs fail</strong>
-              <span>Search misses and broken runbook steps should become structured traces, then draft pages with <code>do_not_infer: true</code>.</span>
+              <strong>Agent handoff</strong>
+              <span>A local agent can guide setup, but it should stop before transmitting secrets anywhere unexpected.</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="docs-section" id="provenance">
-        <span class="overline">Trust Model</span>
-        <h2>The knowledgebase only becomes powerful if it stays falsifiable.</h2>
+      <section class="docs-section" id="repair">
+        <span class="overline">Lifecycle</span>
+        <h2>Trust improves when the way out is obvious.</h2>
+        <div class="docs-grid docs-command-grid">
+          <div class="docs-card">
+            <h3>Health</h3>
+            <ul>
+              <li><code>spark guide</code> opens the walkthrough</li>
+              <li><code>spark status</code> checks the local runtime</li>
+              <li><code>spark providers status</code> checks LLM roles</li>
+              <li><code>spark verify --onboarding</code> checks first-run wiring</li>
+            </ul>
+          </div>
+          <div class="docs-card">
+            <h3>Repair</h3>
+            <ul>
+              <li><code>spark doctor</code> runs broad diagnostics</li>
+              <li><code>spark fix telegram</code> repairs a quiet bot</li>
+              <li><code>spark autostart status</code> checks boot behavior</li>
+              <li><code>spark verify --deep</code> checks Builder and memory wiring</li>
+            </ul>
+          </div>
+          <div class="docs-card">
+            <h3>Remove</h3>
+            <ul>
+              <li><code>spark autostart remove</code> stops startup launch</li>
+              <li><code>spark uninstall</code> removes the Spark install when available</li>
+              <li>Manual fallback: remove <code>~/.spark</code> after backing up anything you want to keep</li>
+            </ul>
+          </div>
+          <div class="docs-card">
+            <h3>Telegram smoke test</h3>
+            <ul>
+              <li><code>/start</code></li>
+              <li><code>/myid</code></li>
+              <li><code>/diagnose</code></li>
+              <li>Send a normal message and confirm a provider-backed reply</li>
+            </ul>
+          </div>
+        </div>
+        <div class="docs-links">
+          <a class="docs-link" href="/docs/lifecycle.md">Lifecycle runbook</a>
+        </div>
+      </section>
+
+      <section class="docs-section" id="agent-setup">
+        <span class="overline">Agent Setup</span>
+        <h2>Let your agent set it up, but make the contract explicit.</h2>
         <p>
-          Lore's useful idea is not "AI writes docs." It is "agents reveal what the docs
-          are missing, then the system turns that evidence into reviewable pages."
+          Give the agent a short task, then require a plan review before local execution. This keeps
+          the install page simple while making agent-driven setup feel deliberate instead of jumpy.
+        </p>
+        <pre class="docs-code">Install Spark from https://agent.sparkswarm.ai/install.
+Read https://agent.sparkswarm.ai/docs/install-safety.md first.
+Review the installer dry-run plan with me.
+Then help me finish Telegram BotFather and LLM provider setup locally.</pre>
+        <div class="docs-links">
+          <a class="docs-link" href="/docs/AGENTS.md">AGENTS.md</a>
+          <a class="docs-link" href="/docs/llms.txt">llms.txt</a>
+          <a class="docs-link" href="/install/commands.json">commands.json</a>
+        </div>
+      </section>
+
+      <section class="docs-section" id="limits">
+        <span class="overline">Limits</span>
+        <h2>What is still not a complete supply-chain story.</h2>
+        <p>
+          The installer now has checksums, a release manifest, pinned managed runtimes, immutable Spark CLI source,
+          GitHub Artifact Attestations, and multi-OS dry-run CI. The next serious upgrade is an external
+          release signing process for published artifacts under a protected release flow.
         </p>
         <div class="docs-grid">
           <div class="docs-card">
-            <h3>Authority levels</h3>
+            <h3>Done in this site</h3>
             <ul>
-              <li>L1 trace-derived drafts are hidden from default retrieval.</li>
-              <li>Promotion requires a human or trusted agent with verified sources.</li>
-              <li>Deprecated or stale chunks stay out unless explicitly requested.</li>
+              <li>No remote-script piping required</li>
+              <li>No-write dry-run plan</li>
+              <li>Published hashes and release manifest</li>
+              <li>Ubuntu, macOS, and Windows installer smoke tests</li>
             </ul>
           </div>
           <div class="docs-card">
-            <h3>Required receipts</h3>
+            <h3>Next hardening</h3>
             <ul>
-              <li>Claim text</li>
-              <li>Source URL or local file path</li>
-              <li>Verification timestamp</li>
-              <li>Rollback or revisit condition for high-impact guidance</li>
+              <li>Signed release archives</li>
+              <li>Protected production deploy approvals</li>
+              <li>Verified organization ownership</li>
+              <li>Public security contact and vulnerability policy</li>
             </ul>
           </div>
-        </div>
-      </section>
-
-      <section class="docs-section" id="install-trust">
-        <span class="overline">Installer Boundary</span>
-        <h2>The installer path is safer now, but it is still privileged local execution.</h2>
-        <p>
-          The site now serves <code>/install</code> without the broken HTTP downgrade, and the
-          direct installer files have published SHA-256 checksums plus GitHub Artifact
-          Attestations. That prevents accidental redirect downgrade and gives operators
-          something concrete to verify after download.
-        </p>
-        <pre class="docs-code">curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh
-expected='07f616ad8ac15686082c244a105add80c41ac61971f3c69e68a48fe965af1ceb'
-actual=$(if command -v sha256sum >/dev/null 2>&amp;1; then sha256sum ./install.sh | awk '{print $1}'; elif command -v shasum >/dev/null 2>&amp;1; then shasum -a 256 ./install.sh | awk '{print $1}'; else echo 'Missing sha256sum or shasum'; exit 1; fi)
-test "$actual" = "$expected" || { echo 'spark installer checksum mismatch'; exit 1; }
-gh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main
-less ./install.sh
-read -r -p 'Run Spark installer now? Type yes: ' answer && case "$answer" in yes) bash ./install.sh ;; *) echo 'Skipped.' ;; esac</pre>
-        <pre class="docs-code">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\install.ps1
-if ((Get-FileHash .\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'c62c2742d2dcd49030936fdbc8425dd628f6ea84c9402b132ca0c74ede4fafb4') { throw 'install.ps1 checksum mismatch' }
-gh attestation verify .\install.ps1 --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main
-Get-Content .\install.ps1
-if ((Read-Host 'Run Spark installer now? Type yes') -eq 'yes') { powershell -ExecutionPolicy Bypass -File .\install.ps1 } else { Write-Host 'Skipped.' }</pre>
-        <p>
-          The installer uses the canonical Spark CLI repository by default and blocks source, ref,
-          and local registry overrides unless the explicit developer flag is set. Stronger assurance
-          still needs signed releases, protected deploys, repo ownership under a verified
-          organization, and ideally Sigstore/minisign signatures. Checksums hosted on
-          the same domain are useful for accidental tamper detection, but they are not a complete
-          defense if the whole deploy surface is compromised.
-        </p>
-      </section>
-
-      <section class="docs-section" id="next">
-        <span class="overline">Next Wiring</span>
-        <h2>What comes after this static adapter.</h2>
-        <p>
-          This page is the first embedded `/docs` surface. The full connection is to mount a Lore
-          workspace for Spark Agent, then expose the MCP endpoint, public Markdown routes, and
-          trace inbox from the running <code>spark-knowledgebase</code> service.
-        </p>
-        <div class="docs-links">
-          <a class="docs-link" href="/docs/AGENTS.md">Agent guide</a>
-          <a class="docs-link" href="/docs/llms.txt">llms.txt</a>
-          <a class="docs-link" href="/install/checksums.txt">Installer checksums</a>
-          <a class="docs-link" href="/install/attestations.md">Installer attestations</a>
-          <a class="docs-link" href="/install">Install</a>
         </div>
       </section>
     </article>

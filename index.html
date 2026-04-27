@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=58">
+<link rel="stylesheet" href="styles.css?v=62">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -137,6 +137,7 @@
       </div>
     </div>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">◐</button>
+    <a href="/docs" class="topbar-docs">Docs</a>
     <a href="#install" class="cta-install" data-magnetic>Get yours<span class="cta-arrow">→</span></a>
   </div>
 </header>
@@ -745,27 +746,82 @@
     <h2 class="install-title">One paste. <i>And you're set.</i></h2>
     <p class="install-lead">Works on Windows, macOS, Linux, and WSL. Spark detects your machine and walks you through Telegram + LLM setup.</p>
 
-    <button type="button" class="install-option primary" data-copy-value="Set up Spark from https://agent.sparkswarm.ai/install using the official setup script for this machine. Download the installer over HTTPS, verify the SHA-256 checksum, verify the GitHub Artifact Attestation, show me the script contents, and ask for confirmation before executing it. After install, run `spark guide`, `spark providers status`, and `spark verify --onboarding`. Then help me finish Telegram: create a BotFather bot if needed, configure my admin Telegram ID, choose LLM providers for chat, builder, memory, and missions, open Telegram, send `/start`, pick `/access 3` unless I choose otherwise, send `/diagnose`, test `/remember I like concise warm replies`, and test `/run say exactly OK`.">
-      <span class="io-kicker">easiest way · paste into Codex, Claude, or any LLM</span>
+    <button type="button" class="install-option primary agent-install" data-copy-value="Install Spark from https://agent.sparkswarm.ai/install. Review the installer plan with me, then finish Telegram BotFather and LLM provider setup.">
+      <span class="io-kicker">agent prompt</span>
       <span class="io-label">Let your agent set it up</span>
-      <code class="io-cmd">Set up Spark from https://agent.sparkswarm.ai/install using the official setup script for this machine. Download the installer over HTTPS, verify the SHA-256 checksum, verify the GitHub Artifact Attestation, show me the script contents, and ask for confirmation before executing it. After install, run `spark guide`, `spark providers status`, and `spark verify --onboarding`. Then help me finish Telegram: create a BotFather bot if needed, configure my admin Telegram ID, choose LLM providers for chat, builder, memory, and missions, open Telegram, send `/start`, pick `/access 3` unless I choose otherwise, send `/diagnose`, test `/remember I like concise warm replies`, and test `/run say exactly OK`.</code>
-      <span class="io-copy">click to copy instruction</span>
+      <code class="io-cmd">Install Spark from https://agent.sparkswarm.ai/install. Review the installer plan with me, then finish Telegram BotFather and LLM provider setup.</code>
+      <span class="io-copy">copy prompt</span>
     </button>
 
-    <div class="install-pick compact">
-      <button type="button" class="install-option" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\install.ps1; if ((Get-FileHash .\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne "c62c2742d2dcd49030936fdbc8425dd628f6ea84c9402b132ca0c74ede4fafb4") { throw "spark installer checksum mismatch" }; if (-not (Get-Command gh -ErrorAction SilentlyContinue)) { throw "GitHub CLI is required for provenance verification: https://cli.github.com/" }; gh attestation verify .\install.ps1 --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main; Get-Content .\install.ps1; if ((Read-Host "Run Spark installer now? Type yes") -eq "yes") { powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 } else { Write-Host "Skipped." }'>
-        <span class="io-label">I'm on Windows</span>
-        <span class="io-hint">download, verify, inspect, then run</span>
-        <code class="io-cmd">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\install.ps1; if ((Get-FileHash .\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne "c62c2742d2dcd49030936fdbc8425dd628f6ea84c9402b132ca0c74ede4fafb4") { throw "spark installer checksum mismatch" }; if (-not (Get-Command gh -ErrorAction SilentlyContinue)) { throw "GitHub CLI is required for provenance verification: https://cli.github.com/" }; gh attestation verify .\install.ps1 --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main; Get-Content .\install.ps1; if ((Read-Host "Run Spark installer now? Type yes") -eq "yes") { powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 } else { Write-Host "Skipped." }</code>
-        <span class="io-copy">click to copy</span>
-      </button>
+    <div class="install-switcher" data-install-switcher>
+      <div class="install-switch-head">
+        <p class="install-mode-label" data-install-mode-label>Run it yourself</p>
+        <div class="install-tabs" role="tablist" aria-label="Installer platform">
+          <button type="button" class="install-tab" id="install-tab-unix" role="tab" aria-controls="install-panel-unix" aria-selected="true" data-install-target="unix">Mac / Linux / WSL</button>
+          <button type="button" class="install-tab" id="install-tab-windows" role="tab" aria-controls="install-panel-windows" aria-selected="false" data-install-target="windows">Windows</button>
+        </div>
+      </div>
 
-      <button type="button" class="install-option" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh && expected='07f616ad8ac15686082c244a105add80c41ac61971f3c69e68a48fe965af1ceb' && actual=$(if command -v sha256sum >/dev/null 2>&1; then sha256sum ./install.sh | awk '{print $1}'; elif command -v shasum >/dev/null 2>&1; then shasum -a 256 ./install.sh | awk '{print $1}'; else echo 'Missing sha256sum or shasum'; exit 1; fi) && { test &quot;$actual&quot; = &quot;$expected&quot; || { echo 'spark installer checksum mismatch'; exit 1; }; } && (command -v gh >/dev/null 2>&1 || { echo 'GitHub CLI is required for provenance verification: https://cli.github.com/'; exit 1; }) && gh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main && less ./install.sh && read -r -p 'Run Spark installer now? Type yes: ' answer && case &quot;$answer&quot; in yes) bash ./install.sh ;; *) echo 'Skipped.' ;; esac">
-        <span class="io-label">I'm on Mac / Linux</span>
-        <span class="io-hint">download, verify, inspect, then run</span>
-        <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh &amp;&amp; expected='07f616ad8ac15686082c244a105add80c41ac61971f3c69e68a48fe965af1ceb' &amp;&amp; actual=$(if command -v sha256sum &gt;/dev/null 2&gt;&amp;1; then sha256sum ./install.sh | awk '{print $1}'; elif command -v shasum &gt;/dev/null 2&gt;&amp;1; then shasum -a 256 ./install.sh | awk '{print $1}'; else echo 'Missing sha256sum or shasum'; exit 1; fi) &amp;&amp; { test "$actual" = "$expected" || { echo 'spark installer checksum mismatch'; exit 1; }; } &amp;&amp; (command -v gh &gt;/dev/null 2&gt;&amp;1 || { echo 'GitHub CLI is required for provenance verification: https://cli.github.com/'; exit 1; }) &amp;&amp; gh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main &amp;&amp; less ./install.sh &amp;&amp; read -r -p 'Run Spark installer now? Type yes: ' answer &amp;&amp; case "$answer" in yes) bash ./install.sh ;; *) echo 'Skipped.' ;; esac</code>
-        <span class="io-copy">click to copy</span>
-      </button>
+      <div class="install-carousel">
+        <button type="button" class="install-option install-panel" id="install-panel-unix" role="tabpanel" aria-labelledby="install-tab-unix" data-install-panel="unix" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh && bash spark-install.sh">
+          <span class="io-kicker install-rec">recommended for this device</span>
+          <span class="io-label">Mac / Linux / WSL</span>
+          <span class="io-hint">downloads, shows plan, asks before install</span>
+          <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh &amp;&amp; bash spark-install.sh</code>
+          <span class="io-copy">click to copy</span>
+        </button>
+
+        <button type="button" class="install-option install-panel" id="install-panel-windows" role="tabpanel" aria-labelledby="install-tab-windows" hidden data-install-panel="windows" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1'>
+          <span class="io-kicker install-rec">recommended for this device</span>
+          <span class="io-label">Windows PowerShell</span>
+          <span class="io-hint">downloads, shows plan, asks before install</span>
+          <code class="io-cmd">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code>
+          <span class="io-copy">click to copy</span>
+        </button>
+      </div>
+    </div>
+
+    <details class="install-verify">
+      <summary>Advanced verification</summary>
+      <div class="verify-grid">
+        <div>
+          <span class="verify-k">Hashes</span>
+          <code>https://agent.sparkswarm.ai/install/checksums.txt</code>
+        </div>
+        <div>
+          <span class="verify-k">Attestations</span>
+          <code>https://agent.sparkswarm.ai/install/attestations.md</code>
+        </div>
+        <div>
+          <span class="verify-k">Release manifest</span>
+          <code>https://agent.sparkswarm.ai/install/release-manifest.json</code>
+        </div>
+        <div>
+          <span class="verify-k">Paranoid mode</span>
+          <code>download · verify · inspect · dry-run · install</code>
+        </div>
+      </div>
+      <p>The installer shows a no-write plan first, pins Spark to an immutable commit, verifies managed runtime downloads, and writes an install log after you confirm.</p>
+      <div class="verify-links">
+        <a href="/docs">Trust docs</a>
+        <a href="/docs/install-safety.md">Agent guide</a>
+        <a href="/docs/lifecycle.md">Repair + uninstall</a>
+      </div>
+    </details>
+
+    <div class="install-safety-strip" aria-label="Installer safety summary">
+      <a href="/docs#install-plan">
+        <span>Plan</span>
+        <strong>files, domains, autostart</strong>
+      </a>
+      <a href="/docs#secrets">
+        <span>Secrets</span>
+        <strong>tokens stay local</strong>
+      </a>
+      <a href="/docs#repair">
+        <span>Exit path</span>
+        <strong>doctor, repair, uninstall</strong>
+      </a>
     </div>
 
     <div class="install-after">
@@ -806,6 +862,6 @@
   </div>
 </footer>
 
-<script src="app.js?v=23" defer></script>
+<script src="app.js?v=24" defer></script>
 </body>
 </html>

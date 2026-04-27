@@ -148,6 +148,11 @@
 
 .docs-card ul { padding-left: 18px; }
 .docs-card li { margin-bottom: 6px; }
+.docs-card code {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  overflow-wrap: anywhere;
+}
 
 .docs-steps {
   counter-reset: step;
@@ -198,6 +203,17 @@
   color: var(--accent);
   font: 500 13px/1.7 var(--font-mono);
   margin-top: 18px;
+}
+.docs-card .docs-code {
+  margin-top: 12px;
+  font-size: 12px;
+}
+.docs-command-grid .docs-card ul {
+  padding-left: 0;
+  list-style: none;
+}
+.docs-command-grid .docs-card li {
+  margin-bottom: 8px;
 }
 
 .docs-links {
