@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "52e694c7645eecde6769188739733e2dfd8c9df2",
+    [string]$Ref = "39fefaa8cb32acdcdf84b3aeb3e7918eeb5fd7cf",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -29,7 +29,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$SparkCliReleaseName = "spark-cli-launch-2026-04-28-1"
+$SparkCliReleaseName = "spark-cli-launch-2026-04-28-2"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
@@ -694,8 +694,10 @@ function Invoke-Install {
     Write-Host "If `spark` is not found in this terminal yet, close and reopen the terminal."
     Write-Host ""
     Write-Host "Operational checks:"
-    Write-Host "  spark status"
+    Write-Host "  spark live start"
+    Write-Host "  spark live status"
     Write-Host "  spark providers status"
+    Write-Host "  spark providers test --role chat"
     Write-Host "  spark verify --onboarding"
     Write-Host "  spark autostart status"
     Write-Host ""

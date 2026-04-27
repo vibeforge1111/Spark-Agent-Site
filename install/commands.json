@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "275648ae35daa6a78f59015dd004a7b176f31ccfaf900cb6dbd532062dc7b01f",
-      "install.ps1": "3640fbb08e5c28cea1adfc1bbcff8898c279e28ca73bfee70137429b0cd41331"
+      "install.sh": "5e1f9e1cb45ffa04193466c49b618971f9225a967997584e55028a46a997731f",
+      "install.ps1": "d79665691d2fa75d735c4feddc3c1825be62cf8730d9907a2897c57eb0a27e45"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -89,6 +89,10 @@
     {
       "label": "Check LLM provider roles",
       "command": "spark providers status"
+    },
+    {
+      "label": "Prove the selected chat LLM",
+      "command": "spark providers test --role chat"
     },
     {
       "label": "Verify first-run wiring",
@@ -200,8 +204,8 @@
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "releaseName": "spark-cli-launch-2026-04-28-1",
-    "ref": "52e694c7645eecde6769188739733e2dfd8c9df2",
+    "releaseName": "spark-cli-launch-2026-04-28-2",
+    "ref": "39fefaa8cb32acdcdf84b3aeb3e7918eeb5fd7cf",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"

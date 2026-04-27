@@ -3,8 +3,8 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-launch-2026-04-28-1}"
-SPARK_DEFAULT_CLI_REF="52e694c7645eecde6769188739733e2dfd8c9df2"
+SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-launch-2026-04-28-2}"
+SPARK_DEFAULT_CLI_REF="39fefaa8cb32acdcdf84b3aeb3e7918eeb5fd7cf"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -941,8 +941,10 @@ For default installs, the installer also adds this line to your shell profile:
   source "$SPARK_PREFIX/env"
 
 Operational checks:
-  $SPARK_PREFIX/bin/spark status
+  $SPARK_PREFIX/bin/spark live start
+  $SPARK_PREFIX/bin/spark live status
   $SPARK_PREFIX/bin/spark providers status
+  $SPARK_PREFIX/bin/spark providers test --role chat
   $SPARK_PREFIX/bin/spark verify --onboarding
   $SPARK_PREFIX/bin/spark autostart status
 
