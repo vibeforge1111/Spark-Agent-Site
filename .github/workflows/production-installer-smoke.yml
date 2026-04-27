@@ -1,0 +1,117 @@
+name: Production installer smoke
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 7 * * *"
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  SPARK_INSTALL_HOST: https://agent.sparkswarm.ai
+
+jobs:
+  production-metadata:
+    name: production-metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch and validate production metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          workdir="$(mktemp -d)"
+          trap 'rm -rf "$workdir"' EXIT
+
+          curl -fsSL "$SPARK_INSTALL_HOST/install/checksums.txt" -o "$workdir/checksums.txt"
+          curl -fsSL "$SPARK_INSTALL_HOST/install/checksums.json" -o "$workdir/checksums.json"
+          curl -fsSL "$SPARK_INSTALL_HOST/install/commands.json" -o "$workdir/commands.json"
+          curl -fsSL "$SPARK_INSTALL_HOST/install/release-manifest.json" -o "$workdir/release-manifest.json"
+
+          python3 - "$workdir" <<'PY'
+          import json
+          import pathlib
+          import sys
+
+          root = pathlib.Path(sys.argv[1])
+          expected = {}
+          for line in (root / "checksums.txt").read_text(encoding="utf-8").splitlines():
+              line = line.strip()
+              if not line:
+                  continue
+              digest, relpath = line.split(maxsplit=1)
+              if len(digest) != 64:
+                  raise SystemExit(f"{relpath} digest is not sha256")
+              expected[relpath] = digest
+
+          checksums = json.loads((root / "checksums.json").read_text(encoding="utf-8"))
+          commands = json.loads((root / "commands.json").read_text(encoding="utf-8"))
+          manifest = json.loads((root / "release-manifest.json").read_text(encoding="utf-8"))
+
+          json_hashes = {entry["path"]: entry["sha256"] for entry in checksums["files"]}
+          command_hashes = commands["checksums"]["sha256"]
+          if json_hashes != expected:
+              raise SystemExit("production checksums.json does not match checksums.txt")
+          if command_hashes != expected:
+              raise SystemExit("production commands.json does not match checksums.txt")
+          if commands["source"]["ref"] != manifest["sparkCli"]["commit"]:
+              raise SystemExit("production source ref does not match release manifest")
+          if not all(len(value) == 64 for value in manifest["runtimes"]["uv"]["assets"].values()):
+              raise SystemExit("production uv asset hashes must be sha256 digests")
+          if manifest["networkAllowlist"] != [
+              "agent.sparkswarm.ai",
+              "github.com/vibeforge1111/spark-cli",
+              "github.com/astral-sh/uv",
+              "nodejs.org",
+          ]:
+              raise SystemExit("production network allowlist changed unexpectedly")
+          print("production metadata ok")
+          PY
+
+  production-installer-dry-run:
+    name: production-installer-dry-run (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Production Bash dry-run
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL "$SPARK_INSTALL_HOST/install.sh" -o spark-install.sh
+          curl -fsSL "$SPARK_INSTALL_HOST/install/checksums.txt" -o checksums.txt
+          expected="$(awk '$2 == "install.sh" {print $1}' checksums.txt)"
+          actual="$(if command -v sha256sum >/dev/null 2>&1; then sha256sum spark-install.sh | awk '{print $1}'; else shasum -a 256 spark-install.sh | awk '{print $1}'; fi)"
+          test "$actual" = "$expected"
+          bash -n spark-install.sh
+          SPARK_PREFIX="$RUNNER_TEMP/spark-production-dry-run" bash spark-install.sh --dry-run
+
+      - name: Production PowerShell dry-run
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "$env:SPARK_INSTALL_HOST/install.ps1" -OutFile ".\spark-install.ps1"
+          Invoke-WebRequest -Uri "$env:SPARK_INSTALL_HOST/install/checksums.txt" -OutFile ".\checksums.txt"
+          $expected = (Get-Content .\checksums.txt | Where-Object { $_ -match '\sinstall\.ps1$' } | ForEach-Object { ($_ -split '\s+')[0] })
+          if (-not $expected) { throw "install.ps1 checksum missing from production checksums.txt" }
+          $actual = (Get-FileHash .\spark-install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne $expected) { throw "install.ps1 checksum mismatch: $actual != $expected" }
+
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path ".\spark-install.ps1"), [ref] $tokens, [ref] $errors) | Out-Null
+          if ($errors.Count) {
+            $errors | ForEach-Object { Write-Error $_ }
+            exit 1
+          }
+
+          powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -Prefix "$env:RUNNER_TEMP\spark-production-dry-run" -DryRun
