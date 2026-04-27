@@ -44,6 +44,8 @@ Safe installer flow:
 6. Explain the plan.
 7. Ask the user before executing.
 
+If Spark is already installed and the user wants to update it, use `--upgrade-existing` only after showing the dry-run plan.
+
 ## Secrets
 
 Treat these as private:

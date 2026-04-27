@@ -782,6 +782,29 @@
     </div>
 
     <details class="install-verify">
+      <summary>Already have Spark?</summary>
+      <div class="verify-grid">
+        <div>
+          <span class="verify-k">Mac / Linux / WSL</span>
+          <code>bash spark-install.sh --dry-run --upgrade-existing</code>
+        </div>
+        <div>
+          <span class="verify-k">Then upgrade</span>
+          <code>bash spark-install.sh --upgrade-existing</code>
+        </div>
+        <div>
+          <span class="verify-k">Windows dry-run</span>
+          <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun -UpgradeExisting</code>
+        </div>
+        <div>
+          <span class="verify-k">Windows upgrade</span>
+          <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -UpgradeExisting</code>
+        </div>
+      </div>
+      <p>Use upgrade mode when Spark is already installed and the docs mention commands your local CLI does not know yet. Review the dry-run first; upgrade mode updates the existing Spark CLI and keeps the same local Spark folder.</p>
+    </details>
+
+    <details class="install-verify">
       <summary>Advanced verification</summary>
       <div class="verify-grid">
         <div>
@@ -808,8 +831,8 @@
       <p>The installer shows a no-write plan first, pins Spark to an immutable commit, verifies managed runtime downloads, and publishes hashes, attestations, and Sigstore signature bundles.</p>
       <div class="verify-links">
         <a href="/docs">Trust docs</a>
-        <a href="/docs/install-safety.md">Agent guide</a>
-        <a href="/docs/lifecycle.md">Repair + uninstall</a>
+        <a href="/docs/install-safety/">Install safety</a>
+        <a href="/docs/lifecycle/">Repair + uninstall</a>
       </div>
     </details>
 

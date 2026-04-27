@@ -58,6 +58,15 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun
 powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1
 ```
 
+Already installed:
+
+```bash
+bash spark-install.sh --dry-run --upgrade-existing
+bash spark-install.sh --upgrade-existing
+```
+
+Use upgrade mode only after reading the dry-run. It updates the existing Spark CLI inside the same Spark folder.
+
 ## Safe Agent Procedure
 
 1. Read this page.

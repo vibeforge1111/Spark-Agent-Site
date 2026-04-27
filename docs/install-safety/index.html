@@ -82,6 +82,13 @@ bash spark-install.sh</pre>
 powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun
 powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</pre>
         </div>
+        <div class="doc-card">
+          <span class="doc-kicker">Existing install</span>
+          <h3>Upgrade after a dry-run</h3>
+          <pre class="docs-code">bash spark-install.sh --dry-run --upgrade-existing
+bash spark-install.sh --upgrade-existing</pre>
+          <p>Use this when Spark is already installed and your local CLI is missing newer commands from the docs.</p>
+        </div>
       </div>
     </section>
 

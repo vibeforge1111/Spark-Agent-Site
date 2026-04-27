@@ -61,6 +61,15 @@ b5a3e3a35b8a7bfa2def28fd9d6834ea3b67232c219bcd6cb43c9455d8c82d45  install.sh
 3. Read what Spark says it will do.
 4. Continue only if the plan looks right.
 
+Already installed:
+
+```bash
+bash spark-install.sh --dry-run --upgrade-existing
+bash spark-install.sh --upgrade-existing
+```
+
+Use upgrade mode only after reading the dry-run. It updates the existing Spark CLI inside the same Spark folder.
+
 ## Safe Agent Procedure
 
 1. Read this page.

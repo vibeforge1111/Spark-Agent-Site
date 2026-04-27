@@ -158,5 +158,17 @@
       "scripts/install.sh",
       "scripts/install.ps1"
     ]
+  },
+  "upgradeExisting": {
+    "summary": "Use this only when Spark is already installed and the user wants to update the existing Spark CLI in place.",
+    "safety": "Run the dry-run first. Upgrade mode writes to the existing Spark prefix and should be approved by the user before execution.",
+    "unix": {
+      "dryRun": "bash spark-install.sh --dry-run --upgrade-existing",
+      "upgrade": "bash spark-install.sh --upgrade-existing"
+    },
+    "windows": {
+      "dryRun": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1 -DryRun -UpgradeExisting",
+      "upgrade": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1 -UpgradeExisting"
+    }
   }
 }
