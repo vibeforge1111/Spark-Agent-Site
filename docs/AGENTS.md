@@ -87,7 +87,7 @@ If a command, workflow, provider detail, or chip behavior has not been verified 
 
 ## Current Installer Pins
 
-- Spark CLI commit: `1b731512717f6e6e2e4bf9dbd711da19b3b67b09`
+- Spark CLI commit: `8727ccab1c54d3148b9924625515be43a1fd8958`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
