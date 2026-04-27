@@ -2407,8 +2407,8 @@ body {
 .install-option.primary {
   max-width: 920px;
   width: 100%;
-  margin: 0 auto 20px;
-  padding: 30px 34px 24px;
+  margin: 0 auto 14px;
+  padding: 24px 28px 20px;
   background: linear-gradient(180deg, var(--accent-subtle), transparent);
   border: 1.5px solid var(--accent);
   box-shadow: 0 12px 40px rgba(47, 202, 148, 0.15);
@@ -2424,8 +2424,21 @@ body {
   color: var(--text);
   margin-bottom: 2px;
 }
-.install-option.primary .io-label { font-size: 26px; }
-.install-option.primary .io-cmd { font-size: 13px; }
+.install-option.primary .io-label { font-size: 24px; }
+.install-option.primary .io-cmd {
+  max-width: 740px;
+  font-size: 12.5px;
+}
+
+.install-mode-label {
+  max-width: 920px;
+  margin: 0 auto 10px;
+  font: 500 10px var(--font-mono);
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+  color: var(--text-ghost);
+  text-align: center;
+}
 
 .install-pick.compact { gap: 14px; margin-top: 4px; opacity: 0.85; }
 .install-pick.compact:hover { opacity: 1; }
@@ -2718,6 +2731,7 @@ body {
   .install-option.primary { padding: 22px 20px 18px; margin-bottom: 16px; }
   .install-option.primary .io-label { font-size: 20px; }
   .install-option.primary .io-cmd { font-size: 12px; }
+  .install-mode-label { padding-inline: 2px; margin-bottom: 8px; }
   .install-pick.compact { gap: 10px; }
   .install-pick.compact .install-option { padding: 14px 16px 12px; }
   .install-pick.compact .install-option .io-label { font-size: 15px; }

@@ -19,11 +19,16 @@ param(
     [string]$LocalRegistry = "",
     [switch]$SkipSetup,
     [switch]$NoAutostart,
-    [switch]$AllowDevSource
+    [switch]$AllowDevSource,
+    [switch]$DryRun,
+    [switch]$Preflight,
+    [switch]$Yes,
+    [switch]$UpgradeExisting
 )
 
 $ErrorActionPreference = "Stop"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
+$Script:InstallLockDir = ""
 
 function Write-SparkLog {
     param([string]$Message)
@@ -52,6 +57,118 @@ function Require-PythonVersion {
     $ok = $LASTEXITCODE
     if ($ok -ne 0) {
         throw "Python >= 3.11 is required for Spark. Found Python $versionText. Install a newer Python and rerun the installer."
+    }
+}
+
+function Test-ExistingInstall {
+    return (
+        (Test-Path (Join-Path $Script:SparkPrefix "bin\spark.cmd")) -or
+        (Test-Path (Join-Path $Script:SparkPrefix "tools\spark-cli")) -or
+        (Test-Path (Join-Path $Script:SparkPrefix "config")) -or
+        (Test-Path (Join-Path $Script:SparkPrefix "state"))
+    )
+}
+
+function Invoke-Preflight {
+    Write-SparkLog "Preflight checks"
+    Require-Command python
+    Require-PythonVersion
+    Require-Command git
+    Write-SparkLog "Install prefix: $Script:SparkPrefix"
+    Write-SparkLog "Spark CLI source: $Source"
+    Write-SparkLog "Spark CLI ref: $Ref"
+    Write-SparkLog "Node version: $NodeVersion"
+    Write-SparkLog "Bundle: $Bundle"
+    Write-SparkLog "Autostart: $(-not $NoAutostart)"
+    if (Test-ExistingInstall) {
+        Write-SparkLog "Existing Spark install detected at $Script:SparkPrefix"
+    } else {
+        Write-SparkLog "No existing Spark install detected at $Script:SparkPrefix"
+    }
+}
+
+function Test-ExistingInstallPolicy {
+    if (-not (Test-ExistingInstall)) {
+        return
+    }
+    if ($UpgradeExisting) {
+        Write-SparkLog "Existing install update explicitly allowed by -UpgradeExisting"
+        return
+    }
+    throw @"
+Existing Spark install detected at:
+  $Script:SparkPrefix
+
+This installer will not overwrite or update an existing install by default.
+Choose one:
+  - use -UpgradeExisting after reviewing local changes and backups
+  - use -Prefix "$env:TEMP\spark-install-test" for a disposable test install
+  - run the existing Spark repair tools instead of reinstalling
+"@
+}
+
+function Show-DryRunPlan {
+    $setupEnabled = if ($SkipSetup) { "no" } else { "yes" }
+    $autostartEnabled = if ($NoAutostart) { "no" } else { "yes" }
+    $existing = if (Test-ExistingInstall) { "detected" } else { "none" }
+    $existingMode = if ($UpgradeExisting) { "upgrade" } else { "abort" }
+    Write-Host "[spark-install] Dry run plan"
+    Write-Host "  Prefix:              $Script:SparkPrefix"
+    Write-Host "  Node platform:       win-x64"
+    Write-Host "  Node version:        $NodeVersion"
+    Write-Host "  Managed Node forced: $ManagedNode"
+    Write-Host "  CLI source:          $Source"
+    Write-Host "  CLI ref:             $Ref"
+    Write-Host "  Bundle:              $Bundle"
+    Write-Host "  Setup enabled:       $setupEnabled"
+    Write-Host "  User PATH edit:      yes"
+    Write-Host "  Autostart:           $autostartEnabled"
+    Write-Host "  Existing mode:       $existingMode"
+    Write-Host "  Existing install:    $existing"
+    Write-Host ""
+    Write-Host "Would write:"
+    Write-Host "  $Script:SparkPrefix\tools"
+    Write-Host "  $Script:SparkPrefix\tools\spark-cli"
+    Write-Host "  $Script:SparkPrefix\tools\spark-cli-venv"
+    Write-Host "  $Script:SparkPrefix\bin\spark.cmd"
+    Write-Host ""
+    Write-Host "Would run:"
+    Write-Host "  python -m venv `"$Script:SparkPrefix\tools\spark-cli-venv`""
+    Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`""
+    if (-not $NoAutostart) {
+        Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" autostart install `"$Bundle`" --now"
+    }
+}
+
+function Confirm-Install {
+    if ($Yes) {
+        return $true
+    }
+    try {
+        $answer = Read-Host "Run Spark installer now? Type yes"
+    } catch {
+        throw "Interactive confirmation is required before installing. Rerun with -Yes only after reviewing the dry-run plan."
+    }
+    if ($answer -eq "yes") {
+        return $true
+    }
+    Write-Host "Skipped."
+    return $false
+}
+
+function Acquire-InstallLock {
+    $Script:InstallLockDir = Join-Path $Script:SparkPrefix ".install.lock"
+    try {
+        New-Item -ItemType Directory -Path $Script:InstallLockDir -ErrorAction Stop | Out-Null
+    } catch {
+        throw "Another Spark install appears to be running: $Script:InstallLockDir. If this is stale, remove it after confirming no installer is active."
+    }
+}
+
+function Release-InstallLock {
+    if ($Script:InstallLockDir -and (Test-Path $Script:InstallLockDir)) {
+        Remove-Item -LiteralPath $Script:InstallLockDir -Force -ErrorAction SilentlyContinue
+        $Script:InstallLockDir = ""
     }
 }
 
@@ -365,48 +482,73 @@ function Run-Autostart {
     }
 }
 
-Require-Command python
-Require-PythonVersion
-$Script:SparkPrefix = Resolve-FullPath $Prefix
-Test-InstallSettings
-New-Item -ItemType Directory -Force -Path $Script:SparkPrefix | Out-Null
-$nodeDir = Install-Node
-$env:PATH = "$nodeDir;$env:PATH"
-Write-SparkLog "Node runtime: $(& (Join-Path $nodeDir "node.exe") -v)"
-$cliDir = Checkout-Cli
-$venvDir = Install-CliVenv -CliDir $cliDir
-Write-Wrapper -NodeDir $nodeDir -VenvDir $venvDir
-Add-SparkBinToUserPath
-Warn-SparkCommandConflict
-Run-Setup -CliDir $cliDir
-Run-Autostart
-Write-SparkLog "Done."
-Write-Host ""
-Write-Host "Spark command:"
-Write-Host "  spark --help"
-Write-Host "  spark guide"
-Write-Host "  spark providers list"
-Write-Host ""
-Write-Host "Direct wrapper path:"
-Write-Host "  $Script:SparkPrefix\bin\spark.cmd --help"
-Write-Host "  $Script:SparkPrefix\bin\spark.cmd guide"
-Write-Host "  $Script:SparkPrefix\bin\spark.cmd providers list"
-Write-Host ""
-Write-Host "If `spark` is not found in this terminal yet, close and reopen the terminal."
-Write-Host ""
-Write-Host "Operational checks:"
-Write-Host "  spark status"
-Write-Host "  spark providers status"
-Write-Host "  spark verify --onboarding"
-Write-Host "  spark autostart status"
-Write-Host ""
-Write-Host "Finish in Telegram:"
-Write-Host "  1. Open your Spark bot and send /start"
-Write-Host "  2. Pick an access level when Spark asks. Most people should use /access 3"
-Write-Host "  3. Send /diagnose"
-Write-Host "  4. Try memory: /remember I like concise warm replies"
-Write-Host "  5. Try a tiny build: /run say exactly OK"
-Write-Host ""
-Write-Host "If Telegram is quiet or memory is not responding:"
-Write-Host "  spark fix telegram"
-Write-Host "  spark logs spark-telegram-bot"
+function Invoke-Install {
+    $Script:SparkPrefix = Resolve-FullPath $Prefix
+    Test-InstallSettings
+    if ($DryRun) {
+        Show-DryRunPlan
+        return
+    }
+    Show-DryRunPlan
+    Invoke-Preflight
+    if ($Preflight) {
+        Write-SparkLog "Preflight complete."
+        return
+    }
+    Test-ExistingInstallPolicy
+    if (-not (Confirm-Install)) {
+        return
+    }
+    New-Item -ItemType Directory -Force -Path $Script:SparkPrefix | Out-Null
+    Acquire-InstallLock
+    $nodeDir = Install-Node
+    $env:PATH = "$nodeDir;$env:PATH"
+    Write-SparkLog "Node runtime: $(& (Join-Path $nodeDir "node.exe") -v)"
+    $cliDir = Checkout-Cli
+    $venvDir = Install-CliVenv -CliDir $cliDir
+    Write-Wrapper -NodeDir $nodeDir -VenvDir $venvDir
+    Add-SparkBinToUserPath
+    Warn-SparkCommandConflict
+    Run-Setup -CliDir $cliDir
+    Run-Autostart
+    Write-SparkLog "Done."
+    Write-Host ""
+    Write-Host "Spark command:"
+    Write-Host "  spark --help"
+    Write-Host "  spark guide"
+    Write-Host "  spark providers list"
+    Write-Host ""
+    Write-Host "Direct wrapper path:"
+    Write-Host "  $Script:SparkPrefix\bin\spark.cmd --help"
+    Write-Host "  $Script:SparkPrefix\bin\spark.cmd guide"
+    Write-Host "  $Script:SparkPrefix\bin\spark.cmd providers list"
+    Write-Host ""
+    Write-Host "If `spark` is not found in this terminal yet, close and reopen the terminal."
+    Write-Host ""
+    Write-Host "Operational checks:"
+    Write-Host "  spark status"
+    Write-Host "  spark providers status"
+    Write-Host "  spark verify --onboarding"
+    Write-Host "  spark autostart status"
+    Write-Host ""
+    Write-Host "Spark autostart is enabled by default so Spark comes back after login."
+    Write-Host "To disable it later:"
+    Write-Host "  spark autostart uninstall"
+    Write-Host ""
+    Write-Host "Finish in Telegram:"
+    Write-Host "  1. Open your Spark bot and send /start"
+    Write-Host "  2. Pick an access level when Spark asks. Most people should use /access 3"
+    Write-Host "  3. Send /diagnose"
+    Write-Host "  4. Try memory: /remember I like concise warm replies"
+    Write-Host "  5. Try a tiny build: /run say exactly OK"
+    Write-Host ""
+    Write-Host "If Telegram is quiet or memory is not responding:"
+    Write-Host "  spark fix telegram"
+    Write-Host "  spark logs spark-telegram-bot"
+}
+
+try {
+    Invoke-Install
+} finally {
+    Release-InstallLock
+}

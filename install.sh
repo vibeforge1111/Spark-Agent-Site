@@ -31,8 +31,12 @@ SPARK_SHELL_PROFILE="${SPARK_SHELL_PROFILE:-auto}"
 SPARK_NODE_BIN_DIR=""
 SPARK_CANONICAL_CLI_SOURCE="https://github.com/vibeforge1111/spark-cli"
 SPARK_ALLOW_DEV_SOURCE="${SPARK_ALLOW_DEV_SOURCE:-0}"
+SPARK_DRY_RUN="${SPARK_DRY_RUN:-0}"
+SPARK_PREFLIGHT_ONLY="${SPARK_PREFLIGHT_ONLY:-0}"
+SPARK_ASSUME_YES="${SPARK_ASSUME_YES:-0}"
+SPARK_EXISTING_MODE="${SPARK_EXISTING_MODE:-abort}"
+SPARK_INSTALL_LOCK_DIR=""
 SPARK_SECRET_FILES=()
-trap 'cleanup_secret_files' EXIT HUP INT TERM
 
 usage() {
   cat <<'EOF'
@@ -60,11 +64,16 @@ Options:
   --setup-skip-runtime-check
                             Pass --skip-runtime-check to setup
   --setup-arg ARG           Extra arg passed to `spark setup`; repeatable
+  --dry-run                 Print planned install actions and exit without writing files
+  --preflight               Check prerequisites and install plan, then exit
+  --yes                     Run after the plan without interactive confirmation
   --no-shell-profile        Do not add Spark to the user's shell profile
   --local-registry PATH     developer registry override; requires --allow-dev-source
   --allow-dev-source        Allow source/ref/local-registry overrides for local development
+  --upgrade-existing        Allow updating an existing Spark prefix
   --skip-setup              Install CLI only; do not run spark setup
-  --no-autostart            Do not install the login autostart hook after setup
+  --autostart               Install and start the login autostart hook after setup (default)
+  --no-autostart            Do not install autostart
   -h, --help                Show this help
 
 Environment mirrors these flags:
@@ -76,7 +85,8 @@ Environment mirrors these flags:
   SPARK_MINIMAX_API_KEY,
   SPARK_NON_INTERACTIVE_SETUP, SPARK_SETUP_SKIP_INSTALL_COMMANDS,
   SPARK_SETUP_SKIP_RUNTIME_CHECK, SPARK_SHELL_PROFILE,
-  SPARK_NODE_PLATFORM.
+  SPARK_NODE_PLATFORM, SPARK_DRY_RUN, SPARK_PREFLIGHT_ONLY,
+  SPARK_ASSUME_YES, SPARK_EXISTING_MODE.
 EOF
 }
 
@@ -117,14 +127,24 @@ while [ "$#" -gt 0 ]; do
       SPARK_SETUP_SKIP_RUNTIME_CHECK=1; shift ;;
     --setup-arg)
       extra_setup_args+=("$2"); shift 2 ;;
+    --dry-run)
+      SPARK_DRY_RUN=1; shift ;;
+    --preflight)
+      SPARK_PREFLIGHT_ONLY=1; shift ;;
+    --yes)
+      SPARK_ASSUME_YES=1; shift ;;
     --no-shell-profile)
       SPARK_SHELL_PROFILE=0; shift ;;
     --local-registry)
       SPARK_LOCAL_REGISTRY="$2"; shift 2 ;;
     --allow-dev-source)
       SPARK_ALLOW_DEV_SOURCE=1; shift ;;
+    --upgrade-existing)
+      SPARK_EXISTING_MODE=upgrade; shift ;;
     --skip-setup)
       SPARK_SKIP_SETUP=1; shift ;;
+    --autostart)
+      SPARK_AUTOSTART=1; shift ;;
     --no-autostart)
       SPARK_AUTOSTART=0; shift ;;
     -h|--help)
@@ -153,6 +173,21 @@ cleanup_secret_files() {
     SPARK_SECRET_FILES=()
   fi
 }
+
+release_install_lock() {
+  if [ -n "$SPARK_INSTALL_LOCK_DIR" ] && [ -d "$SPARK_INSTALL_LOCK_DIR" ]; then
+    rmdir "$SPARK_INSTALL_LOCK_DIR" 2>/dev/null || true
+    SPARK_INSTALL_LOCK_DIR=""
+  fi
+}
+
+cleanup_on_exit() {
+  cleanup_secret_files
+  release_install_lock
+}
+
+trap 'cleanup_on_exit' EXIT
+trap 'cleanup_on_exit; exit 130' HUP INT TERM
 
 normalize_macos_locale() {
   if [ "$(uname -s)" != "Darwin" ]; then
@@ -259,6 +294,121 @@ detect_node_platform() {
   esac
 
   printf '%s-%s\n' "$os_id" "$arch_id"
+}
+
+has_checksum_tool() {
+  command -v sha256sum >/dev/null 2>&1 || command -v shasum >/dev/null 2>&1
+}
+
+has_existing_install() {
+  [ -e "$SPARK_PREFIX/bin/spark" ] || [ -e "$SPARK_PREFIX/tools/spark-cli" ] || [ -e "$SPARK_PREFIX/config" ] || [ -e "$SPARK_PREFIX/state" ]
+}
+
+acquire_install_lock() {
+  SPARK_INSTALL_LOCK_DIR="$SPARK_PREFIX/.install.lock"
+  if ! mkdir "$SPARK_INSTALL_LOCK_DIR" 2>/dev/null; then
+    echo "Another Spark install appears to be running: $SPARK_INSTALL_LOCK_DIR" >&2
+    echo "If this is stale, remove it after confirming no installer is active." >&2
+    exit 1
+  fi
+}
+
+preflight() {
+  log "Preflight checks"
+  need_cmd python3
+  require_python_version
+  need_cmd git
+  need_cmd curl
+  need_cmd tar
+  if ! has_checksum_tool; then
+    echo "Missing required checksum command: sha256sum or shasum" >&2
+    exit 1
+  fi
+  log "OS/platform: $(uname -s) $(uname -m) -> $SPARK_NODE_PLATFORM"
+  log "Install prefix: $SPARK_PREFIX"
+  log "Spark CLI source: $SPARK_CLI_SOURCE"
+  log "Spark CLI ref: $SPARK_CLI_REF"
+  log "Bundle: $SPARK_BUNDLE"
+  log "Autostart: $SPARK_AUTOSTART"
+  if has_existing_install; then
+    log "Existing Spark install detected at $SPARK_PREFIX"
+  else
+    log "No existing Spark install detected at $SPARK_PREFIX"
+  fi
+}
+
+enforce_existing_install_policy() {
+  if ! has_existing_install; then
+    return
+  fi
+  if [ "$SPARK_EXISTING_MODE" = "upgrade" ]; then
+    log "Existing install update explicitly allowed by --upgrade-existing"
+    return
+  fi
+  cat >&2 <<EOF
+Existing Spark install detected at:
+  $SPARK_PREFIX
+
+This installer will not overwrite or update an existing install by default.
+Choose one:
+  - use --upgrade-existing after reviewing local changes and backups
+  - use --prefix /tmp/spark-install-test for a disposable test install
+  - run the existing Spark repair tools instead of reinstalling
+EOF
+  exit 1
+}
+
+print_plan() {
+  cat <<EOF
+[spark-install] Dry run plan
+  Prefix:              $SPARK_PREFIX
+  Node platform:       $SPARK_NODE_PLATFORM
+  Node version:        $SPARK_NODE_VERSION
+  Managed Node forced: $SPARK_MANAGED_NODE
+  CLI source:          $SPARK_CLI_SOURCE
+  CLI ref:             $SPARK_CLI_REF
+  Bundle:              $SPARK_BUNDLE
+  Setup enabled:       $([ "$SPARK_SKIP_SETUP" = "1" ] && printf no || printf yes)
+  Shell profile edit:  $([ "$SPARK_SHELL_PROFILE" = "0" ] && printf no || printf "$SPARK_SHELL_PROFILE")
+  Autostart:           $([ "$SPARK_AUTOSTART" = "1" ] && printf yes || printf no)
+  Existing mode:       $SPARK_EXISTING_MODE
+  Existing install:    $(has_existing_install && printf detected || printf none)
+
+Would write:
+  $SPARK_PREFIX/tools
+  $SPARK_PREFIX/tools/spark-cli
+  $SPARK_PREFIX/tools/spark-cli-venv
+  $SPARK_PREFIX/bin/spark
+  $SPARK_PREFIX/env
+
+Would run:
+  python3 -m venv "$SPARK_PREFIX/tools/spark-cli-venv"
+  "$SPARK_PREFIX/bin/spark" setup "$SPARK_BUNDLE"
+EOF
+  if [ "$SPARK_AUTOSTART" = "1" ]; then
+    printf '  "%s/bin/spark" autostart install "%s" --now\n' "$SPARK_PREFIX" "$SPARK_BUNDLE"
+  fi
+}
+
+confirm_install() {
+  if [ "$SPARK_ASSUME_YES" = "1" ]; then
+    return
+  fi
+  if [ ! -t 0 ]; then
+    echo "Interactive confirmation is required before installing." >&2
+    echo "Rerun with --yes only after reviewing the dry-run plan." >&2
+    exit 1
+  fi
+  printf '\nRun Spark installer now? Type yes: '
+  local answer
+  IFS= read -r answer
+  case "$answer" in
+    yes) ;;
+    *)
+      echo "Skipped."
+      exit 0
+      ;;
+  esac
 }
 
 install_node() {
@@ -550,14 +700,26 @@ EOF
 
 main() {
   need_cmd python3
-  require_python_version
   normalize_macos_locale
   SPARK_PREFIX="$(normalize_path "$SPARK_PREFIX")"
   if [ -z "$SPARK_NODE_PLATFORM" ]; then
     SPARK_NODE_PLATFORM="$(detect_node_platform)"
   fi
   validate_install_settings
+  if [ "$SPARK_DRY_RUN" = "1" ]; then
+    print_plan
+    exit 0
+  fi
+  print_plan
+  preflight
+  if [ "$SPARK_PREFLIGHT_ONLY" = "1" ]; then
+    log "Preflight complete."
+    exit 0
+  fi
+  enforce_existing_install_policy
+  confirm_install
   mkdir -p "$SPARK_PREFIX"
+  acquire_install_lock
   install_node
   export PATH="$SPARK_NODE_BIN_DIR:$PATH"
   log "Node runtime: $(node -v)"
@@ -586,6 +748,10 @@ Operational checks:
   $SPARK_PREFIX/bin/spark providers status
   $SPARK_PREFIX/bin/spark verify --onboarding
   $SPARK_PREFIX/bin/spark autostart status
+
+Spark autostart is enabled by default so Spark comes back after login.
+To disable it later:
+  $SPARK_PREFIX/bin/spark autostart uninstall
 
 Finish in Telegram:
   1. Open your Spark bot and send /start
