@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "d6aac877a7d23c018d9f2978dba47b20a1d214ef518ac6111939f2bfa2f8d122",
-      "install.ps1": "2fd0c19ffc354a6331d99d54374a3d7def9911a088b9dd3b624478fb39dd1e2c"
+      "install.sh": "124de095627004d2ccb31ffb0ef1b10c63fa9ea9db8b7b581d34ef6fea4c0a1b",
+      "install.ps1": "7f4a97f79d97e6992fb27dcd9380ef7ff98c448b6568ee06a56b72c0bb752299"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -121,25 +121,68 @@
     "spark setup --llm-provider anthropic --anthropic-api-key <ANTHROPIC_API_KEY>",
     "spark setup --llm-provider zai --zai-api-key <ZAI_API_KEY>",
     "spark setup --llm-provider ollama --ollama-url http://localhost:11434 --ollama-model <MODEL>",
-    "spark setup --chat-llm-provider openai --builder-llm-provider openai --memory-llm-provider ollama --mission-llm-provider openai"
+    "spark setup --chat-llm-provider openai --builder-llm-provider openai --memory-llm-provider ollama --mission-llm-provider openai",
+    "spark setup --agent-llm-provider zai --mission-llm-provider codex"
   ],
   "telegramCommands": [
-    { "command": "/start", "use": "Show the basic command surface." },
-    { "command": "/myid", "use": "Show your numeric Telegram id for admin setup." },
-    { "command": "/diagnose", "use": "Check Telegram, LLM, memory, Builder, and mission relay health." },
-    { "command": "/remember <note>", "use": "Save a memory through Spark's memory path when available." },
-    { "command": "/recall <query>", "use": "Search your Spark memory when available." },
-    { "command": "/run <goal>", "use": "Create a Spawner mission from Telegram." },
-    { "command": "/board", "use": "Show current mission board/status." },
-    { "command": "normal message", "use": "Ask Spark to answer through the configured LLM provider." }
+    {
+      "command": "/start",
+      "use": "Show the basic command surface."
+    },
+    {
+      "command": "/myid",
+      "use": "Show your numeric Telegram id for admin setup."
+    },
+    {
+      "command": "/diagnose",
+      "use": "Check Telegram, LLM, memory, Builder, and mission relay health."
+    },
+    {
+      "command": "/remember <note>",
+      "use": "Save a memory through Spark's memory path when available."
+    },
+    {
+      "command": "/recall <query>",
+      "use": "Search your Spark memory when available."
+    },
+    {
+      "command": "/run <goal>",
+      "use": "Create a Spawner mission from Telegram."
+    },
+    {
+      "command": "/board",
+      "use": "Show current mission board/status."
+    },
+    {
+      "command": "normal message",
+      "use": "Ask Spark to answer through the configured LLM provider."
+    }
   ],
   "moduleRoles": [
-    { "module": "spark-telegram-bot", "role": "Telegram front door. Owns the bot token, runs long polling, and receives chat commands." },
-    { "module": "spark-character", "role": "Identity and access-level runtime. Keeps persona, consent, and self-improvement signals understandable." },
-    { "module": "spark-intelligence-builder", "role": "Runtime brain. Handles identity, memory bridge, provider routing, and domain-chip activation." },
-    { "module": "domain-chip-memory", "role": "Default memory chip. Provides memory contracts, benchmark checks, and memory-oriented skills." },
-    { "module": "spark-researcher", "role": "Research and advisory runtime. Helps with research, evidence packets, and domain-chip authoring." },
-    { "module": "spawner-ui", "role": "Local mission control. Creates and tracks missions, projects, and execution workflows." }
+    {
+      "module": "spark-telegram-bot",
+      "role": "Telegram front door. Owns the bot token, runs long polling, and receives chat commands."
+    },
+    {
+      "module": "spark-character",
+      "role": "Identity and access-level runtime. Keeps persona, consent, and self-improvement signals understandable."
+    },
+    {
+      "module": "spark-intelligence-builder",
+      "role": "Runtime brain. Handles identity, memory bridge, provider routing, and domain-chip activation."
+    },
+    {
+      "module": "domain-chip-memory",
+      "role": "Default memory chip. Provides memory contracts, benchmark checks, and memory-oriented skills."
+    },
+    {
+      "module": "spark-researcher",
+      "role": "Research and advisory runtime. Helps with research, evidence packets, and domain-chip authoring."
+    },
+    {
+      "module": "spawner-ui",
+      "role": "Local mission control. Creates and tracks missions, projects, and execution workflows."
+    }
   ],
   "securityNotes": [
     "Primary install path downloads scripts for inspection before execution.",
@@ -152,8 +195,8 @@
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "releaseName": "spark-cli-launch-2026-04-27-8",
-    "ref": "a3cf00f752a5093b0fafebd7168ea82c4b787075",
+    "releaseName": "spark-cli-launch-2026-04-27-9",
+    "ref": "06ca31f4ace233a8066e2fe8016d86273711103b",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"
