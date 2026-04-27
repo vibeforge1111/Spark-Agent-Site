@@ -33,6 +33,10 @@ jobs:
           curl -fsSL "$SPARK_INSTALL_HOST/install/checksums.json" -o "$workdir/checksums.json"
           curl -fsSL "$SPARK_INSTALL_HOST/install/commands.json" -o "$workdir/commands.json"
           curl -fsSL "$SPARK_INSTALL_HOST/install/release-manifest.json" -o "$workdir/release-manifest.json"
+          curl -fsSI "$SPARK_INSTALL_HOST/" -o "$workdir/root.headers"
+          curl -fsSI "$SPARK_INSTALL_HOST/install.sh" -o "$workdir/install-sh.headers"
+          curl -fsSI "$SPARK_INSTALL_HOST/install/release-manifest.json" -o "$workdir/release-manifest.headers"
+          curl -fsSI "$SPARK_INSTALL_HOST/docs" -o "$workdir/docs.headers"
 
           python3 - "$workdir" <<'PY'
           import json
@@ -71,6 +75,50 @@ jobs:
               "nodejs.org",
           ]:
               raise SystemExit("production network allowlist changed unexpectedly")
+
+          required_headers = {
+              "root.headers": {
+                  "content-type": "text/html",
+                  "strict-transport-security": "max-age=31536000",
+                  "content-security-policy": "default-src 'self'",
+                  "x-content-type-options": "nosniff",
+                  "referrer-policy": "strict-origin-when-cross-origin",
+                  "cache-control": "no-cache",
+              },
+              "install-sh.headers": {
+                  "content-type": "text/plain",
+                  "strict-transport-security": "max-age=31536000",
+                  "content-security-policy": "default-src 'self'",
+                  "x-content-type-options": "nosniff",
+                  "cache-control": "no-cache",
+              },
+              "release-manifest.headers": {
+                  "content-type": "application/json",
+                  "strict-transport-security": "max-age=31536000",
+                  "content-security-policy": "default-src 'self'",
+                  "x-content-type-options": "nosniff",
+                  "cache-control": "no-cache",
+              },
+              "docs.headers": {
+                  "content-type": "text/html",
+                  "strict-transport-security": "max-age=31536000",
+                  "content-security-policy": "default-src 'self'",
+                  "x-content-type-options": "nosniff",
+                  "cache-control": "no-cache",
+              },
+          }
+          for filename, expected_headers in required_headers.items():
+              headers = {}
+              for line in (root / filename).read_text(encoding="utf-8").splitlines():
+                  if ":" not in line:
+                      continue
+                  name, value = line.split(":", 1)
+                  headers[name.strip().lower()] = value.strip().lower()
+              for name, expected_fragment in expected_headers.items():
+                  actual = headers.get(name, "")
+                  if expected_fragment.lower() not in actual:
+                      raise SystemExit(f"{filename} missing {name}: {expected_fragment}")
+
           print("production metadata ok")
           PY
 

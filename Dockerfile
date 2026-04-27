@@ -10,6 +10,7 @@ COPY while-you-sleep.webp /usr/share/nginx/html/while-you-sleep.webp
 COPY manifest.json /usr/share/nginx/html/manifest.json
 COPY robots.txt    /usr/share/nginx/html/robots.txt
 COPY sitemap.xml   /usr/share/nginx/html/sitemap.xml
+COPY SECURITY.md   /usr/share/nginx/html/SECURITY.md
 COPY privacy.html  /usr/share/nginx/html/privacy.html
 COPY terms.html    /usr/share/nginx/html/terms.html
 COPY cookies.html  /usr/share/nginx/html/cookies.html
@@ -18,6 +19,7 @@ COPY install.sh    /usr/share/nginx/html/install.sh
 COPY install.ps1   /usr/share/nginx/html/install.ps1
 COPY install       /usr/share/nginx/html/install
 COPY docs          /usr/share/nginx/html/docs
+COPY .well-known   /usr/share/nginx/html/.well-known
 COPY vendor       /usr/share/nginx/html/vendor
 
 EXPOSE 8080

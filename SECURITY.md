@@ -11,6 +11,7 @@
 - Installer provenance is documented in `install/attestations.md`.
 - Installer release inputs are pinned in `install/release-manifest.json`.
 - GitHub Actions validates installer syntax, checksum manifests, trust-boundary strings, container build, and attestation generation.
+- Security contact metadata is published at `/.well-known/security.txt`.
 
 ## Secrets
 
@@ -60,4 +61,4 @@ spark verify --installers --hosted-installers
 
 ## Report A Concern
 
-For private reports, contact the repository owner directly. Do not file public issues containing installer bypasses, leaked tokens, private keys, or exploit-ready details.
+For private reports, use `/.well-known/security.txt` or contact the repository owner directly. Do not file public issues containing installer bypasses, leaked tokens, private keys, or exploit-ready details.

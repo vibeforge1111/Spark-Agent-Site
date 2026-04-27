@@ -1,0 +1,5 @@
+Contact: mailto:vibeforge1111@gmail.com
+Expires: 2027-04-26T00:00:00Z
+Preferred-Languages: en
+Canonical: https://agent.sparkswarm.ai/.well-known/security.txt
+Policy: https://agent.sparkswarm.ai/SECURITY.md
