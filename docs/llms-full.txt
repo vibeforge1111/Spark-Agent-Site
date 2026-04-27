@@ -14,6 +14,7 @@ Spark can remember useful facts, run missions, and help with research or buildin
 - Install page: https://agent.sparkswarm.ai/install
 - Install safety: https://agent.sparkswarm.ai/docs/install-safety.md
 - Spark suites: https://agent.sparkswarm.ai/docs/suites.md
+- Self-improvement: https://agent.sparkswarm.ai/docs/self-improvement.md
 - Fixes and daily checks: https://agent.sparkswarm.ai/docs/lifecycle.md
 - Agent instructions: https://agent.sparkswarm.ai/docs/AGENTS.md
 - Install commands: https://agent.sparkswarm.ai/install/commands.json
@@ -50,7 +51,46 @@ It starts and tracks bigger work.
 
 Spark Researcher gathers context and evidence.
 
+Spark Researcher also runs bounded improvement loops.
+
+Domain chips teach Spark how to score and improve one domain.
+
+Benchmarks keep those loops honest.
+
 Autostart brings Spark back after login.
+
+## Domain Chips And Loops
+
+A domain chip is a specialist module for one task family.
+
+It can own `evaluate`, `suggest`, `packets`, and `watchtower`.
+
+Spark owns loop execution, ledger, memory, and review policy.
+
+The simple loop is:
+
+```text
+run -> score -> record -> remember -> suggest next try
+```
+
+Examples:
+
+- `spark-domain-chip-labs`: meta-chip for chip quality, methodology, benchmarks, and recursive improvement.
+- `domain-chip-startup-yc`: startup advice and founder-decision doctrine.
+- `domain-chip-crypto-trading`: trading doctrine, backtesting, and paper-trading style validation.
+- `startup-bench`: benchmark for operating a simulated startup over time.
+
+Safe prompt shape:
+
+```text
+Create a Spark domain chip for <task>.
+Primary metric: <metric_name>.
+Goal: <maximize|minimize>.
+Allowed mutations: <field list>.
+Run bounded loops.
+Save grounded doctrine, boundaries, benchmark evidence, and frontier ideas.
+Do not auto-apply risky changes without review.
+```
 
 ## Safe Install Flow
 

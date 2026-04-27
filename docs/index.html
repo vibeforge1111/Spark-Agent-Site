@@ -37,6 +37,7 @@
       <a href="#suites">Spark Suites</a>
       <a href="#setup">Telegram + LLM</a>
       <a href="#daily-use">Daily Use</a>
+      <a href="#self-improvement">Self-Improvement</a>
       <a href="#fixes">Fixes</a>
       <a href="#agents">For Agents</a>
       <a href="#receipts">Receipts</a>
@@ -192,6 +193,65 @@
               <li><code>spark doctor</code> runs deeper checks.</li>
             </ul>
           </div>
+        </div>
+      </section>
+
+      <section class="docs-section" id="self-improvement">
+        <span class="overline">Self-Improvement</span>
+        <h2>How Spark gets better at one domain.</h2>
+        <p>
+          Spark can run a small learning loop around a task. It tries one change, scores the result, saves the lesson, then suggests the next safe experiment.
+        </p>
+        <p>
+          A domain chip is the part that teaches Spark what "better" means for a specific area.
+        </p>
+        <div class="docs-flow" aria-label="Spark recursive loop">
+          <span>Task</span>
+          <span>Score</span>
+          <span>Memory</span>
+          <span>Next Try</span>
+        </div>
+        <div class="docs-grid">
+          <div class="docs-card">
+            <span class="docs-card-kicker">Domain Chips</span>
+            <h3>The specialist brain</h3>
+            <p>A chip can focus on startups, trading, research, content, coding, or another repeatable task.</p>
+            <p>It owns the domain rules, suggestions, memory packets, and watchtower pages.</p>
+          </div>
+          <div class="docs-card">
+            <span class="docs-card-kicker">Benchmarks</span>
+            <h3>The truth meter</h3>
+            <p>A benchmark is the score Spark uses to tell whether the new try was better.</p>
+            <p>Good benchmarks stop the agent from "feeling improved" while actually getting worse.</p>
+          </div>
+          <div class="docs-card">
+            <span class="docs-card-kicker">Recursive Loops</span>
+            <h3>The careful repeat</h3>
+            <p>Recursive does not mean uncontrolled.</p>
+            <p>It means Spark repeats a bounded cycle: run, score, record, suggest, review.</p>
+          </div>
+          <div class="docs-card">
+            <span class="docs-card-kicker">Examples</span>
+            <h3>What this looks like</h3>
+            <p>Startup chips can score founder decisions. Trading chips can test strategies. Research chips can improve evidence quality.</p>
+            <p>The same loop can also improve prompts, workflows, and tools.</p>
+          </div>
+        </div>
+        <div class="docs-prompt-panel">
+          <h3>Prompt Spark like this</h3>
+          <pre class="docs-code">Create a domain chip for &lt;task&gt;.
+The thing to improve is &lt;specific workflow&gt;.
+The score is &lt;metric&gt;.
+Higher/lower is better because &lt;reason&gt;.
+Only mutate &lt;allowed changes&gt;.
+Run a bounded loop.
+Save lessons, failures, and next experiments.
+Do not auto-apply risky changes without review.</pre>
+        </div>
+        <div class="docs-links">
+          <a class="docs-link" href="/docs/self-improvement.md">Self-improvement guide</a>
+          <a class="docs-link" href="/docs/suites.md">Spark suites</a>
+          <a class="docs-link" href="/llms-full.txt">Agent context</a>
         </div>
       </section>
 

@@ -103,9 +103,11 @@ jobs:
           grep -q "X-Llms-Txt" nginx.conf
           grep -q "location = /docs/install-safety.md" nginx.conf
           grep -q "location = /docs/suites.md" nginx.conf
+          grep -q "location = /docs/self-improvement.md" nginx.conf
           grep -q "location = /docs/lifecycle.md" nginx.conf
           grep -q "location \\^~ /docs/pages/" nginx.conf
           grep -q "Spark Suites" docs/suites.md
+          grep -q "Spark Self-Improvement" docs/self-improvement.md
           grep -q "Spark Agent Full Context" llms-full.txt
           grep -q "Canonical: https://agent.sparkswarm.ai/.well-known/security.txt" .well-known/security.txt
           grep -q "Contact: mailto:" .well-known/security.txt

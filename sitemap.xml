@@ -51,6 +51,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://agent.sparkswarm.ai/docs/self-improvement.md</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://agent.sparkswarm.ai/docs/lifecycle.md</loc>
     <lastmod>2026-04-27</lastmod>
     <changefreq>weekly</changefreq>

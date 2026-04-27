@@ -26,6 +26,7 @@ They also include clean Markdown files for agents.
 - Install Spark from `/install`.
 - Read `/docs/install-safety.md` before running installers.
 - Read `/docs/suites.md` to understand what gets installed.
+- Read `/docs/self-improvement.md` to understand domain chips, recursive loops, and benchmarks.
 - Read `/docs/lifecycle.md` when Telegram, memory, missions, or autostart need help.
 
 ## What Spark is
@@ -37,6 +38,10 @@ You talk to it from Telegram.
 It uses your LLM provider.
 
 It can remember things and run missions.
+
+It can also run bounded improvement loops when a task has a clear score.
+
+Domain chips teach Spark how to improve one specialist area without bloating the core system.
 
 ## Current status
 
