@@ -226,6 +226,14 @@ img, svg { display: block; max-width: 100%; }
 }
 .topbar-ecosystem a:hover { color: var(--accent); }
 
+.topbar-docs {
+  padding: 9px 10px;
+  color: var(--text-secondary);
+  font: 600 12px var(--font-sans);
+  transition: color var(--t-fast), border-color var(--t-fast);
+}
+.topbar-docs:hover { color: var(--accent); }
+
 .subdomain-switcher { position: relative; }
 .sd-current {
   display: inline-flex; align-items: center; gap: 6px;
@@ -2575,6 +2583,64 @@ body {
   color: var(--text-tertiary);
   font: 400 12px/1.5 var(--font-sans);
 }
+.verify-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 14px 14px;
+}
+.verify-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xs);
+  color: var(--text-secondary);
+  background: var(--bg-deep);
+  font: 500 11px var(--font-sans);
+  transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+}
+.verify-links a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.install-safety-strip {
+  max-width: 920px;
+  margin: 0 auto 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.install-safety-strip a {
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--surface) 74%, transparent);
+  text-align: left;
+  transition: border-color var(--t-fast), background var(--t-fast);
+}
+.install-safety-strip a:hover {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+.install-safety-strip span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text-ghost);
+  font: 500 10px var(--font-mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.install-safety-strip strong {
+  display: block;
+  color: var(--text);
+  font: 500 13px/1.35 var(--font-sans);
+  overflow-wrap: anywhere;
+}
 
 .install-after {
   max-width: 560px;
@@ -2849,6 +2915,11 @@ body {
   .install-panel .io-cmd { font-size: 10.5px; }
   .install-verify { margin-block: 10px 16px; }
   .verify-grid { grid-template-columns: 1fr; }
+  .verify-links { padding-inline: 12px; }
+  .install-safety-strip {
+    grid-template-columns: 1fr;
+    margin-bottom: 16px;
+  }
 
   /* INSTALL-AFTER · drop the per-item cards, render as a tight chip row */
   .install-after { margin-top: 16px; }
