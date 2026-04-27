@@ -13,6 +13,7 @@
 - Installer release inputs are pinned in `install/release-manifest.json`.
 - GitHub Actions validates installer syntax, checksum manifests, trust-boundary strings, container build, and attestation generation.
 - Security contact metadata is published at `/.well-known/security.txt`.
+- Agent documentation indexes are published at `/llms.txt` and `/llms-full.txt`.
 
 ## Secrets
 
@@ -44,6 +45,7 @@ Installer changes must keep these invariants:
 - UI/docs display the current hashes
 - attestation verification instructions remain valid
 - signature verification instructions remain valid
+- agent indexes and docs must not tell users to paste secrets into the website
 
 ## Required Verification
 

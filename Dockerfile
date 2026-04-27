@@ -8,6 +8,8 @@ COPY avatar-3d.js /usr/share/nginx/html/avatar-3d.js
 COPY head.glb     /usr/share/nginx/html/head.glb
 COPY while-you-sleep.webp /usr/share/nginx/html/while-you-sleep.webp
 COPY manifest.json /usr/share/nginx/html/manifest.json
+COPY llms.txt      /usr/share/nginx/html/llms.txt
+COPY llms-full.txt /usr/share/nginx/html/llms-full.txt
 COPY robots.txt    /usr/share/nginx/html/robots.txt
 COPY sitemap.xml   /usr/share/nginx/html/sitemap.xml
 COPY SECURITY.md   /usr/share/nginx/html/SECURITY.md

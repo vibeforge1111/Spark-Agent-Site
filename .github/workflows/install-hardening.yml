@@ -97,9 +97,16 @@ jobs:
           grep -q "location = /install/release-manifest.json" nginx.conf
           grep -q "location = /SECURITY.md" nginx.conf
           grep -q "location = /.well-known/security.txt" nginx.conf
+          grep -q "location = /llms.txt" nginx.conf
+          grep -q "location = /llms-full.txt" nginx.conf
+          grep -q "location = /.well-known/llms.txt" nginx.conf
+          grep -q "X-Llms-Txt" nginx.conf
           grep -q "location = /docs/install-safety.md" nginx.conf
+          grep -q "location = /docs/suites.md" nginx.conf
           grep -q "location = /docs/lifecycle.md" nginx.conf
           grep -q "location \\^~ /docs/pages/" nginx.conf
+          grep -q "Spark Suites" docs/suites.md
+          grep -q "Spark Agent Full Context" llms-full.txt
           grep -q "Canonical: https://agent.sparkswarm.ai/.well-known/security.txt" .well-known/security.txt
           grep -q "Contact: mailto:" .well-known/security.txt
           grep -q "gh attestation verify" install/commands.json

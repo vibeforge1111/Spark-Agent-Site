@@ -1,5 +1,5 @@
 ---
-title: Spark Lifecycle Runbook
+title: Spark Fixes And Daily Checks
 slug: lifecycle
 status: published
 verified_at: "2026-04-27T00:00:00Z"
@@ -15,11 +15,13 @@ sources:
     fetched_at: "2026-04-27T00:00:00Z"
 ---
 
-# Spark Lifecycle Runbook
+# Spark Fixes And Daily Checks
 
-Use this page after Spark is installed or when the Telegram bot is quiet.
+Use this page after Spark is installed.
 
-## First checks
+It is for quiet bots, broken setup, memory issues, autostart, and uninstall.
+
+## First Checks
 
 ```bash
 spark guide
@@ -28,16 +30,11 @@ spark providers status
 spark verify --onboarding
 ```
 
-Expected result:
+## Telegram Test
 
-- Spark CLI opens or prints the onboarding guide.
-- Provider roles are configured.
-- Telegram setup is complete.
-- Autostart is installed unless the user opted out.
+Open your Spark bot in Telegram.
 
-## Telegram smoke test
-
-In Telegram, open the bot and try:
+Send:
 
 ```text
 /start
@@ -45,64 +42,75 @@ In Telegram, open the bot and try:
 /diagnose
 ```
 
-Then send a normal message. Spark should answer through the configured LLM provider.
+Then send a normal message.
 
-Memory checks:
+Spark should answer through your LLM provider.
+
+## Memory Test
+
+Send:
 
 ```text
 /remember launch test memory
 /recall launch test memory
 ```
 
-Mission checks:
+If recall fails, run:
+
+```bash
+spark verify --deep
+```
+
+## Mission Control Test
+
+Send:
 
 ```text
 /run summarize the current Spark setup
 /board
 ```
 
-## Repair commands
+## If Telegram Is Quiet
+
+Run:
 
 ```bash
-spark doctor
 spark fix telegram
-spark verify --deep
-spark autostart status
+spark logs spark-telegram-bot
 ```
 
-If Telegram receives commands but every normal response looks like a memory label or empty status line, check the LLM provider role and the memory bridge:
+Common causes:
 
-```bash
-spark providers status
-spark verify --deep
-```
+- the bot token is wrong
+- the admin Telegram ID is missing
+- another process is already polling the bot
+- the LLM provider is not configured
 
 ## Autostart
 
-Autostart is on by default in the public installer.
+Autostart is on by default.
 
-Useful commands:
+Check it:
 
 ```bash
 spark autostart status
-spark autostart install telegram-starter --now
+```
+
+Turn it off:
+
+```bash
 spark autostart remove
 ```
 
 ## Uninstall
 
-Prefer the Spark command when available:
+Prefer:
 
 ```bash
 spark autostart remove
 spark uninstall
 ```
 
-Manual fallback:
+Deleting local files is destructive.
 
-1. Stop Spark.
-2. Remove autostart files.
-3. Back up any local memory or config the user wants to keep.
-4. Remove the Spark prefix, usually `~/.spark` or `%USERPROFILE%\.spark`.
-
-Deleting local files is destructive. A local agent should ask the user before removing the prefix.
+A local agent should ask before doing it.

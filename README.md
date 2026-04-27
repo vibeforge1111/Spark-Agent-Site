@@ -16,6 +16,7 @@ The site serves:
 - `/install/attestations.md`
 - `/install/signatures.md`
 - `/docs` agent-readable install and safety docs
+- `/llms.txt` and `/llms-full.txt` agent indexes
 
 ## Trust Boundary
 
@@ -25,6 +26,8 @@ Installer scripts are privileged local execution. A site deploy must preserve:
 - HSTS at the edge and in the container config
 - no-cache behavior for installer files and checksum manifests
 - checksum references in the UI and docs
+- plain-language human docs for install, suites, and repair
+- root `llms.txt` discovery for agents
 - GitHub Artifact Attestations for installer bytes
 - Sigstore keyless release signatures for installer files and install metadata
 - refusal of non-canonical Spark CLI sources unless explicitly using the development override

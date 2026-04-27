@@ -1,0 +1,115 @@
+# Spark Agent Full Context
+
+Spark is a local-first personal agent.
+
+The user talks to Spark through Telegram.
+
+Spark uses the user's chosen LLM provider to answer.
+
+Spark can remember useful facts, run missions, and help with research or building.
+
+## Main URLs
+
+- Human docs: https://agent.sparkswarm.ai/docs
+- Install page: https://agent.sparkswarm.ai/install
+- Install safety: https://agent.sparkswarm.ai/docs/install-safety.md
+- Spark suites: https://agent.sparkswarm.ai/docs/suites.md
+- Fixes and daily checks: https://agent.sparkswarm.ai/docs/lifecycle.md
+- Agent instructions: https://agent.sparkswarm.ai/docs/AGENTS.md
+- Install commands: https://agent.sparkswarm.ai/install/commands.json
+
+## Default Starter Kit
+
+The default bundle is `telegram-starter`.
+
+It includes:
+
+- `spark-telegram-bot`
+- `spark-intelligence-builder`
+- `domain-chip-memory`
+- `spawner-ui`
+- `spark-researcher`
+
+## Plain-Language Module Map
+
+Telegram Bot is the front door.
+
+The user sends Spark messages in Telegram.
+
+Intelligence Builder is the brain router.
+
+It connects Spark to the chosen LLM provider.
+
+Domain Chip Memory is the starter memory layer.
+
+It lets Spark save and recall useful facts.
+
+Spawner UI is Mission Control.
+
+It starts and tracks bigger work.
+
+Spark Researcher gathers context and evidence.
+
+Autostart brings Spark back after login.
+
+## Safe Install Flow
+
+Never pipe remote installer scripts into a shell.
+
+Download the installer first.
+
+Run dry-run first.
+
+Explain the plan.
+
+Ask before the real install.
+
+Do not send Telegram tokens or LLM keys to websites.
+
+## Current Installer Pins
+
+- Spark CLI commit: `f1fa48f8dd9c59127500bb58e422f5cd2be7a8c0`
+- Node: `22.18.0`
+- Python: `3.11`
+- uv: `0.11.7`
+
+## Allowed Installer Network Destinations
+
+- `agent.sparkswarm.ai`
+- `github.com/vibeforge1111/spark-cli`
+- `github.com/astral-sh/uv`
+- `nodejs.org`
+
+Stop if the plan requires another destination.
+
+## Daily Checks
+
+```bash
+spark guide
+spark status
+spark providers status
+spark verify --onboarding
+```
+
+## Repair
+
+If Telegram is quiet:
+
+```bash
+spark fix telegram
+spark logs spark-telegram-bot
+```
+
+If replies look like memory labels:
+
+```bash
+spark providers status
+spark verify --deep
+```
+
+## Verification Receipts
+
+- Checksums: https://agent.sparkswarm.ai/install/checksums.txt
+- Manifest: https://agent.sparkswarm.ai/install/release-manifest.json
+- Attestations: https://agent.sparkswarm.ai/install/attestations.md
+- Signatures: https://agent.sparkswarm.ai/install/signatures.md
