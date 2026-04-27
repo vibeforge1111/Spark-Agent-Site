@@ -32,6 +32,7 @@ SPARK_SHELL_PROFILE="${SPARK_SHELL_PROFILE:-auto}"
 SPARK_NODE_BIN_DIR=""
 SPARK_PYTHON_BIN=""
 SPARK_UV_BIN=""
+SPARK_INSTALL_LOG=""
 SPARK_CANONICAL_CLI_SOURCE="https://github.com/vibeforge1111/spark-cli"
 SPARK_ALLOW_DEV_SOURCE="${SPARK_ALLOW_DEV_SOURCE:-0}"
 SPARK_DRY_RUN="${SPARK_DRY_RUN:-0}"
@@ -427,10 +428,12 @@ EOF
 print_plan() {
   cat <<EOF
 [spark-install] Dry run plan
+  Dry-run safety:     no network and no writes in --dry-run mode
   Prefix:              $SPARK_PREFIX
   Node platform:       $SPARK_NODE_PLATFORM
   Node version:        $SPARK_NODE_VERSION
   Python version:      $SPARK_PYTHON_VERSION
+  Python source:       existing Python 3.11+ or managed with uv if needed
   Managed Node forced: $SPARK_MANAGED_NODE
   CLI source:          $SPARK_CLI_SOURCE
   CLI ref:             $SPARK_CLI_REF
@@ -440,6 +443,7 @@ print_plan() {
   Autostart:           $([ "$SPARK_AUTOSTART" = "1" ] && printf yes || printf no)
   Existing mode:       $SPARK_EXISTING_MODE
   Existing install:    $(has_existing_install && printf detected || printf none)
+  Install log:         $SPARK_PREFIX/logs/install.log
 
 Would write:
   $SPARK_PREFIX/tools
@@ -447,6 +451,12 @@ Would write:
   $SPARK_PREFIX/tools/spark-cli-venv
   $SPARK_PREFIX/bin/spark
   $SPARK_PREFIX/env
+
+Would download if needed:
+  Node $SPARK_NODE_VERSION from nodejs.org
+  uv from astral.sh when Python 3.11+ is missing
+  Python $SPARK_PYTHON_VERSION via uv when Python 3.11+ is missing
+  Spark CLI from $SPARK_CLI_SOURCE at $SPARK_CLI_REF
 
 Would run:
   python -m venv "$SPARK_PREFIX/tools/spark-cli-venv"
@@ -476,6 +486,16 @@ confirm_install() {
       exit 0
       ;;
   esac
+}
+
+start_install_log() {
+  local log_dir="$SPARK_PREFIX/logs"
+  mkdir -p "$log_dir"
+  SPARK_INSTALL_LOG="$log_dir/install.log"
+  touch "$SPARK_INSTALL_LOG"
+  chmod 600 "$SPARK_INSTALL_LOG" 2>/dev/null || true
+  log "Writing install log to $SPARK_INSTALL_LOG"
+  exec > >(tee -a "$SPARK_INSTALL_LOG") 2>&1
 }
 
 install_node() {
@@ -785,6 +805,7 @@ main() {
   enforce_existing_install_policy
   confirm_install
   mkdir -p "$SPARK_PREFIX"
+  start_install_log
   acquire_install_lock
   install_node
   export PATH="$SPARK_NODE_BIN_DIR:$PATH"
@@ -818,6 +839,9 @@ Operational checks:
 Spark autostart is enabled by default so Spark comes back after login.
 To disable it later:
   $SPARK_PREFIX/bin/spark autostart uninstall
+
+Install log:
+  $SPARK_INSTALL_LOG
 
 Finish in Telegram:
   1. Open your Spark bot and send /start

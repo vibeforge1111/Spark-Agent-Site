@@ -32,6 +32,8 @@ $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
 $Script:UvExe = ""
+$Script:InstallLogPath = ""
+$Script:TranscriptStarted = $false
 
 function Write-SparkLog {
     param([string]$Message)
@@ -171,10 +173,12 @@ function Show-DryRunPlan {
     $existing = if (Test-ExistingInstall) { "detected" } else { "none" }
     $existingMode = if ($UpgradeExisting) { "upgrade" } else { "abort" }
     Write-Host "[spark-install] Dry run plan"
+    Write-Host "  Dry-run safety:     no network and no writes in -DryRun mode"
     Write-Host "  Prefix:              $Script:SparkPrefix"
     Write-Host "  Node platform:       win-x64"
     Write-Host "  Node version:        $NodeVersion"
     Write-Host "  Python version:      $PythonVersion"
+    Write-Host "  Python source:       existing Python 3.11+ or managed with uv if needed"
     Write-Host "  Managed Node forced: $ManagedNode"
     Write-Host "  CLI source:          $Source"
     Write-Host "  CLI ref:             $Ref"
@@ -184,12 +188,19 @@ function Show-DryRunPlan {
     Write-Host "  Autostart:           $autostartEnabled"
     Write-Host "  Existing mode:       $existingMode"
     Write-Host "  Existing install:    $existing"
+    Write-Host "  Install log:         $Script:SparkPrefix\logs\install.log"
     Write-Host ""
     Write-Host "Would write:"
     Write-Host "  $Script:SparkPrefix\tools"
     Write-Host "  $Script:SparkPrefix\tools\spark-cli"
     Write-Host "  $Script:SparkPrefix\tools\spark-cli-venv"
     Write-Host "  $Script:SparkPrefix\bin\spark.cmd"
+    Write-Host ""
+    Write-Host "Would download if needed:"
+    Write-Host "  Node $NodeVersion from nodejs.org"
+    Write-Host "  uv from astral.sh when Python 3.11+ is missing"
+    Write-Host "  Python $PythonVersion via uv when Python 3.11+ is missing"
+    Write-Host "  Spark CLI from $Source at $Ref"
     Write-Host ""
     Write-Host "Would run:"
     Write-Host "  python -m venv `"$Script:SparkPrefix\tools\spark-cli-venv`""
@@ -228,6 +239,26 @@ function Release-InstallLock {
     if ($Script:InstallLockDir -and (Test-Path $Script:InstallLockDir)) {
         Remove-Item -LiteralPath $Script:InstallLockDir -Force -ErrorAction SilentlyContinue
         $Script:InstallLockDir = ""
+    }
+}
+
+function Start-InstallLog {
+    $logDir = Join-Path $Script:SparkPrefix "logs"
+    New-Item -ItemType Directory -Force -Path $logDir | Out-Null
+    $Script:InstallLogPath = Join-Path $logDir "install.log"
+    Write-SparkLog "Writing install log to $Script:InstallLogPath"
+    try {
+        Start-Transcript -Path $Script:InstallLogPath -Append | Out-Null
+        $Script:TranscriptStarted = $true
+    } catch {
+        Write-Warning "Could not start install transcript at $Script:InstallLogPath"
+    }
+}
+
+function Stop-InstallLog {
+    if ($Script:TranscriptStarted) {
+        Stop-Transcript | Out-Null
+        $Script:TranscriptStarted = $false
     }
 }
 
@@ -562,6 +593,7 @@ function Invoke-Install {
         return
     }
     New-Item -ItemType Directory -Force -Path $Script:SparkPrefix | Out-Null
+    Start-InstallLog
     Acquire-InstallLock
     $nodeDir = Install-Node
     $env:PATH = "$nodeDir;$env:PATH"
@@ -597,6 +629,9 @@ function Invoke-Install {
     Write-Host "To disable it later:"
     Write-Host "  spark autostart uninstall"
     Write-Host ""
+    Write-Host "Install log:"
+    Write-Host "  $Script:InstallLogPath"
+    Write-Host ""
     Write-Host "Finish in Telegram:"
     Write-Host "  1. Open your Spark bot and send /start"
     Write-Host "  2. Pick an access level when Spark asks. Most people should use /access 3"
@@ -612,5 +647,6 @@ function Invoke-Install {
 try {
     Invoke-Install
 } finally {
+    Stop-InstallLog
     Release-InstallLock
 }

@@ -2519,6 +2519,63 @@ body {
 }
 .install-panel:hover .io-cmd { color: var(--accent); }
 
+.install-verify {
+  max-width: 920px;
+  margin: 12px auto 18px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xs);
+  background: rgba(255, 255, 255, 0.015);
+  text-align: left;
+}
+.install-verify summary {
+  padding: 12px 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font: 500 11px var(--font-mono);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+.install-verify summary:hover {
+  color: var(--accent);
+}
+.install-verify[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+.verify-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+}
+.verify-grid div {
+  min-width: 0;
+}
+.verify-k {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-ghost);
+  font: 500 10px var(--font-mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.verify-grid code {
+  display: block;
+  padding: 8px 10px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xs);
+  color: var(--accent);
+  font: 500 11px/1.5 var(--font-mono);
+  overflow-wrap: anywhere;
+}
+.install-verify p {
+  margin: 0;
+  padding: 0 14px 14px;
+  color: var(--text-tertiary);
+  font: 400 12px/1.5 var(--font-sans);
+}
+
 .install-after {
   max-width: 560px;
   margin: 20px auto 0;
@@ -2790,6 +2847,8 @@ body {
   .install-panel { padding: 14px 16px 12px; }
   .install-panel .io-label { font-size: 16px; }
   .install-panel .io-cmd { font-size: 10.5px; }
+  .install-verify { margin-block: 10px 16px; }
+  .verify-grid { grid-template-columns: 1fr; }
 
   /* INSTALL-AFTER · drop the per-item cards, render as a tight chip row */
   .install-after { margin-top: 16px; }
