@@ -271,6 +271,26 @@
     setInterval(tickStep, 1800);
   }
 
+  const runlog = $('#runlog-list');
+  if (runlog && !reduced) {
+    const events = [
+      ['04:12', '/xcontent-virality', 'benchmark passed +0.4'],
+      ['04:10', 'thread_score_v3', 'tool kept after 12 evals'],
+      ['04:07', 'memory', 'launch strategy salience raised'],
+      ['04:03', '/security-audits', 'false-positive rate dropped 8%'],
+      ['03:58', 'browser_probe', 'retired after weak score'],
+      ['03:51', '/code-refactor', 'rubric promoted to v2.4'],
+    ];
+    let head = 0;
+    setInterval(() => {
+      head = (head + 1) % events.length;
+      const visible = [0, 1, 2].map(i => events[(head + i) % events.length]);
+      runlog.innerHTML = visible.map((event, i) => (
+        `<li${i === 0 ? ' class="active"' : ''}><span>${event[0]}</span><strong>${event[1]}</strong> ${event[2]}</li>`
+      )).join('');
+    }, 2600);
+  }
+
   // 3e. countdown to next compound · decrements every second
   if (spCountdown) {
     let totalSec = 4 * 3600 + 12 * 60 + 8;
@@ -303,6 +323,64 @@
     ['brain',  'output'],
   ];
   const nodeEl = (id) => $(`.board-node[data-node="${id}"]`, stage);
+  const inspectorData = {
+    input: {
+      title: 'User message',
+      node: 'IN',
+      score: '1.00',
+      latency: '0.1s',
+      seen: 'Telegram message, user profile, and the active mission constraints enter the run.',
+      learned: 'Shorter task framing improved downstream scoring, so Spark kept the normalized prompt shape.',
+    },
+    memory: {
+      title: 'Memory recall',
+      node: 'MEM',
+      score: '0.86',
+      latency: '0.4s',
+      seen: 'Six high-salience memories, recent launches, and the user preference for terse tactical replies.',
+      learned: 'Older launch notes were useful again, so their decay was slowed for this domain chip.',
+    },
+    brain: {
+      title: 'Reason + score',
+      node: 'LLM',
+      score: '0.91',
+      latency: '2.4s',
+      seen: 'User intent, recalled memory, chip guidance, and the latest benchmark rubric.',
+      learned: 'Third pass produced a clearer answer, so this scoring rubric was kept for the next run.',
+    },
+    chip: {
+      title: 'Domain chip',
+      node: 'CHIP',
+      score: '0.88',
+      latency: '0.7s',
+      seen: 'Virality signals, hook patterns, anti-clickbait rules, and examples that passed prior evals.',
+      learned: 'The chip promoted a sharper opening-hook test after beating yesterday by 0.4 points.',
+    },
+    output: {
+      title: 'Send reply',
+      node: 'OUT',
+      score: '0.94',
+      latency: '0.2s',
+      seen: 'Final response, delivery channel constraints, and safety checks before sending.',
+      learned: 'Delivery stayed under the preferred length, so the compact output template remained active.',
+    },
+  };
+
+  const setInspector = (id) => {
+    const data = inspectorData[id];
+    if (!stage || !data) return;
+    $$('.board-node', stage).forEach(node => node.classList.toggle('is-selected', node.dataset.node === id));
+    const setText = (sel, text) => {
+      const el = $(sel);
+      if (el) el.textContent = text;
+    };
+    setText('#bi-title', data.title);
+    setText('#bi-node', data.node);
+    setText('#bi-score', data.score);
+    setText('#bi-latency', data.latency);
+    setText('#bi-seen', data.seen);
+    setText('#bi-learned', data.learned);
+  };
 
   const drawCables = () => {
     if (!stage) return;
@@ -364,6 +442,8 @@
       };
       node.addEventListener('mousedown', onDown);
       node.addEventListener('touchstart', onDown, { passive: true });
+      node.addEventListener('click', () => setInspector(node.dataset.node));
+      node.addEventListener('focus', () => setInspector(node.dataset.node));
     });
   };
 
