@@ -79,19 +79,23 @@
       "command": "spark guide"
     },
     {
-      "label": "Check Spark status",
-      "command": "spark status"
+      "label": "Start Spark Live",
+      "command": "spark live start"
+    },
+    {
+      "label": "Check Spark Live",
+      "command": "spark live status"
     },
     {
       "label": "Check LLM provider roles",
       "command": "spark providers status"
     },
     {
-      "label": "Verify launch wiring",
-      "command": "spark verify"
+      "label": "Verify first-run wiring",
+      "command": "spark verify --onboarding"
     },
     {
-      "label": "Prove Builder memory wiring",
+      "label": "Prove memory and runtime wiring",
       "command": "spark verify --deep"
     },
     {
@@ -102,6 +106,7 @@
   "telegramSmokeTest": [
     "/start",
     "/myid",
+    "/access 3",
     "/diagnose",
     "Send a normal message and confirm the LLM responds.",
     "/remember launch test memory",
@@ -135,7 +140,7 @@
     },
     {
       "command": "/diagnose",
-      "use": "Check Telegram, LLM, memory, Builder, and mission relay health."
+      "use": "Check Telegram, LLM, memory, Spark runtime, and mission relay health."
     },
     {
       "command": "/remember <note>",
