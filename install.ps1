@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "8eef6e02d7f00e235e5edb171cfe17cd69eeada2",
+    [string]$Ref = "de725f5d9630c9ccfb0a74b0ba1efe972fdb19c8",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -29,7 +29,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$SparkCliReleaseName = "spark-cli-launch-2026-04-28-3"
+$SparkCliReleaseName = "spark-cli-launch-2026-04-28-4"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
