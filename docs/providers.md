@@ -27,7 +27,7 @@ spark verify --onboarding
 
 - OpenAI Codex: best for users who already use Codex or ChatGPT. Use the Codex CLI sign-in path.
 - Anthropic Claude: best for users who already use Claude Code. Use the Claude CLI sign-in path, including `claude -p` style prompts where available.
-- Z.AI GLM, MiniMax, OpenRouter, and OpenAI-compatible providers: use API keys stored locally by Spark.
+- Z.AI GLM, Kimi, MiniMax, OpenRouter, and OpenAI-compatible providers: use API keys stored locally by Spark.
 - Ollama and LM Studio: local-first endpoints. Spark must use only the selected endpoint.
 - Hugging Face Router: hosted router path using an HF token.
 
