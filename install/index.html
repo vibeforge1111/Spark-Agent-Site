@@ -4,12 +4,189 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index,follow">
-<title>Spark Install</title>
+<title>Install Spark</title>
+<meta name="description" content="Install Spark Agent with a guided first-run path for Telegram, LLM providers, Spark Live, memory, and missions.">
 <link rel="canonical" href="https://agent.sparkswarm.ai/install">
-<meta http-equiv="refresh" content="0; url=/#install">
-<link rel="stylesheet" href="/install/install.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/install/install.css?v=20260429-guided">
 </head>
 <body>
-  <p>Opening the Spark installer. <a href="/#install">Continue to install</a>.</p>
+<div class="page-shell">
+  <header class="install-topbar">
+    <a class="brand" href="/docs/" aria-label="Spark docs">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">Spark</span>
+      <span class="brand-section">/install</span>
+    </a>
+    <nav class="top-links" aria-label="Install help">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/providers/">Models</a>
+      <a href="/docs/troubleshooting/">Fix</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Guided first install</span>
+        <h1>Install Spark without guessing.</h1>
+        <p class="hero-lead">
+          <span>Copy one command. Spark shows the plan first.</span>
+          <span>Then connect Telegram and your model.</span>
+          <span>Spark Live, memory, and missions come next.</span>
+        </p>
+        <div class="hero-actions">
+          <a class="primary-link" href="#commands">Copy install command</a>
+          <a class="secondary-link" href="/docs/install-safety/">See what it changes</a>
+        </div>
+      </div>
+      <aside class="setup-card" aria-label="What Spark asks for">
+        <h2>What you need ready</h2>
+        <ul>
+          <li>Telegram app and access to <code>@BotFather</code></li>
+          <li>One LLM path: Codex CLI, Claude Code, OpenRouter, Z.AI, MiniMax, Hugging Face, LM Studio, or Ollama</li>
+          <li>A terminal: PowerShell on Windows, Terminal on Mac/Linux/WSL</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="section" id="commands">
+      <span class="eyebrow">Step 1</span>
+      <h2>Choose where you are installing.</h2>
+      <p class="section-lead">If you are using Claude, Codex, or another coding agent, give it the agent prompt. If you are installing yourself, use the command for your computer.</p>
+
+      <div class="command-grid">
+        <article class="command-card featured">
+          <div class="card-head">
+            <span>Agent prompt</span>
+            <strong>Best for Claude, Codex, Cursor, or any agent terminal</strong>
+          </div>
+          <pre><code>Install Spark from https://agent.sparkswarm.ai/install. Review the installer plan with me, then finish Telegram BotFather and LLM provider setup.</code></pre>
+          <button class="copy-button" type="button" data-copy-label="Copy prompt" data-copy-value="Install Spark from https://agent.sparkswarm.ai/install. Review the installer plan with me, then finish Telegram BotFather and LLM provider setup.">Copy prompt</button>
+        </article>
+
+        <article class="command-card">
+          <div class="card-head">
+            <span>Mac / Linux / WSL</span>
+            <strong>Paste into Terminal</strong>
+          </div>
+          <pre><code>curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh && bash spark-install.sh</code></pre>
+          <button class="copy-button" type="button" data-copy-label="Copy command" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh && bash spark-install.sh">Copy command</button>
+        </article>
+
+        <article class="command-card">
+          <div class="card-head">
+            <span>Windows</span>
+            <strong>Paste into PowerShell</strong>
+          </div>
+          <pre><code>iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code></pre>
+          <button class="copy-button" type="button" data-copy-label="Copy command" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1'>Copy command</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="eyebrow">Step 2</span>
+      <h2>Follow the first-run questions.</h2>
+      <div class="steps">
+        <div class="step">
+          <strong>1</strong>
+          <div>
+            <h3>Create the Telegram bot</h3>
+            <p>Open Telegram, message <code>@BotFather</code>, create a bot, and paste the token only into local Spark setup. Never paste it into the website.</p>
+          </div>
+        </div>
+        <div class="step">
+          <strong>2</strong>
+          <div>
+            <h3>Choose one LLM provider first</h3>
+            <p>Use one provider for agent chat, memory, and missions. You can split agent and mission models later from <code>spark setup</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <strong>3</strong>
+          <div>
+            <h3>Start Spark Live</h3>
+            <p>Spark Live starts the background services without opening extra terminal windows. Use <code>spark live start</code> and check with <code>spark live status</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <strong>4</strong>
+          <div>
+            <h3>Test the bot</h3>
+            <p>In Telegram, send <code>/diagnose</code>, then <code>/remember I like concise warm replies</code>, then <code>/run say exactly OK</code>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <span class="eyebrow">Already installed?</span>
+        <h2>Upgrade without starting over.</h2>
+        <p class="section-lead">Use upgrade mode when docs mention a command your local Spark does not know yet. Run the dry-run first if you want to preview the changes.</p>
+      </div>
+      <div class="mini-commands">
+        <div>
+          <span>Mac / Linux / WSL dry-run</span>
+          <code>bash spark-install.sh --dry-run --upgrade-existing</code>
+        </div>
+        <div>
+          <span>Mac / Linux / WSL upgrade</span>
+          <code>bash spark-install.sh --upgrade-existing</code>
+        </div>
+        <div>
+          <span>Windows dry-run</span>
+          <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun -UpgradeExisting</code>
+        </div>
+        <div>
+          <span>Windows upgrade</span>
+          <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -UpgradeExisting</code>
+        </div>
+      </div>
+    </section>
+
+    <section class="section help-section">
+      <span class="eyebrow">If anything feels stuck</span>
+      <h2>Go to the exact page for the problem.</h2>
+      <div class="help-grid">
+        <a href="/docs/providers/">
+          <strong>Model or provider setup</strong>
+          <span>Codex, Claude, OpenRouter, Z.AI, MiniMax, Hugging Face, LM Studio, Ollama.</span>
+        </a>
+        <a href="/docs/troubleshooting/">
+          <strong>Telegram is quiet</strong>
+          <span>Use <code>spark fix telegram</code>, <code>/diagnose</code>, logs, and repair commands.</span>
+        </a>
+        <a href="/docs/commands/">
+          <strong>Command reference</strong>
+          <span>What to run for setup, Spark Live, status, providers, security, and missions.</span>
+        </a>
+        <a href="/docs/security/">
+          <strong>Security and tokens</strong>
+          <span>What stays local, what gets checked, and how Spark avoids leaking secrets.</span>
+        </a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll("[data-copy-value]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const value = button.getAttribute("data-copy-value") || "";
+      try {
+        await navigator.clipboard.writeText(value);
+        button.textContent = "Copied";
+        const label = button.getAttribute("data-copy-label") || "Copy";
+        setTimeout(() => { button.textContent = label; }, 1400);
+      } catch {
+        button.textContent = "Select and copy above";
+      }
+    });
+  });
+</script>
 </body>
 </html>
