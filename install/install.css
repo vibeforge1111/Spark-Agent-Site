@@ -69,30 +69,50 @@ pre {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   min-width: 0;
+  line-height: 1;
 }
 
 .brand-mark {
-  width: 24px;
-  height: 24px;
-  border-radius: 7px;
-  background:
-    linear-gradient(135deg, var(--accent), transparent 68%),
-    linear-gradient(315deg, var(--iris), transparent 62%),
-    var(--surface-hi);
-  border: 1px solid var(--border-bright);
-  box-shadow: 0 0 34px rgba(47, 202, 148, 0.23);
+  color: var(--accent);
+  display: block;
+  width: 26px;
+  height: auto;
+  flex-shrink: 0;
+  shape-rendering: geometricPrecision;
 }
 
-.brand-text {
-  font-weight: 800;
+.brand-wordmark {
   color: var(--text-bright);
+  display: block;
+  width: 64px;
+  height: auto;
+  flex-shrink: 0;
+  shape-rendering: geometricPrecision;
 }
 
-.brand-section {
-  color: var(--text-muted);
-  font: 600 13px var(--font-mono);
+.brand-divider {
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background: var(--border);
+  opacity: 0.9;
+  flex-shrink: 0;
+}
+
+.brand-slash {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-secondary);
+  font: 600 11px var(--font-mono);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: lowercase;
+}
+
+.brand-slash-prefix {
+  color: var(--accent);
 }
 
 .top-links {
