@@ -95,9 +95,9 @@
 
 .docs-hero h1 {
   max-width: 820px;
-  font: 600 clamp(38px, 6vw, 76px) var(--font-sans);
-  line-height: 0.98;
-  letter-spacing: -0.035em;
+  font: 600 clamp(34px, 4.6vw, 58px) var(--font-sans);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
   color: var(--text-bright);
 }
 
@@ -397,8 +397,8 @@
 .doc-hero h1 {
   max-width: 820px;
   color: var(--text-bright);
-  font: 600 54px var(--font-sans);
-  line-height: 1.02;
+  font: 600 clamp(34px, 4vw, 48px) var(--font-sans);
+  line-height: 1.06;
   letter-spacing: 0;
 }
 
