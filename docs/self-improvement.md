@@ -1,205 +1,105 @@
 # Spark Self-Improvement
 
-Spark can get better at a task when the task has a score.
-
-The score is what keeps the loop honest.
-
-Without a score, the agent is only guessing.
-
 Human page: `/docs/self-improvement/`
 
-## The Simple Loop
+Spark improves best when a repeatable task has a clear score, a small loop, and a memory record.
 
-Spark's improvement loop is:
+A domain chip is both:
+
+- a reusable tool Spark can call for one task family
+- a bounded specialization loop Spark Researcher can run and score
+
+## Simple Loop
 
 ```text
-run -> score -> record -> remember -> suggest next try
+task family -> chip tool -> score -> memory packet -> next run
 ```
-
-That is the whole idea.
 
 Spark runs something.
 
 It checks the result.
 
-It writes down what happened.
+It records what happened.
 
 It saves the useful lesson.
 
 Then it suggests the next small experiment.
 
-## What A Domain Chip Is
+## Domain Chip Contract
 
-A domain chip is a specialist module.
+The chip owns domain-specific behavior:
 
-It teaches Spark how to work in one area.
+- `evaluate`: score the task with a benchmark or rubric
+- `suggest`: propose the next small experiment or repair
+- `packets`: emit memory-ready doctrine, boundaries, evidence, and frontier ideas
+- `watchtower`: produce a readable status page or report
 
-Examples:
+Spark Researcher owns the generic runtime:
 
-- startup advice
-- crypto trading research
-- content systems
-- coding review
-- browser tasks
-- prompt testing
-- research quality
+- loop execution
+- ledger
+- queue
+- memory index
+- vault generation
+- self-edit and review policy
 
-The chip owns the domain-specific logic.
+Keep Spark core generic. Keep domain logic in the chip.
 
-Spark owns the loop, ledger, memory, and review policy.
+## Spark Researcher Commands
 
-## What A Good Chip Needs
+Common commands:
 
-A useful chip needs four things.
-
-1. A task.
-2. A score.
-3. Allowed changes.
-4. A way to save lessons.
-
-Example:
-
-```text
-Task: improve startup diagnosis memos.
-Score: startup_score.
-Goal: maximize.
-Allowed changes: memo style, evidence depth, question order.
-Lessons: grounded doctrine, boundaries, benchmark evidence, frontier ideas.
+```bash
+spark-researcher run --command <name>
+spark-researcher autoloop --command <name> --rounds 3 --suggest-limit 3
+spark-researcher memory sync
+spark-researcher obsidian build
+spark-researcher summary
 ```
 
-Keep this small at first.
-
-Small loops are easier to trust.
-
-## What Benchmarks Do
-
-A benchmark is the truth meter.
-
-It answers:
+If Spark was installed through the starter bundle, the local module usually lives at:
 
 ```text
-Did this change make the system better?
+~/.spark/modules/spark-researcher/source
 ```
 
-For startup work, a benchmark might score founder decisions across cash, product, customer, team, and strategy outcomes.
+## Ask Your Local Agent To Build A Chip
 
-For trading work, a benchmark might score walk-forward results, holdout decay, risk, and regime fit.
-
-For research work, a benchmark might score evidence quality, contradiction handling, and whether claims are grounded.
-
-Benchmarks protect the system from fake progress.
-
-## What Recursive Loops Mean
-
-Recursive sounds intense.
-
-In Spark, it should mean boring in a good way.
-
-Spark repeats a bounded cycle.
-
-It does not get unlimited permission.
-
-It does not silently edit production.
-
-It does not promote every idea into doctrine.
-
-Good recursive loops have:
-
-- a round limit
-- a fixed score
-- a mutation list
-- a ledger
-- human review for risky changes
-- clear failure notes
-
-## What To Ask Spark
-
-Use this when you want Spark to create a chip:
+Use this prompt with Codex, Claude Code, Cursor, or another local agent:
 
 ```text
-Create a Spark domain chip for <task>.
+Use Spark Researcher's domain-chip authoring docs to design a new Spark domain chip for <domain>.
 
-The chip should improve <specific workflow>.
-Primary metric: <metric_name>.
-Goal: <maximize|minimize>.
-Allowed mutations: <field list>.
+Treat it as both:
+1. a reusable tool my Spark agent can call
+2. a bounded specialization loop Spark Researcher can run and score
 
-Implement:
-- evaluate
-- suggest
-- packets
-- watchtower
+Ground it in the real Spark chip contract:
+- Spark Researcher owns loop execution, ledger, queue, memory index, vault generation, and review policy.
+- The chip owns evaluate, suggest, packets, and watchtower hooks.
+- Keep benchmark-grounded evidence separate from exploratory frontier ideas.
+- Add tests for evaluator, suggestions, packets, watchtower, and one runtime integration path.
 
-Keep the Spark core generic.
-Keep domain logic inside the chip.
-Add tests for scoring, packets, and watchtower truthfulness.
-Save useful lessons as grounded doctrine, grounded boundary, benchmark evidence, or exploratory frontier.
+First inspect the installed Spark Researcher docs at:
+~/.spark/modules/spark-researcher/source/docs/master_chip_v2/MASTER_CHIP_OPERATOR_PROMPT.md
+~/.spark/modules/spark-researcher/source/docs/master_chip_v2/MASTER_CHIP_TESTING_PROMPT.md
+~/.spark/modules/spark-researcher/source/docs/AUTOLOOP.md
+~/.spark/modules/spark-researcher/source/docs/CHIP_ONE_LOOP_FLYWHEEL.md
+
+Then propose the smallest v0 chip and ask before writing files.
 ```
 
-Use this when you want a loop:
+## Good Chip Shapes
 
-```text
-Run a bounded self-improvement loop for <task>.
+Useful first chips are narrow:
 
-Use <benchmark or metric> as the score.
-Try at most <number> rounds.
-Only change <allowed fields>.
-After each round, show:
-- what changed
-- score before and after
-- why it helped or failed
-- what should be tried next
+- diagnose one kind of Spark failure
+- score one kind of research packet
+- improve one recurring writing workflow
+- inspect one project type
+- benchmark one kind of agent answer
 
-Do not auto-apply risky changes without review.
-```
-
-Use this when you want a benchmark:
-
-```text
-Design a benchmark for <task>.
-
-It should be programmatic where possible.
-It should score the real outcome, not vibes.
-Include:
-- scenarios
-- allowed tools or actions
-- scoring dimensions
-- hard-failure gates
-- example passing and failing runs
-- hidden cases later, if we need anti-gaming
-```
-
-## Real Spark Patterns
-
-`spark-researcher` is the local loop runtime.
-
-It runs commands, reads scores, writes ledgers, saves memory, and suggests next trials.
-
-`spark-domain-chip-labs` is the meta-chip lab.
-
-It studies how to build better chips, better benchmarks, and better graduation rules.
-
-`domain-chip-startup-yc` is a startup advice chip.
-
-It uses startup doctrine, founder-state rituals, and startup benchmarks.
-
-`domain-chip-crypto-trading` is a trading chip.
-
-It uses doctrine discovery, walk-forward backtesting, and paper-trading style validation.
-
-`startup-bench` is a benchmark system.
-
-It tests whether agents can operate a simulated startup over time, not just write a nice answer.
-
-## Why People Want This
-
-Normal AI help is one conversation.
-
-Spark-style improvement is a memory-bearing loop.
-
-The system can learn which patterns worked, where they failed, and what should be tried next.
-
-That is how an agent becomes useful in a domain instead of starting from zero every time.
+Avoid broad chips like "make Spark smarter at everything."
 
 ## Safety Rule
 
@@ -210,3 +110,5 @@ Let Spark propose.
 Let benchmarks score.
 
 Let humans approve risky changes.
+
+Risky areas include file deletion, public publishing, production writes, secret handling, and unattended code changes.

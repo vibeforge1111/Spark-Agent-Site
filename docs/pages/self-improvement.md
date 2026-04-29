@@ -1,67 +1,46 @@
 # Spark Self-Improvement
 
-Spark can get better at a task when the task has a score.
+Spark improves best when a repeatable task has a score.
 
-The score is what keeps the loop honest.
+A domain chip is both a reusable tool Spark can call and a bounded specialization loop Spark Researcher can run.
 
-## Simple Loop
+## Loop
 
 ```text
-run -> score -> record -> remember -> suggest next try
+task family -> chip tool -> score -> memory packet -> next run
 ```
-
-Spark runs something.
-
-It checks the result.
-
-It saves the useful lesson.
-
-Then it suggests the next small experiment.
 
 ## Domain Chips
 
-A domain chip is a specialist module.
+The chip owns:
 
-It teaches Spark how to work in one area.
+- `evaluate`
+- `suggest`
+- `packets`
+- `watchtower`
 
-The chip owns domain-specific scoring, suggestions, memory packets, and watchtower pages.
+Spark Researcher owns loop execution, ledger, queue, memory index, vault generation, and review policy.
 
-Spark owns the loop, ledger, memory, and review policy.
+## Researcher Commands
 
-## Benchmarks
-
-A benchmark is the truth meter.
-
-It answers whether a change made the system better.
-
-Good benchmarks score real outcomes, not vibes.
-
-They protect Spark from fake progress.
-
-## Recursive Loops
-
-Recursive does not mean uncontrolled.
-
-A good loop has a round limit, a fixed score, allowed changes, a ledger, and human review for risky changes.
+```bash
+spark-researcher run --command <name>
+spark-researcher autoloop --command <name> --rounds 3 --suggest-limit 3
+spark-researcher memory sync
+spark-researcher obsidian build
+spark-researcher summary
+```
 
 ## Prompt
 
 ```text
-Create a Spark domain chip for <task>.
-Primary metric: <metric_name>.
-Goal: <maximize|minimize>.
-Allowed mutations: <field list>.
-Implement evaluate, suggest, packets, and watchtower.
-Keep the Spark core generic.
-Add tests for scoring and packet truthfulness.
+Use Spark Researcher's domain-chip authoring docs to design a new Spark domain chip for <domain>.
+Treat it as both a reusable tool my Spark agent can call and a bounded specialization loop Spark Researcher can run and score.
+Inspect ~/.spark/modules/spark-researcher/source/docs/master_chip_v2 before writing files.
+Build the smallest v0 with evaluate, suggest, packets, watchtower, and tests.
+Ask before risky changes.
 ```
 
-## Examples
+## Safety
 
-Startup chips can improve founder diagnosis.
-
-Trading chips can test strategy changes.
-
-Research chips can improve evidence quality.
-
-Benchmark systems can turn "the agent seems better" into a visible score.
+Let Spark propose. Let benchmarks score. Let humans approve risky changes.

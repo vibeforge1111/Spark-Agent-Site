@@ -76,16 +76,21 @@ Autostart brings Spark back after login.
 
 ## Domain Chips And Loops
 
-A domain chip is a specialist module for one task family.
+A domain chip is both a reusable tool Spark can call and a bounded specialization loop Spark Researcher can run.
 
-It can own `evaluate`, `suggest`, `packets`, and `watchtower`.
+The chip owns domain behavior:
 
-Spark owns loop execution, ledger, memory, and review policy.
+- `evaluate`
+- `suggest`
+- `packets`
+- `watchtower`
+
+Spark Researcher owns loop execution, ledger, queue, memory index, vault generation, and review policy.
 
 The simple loop is:
 
 ```text
-run -> score -> record -> remember -> suggest next try
+task family -> chip tool -> score -> memory packet -> next run
 ```
 
 Examples:
@@ -98,13 +103,11 @@ Examples:
 Safe prompt shape:
 
 ```text
-Create a Spark domain chip for <task>.
-Primary metric: <metric_name>.
-Goal: <maximize|minimize>.
-Allowed mutations: <field list>.
-Run bounded loops.
-Save grounded doctrine, boundaries, benchmark evidence, and frontier ideas.
-Do not auto-apply risky changes without review.
+Use Spark Researcher's domain-chip authoring docs to design a new Spark domain chip for <domain>.
+Treat it as both a reusable tool my Spark agent can call and a bounded specialization loop Spark Researcher can run and score.
+Inspect ~/.spark/modules/spark-researcher/source/docs/master_chip_v2 before writing files.
+Build the smallest v0 with evaluate, suggest, packets, watchtower, and tests.
+Ask before risky changes.
 ```
 
 ## Safe Install Flow

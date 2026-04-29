@@ -88,11 +88,13 @@ For domain chips and recursive loops, keep the answer grounded:
 - name the task
 - name the score
 - name the allowed mutations
+- explain whether the chip is being used as a tool, a bounded specialization loop, or both
+- ground chip creation in Spark Researcher's installed docs when available
 - keep loops bounded
 - save lessons and failures
 - require review before risky changes
 
-If a command, workflow, provider detail, or chip behavior has not been verified in a real run, label it `Needs testing` instead of presenting it as proven.
+Do not invent a one-click chip command if it has not been verified. Ask the local agent to inspect Spark Researcher's chip-authoring docs and propose the smallest v0 before writing files.
 
 ## Current Installer Pins
 
