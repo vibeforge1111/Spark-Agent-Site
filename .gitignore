@@ -12,3 +12,9 @@ dist/
 .dev.vars
 .dev.vars.*
 .gstack/
+
+# Disposable Spark installer outputs from local smoke tests.
+bin/
+tools/
+logs/
+env
