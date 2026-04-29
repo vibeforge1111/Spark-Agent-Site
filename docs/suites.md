@@ -58,6 +58,12 @@ It can also run bounded improvement loops.
 
 That means Spark can try one small change, score it, record the lesson, and suggest the next safe experiment.
 
+## Spark Character
+
+This keeps Spark's identity, role, voice, and access-level behavior stable.
+
+It helps Spark explain what it can do without pretending it has more access than the user granted.
+
 ## Domain Chips
 
 Domain chips are specialist modules.
@@ -74,9 +80,11 @@ For example:
 
 Read `/docs/self-improvement.md` when you want to create your own chip or recursive loop.
 
-## Autostart
+## Spark Live And Autostart
 
-Autostart starts Spark again after login.
+Spark Live runs Spark services quietly in the background.
+
+Autostart starts Spark Live again after login.
 
 It is on by default.
 

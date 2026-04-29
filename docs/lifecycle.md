@@ -12,14 +12,16 @@ Run these in Terminal:
 
 ```bash
 spark guide
-spark status
+spark live status
 spark providers status
+spark providers test --role chat
 spark verify --onboarding
 ```
 
 What you want:
 
 - Spark opens or prints the guide.
+- Spark Live is running.
 - Your LLM provider is connected.
 - Telegram setup is complete.
 - Autostart is installed unless you turned it off.
@@ -67,6 +69,8 @@ Send:
 If missions do not show up, run:
 
 ```bash
+spark fix spawner
+spark logs spawner-ui --lines 80
 spark verify --deep
 ```
 
@@ -76,7 +80,7 @@ Run:
 
 ```bash
 spark fix telegram
-spark logs spark-telegram-bot
+spark logs spark-telegram-bot --lines 80
 ```
 
 Common causes:

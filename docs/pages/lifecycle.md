@@ -2,7 +2,7 @@
 title: Spark Fixes And Daily Checks
 slug: lifecycle
 status: published
-verified_at: "2026-04-27T00:00:00Z"
+verified_at: "2026-04-29T00:00:00Z"
 verified_by: codex@sparkswarm.ai
 authority_level: L3
 canonical_for:
@@ -12,7 +12,7 @@ sources:
   - id: 4f686a8c-471e-4708-a563-048b33cc43fc
     url: "https://agent.sparkswarm.ai/install/commands.json"
     type: install-command-manifest
-    fetched_at: "2026-04-27T00:00:00Z"
+    fetched_at: "2026-04-29T00:00:00Z"
 ---
 
 # Spark Fixes And Daily Checks
@@ -25,8 +25,9 @@ It is for quiet bots, broken setup, memory issues, autostart, and uninstall.
 
 ```bash
 spark guide
-spark status
+spark live status
 spark providers status
+spark providers test --role chat
 spark verify --onboarding
 ```
 
@@ -76,7 +77,7 @@ Run:
 
 ```bash
 spark fix telegram
-spark logs spark-telegram-bot
+spark logs spark-telegram-bot --lines 80
 ```
 
 Common causes:
@@ -85,6 +86,15 @@ Common causes:
 - the admin Telegram ID is missing
 - another process is already polling the bot
 - the LLM provider is not configured
+
+## If Mission Control Is Offline
+
+Run:
+
+```bash
+spark fix spawner
+spark logs spawner-ui --lines 80
+```
 
 ## Autostart
 

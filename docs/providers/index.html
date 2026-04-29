@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<title>Spark LLM Providers</title>
+<meta name="description" content="Plain-English Spark LLM provider setup guide for chat, memory, and missions.">
+<link rel="canonical" href="https://agent.sparkswarm.ai/docs/providers/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/docs/docs.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header class="topbar">
+  <a href="/" class="brand" aria-label="Spark agent home">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-wordmark docs-wordmark">Spark</span>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-slash"><span class="brand-slash-prefix">/</span>docs</span>
+  </a>
+  <div class="topbar-right"><a href="/#install" class="cta-install">Install<span class="cta-arrow">-&gt;</span></a></div>
+</header>
+<main class="docs-shell">
+  <nav class="docs-nav" aria-label="Docs navigation">
+    <p>Docs Map</p>
+    <div class="docs-nav-links">
+      <a href="/docs/">Overview</a>
+      <a href="/docs/install-safety/">Install</a>
+      <a href="/docs/commands/">Commands</a>
+      <a href="/docs/providers/">Providers</a>
+      <a href="/docs/suites/">Modules</a>
+      <a href="/docs/lifecycle/">Lifecycle</a>
+      <a href="/docs/troubleshooting/">Fix</a>
+      <a href="/docs/security/">Security</a>
+      <a href="/docs/self-improvement/">Improve</a>
+      <a href="/llms.txt">Agents</a>
+    </div>
+  </nav>
+  <article class="doc-page">
+    <section class="doc-hero">
+      <span class="overline">Providers</span>
+      <h1>Pick one Spark brain first. Split roles later.</h1>
+      <p>The easiest setup uses one provider for chat, memory, runtime decisions, and missions. Advanced users can later choose a different mission model.</p>
+      <div class="doc-mini-nav">
+        <a href="/docs/providers.md">Agent Markdown</a>
+        <a href="/docs/commands/">Commands</a>
+        <a href="/docs/troubleshooting/">Troubleshooting</a>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>The normal provider flow.</h2>
+      <div class="doc-flowline" aria-label="Provider setup flow">
+        <span>Choose</span>
+        <span>Authorize</span>
+        <span>Test chat</span>
+        <span>Test mission</span>
+        <span>Save</span>
+      </div>
+      <pre class="docs-code">spark recommend llms
+spark setup
+spark providers status
+spark providers test --role chat
+spark verify --onboarding</pre>
+    </section>
+
+    <section class="doc-section">
+      <h2>Provider families.</h2>
+      <div class="doc-grid">
+        <div class="doc-card"><span class="doc-kicker">Subscription</span><h3>OpenAI Codex</h3><p>Best if the user already uses Codex or ChatGPT. Sign in with the Codex CLI, then choose Codex in Spark setup.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Subscription</span><h3>Anthropic Claude</h3><p>Best if the user already uses Claude Code. Use the Claude CLI sign-in path, including <code>claude -p</code> style prompts where available.</p></div>
+        <div class="doc-card"><span class="doc-kicker">API Key</span><h3>Z.AI GLM, MiniMax, OpenRouter, OpenAI-compatible</h3><p>Good when the user has an API key. Spark stores secrets locally and masks input in setup.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Local</span><h3>Ollama and LM Studio</h3><p>Good for local-first users. Spark should use only the selected local endpoint, not a surprise fallback.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Router</span><h3>Hugging Face Router</h3><p>Use when the user wants a hosted model router with an HF token and OpenAI-compatible chat endpoint.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Advanced</span><h3>Separate mission provider</h3><p>Keep chat/memory on one provider and missions on another only when the user asks for it.</p></div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>What each role means.</h2>
+      <div class="doc-grid">
+        <div class="doc-card"><h3>Agent</h3><p>Normal chat, runtime decisions, and memory. This is the user-facing Spark personality and reasoning path.</p></div>
+        <div class="doc-card"><h3>Mission</h3><p>Spawner work: building, coding, research tasks, and longer tracked missions.</p></div>
+      </div>
+      <div class="doc-callout">
+        <h3>Default recommendation</h3>
+        <p>For non-technical users, choose one provider and use it everywhere. If missions need a stronger or different model later, rerun <code>spark setup</code> and choose the advanced role split.</p>
+      </div>
+    </section>
+  </article>
+</main>
+</body>
+</html>

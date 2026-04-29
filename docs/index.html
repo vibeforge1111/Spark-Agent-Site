@@ -32,15 +32,16 @@
   <nav class="docs-nav" aria-label="Docs navigation">
     <p>Docs Map</p>
     <div class="docs-nav-links">
-      <a href="#overview">Overview</a>
-      <a href="#fast-path">Install</a>
-      <a href="#suites">Suites</a>
-      <a href="#setup">Setup</a>
-      <a href="#daily-use">Commands</a>
-      <a href="#self-improvement">Improve</a>
-      <a href="#fixes">Fix</a>
-      <a href="#agents">Agents</a>
-      <a href="#receipts">Receipts</a>
+      <a href="/docs/">Overview</a>
+      <a href="/docs/install-safety/">Install</a>
+      <a href="/docs/commands/">Commands</a>
+      <a href="/docs/providers/">Providers</a>
+      <a href="/docs/suites/">Modules</a>
+      <a href="/docs/lifecycle/">Lifecycle</a>
+      <a href="/docs/troubleshooting/">Fix</a>
+      <a href="/docs/security/">Security</a>
+      <a href="/docs/self-improvement/">Improve</a>
+      <a href="/llms.txt">Agents</a>
     </div>
   </nav>
 
@@ -56,7 +57,7 @@
           These docs keep the serious safety details, but explain them in normal language first.
         </p>
         <div class="docs-meta">
-          <span class="docs-pill">updated: 2026-04-27</span>
+          <span class="docs-pill">updated: 2026-04-29</span>
           <span class="docs-pill">works on macOS, Linux, WSL, Windows</span>
           <span class="docs-pill">autostart on by default</span>
           <span class="docs-pill">tokens stay local</span>
@@ -79,8 +80,16 @@
             <span>See what gets downloaded, written, and verified.</span>
           </a>
           <a class="docs-path" href="/docs/lifecycle/">
-            <strong>Fix Problems</strong>
-            <span>Use this when Telegram is quiet or setup feels stuck.</span>
+            <strong>Turn Spark On</strong>
+            <span>Use Spark Live, autostart, and daily checks.</span>
+          </a>
+          <a class="docs-path" href="/docs/commands/">
+            <strong>Learn Commands</strong>
+            <span>See the current CLI and Telegram commands in one place.</span>
+          </a>
+          <a class="docs-path" href="/docs/providers/">
+            <strong>Choose Models</strong>
+            <span>Pick one provider first, then customize later if needed.</span>
           </a>
         </div>
         <div class="docs-note">
@@ -127,10 +136,10 @@
             <p>Use it when answers need evidence, not guesses.</p>
           </div>
           <div class="docs-card">
-            <span class="docs-card-kicker">Always On</span>
-            <h3>Autostart</h3>
-            <p>Spark starts again after login by default.</p>
-            <p>You can turn this off any time.</p>
+            <span class="docs-card-kicker">Identity</span>
+            <h3>Spark Character</h3>
+            <p>This gives Spark a stable role, voice, and access-level awareness.</p>
+            <p>It helps the agent explain what it can do without overreaching.</p>
           </div>
         </div>
       </section>
@@ -157,13 +166,13 @@
           <div class="docs-step">
             <div>
               <strong>Choose an LLM provider</strong>
-              <span>Use Codex, OpenAI, Anthropic, Z.AI, MiniMax, Ollama, or another supported provider.</span>
+              <span>Start with one provider for the whole agent. You can split agent and mission models later.</span>
             </div>
           </div>
           <div class="docs-step">
             <div>
               <strong>Run the checks</strong>
-              <span>Use <code>spark providers status</code> and <code>spark verify --onboarding</code>.</span>
+              <span>Use <code>spark live start</code>, <code>spark providers test --role chat</code>, and <code>spark verify --onboarding</code>.</span>
             </div>
           </div>
         </div>
@@ -182,19 +191,26 @@
               <li><code>/recall &lt;topic&gt;</code> searches memory.</li>
               <li><code>/run &lt;goal&gt;</code> starts a mission.</li>
               <li><code>/board</code> shows mission status.</li>
+              <li><code>/access 3</code> sets the recommended access level.</li>
             </ul>
           </div>
           <div class="docs-card">
             <h3>In Terminal</h3>
             <ul>
               <li><code>spark guide</code> opens the walkthrough.</li>
-              <li><code>spark status</code> checks Spark.</li>
+              <li><code>spark live start</code> starts the background services.</li>
+              <li><code>spark live status</code> checks those services.</li>
               <li><code>spark providers status</code> checks models.</li>
+              <li><code>spark providers test --role chat</code> proves the chat model.</li>
               <li><code>spark verify --onboarding</code> checks setup.</li>
-              <li><code>spark autostart status</code> checks startup.</li>
-              <li><code>spark doctor</code> runs deeper checks.</li>
+              <li><code>spark security audit</code> checks local launch safety.</li>
             </ul>
           </div>
+        </div>
+        <div class="docs-links">
+          <a class="docs-link" href="/docs/commands/">Full command reference</a>
+          <a class="docs-link" href="/docs/providers/">Provider setup</a>
+          <a class="docs-link" href="/docs/troubleshooting/">Troubleshooting</a>
         </div>
       </section>
 
@@ -278,6 +294,11 @@ Do not auto-apply risky changes without review.</pre>
             <h3>Memory does not come back</h3>
             <p>Run <code>spark verify --deep</code>.</p>
             <p>This checks memory, Builder wiring, and Mission Control wiring.</p>
+          </div>
+          <div class="docs-card">
+            <h3>Mission Control is unreachable</h3>
+            <p>Run <code>spark fix spawner</code>.</p>
+            <p>Then run <code>spark live status</code> and <code>spark logs spawner-ui</code>.</p>
           </div>
           <div class="docs-card">
             <h3>You want to stop Spark</h3>

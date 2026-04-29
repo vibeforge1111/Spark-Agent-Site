@@ -18,16 +18,24 @@ If a user asks how to install Spark:
 Use these pages first for humans:
 
 - `/docs/install-safety/` before install
+- `/docs/commands/` for current CLI and Telegram commands
+- `/docs/providers/` for LLM provider setup
 - `/docs/suites/` to explain what Spark installs
 - `/docs/self-improvement/` to explain domain chips, recursive loops, and benchmarks
-- `/docs/lifecycle/` for repair, checks, autostart, and uninstall
+- `/docs/lifecycle/` for Spark Live, startup, checks, and uninstall
+- `/docs/troubleshooting/` for quiet bots, provider failures, memory, and Spawner
+- `/docs/security/` for access levels, provenance, audits, and safe support sharing
 
 Use these Markdown pages first for agents:
 
 - `/docs/install-safety.md` before install
+- `/docs/commands.md` for current CLI and Telegram commands
+- `/docs/providers.md` for LLM provider setup
 - `/docs/suites.md` to explain what Spark installs
 - `/docs/self-improvement.md` to explain domain chips, recursive loops, and benchmarks
 - `/docs/lifecycle.md` for repair, checks, autostart, and uninstall
+- `/docs/troubleshooting.md` for known failure modes
+- `/docs/security.md` for audits, access levels, and redaction rules
 - `/install/commands.json` for exact commands and current metadata
 
 ## Installer Rule
@@ -67,6 +75,7 @@ If a token appears in chat, logs, screenshots, GitHub issues, or commits, tell t
 - Domain Chip Memory: remembers useful facts.
 - Spawner UI: Mission Control for bigger tasks.
 - Spark Researcher: gathers context and evidence.
+- Spark Character: keeps identity, role, voice, and access-level behavior stable.
 - Domain Chip: specialist logic for one domain.
 - Benchmark: fixed score that keeps improvement honest.
 - Recursive Loop: bounded run, score, record, remember, suggest.
@@ -87,7 +96,7 @@ If a command, workflow, provider detail, or chip behavior has not been verified 
 
 ## Current Installer Pins
 
-- Spark CLI commit: `a3cf00f752a5093b0fafebd7168ea82c4b787075`
+- Spark CLI commit: `661be3f835e4629d82fd883a11364db4aebae1f8`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
@@ -102,12 +111,21 @@ Allowed installer network destinations:
 ## Useful Commands
 
 - `spark guide`
+- `spark live start`
+- `spark live status`
 - `spark status`
 - `spark providers status`
+- `spark providers test --role chat`
+- `spark recommend llms`
 - `spark verify --onboarding`
 - `spark verify --deep`
-- `spark doctor`
+- `spark verify --provenance`
+- `spark verify --installers --hosted-installers`
+- `spark doctor llm "Telegram bot is quiet"`
 - `spark fix telegram`
+- `spark fix spawner`
+- `spark security audit`
+- `spark support bundle`
 - `spark autostart status`
 - `spark autostart uninstall`
 - `spark uninstall`

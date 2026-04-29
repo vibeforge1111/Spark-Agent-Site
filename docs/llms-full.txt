@@ -13,13 +13,21 @@ Spark can remember useful facts, run missions, and help with research or buildin
 - Human docs: https://agent.sparkswarm.ai/docs
 - Install page: https://agent.sparkswarm.ai/install
 - Human install safety: https://agent.sparkswarm.ai/docs/install-safety/
+- Human commands: https://agent.sparkswarm.ai/docs/commands/
+- Human providers: https://agent.sparkswarm.ai/docs/providers/
 - Human suites: https://agent.sparkswarm.ai/docs/suites/
 - Human self-improvement: https://agent.sparkswarm.ai/docs/self-improvement/
-- Human fixes and daily checks: https://agent.sparkswarm.ai/docs/lifecycle/
+- Human lifecycle: https://agent.sparkswarm.ai/docs/lifecycle/
+- Human troubleshooting: https://agent.sparkswarm.ai/docs/troubleshooting/
+- Human security: https://agent.sparkswarm.ai/docs/security/
 - Install safety: https://agent.sparkswarm.ai/docs/install-safety.md
+- Spark commands: https://agent.sparkswarm.ai/docs/commands.md
+- Spark providers: https://agent.sparkswarm.ai/docs/providers.md
 - Spark suites: https://agent.sparkswarm.ai/docs/suites.md
 - Self-improvement: https://agent.sparkswarm.ai/docs/self-improvement.md
-- Fixes and daily checks: https://agent.sparkswarm.ai/docs/lifecycle.md
+- Lifecycle: https://agent.sparkswarm.ai/docs/lifecycle.md
+- Troubleshooting: https://agent.sparkswarm.ai/docs/troubleshooting.md
+- Security: https://agent.sparkswarm.ai/docs/security.md
 - Agent instructions: https://agent.sparkswarm.ai/docs/AGENTS.md
 - Install commands: https://agent.sparkswarm.ai/install/commands.json
 
@@ -34,6 +42,7 @@ It includes:
 - `domain-chip-memory`
 - `spawner-ui`
 - `spark-researcher`
+- `spark-character`
 
 ## Plain-Language Module Map
 
@@ -56,6 +65,8 @@ It starts and tracks bigger work.
 Spark Researcher gathers context and evidence.
 
 Spark Researcher also runs bounded improvement loops.
+
+Spark Character keeps identity, role, voice, and access-level behavior stable.
 
 Domain chips teach Spark how to score and improve one domain.
 
@@ -112,7 +123,7 @@ Do not send Telegram tokens or LLM keys to websites.
 
 ## Current Installer Pins
 
-- Spark CLI commit: `a3cf00f752a5093b0fafebd7168ea82c4b787075`
+- Spark CLI commit: `661be3f835e4629d82fd883a11364db4aebae1f8`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
@@ -148,8 +159,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1
 
 ```bash
 spark guide
-spark status
+spark live start
+spark live status
 spark providers status
+spark providers test --role chat
 spark verify --onboarding
 ```
 
@@ -185,7 +198,7 @@ If Telegram is quiet:
 
 ```bash
 spark fix telegram
-spark logs spark-telegram-bot
+spark logs spark-telegram-bot --lines 80
 ```
 
 If replies look like memory labels:
@@ -194,6 +207,36 @@ If replies look like memory labels:
 spark providers status
 spark verify --deep
 ```
+
+If Spawner is unreachable:
+
+```bash
+spark fix spawner
+spark logs spawner-ui --lines 80
+```
+
+## Provider Setup
+
+Default to one provider for agent chat, runtime, memory, and missions.
+
+```bash
+spark recommend llms
+spark setup
+spark providers list
+spark providers status
+spark providers test --role chat
+```
+
+## Security
+
+```bash
+spark security audit
+spark verify --provenance
+spark verify --installers --hosted-installers
+spark support bundle
+```
+
+Review support reports before sharing.
 
 ## Autostart
 

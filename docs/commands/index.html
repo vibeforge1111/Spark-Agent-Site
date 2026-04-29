@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<title>Spark Commands</title>
+<meta name="description" content="Plain-English Spark CLI and Telegram command reference.">
+<link rel="canonical" href="https://agent.sparkswarm.ai/docs/commands/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/docs/docs.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header class="topbar">
+  <a href="/" class="brand" aria-label="Spark agent home">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-wordmark docs-wordmark">Spark</span>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-slash"><span class="brand-slash-prefix">/</span>docs</span>
+  </a>
+  <div class="topbar-right"><a href="/#install" class="cta-install">Install<span class="cta-arrow">-&gt;</span></a></div>
+</header>
+<main class="docs-shell">
+  <nav class="docs-nav" aria-label="Docs navigation">
+    <p>Docs Map</p>
+    <div class="docs-nav-links">
+      <a href="/docs/">Overview</a>
+      <a href="/docs/install-safety/">Install</a>
+      <a href="/docs/commands/">Commands</a>
+      <a href="/docs/providers/">Providers</a>
+      <a href="/docs/suites/">Modules</a>
+      <a href="/docs/lifecycle/">Lifecycle</a>
+      <a href="/docs/troubleshooting/">Fix</a>
+      <a href="/docs/security/">Security</a>
+      <a href="/docs/self-improvement/">Improve</a>
+      <a href="/llms.txt">Agents</a>
+    </div>
+  </nav>
+  <article class="doc-page">
+    <section class="doc-hero">
+      <span class="overline">Commands</span>
+      <h1>The small command map for daily Spark use.</h1>
+      <p>Use Spark Live for running services, providers for model checks, verify for proof, and fix when one layer is stuck.</p>
+      <div class="doc-mini-nav">
+        <a href="/docs/commands.md">Agent Markdown</a>
+        <a href="/docs/providers/">Providers</a>
+        <a href="/docs/troubleshooting/">Troubleshooting</a>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>First day commands.</h2>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <h3>Setup</h3>
+          <pre class="docs-code">spark setup
+spark guide
+spark recommend llms</pre>
+          <p><code>spark setup</code> asks for Telegram, one default LLM provider, and access level defaults. Start simple; customize later.</p>
+        </div>
+        <div class="doc-card">
+          <h3>Turn Spark on</h3>
+          <pre class="docs-code">spark live start
+spark live status
+spark autostart install --now</pre>
+          <p><code>spark live</code> is the normal way to run Spark services without opening extra terminal windows.</p>
+        </div>
+        <div class="doc-card">
+          <h3>Prove it works</h3>
+          <pre class="docs-code">spark providers status
+spark providers test --role chat
+spark verify --onboarding</pre>
+          <p>These commands prove the model, Telegram, memory, Mission Control, and runtime are connected.</p>
+        </div>
+        <div class="doc-card">
+          <h3>Fix the common things</h3>
+          <pre class="docs-code">spark fix telegram
+spark fix spawner
+spark logs spark-telegram-bot --lines 80
+spark logs spawner-ui --lines 80</pre>
+          <p>Use this when the bot is quiet or Mission Control is unreachable.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Telegram commands.</h2>
+      <div class="doc-grid doc-grid-3">
+        <div class="doc-card"><h3><code>/start</code></h3><p>Shows the basic Telegram command surface.</p></div>
+        <div class="doc-card"><h3><code>/myid</code></h3><p>Shows your Telegram ID for admin setup.</p></div>
+        <div class="doc-card"><h3><code>/diagnose</code></h3><p>Checks Telegram, provider routing, memory, and Spawner health.</p></div>
+        <div class="doc-card"><h3><code>/remember &lt;note&gt;</code></h3><p>Saves useful facts through Spark memory.</p></div>
+        <div class="doc-card"><h3><code>/recall &lt;topic&gt;</code></h3><p>Searches saved memory.</p></div>
+        <div class="doc-card"><h3><code>/run &lt;goal&gt;</code></h3><p>Starts a build or research mission through Spawner.</p></div>
+        <div class="doc-card"><h3><code>/board</code></h3><p>Shows running and completed missions.</p></div>
+        <div class="doc-card"><h3><code>/access 3</code></h3><p>Sets the recommended Research + Build access level. Use <code>/access 1</code> through <code>/access 4</code> to change it.</p></div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Admin and support commands.</h2>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <h3>Health and proof</h3>
+          <pre class="docs-code">spark status
+spark verify --deep
+spark verify --provenance
+spark verify --installers --hosted-installers</pre>
+        </div>
+        <div class="doc-card">
+          <h3>Provider control</h3>
+          <pre class="docs-code">spark providers list
+spark providers status
+spark providers test --role chat
+spark setup --llm-provider codex</pre>
+        </div>
+        <div class="doc-card">
+          <h3>Security and support</h3>
+          <pre class="docs-code">spark security audit
+spark doctor llm "Telegram bot is quiet"
+spark support bundle</pre>
+          <p>Doctor and support flows redact secrets. Include logs only when you opt in.</p>
+        </div>
+        <div class="doc-card">
+          <h3>Lifecycle</h3>
+          <pre class="docs-code">spark update
+spark restart telegram-starter
+spark live stop
+spark uninstall</pre>
+          <p>Agents should ask before uninstalling or changing autostart.</p>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>
+</body>
+</html>

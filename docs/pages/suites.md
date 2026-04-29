@@ -2,7 +2,7 @@
 title: Spark Suites
 slug: suites
 status: published
-verified_at: "2026-04-27T00:00:00Z"
+verified_at: "2026-04-29T00:00:00Z"
 verified_by: codex@sparkswarm.ai
 authority_level: L3
 canonical_for:
@@ -12,7 +12,7 @@ sources:
   - id: 2f11fb59-8b61-4e1f-a9fd-31512902d874
     url: "https://agent.sparkswarm.ai/install/commands.json"
     type: install-command-manifest
-    fetched_at: "2026-04-27T00:00:00Z"
+    fetched_at: "2026-04-29T00:00:00Z"
 ---
 
 # Spark Suites
@@ -54,3 +54,11 @@ It helps Spark create and track bigger work.
 This helps Spark gather context.
 
 Use it when you want Spark to be careful, cite sources, or prepare work before building.
+
+## Spark Character
+
+This keeps Spark's identity, role, voice, and access-level behavior stable.
+
+## Spark Live
+
+This runs Spark services quietly in the background and can autostart after login.

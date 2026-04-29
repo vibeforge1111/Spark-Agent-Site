@@ -108,7 +108,7 @@ Expected files:
 
 ## Pinned Parts
 
-- Spark CLI commit: `a3cf00f752a5093b0fafebd7168ea82c4b787075`
+- Spark CLI commit: `661be3f835e4629d82fd883a11364db4aebae1f8`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`

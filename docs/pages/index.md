@@ -2,7 +2,7 @@
 title: Spark Docs
 slug: index
 status: published
-verified_at: "2026-04-27T00:00:00Z"
+verified_at: "2026-04-29T00:00:00Z"
 verified_by: codex@sparkswarm.ai
 authority_level: L3
 canonical_for:
@@ -12,7 +12,7 @@ sources:
   - id: 1efb45e4-b0b9-4143-8ac7-0346f5c91429
     url: "https://agent.sparkswarm.ai/install/release-manifest.json"
     type: release-manifest
-    fetched_at: "2026-04-27T00:00:00Z"
+    fetched_at: "2026-04-29T00:00:00Z"
 ---
 
 # Spark Docs
@@ -25,16 +25,24 @@ They also include clean Markdown files for agents.
 
 - Install Spark from `/install`.
 - Read `/docs/install-safety/` before running installers.
+- Read `/docs/commands/` for current Spark CLI and Telegram commands.
+- Read `/docs/providers/` for LLM provider setup.
 - Read `/docs/suites/` to understand what gets installed.
 - Read `/docs/self-improvement/` to understand domain chips, recursive loops, and benchmarks.
-- Read `/docs/lifecycle/` when Telegram, memory, missions, or autostart need help.
+- Read `/docs/lifecycle/` for Spark Live, startup, and local lifecycle.
+- Read `/docs/troubleshooting/` when Telegram, memory, providers, or missions need help.
+- Read `/docs/security/` for access levels, provenance, audits, and safe support sharing.
 
 Agents can use the matching Markdown pages:
 
 - `/docs/install-safety.md`
+- `/docs/commands.md`
+- `/docs/providers.md`
 - `/docs/suites.md`
 - `/docs/self-improvement.md`
 - `/docs/lifecycle.md`
+- `/docs/troubleshooting.md`
+- `/docs/security.md`
 
 ## What Spark is
 
@@ -54,6 +62,13 @@ Domain chips teach Spark how to improve one specialist area without bloating the
 
 The installer has checksums, a release manifest, pinned managed runtimes, immutable Spark CLI source, GitHub Artifact Attestations, Sigstore keyless release signatures, multi-OS dry-run CI, and disposable real-install CI.
 
-The docs now include human-friendly inner pages, agent-readable Markdown routes, simple schemas, visual flow diagrams, and `Needs testing` markers where behavior still needs a live run.
+Current public installer state:
 
-The next operational step is a dedicated live Telegram/LLM smoke bot with test-only secrets.
+- Release: `spark-cli-launch-2026-04-29-1`
+- Installed Spark CLI runtime commit: `661be3f835e4629d82fd883a11364db4aebae1f8`
+- Hosted installer hashes match the committed release manifest.
+- Hosted Windows sandbox install passed.
+- Hosted WSL sandbox install passed.
+- Provenance verification passed in hosted sandbox installs.
+
+The docs now include human-friendly inner pages, agent-readable Markdown routes, simple schemas, visual flow diagrams, and command pages for Spark Live, providers, troubleshooting, and security.

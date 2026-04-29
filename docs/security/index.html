@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<title>Spark Security</title>
+<meta name="description" content="Spark security, provenance, secrets, access levels, and support bundle guidance.">
+<link rel="canonical" href="https://agent.sparkswarm.ai/docs/security/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/docs/docs.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header class="topbar">
+  <a href="/" class="brand" aria-label="Spark agent home">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-wordmark docs-wordmark">Spark</span>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-slash"><span class="brand-slash-prefix">/</span>docs</span>
+  </a>
+  <div class="topbar-right"><a href="/#install" class="cta-install">Install<span class="cta-arrow">-&gt;</span></a></div>
+</header>
+<main class="docs-shell">
+  <nav class="docs-nav" aria-label="Docs navigation">
+    <p>Docs Map</p>
+    <div class="docs-nav-links">
+      <a href="/docs/">Overview</a>
+      <a href="/docs/install-safety/">Install</a>
+      <a href="/docs/commands/">Commands</a>
+      <a href="/docs/providers/">Providers</a>
+      <a href="/docs/suites/">Modules</a>
+      <a href="/docs/lifecycle/">Lifecycle</a>
+      <a href="/docs/troubleshooting/">Fix</a>
+      <a href="/docs/security/">Security</a>
+      <a href="/docs/self-improvement/">Improve</a>
+      <a href="/llms.txt">Agents</a>
+    </div>
+  </nav>
+  <article class="doc-page">
+    <section class="doc-hero">
+      <span class="overline">Security</span>
+      <h1>Local-first, explicit access, inspectable installs.</h1>
+      <p>Spark should be useful without becoming mysterious. Installers are pinned, secrets stay local, and support reports should never leak tokens.</p>
+      <div class="doc-mini-nav">
+        <a href="/docs/security.md">Agent Markdown</a>
+        <a href="/install/release-manifest.json">Release manifest</a>
+        <a href="/SECURITY.md">Security policy</a>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Security checks users can run.</h2>
+      <div class="doc-grid">
+        <div class="doc-card"><h3>Local audit</h3><pre class="docs-code">spark security audit</pre><p>Checks module trust, dangerous patterns, provenance, and local launch risks.</p></div>
+        <div class="doc-card"><h3>Provenance</h3><pre class="docs-code">spark verify --provenance
+spark verify --installers --hosted-installers</pre><p>Confirms the installer and blessed modules match the pinned release chain.</p></div>
+        <div class="doc-card"><h3>Support bundle</h3><pre class="docs-code">spark support bundle</pre><p>Creates a redacted local support package. Review before sharing.</p></div>
+        <div class="doc-card"><h3>Secrets</h3><pre class="docs-code">spark secrets list</pre><p>Shows secret IDs without printing secret values.</p></div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Access levels in normal words.</h2>
+      <div class="doc-grid">
+        <div class="doc-card"><h3>Level 1: Chat Only</h3><p>Spark can talk and remember. It should not build or inspect external resources.</p></div>
+        <div class="doc-card"><h3>Level 2: Build When Asked</h3><p>Spark can start missions only after an explicit build request.</p></div>
+        <div class="doc-card"><h3>Level 3: Research + Build</h3><p>Recommended. Spark can inspect public links, docs, and repos when asked, and can use Spawner for explicit missions.</p></div>
+        <div class="doc-card"><h3>Level 4: Full Access</h3><p>For trusted local use. Spark may use broader operating-system tools, but should still ask before destructive actions.</p></div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Share fixes safely.</h2>
+      <p>If Spark Doctor finds a fix that could help other users, it may draft an upstream report or PR candidate. The user must review it before sharing.</p>
+      <div class="doc-callout">
+        <h3>Never share</h3>
+        <p>Telegram tokens, API keys, local env files, personal memory, private repo content, or raw logs that have not been reviewed.</p>
+      </div>
+    </section>
+  </article>
+</main>
+</body>
+</html>

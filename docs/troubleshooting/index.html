@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<title>Spark Troubleshooting</title>
+<meta name="description" content="Plain-English Spark troubleshooting guide for quiet bots, provider failures, memory, and Spawner.">
+<link rel="canonical" href="https://agent.sparkswarm.ai/docs/troubleshooting/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/docs/docs.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header class="topbar">
+  <a href="/" class="brand" aria-label="Spark agent home">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-wordmark docs-wordmark">Spark</span>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-slash"><span class="brand-slash-prefix">/</span>docs</span>
+  </a>
+  <div class="topbar-right"><a href="/#install" class="cta-install">Install<span class="cta-arrow">-&gt;</span></a></div>
+</header>
+<main class="docs-shell">
+  <nav class="docs-nav" aria-label="Docs navigation">
+    <p>Docs Map</p>
+    <div class="docs-nav-links">
+      <a href="/docs/">Overview</a>
+      <a href="/docs/install-safety/">Install</a>
+      <a href="/docs/commands/">Commands</a>
+      <a href="/docs/providers/">Providers</a>
+      <a href="/docs/suites/">Modules</a>
+      <a href="/docs/lifecycle/">Lifecycle</a>
+      <a href="/docs/troubleshooting/">Fix</a>
+      <a href="/docs/security/">Security</a>
+      <a href="/docs/self-improvement/">Improve</a>
+      <a href="/llms.txt">Agents</a>
+    </div>
+  </nav>
+  <article class="doc-page">
+    <section class="doc-hero">
+      <span class="overline">Troubleshooting</span>
+      <h1>Fix the smallest broken layer first.</h1>
+      <p>Do not guess. Check Spark Live, then providers, then Telegram, then memory, then Spawner. Each command should make the next step obvious.</p>
+      <div class="doc-mini-nav">
+        <a href="/docs/troubleshooting.md">Agent Markdown</a>
+        <a href="/docs/commands/">Commands</a>
+        <a href="/docs/security/">Security</a>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>First five checks.</h2>
+      <pre class="docs-code">spark live status
+spark status
+spark providers status
+spark providers test --role chat
+spark verify --onboarding</pre>
+      <p>If a Telegram error says a local service is unreachable, run <code>/diagnose</code> in Telegram or <code>spark fix spawner</code> locally.</p>
+    </section>
+
+    <section class="doc-section">
+      <h2>Symptom to fix map.</h2>
+      <div class="doc-grid">
+        <div class="doc-card"><h3>Bot is quiet</h3><p>Run <code>spark fix telegram</code>. Then check <code>spark logs spark-telegram-bot --lines 80</code>.</p></div>
+        <div class="doc-card"><h3>Bot says private or admin only</h3><p>Send <code>/myid</code>, add that ID in <code>spark setup</code>, then restart Spark Live.</p></div>
+        <div class="doc-card"><h3>LLM replies fail</h3><p>Run <code>spark providers test --role chat</code>. Rerun setup if the selected provider is missing or pointing to the wrong endpoint.</p></div>
+        <div class="doc-card"><h3>Memory does not stick</h3><p>Run <code>spark verify --deep</code>. Then test <code>/remember</code> and <code>/recall</code> with a unique phrase.</p></div>
+        <div class="doc-card"><h3>Spawner is unreachable</h3><p>Run <code>spark fix spawner</code>, then <code>spark live status</code>. The user-friendly error is "Mission Control is offline."</p></div>
+        <div class="doc-card"><h3>Update failed</h3><p>Run <code>spark security audit</code> and <code>spark logs</code>. If a trust scan blocks a test fixture, update Spark before bypassing anything.</p></div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>When to use LLM Doctor.</h2>
+      <p>Use the LLM doctor after the basic checks show a real problem and the normal fix command did not solve it.</p>
+      <pre class="docs-code">spark doctor llm "Telegram bot is quiet after restart" --save-report
+spark doctor llm "Spawner says ECONNREFUSED on 5173" --include-logs --save-report</pre>
+      <div class="doc-callout">
+        <h3>Privacy rule</h3>
+        <p>Doctor redacts secrets before sending context to the user's configured LLM. Logs are excluded unless the user opts in.</p>
+      </div>
+    </section>
+  </article>
+</main>
+</body>
+</html>

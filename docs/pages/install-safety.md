@@ -2,7 +2,7 @@
 title: Spark Install Safety
 slug: install-safety
 status: published
-verified_at: "2026-04-27T00:00:00Z"
+verified_at: "2026-04-29T00:00:00Z"
 verified_by: codex@sparkswarm.ai
 authority_level: L3
 canonical_for:
@@ -12,11 +12,11 @@ sources:
   - id: 3a6c16a6-ae2f-4f00-8ccd-4d75857ef410
     url: "https://agent.sparkswarm.ai/install/checksums.txt"
     type: checksum-manifest
-    fetched_at: "2026-04-27T00:00:00Z"
+    fetched_at: "2026-04-29T00:00:00Z"
   - id: 81c4c7ef-2642-4f42-b8b2-0d86abf4e6f7
     url: "https://agent.sparkswarm.ai/install/release-manifest.json"
     type: release-manifest
-    fetched_at: "2026-04-27T00:00:00Z"
+    fetched_at: "2026-04-29T00:00:00Z"
 ---
 
 # Spark Install Safety

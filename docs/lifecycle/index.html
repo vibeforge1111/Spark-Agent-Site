@@ -30,8 +30,12 @@
     <div class="docs-nav-links">
       <a href="/docs/">Overview</a>
       <a href="/docs/install-safety/">Install</a>
-      <a href="/docs/suites/">Suites</a>
+      <a href="/docs/commands/">Commands</a>
+      <a href="/docs/providers/">Providers</a>
+      <a href="/docs/suites/">Modules</a>
       <a href="/docs/lifecycle/">Fix</a>
+      <a href="/docs/troubleshooting/">Troubleshooting</a>
+      <a href="/docs/security/">Security</a>
       <a href="/docs/self-improvement/">Improve</a>
       <a href="/llms.txt">Agents</a>
     </div>
@@ -51,15 +55,16 @@
     <section class="doc-section">
       <h2>The daily health path.</h2>
       <div class="doc-flowline" aria-label="Spark health flow">
-        <span>Status</span>
+        <span>Spark Live</span>
         <span>Provider</span>
         <span>Telegram</span>
         <span>Memory</span>
         <span>Missions</span>
       </div>
       <pre class="docs-code">spark guide
-spark status
+spark live status
 spark providers status
+spark providers test --role chat
 spark verify --onboarding</pre>
     </section>
 
@@ -69,14 +74,16 @@ spark verify --onboarding</pre>
         <div class="doc-card"><h3>No Telegram reply</h3><p>Run <code>spark fix telegram</code>, then <code>spark logs spark-telegram-bot</code>.</p><p>Check token, admin ID, and duplicate polling.</p></div>
         <div class="doc-card"><h3>Only memory labels</h3><p>Run <code>spark providers status</code> and <code>spark verify --deep</code>.</p><p>The LLM role or memory bridge may not be wired.</p></div>
         <div class="doc-card"><h3>Memory missing</h3><p>Send <code>/remember</code> and <code>/recall</code>. Then run <code>spark verify --deep</code>.</p></div>
-        <div class="doc-card"><h3>Missions missing</h3><p>Send <code>/run</code>, then <code>/board</code>. If nothing appears, run <code>spark verify --deep</code>.</p></div>
+        <div class="doc-card"><h3>Missions missing</h3><p>Send <code>/run</code>, then <code>/board</code>. If nothing appears, run <code>spark fix spawner</code>.</p></div>
       </div>
     </section>
 
     <section class="doc-section">
       <h2>Autostart and uninstall.</h2>
       <div class="doc-grid">
-        <div class="doc-card"><h3>Autostart</h3><pre class="docs-code">spark autostart status
+        <div class="doc-card"><h3>Spark Live and autostart</h3><pre class="docs-code">spark live start
+spark live status
+spark autostart status
 spark autostart uninstall
 spark autostart install telegram-starter --now</pre></div>
         <div class="doc-card"><h3>Uninstall</h3><pre class="docs-code">spark autostart uninstall
