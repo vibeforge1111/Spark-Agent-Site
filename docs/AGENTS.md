@@ -98,7 +98,7 @@ Do not invent a one-click chip command if it has not been verified. Ask the loca
 
 ## Current Installer Pins
 
-- Spark CLI commit: `661be3f835e4629d82fd883a11364db4aebae1f8`
+- Spark CLI commit: `428b3ead181c4acba2e2da4aa9fee17b072175a0`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
