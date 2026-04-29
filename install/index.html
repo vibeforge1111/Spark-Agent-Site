@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/install/install.css?v=20260429-logo">
+<link rel="stylesheet" href="/install/install.css?v=20260429-update">
 </head>
 <body>
 
@@ -143,26 +143,35 @@
     <section class="section split">
       <div>
         <span class="eyebrow">Already installed?</span>
-        <h2>Upgrade without starting over.</h2>
-        <p class="section-lead">Use upgrade mode when docs mention a command your local Spark does not know yet. Run the dry-run first if you want to preview the changes.</p>
+        <h2>Update Spark.</h2>
+        <p class="section-lead">If Spark is already on your computer, start with the normal update command. It keeps your existing setup, pulls the latest modules, and avoids making you reinstall from scratch.</p>
       </div>
       <div class="mini-commands">
-        <div>
-          <span>Mac / Linux / WSL dry-run</span>
-          <code>bash spark-install.sh --dry-run --upgrade-existing</code>
-        </div>
-        <div>
-          <span>Mac / Linux / WSL upgrade</span>
-          <code>bash spark-install.sh --upgrade-existing</code>
-        </div>
-        <div>
-          <span>Windows dry-run</span>
-          <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun -UpgradeExisting</code>
-        </div>
-        <div>
-          <span>Windows upgrade</span>
-          <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -UpgradeExisting</code>
-        </div>
+        <article class="update-primary">
+          <span>Normal update</span>
+          <code>spark update</code>
+          <p>Use this when Spark already works and you just want the newest fixes.</p>
+        </article>
+        <article>
+          <span>After updating</span>
+          <code>spark verify --onboarding</code>
+          <p>Checks Telegram, providers, memory, Spark Live, and missions.</p>
+        </article>
+        <details class="fallback-upgrade">
+          <summary>Installer fallback for very old Spark installs</summary>
+          <p>Use this only when your local Spark does not know <code>spark update</code> or another command from the docs.</p>
+          <div class="fallback-grid">
+            <div>
+              <span>Mac / Linux / WSL</span>
+              <code>bash spark-install.sh --upgrade-existing</code>
+            </div>
+            <div>
+              <span>Windows</span>
+              <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -UpgradeExisting</code>
+            </div>
+          </div>
+          <p class="fallback-note">Want to preview first? Add <code>--dry-run</code> on Mac/Linux/WSL or <code>-DryRun</code> on Windows.</p>
+        </details>
       </div>
     </section>
 

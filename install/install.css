@@ -366,24 +366,67 @@ pre {
   gap: 10px;
 }
 
-.mini-commands div {
+.mini-commands article,
+.fallback-upgrade {
   display: grid;
   gap: 7px;
   padding: 14px;
 }
 
-.mini-commands span {
+.mini-commands span,
+.fallback-upgrade summary {
   color: var(--text-muted);
   font: 700 11px var(--font-mono);
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
-.mini-commands code {
+.mini-commands code,
+.fallback-upgrade code {
   color: var(--text);
   overflow-wrap: anywhere;
   font-size: 13px;
   line-height: 1.55;
+}
+
+.mini-commands p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.update-primary {
+  border-color: color-mix(in srgb, var(--accent) 52%, var(--border));
+  background: linear-gradient(180deg, var(--accent-soft), rgba(24, 28, 38, 0.86));
+}
+
+.fallback-upgrade {
+  background: rgba(10, 12, 18, 0.42);
+}
+
+.fallback-upgrade summary {
+  cursor: pointer;
+  color: var(--iris);
+}
+
+.fallback-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.fallback-grid div {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 12px;
+  background: rgba(24, 28, 38, 0.7);
+}
+
+.fallback-note {
+  margin-top: 2px;
 }
 
 .help-section h2 {
@@ -424,7 +467,8 @@ pre {
   }
 
   .command-grid,
-  .help-grid {
+  .help-grid,
+  .fallback-grid {
     grid-template-columns: 1fr;
   }
 
