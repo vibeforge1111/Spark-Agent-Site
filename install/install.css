@@ -260,11 +260,19 @@ h1 {
   line-height: 1.7;
 }
 
-.command-grid {
+.command-grid,
+.manual-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin-top: 24px;
+}
+
+.command-grid {
+  grid-template-columns: 1fr;
+}
+
+.manual-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .command-card {
@@ -277,6 +285,41 @@ h1 {
 .command-card.featured {
   border-color: color-mix(in srgb, var(--accent) 54%, var(--border));
   background: linear-gradient(180deg, var(--accent-soft), rgba(24, 28, 38, 0.86));
+}
+
+.agent-card {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+}
+
+.agent-card pre {
+  min-height: 0;
+  grid-column: 1 / -1;
+}
+
+.manual-install {
+  display: grid;
+  grid-template-columns: 0.76fr 1.24fr;
+  gap: 24px;
+  align-items: start;
+  margin-top: 30px;
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+}
+
+.manual-install h3 {
+  max-width: 480px;
+  color: var(--text-bright);
+  font-size: clamp(22px, 2.5vw, 30px);
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+}
+
+.manual-install p {
+  max-width: 520px;
+  margin-top: 12px;
+  color: var(--text-secondary);
+  line-height: 1.65;
 }
 
 .card-head {
@@ -467,8 +510,17 @@ pre {
   }
 
   .command-grid,
+  .manual-grid,
   .help-grid,
   .fallback-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .manual-install {
+    grid-template-columns: 1fr;
+  }
+
+  .agent-card {
     grid-template-columns: 1fr;
   }
 

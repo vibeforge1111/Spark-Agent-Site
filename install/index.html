@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/install/install.css?v=20260429-update">
+<link rel="stylesheet" href="/install/install.css?v=20260429-agent-first">
 </head>
 <body>
 
@@ -51,12 +51,12 @@
         <span class="eyebrow">Guided first install</span>
         <h1>Install Spark without guessing.</h1>
         <p class="hero-lead">
-          <span>Copy one command. Spark shows the plan first.</span>
-          <span>Then connect Telegram and your model.</span>
-          <span>Spark Live, memory, and missions come next.</span>
+          <span>Strongly recommended: let Codex, Claude Code, or another local agent guide the install.</span>
+          <span>It can read the docs, explain the plan, and help with Telegram and model setup.</span>
+          <span>Manual commands are still here if you want them.</span>
         </p>
         <div class="hero-actions">
-          <a class="primary-link" href="#commands">Copy install command</a>
+          <a class="primary-link" href="#commands">Copy agent prompt</a>
           <a class="secondary-link" href="/docs/install-safety/">See what it changes</a>
         </div>
       </div>
@@ -64,27 +64,36 @@
         <h2>What you need ready</h2>
         <ul>
           <li>Telegram app and access to <code>@BotFather</code></li>
-          <li>One LLM path: Codex CLI, Claude Code, OpenRouter, Z.AI, MiniMax, Hugging Face, LM Studio, or Ollama</li>
-          <li>A terminal: PowerShell on Windows, Terminal on Mac/Linux/WSL</li>
+          <li>Recommended: Codex, Claude Code, Cursor, or another local agent terminal</li>
+          <li>One model path: subscription, API key, OpenRouter, Z.AI, MiniMax, Hugging Face, LM Studio, or Ollama</li>
         </ul>
       </aside>
     </section>
 
     <section class="section" id="commands">
-      <span class="eyebrow">Step 1</span>
-      <h2>Choose where you are installing.</h2>
-      <p class="section-lead">If you are using Claude, Codex, or another coding agent, give it the agent prompt. If you are installing yourself, use the command for your computer.</p>
+      <span class="eyebrow">Step 1 - recommended</span>
+      <h2>Let your local agent do the setup with you.</h2>
+      <p class="section-lead">This is the easiest route today, and the one we recommend first. Spark needs a model path anyway, and a local agent harness can read the docs, choose the right installer for your computer, explain what will happen, and help you finish setup without guessing.</p>
 
       <div class="command-grid">
-        <article class="command-card featured">
+        <article class="command-card featured agent-card">
           <div class="card-head">
-            <span>Agent prompt</span>
-            <strong>Best for Claude, Codex, Cursor, or any agent terminal</strong>
+            <span>Use this with Codex, Claude Code, Cursor, or another local agent</span>
+            <strong>Recommended path. The agent reads the Spark docs and walks you through the install.</strong>
           </div>
           <pre><code>Install Spark from https://agent.sparkswarm.ai/install. Review the installer plan with me, then finish Telegram BotFather and LLM provider setup.</code></pre>
           <button class="copy-button" type="button" data-copy-label="Copy prompt" data-copy-value="Install Spark from https://agent.sparkswarm.ai/install. Review the installer plan with me, then finish Telegram BotFather and LLM provider setup.">Copy prompt</button>
         </article>
+      </div>
 
+      <div class="manual-install">
+        <div>
+          <span class="eyebrow">Manual fallback</span>
+          <h3>Installing without an agent is possible, but more hands-on.</h3>
+          <p>If you do not have Codex, Claude Code, Cursor, or another local agent harness yet, use the command for your operating system. Spark will still guide you, but you will do more of the setup yourself.</p>
+        </div>
+
+        <div class="manual-grid">
         <article class="command-card">
           <div class="card-head">
             <span>Mac / Linux / WSL</span>
@@ -102,6 +111,7 @@
           <pre><code>iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code></pre>
           <button class="copy-button" type="button" data-copy-label="Copy command" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1'>Copy command</button>
         </article>
+        </div>
       </div>
     </section>
 
