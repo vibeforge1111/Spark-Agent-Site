@@ -2,6 +2,11 @@
   min-height: 100vh;
   padding: 152px var(--side-pad) 88px;
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+  display: grid;
+  grid-template-columns: 210px minmax(0, 900px);
+  align-items: start;
+  justify-content: center;
+  column-gap: clamp(32px, 5vw, 72px);
 }
 
 .docs-wordmark {
@@ -14,25 +19,16 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 0;
-  max-width: min(1040px, var(--container));
-  margin: 0 auto;
-}
-
-@media (min-width: 901px) {
-  .docs-layout,
-  .doc-page {
-    max-width: min(820px, calc(var(--container) - 236px));
-    margin-left: calc(max(var(--side-pad), calc((100vw - var(--container)) / 2)) + 236px);
-    margin-right: auto;
-  }
+  max-width: none;
+  margin: 0;
+  min-width: 0;
 }
 
 .docs-nav {
-  position: fixed;
-  top: 112px;
-  left: max(var(--side-pad), calc((100vw - var(--container)) / 2));
+  position: sticky;
+  top: 96px;
   z-index: 90;
-  width: 196px;
+  width: auto;
   display: grid;
   grid-template-columns: 1fr;
   align-items: start;
@@ -388,8 +384,9 @@
 }
 
 .doc-page {
-  max-width: min(980px, var(--container));
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
+  min-width: 0;
 }
 
 .doc-hero {
@@ -628,15 +625,17 @@
   .doc-flowline span::before { animation: none; }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 980px) {
   .docs-shell { padding-top: 152px; }
+  .docs-shell {
+    display: block;
+  }
   .docs-nav {
-    top: 72px;
-    left: 50%;
-    width: min(calc(100% - (2 * var(--side-pad))), 1040px);
-    transform: translateX(-50%);
+    position: static;
+    width: 100%;
     grid-template-columns: 1fr;
     gap: 8px;
+    margin-bottom: 28px;
   }
   .docs-nav p { display: none; }
   .docs-nav-links {
