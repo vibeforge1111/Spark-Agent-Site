@@ -70,23 +70,38 @@
         <p class="lead">
           A practical guide for installing Spark, choosing your model, turning on Spark Live, and checking Telegram, memory, and missions.
         </p>
-        <p class="lead">
-          Start with the simple path. Use the deeper pages when you want commands, provider setup, troubleshooting, or security details.
-        </p>
         <div class="docs-meta">
           <span class="docs-pill">updated: 2026-04-29</span>
-          <span class="docs-pill">works on macOS, Linux, WSL, Windows</span>
-          <span class="docs-pill">autostart on by default</span>
-          <span class="docs-pill">tokens stay local</span>
         </div>
       </section>
 
-      <section class="docs-section" id="fast-path">
-        <span class="overline">Fast Path</span>
-        <h2>If you only read one section, read this.</h2>
-        <p>
-          Install Spark from the main install page. The installer downloads to your computer, shows a plan, and asks before it changes anything.
+      <section class="docs-section docs-start-path" id="fast-path">
+        <h2>The easiest way to install Spark.</h2>
+        <p class="docs-start-lead">
+          If you want to install Spark, start by asking an AI coding assistant like <a href="https://help.openai.com/en/collections/13193998-codex-cli">GPT Codex</a>,
+          <a href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code</a>, or another AI coding assistant that can read docs and run terminal commands, read this page or
+          <a href="/">agent.sparkswarm.ai</a> and install Spark with you. It can pick the right command, run the safety preview, and walk you through the setup.
         </p>
+        <div class="docs-copy-block">
+          <p>
+            You can also install Spark yourself with the curl or PowerShell commands on the install page. If you are non-technical, we do not recommend starting there.
+            It is much easier to let GPT Codex, Claude Code, or another coding assistant read the page, explain each step, and help if your computer needs something different.
+          </p>
+          <p>
+            Spark is a local, self-improving agent stack. It gives you a Telegram front door, Spark Live, memory, Researcher, Builder runtime, and Spawner Mission Control.
+            That means you can chat with Spark, save useful memory, research ideas, start builds, and watch work move through Kanban and Canvas instead of losing track in terminal logs.
+          </p>
+          <p>
+            The recursive part is simple: Spark can notice what worked, remember useful lessons, turn repeated patterns into domain chips, and use those chips to get better at the next similar job.
+            Over time, it can help you build tools, learn how those tools work, and reuse that know-how instead of starting from zero every time.
+          </p>
+        </div>
+        <ul class="docs-start-list">
+          <li><strong>You need an LLM path.</strong> Spark can use a subscription-style CLI path such as <a href="https://help.openai.com/en/collections/13193998-codex-cli">OpenAI Codex</a> or <a href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code</a>, an API provider such as <a href="https://docs.z.ai/">Z.AI GLM</a>, <a href="https://platform.moonshot.ai/docs/overview">Kimi</a>, <a href="https://platform.minimax.io/docs">MiniMax</a>, <a href="https://openrouter.ai/docs">OpenRouter</a>, or <a href="https://api-docs.deepseek.com/">DeepSeek</a>, or a local model through <a href="https://ollama.com/">Ollama</a>, <a href="https://lmstudio.ai/">LM Studio</a>, or <a href="https://huggingface.co/docs/api-inference/main/en">Hugging Face</a>.</li>
+          <li><strong>Start with one provider.</strong> During setup, one provider can power chat, memory, runtime reasoning, and missions. You can split agent and mission providers later when you want more control.</li>
+          <li><strong>Use dry run before trust.</strong> The installer can preview the files, repos, versions, checksums, and commands before it writes to your computer. That gives your agent something concrete to inspect.</li>
+          <li><strong>Local models are possible.</strong> For smaller machines, start with <a href="https://huggingface.co/google/gemma-4-31B-it">Gemma 4</a>-class local models. If you have a stronger gaming laptop or workstation, you can try larger local coding models in the 27B range, such as <a href="https://huggingface.co/Qwen/Qwen3.6-27B">Qwen 3.6 27B</a>. Hosted providers are still usually easier for the first successful setup.</li>
+        </ul>
         <div class="docs-paths">
           <a class="docs-path" href="/install">
             <strong>Install Spark</strong>
@@ -108,10 +123,6 @@
             <strong>Choose Models</strong>
             <span>Pick one provider first, then customize later if needed.</span>
           </a>
-        </div>
-        <div class="docs-note">
-          <strong>Golden rule:</strong>
-          <span>Do not paste your Telegram token or LLM key into the website. Give them only to local Spark setup.</span>
         </div>
       </section>
 

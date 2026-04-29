@@ -152,6 +152,60 @@
   margin-bottom: 18px;
 }
 
+.docs-start-path {
+  padding-top: 34px;
+}
+
+.docs-start-lead {
+  color: var(--text-bright) !important;
+  font-size: clamp(18px, 1.8vw, 22px) !important;
+  line-height: 1.62 !important;
+  max-width: 820px !important;
+}
+
+.docs-copy-block {
+  display: grid;
+  gap: 14px;
+  max-width: 820px;
+  margin: 8px 0 18px;
+}
+
+.docs-copy-block p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.docs-start-list {
+  display: grid;
+  gap: 10px;
+  max-width: 840px;
+  margin: 22px 0 26px;
+  padding-left: 20px;
+}
+
+.docs-start-list li {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.docs-start-list strong {
+  color: var(--text);
+}
+
+.docs-start-path a,
+.docs-start-list a {
+  color: var(--accent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+}
+
+.docs-start-path a:hover,
+.docs-start-list a:hover {
+  color: var(--text-bright);
+  border-color: var(--text-bright);
+}
+
 .docs-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
