@@ -565,22 +565,6 @@
   color: var(--text);
 }
 
-.installer-memory-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 16px;
-}
-
-.installer-memory-tags span {
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  color: var(--text-secondary);
-  background: color-mix(in srgb, var(--surface) 74%, transparent);
-  padding: 6px 9px;
-  font: 600 11px var(--font-sans);
-}
-
 .installer-image-card {
   width: min(100%, 370px);
   border: 1px solid var(--border-strong);
@@ -1067,110 +1051,51 @@
   font: 800 21px/1.08 var(--font-sans);
 }
 
-.mission-node-map {
-  min-height: 152px;
-}
-
-.mission-node {
-  position: absolute;
-  z-index: 2;
-  display: grid;
-  gap: 4px;
-  width: 110px;
-  border: 1px solid var(--border-strong);
-  border-radius: 7px;
-  background: color-mix(in srgb, var(--bg) 82%, transparent);
-  padding: 9px 10px;
-  box-shadow: 0 18px 38px -32px rgba(52, 211, 153, 0.55);
-}
-
-.mission-node em {
-  color: var(--accent);
-  font: 850 10px var(--font-mono);
-  letter-spacing: 1.5px;
-  font-style: normal;
-}
-
-.mission-node strong {
-  color: var(--text-bright);
-  font: 800 12px/1.2 var(--font-sans);
-}
-
-.mission-node.input { left: 0; top: 24px; }
-.mission-node.reason {
-  left: 82px;
-  top: 70px;
-  width: 112px;
-  border-color: color-mix(in srgb, var(--accent) 74%, var(--border-strong));
-  background: color-mix(in srgb, var(--accent) 8%, var(--bg));
-}
-.mission-node.memory { right: 0; top: 8px; }
-.mission-node.output { right: 0; bottom: 0; }
-
-.mission-link {
-  position: absolute;
-  z-index: 1;
-  height: 1px;
-  border-top: 2px dashed color-mix(in srgb, var(--accent) 64%, transparent);
-  transform-origin: left center;
-}
-
-.mission-link.one {
-  width: 96px;
-  left: 78px;
-  top: 68px;
-  transform: rotate(18deg);
-}
-
-.mission-link.two {
-  width: 112px;
-  left: 166px;
-  top: 72px;
-  transform: rotate(-26deg);
-}
-
-.mission-link.three {
-  width: 118px;
-  left: 164px;
-  top: 124px;
-  transform: rotate(8deg);
-}
-
-.mission-kanban-mini {
+.mission-kanban-board {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
-  margin-top: 12px;
 }
 
-.mission-kanban-mini span {
+.mission-kanban-lane {
+  min-height: 142px;
   border: 1px solid color-mix(in srgb, var(--border-strong) 86%, transparent);
-  border-radius: 7px;
+  border-radius: 8px;
   background: color-mix(in srgb, var(--bg) 74%, transparent);
-  padding: 9px 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 10px;
+  display: grid;
+  align-content: start;
+  gap: 9px;
 }
 
-.mission-kanban-mini em {
-  color: var(--text-secondary);
-  font: 800 10.5px var(--font-sans);
-  font-style: normal;
+.mission-kanban-lane.active {
+  border-color: color-mix(in srgb, var(--accent) 72%, var(--border-strong));
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+  box-shadow: 0 18px 38px -32px rgba(52, 211, 153, 0.55);
 }
 
-.mission-kanban-mini strong {
+.mission-kanban-lane span {
   color: var(--accent);
-  font: 900 14px var(--font-mono);
+  font: 850 10px var(--font-mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.mission-kanban-lane strong {
+  color: var(--text-bright);
+  font: 800 13px/1.25 var(--font-sans);
+}
+
+.mission-kanban-lane em {
+  align-self: end;
+  color: var(--text-secondary);
+  font: 700 11px/1.2 var(--font-sans);
+  font-style: normal;
+  margin-top: auto;
 }
 
 .installer-visual-memory {
   gap: 12px;
-}
-
-.installer-memory-tags {
-  justify-content: center;
-  margin-top: 0;
 }
 
 .docs-prompt-panel {

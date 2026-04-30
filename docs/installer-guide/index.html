@@ -206,9 +206,6 @@
             <span>Spark learns your taste, habits, and working style so each conversation starts closer to you.</span>
           </figcaption>
         </figure>
-        <div class="installer-memory-tags" aria-hidden="true">
-          <span>preferences</span><span>context</span><span>rhythm</span>
-        </div>
       </div>
       <div>
         <span class="doc-kicker">Step 4</span>
@@ -232,19 +229,22 @@
                 <span>Mission Control</span>
                 <strong>Build work you can see.</strong>
               </div>
-              <div class="mission-node-map">
-                <span class="mission-node input"><em>IN</em><strong>Build request</strong></span>
-                <span class="mission-node reason"><em>LLM</em><strong>Reason + score</strong></span>
-                <span class="mission-node memory"><em>MEM</em><strong>Memory recall</strong></span>
-                <span class="mission-node output"><em>OUT</em><strong>Ship update</strong></span>
-                <span class="mission-link one"></span>
-                <span class="mission-link two"></span>
-                <span class="mission-link three"></span>
-              </div>
-              <div class="mission-kanban-mini">
-                <span><em>Plan</em><strong>1</strong></span>
-                <span><em>Build</em><strong>2</strong></span>
-                <span><em>Done</em><strong>1</strong></span>
+              <div class="mission-kanban-board">
+                <div class="mission-kanban-lane">
+                  <span>Plan</span>
+                  <strong>Sketch the tiny app</strong>
+                  <em>Ready</em>
+                </div>
+                <div class="mission-kanban-lane active">
+                  <span>Build</span>
+                  <strong>Generate the first version</strong>
+                  <em>In progress</em>
+                </div>
+                <div class="mission-kanban-lane">
+                  <span>Review</span>
+                  <strong>Test and polish</strong>
+                  <em>Next</em>
+                </div>
               </div>
             </div>
           </div>
