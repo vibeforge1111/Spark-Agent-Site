@@ -1467,6 +1467,167 @@
 .doc-flowline span:nth-child(4)::before { animation-delay: 0.75s; }
 .doc-flowline span:nth-child(5)::before { animation-delay: 1s; }
 
+.safety-visual {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 24px 0 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background:
+    linear-gradient(color-mix(in srgb, var(--border) 34%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 34%, transparent) 1px, transparent 1px),
+    color-mix(in srgb, var(--surface) 78%, transparent);
+  background-size: 32px 32px;
+  padding: 14px;
+}
+
+.safety-stage {
+  min-height: 142px;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 82%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  padding: 14px;
+  display: grid;
+  align-content: start;
+  gap: 9px;
+}
+
+.safety-stage.is-active {
+  border-color: color-mix(in srgb, var(--accent) 64%, var(--border-strong));
+  background: color-mix(in srgb, var(--accent) 9%, var(--bg));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.safety-stage span {
+  color: var(--accent);
+  font: 800 11px var(--font-mono);
+  letter-spacing: 1px;
+}
+
+.safety-stage strong {
+  color: var(--text-bright);
+  font: 750 15px/1.2 var(--font-sans);
+}
+
+.safety-stage p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.safety-command-grid,
+.safety-scope-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.safety-command-card,
+.safety-scope-card {
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  padding: 18px;
+  min-width: 0;
+}
+
+.safety-command-card h3,
+.safety-scope-card h3 {
+  color: var(--text);
+  font: 700 16px var(--font-sans);
+  margin-bottom: 10px;
+}
+
+.command-list {
+  display: grid;
+  gap: 8px;
+  margin: 13px 0 12px;
+}
+
+.command-list code {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 76%, transparent);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--bg-deep) 86%, transparent);
+  color: var(--text);
+  font: 650 12px/1.55 var(--font-mono);
+  padding: 10px 11px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.safety-command-card p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.safety-scope-card ul {
+  margin: 0;
+  padding-left: 17px;
+}
+
+.safety-scope-card li {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.62;
+  margin-bottom: 7px;
+}
+
+.access-level-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.access-level-list div {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 170px) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 78%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  padding: 14px;
+}
+
+.access-level-list div.is-recommended {
+  border-color: color-mix(in srgb, var(--accent) 52%, var(--border-strong));
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+}
+
+.access-level-list span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, var(--border-strong));
+  border-radius: 7px;
+  color: var(--accent);
+  font: 800 12px var(--font-mono);
+}
+
+.access-level-list strong {
+  color: var(--text);
+  font: 700 15px/1.35 var(--font-sans);
+}
+
+.access-level-list p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.safety-note { margin-top: 16px; }
+
 .doc-steps {
   display: grid;
   gap: 12px;
@@ -1637,6 +1798,19 @@
   .docs-flow span:not(:last-child)::after { display: none; }
   .doc-grid,
   .doc-grid-3 { grid-template-columns: 1fr; }
+  .safety-visual {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .safety-command-grid,
+  .safety-scope-grid {
+    grid-template-columns: 1fr;
+  }
+  .access-level-list div {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+  .access-level-list p {
+    grid-column: 2;
+  }
   .doc-flowline { grid-template-columns: 1fr; }
   .installer-step {
     grid-template-columns: 1fr;
@@ -1706,6 +1880,12 @@
   }
   .installer-role-map {
     grid-template-columns: 1fr;
+  }
+  .safety-visual {
+    grid-template-columns: 1fr;
+  }
+  .safety-stage {
+    min-height: 0;
   }
   .docs-card,
   .doc-card,

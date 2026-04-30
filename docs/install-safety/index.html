@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260430-docs-system">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-install-safety">
 </head>
 <body>
 
@@ -72,90 +72,112 @@
     </section>
 
     <section class="doc-section">
-      <h2>The safe path.</h2>
-      <p>This is the install flow we want humans and agents to follow.</p>
-      <div class="doc-flowline" aria-label="Safe install flow">
-        <span>Download</span>
-        <span>Verify</span>
-        <span>Dry-run</span>
-        <span>Install</span>
-        <span>Check</span>
-      </div>
-      <div class="doc-callout">
-        <h3>Golden rule</h3>
-        <p>Do not paste Telegram tokens or LLM keys into the website. Give secrets only to local Spark setup.</p>
+      <h2>The safety flow.</h2>
+      <p>The safest way to install Spark is to preview the installer before it changes anything. Ask Codex, Claude Code, or another coding assistant on your computer to open this page, run the dry-run, and explain the plan in normal language.</p>
+      <div class="safety-visual" aria-label="Spark safe install flow">
+        <div class="safety-stage">
+          <span>01</span>
+          <strong>Download</strong>
+          <p>Get the installer from agent.sparkswarm.ai.</p>
+        </div>
+        <div class="safety-stage">
+          <span>02</span>
+          <strong>Verify</strong>
+          <p>Compare checksums and release metadata.</p>
+        </div>
+        <div class="safety-stage is-active">
+          <span>03</span>
+          <strong>Dry-run</strong>
+          <p>See files, repos, versions, and commands first.</p>
+        </div>
+        <div class="safety-stage">
+          <span>04</span>
+          <strong>Install</strong>
+          <p>Continue only after the plan looks right.</p>
+        </div>
+        <div class="safety-stage">
+          <span>05</span>
+          <strong>Check</strong>
+          <p>Run Spark verify and confirm the bot responds.</p>
+        </div>
       </div>
     </section>
 
     <section class="doc-section">
-      <h2>Human steps.</h2>
-      <div class="doc-grid">
-        <div class="doc-card">
+      <h2>Dry-run first.</h2>
+      <p>These commands are meant to be readable by both people and local coding assistants. The dry-run should show what Spark would download, where it would install, which versions it would use, and which commands it would run.</p>
+      <div class="safety-command-grid">
+        <div class="safety-command-card">
           <span class="doc-kicker">macOS, Linux, WSL</span>
-          <h3>Download, dry-run, install</h3>
-          <pre class="docs-code">curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh
-bash spark-install.sh --dry-run
-bash spark-install.sh</pre>
+          <h3>New install preview</h3>
+          <div class="command-list">
+            <code>curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh</code>
+            <code>bash spark-install.sh --dry-run</code>
+          </div>
+          <p>After the preview looks safe, run <code>bash spark-install.sh</code>.</p>
         </div>
-        <div class="doc-card">
+        <div class="safety-command-card">
           <span class="doc-kicker">Windows</span>
-          <h3>Download, dry-run, install</h3>
-          <pre class="docs-code">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun
-powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</pre>
+          <h3>New install preview</h3>
+          <div class="command-list">
+            <code>iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1</code>
+            <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun</code>
+          </div>
+          <p>After the preview looks safe, run the same command without <code>-DryRun</code>.</p>
         </div>
-        <div class="doc-card">
+        <div class="safety-command-card">
           <span class="doc-kicker">Existing install</span>
-          <h3>Upgrade after a dry-run</h3>
-          <pre class="docs-code">bash spark-install.sh --dry-run --upgrade-existing
-bash spark-install.sh --upgrade-existing</pre>
-          <p>Use this when Spark is already installed and your local CLI is missing newer commands from the docs.</p>
+          <h3>Upgrade preview</h3>
+          <div class="command-list">
+            <code>bash spark-install.sh --dry-run --upgrade-existing</code>
+            <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun -UpgradeExisting</code>
+          </div>
+          <p>Use upgrade mode when you already have Spark and want to preview what would change before updating.</p>
         </div>
       </div>
     </section>
 
     <section class="doc-section">
-      <h2>What Spark may touch.</h2>
-      <div class="doc-grid">
-        <div class="doc-card">
-          <h3>Network</h3>
+      <h2>What the installer is allowed to do.</h2>
+      <p>A safe installer should be boring and predictable. Spark should only talk to expected places, write inside the Spark folder, and make startup changes only when setup says it will.</p>
+      <div class="safety-scope-grid">
+        <div class="safety-scope-card">
+          <h3>Downloads</h3>
           <ul>
-            <li><code>agent.sparkswarm.ai</code></li>
-            <li><code>github.com/vibeforge1111/spark-cli</code></li>
-            <li><code>github.com/astral-sh/uv</code></li>
-            <li><code>nodejs.org</code></li>
+            <li><code>agent.sparkswarm.ai</code> for the installer and metadata.</li>
+            <li><code>github.com/vibeforge1111/spark-cli</code> for the pinned Spark CLI release.</li>
+            <li><code>nodejs.org</code> and <code>github.com/astral-sh/uv</code> when managed runtimes are needed.</li>
           </ul>
         </div>
-        <div class="doc-card">
+        <div class="safety-scope-card">
           <h3>Local files</h3>
           <ul>
-            <li><code>~/.spark</code> on macOS, Linux, and WSL.</li>
-            <li><code>%USERPROFILE%\.spark</code> on Windows.</li>
-            <li>Autostart files when autostart is enabled.</li>
-            <li>Install logs under the Spark folder.</li>
+            <li>Spark installs into <code>~/.spark</code> on macOS, Linux, and WSL.</li>
+            <li>On Windows, Spark installs into <code>%USERPROFILE%\.spark</code>.</li>
+            <li>Logs, module sources, configs, and local state stay under that Spark home.</li>
           </ul>
         </div>
-      </div>
-      <div class="doc-callout" data-tone="test">
-        <h3>Needs testing</h3>
-        <p>We should keep running production installer smoke tests whenever this list changes. New network destinations should be treated as a security review item.</p>
+        <div class="safety-scope-card">
+          <h3>Startup</h3>
+          <ul>
+            <li>Autostart can turn Spark Live on when the computer logs in.</li>
+            <li>The dry-run should say whether startup files would be created or changed.</li>
+            <li>You can turn it off later with <code>spark autostart uninstall</code>.</li>
+          </ul>
+        </div>
       </div>
     </section>
 
     <section class="doc-section">
-      <h2>Agent install schema.</h2>
-      <p>Use this shape when an agent explains the install plan to a user.</p>
-      <div class="doc-schema">
-        <header><span>spark-install-plan.v1</span><span>for agents</span></header>
-        <pre>{
-  "downloaded": ["install.sh or install.ps1"],
-  "verified": ["sha256", "attestation if available", "signature if available"],
-  "dryRunShown": true,
-  "writes": ["~/.spark or %USERPROFILE%\\.spark", "autostart files if enabled"],
-  "secretsStayLocal": true,
-  "needsUserApprovalBeforeInstall": true
-}</pre>
+      <h2>Access levels after install.</h2>
+      <p>Install safety is only the first layer. After your Telegram bot is connected, Spark asks what access level you want. Most people should start with Level 3.</p>
+      <div class="access-level-list">
+        <div><span>1</span><strong>Chat only</strong><p>Spark can talk with you, but it will not build or inspect outside chat.</p></div>
+        <div><span>2</span><strong>Build when asked</strong><p>Spark can start build work only when you explicitly ask for it.</p></div>
+        <div class="is-recommended"><span>3</span><strong>Research + build (recommended)</strong><p>Spark can inspect public links, docs, and repos when you ask, and can use Mission Control for builds.</p></div>
+        <div><span>4</span><strong>Full access</strong><p>For advanced local use. Spark can use broader operating-system tools, with guardrails and user approval for sensitive actions.</p></div>
       </div>
+      <p class="safety-note">You can change this later from Telegram with <code>/access 1</code>, <code>/access 2</code>, <code>/access 3</code>, or <code>/access 4</code>.</p>
     </section>
   </article>
 </main>
