@@ -1907,20 +1907,6 @@ body {
   .brick-note { font-size: 11px; }
 }
 
-.modules-foot {
-  margin-top: 36px;
-  text-align: center;
-  font: 500 13px var(--font-mono);
-  color: var(--text-tertiary);
-  letter-spacing: 0.5px;
-}
-.modules-foot a {
-  color: var(--accent);
-  margin-left: 4px;
-  border-bottom: 1px solid transparent;
-  transition: border-color var(--t-fast);
-}
-.modules-foot a:hover { border-color: var(--accent); }
 .dot-pulse {
   display: inline-block;
   width: 6px; height: 6px; border-radius: 50%;
