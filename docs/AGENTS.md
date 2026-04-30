@@ -1,5 +1,7 @@
 # Spark Agent Docs
 
+This page is for agents. If you are human, this is not for you. :)
+
 This is the agent-readable entry point for `agent.sparkswarm.ai/docs`.
 
 Keep answers short, plain, and action-focused.

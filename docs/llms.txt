@@ -1,5 +1,7 @@
 # Spark Agent Docs
 
+This page is for agents. If you are human, this is not for you. :)
+
 > Plain-English docs for installing, checking, fixing, and explaining Spark Agent.
 
 ## Start Here
