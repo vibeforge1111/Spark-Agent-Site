@@ -102,34 +102,43 @@
       <div class="installer-visual installer-visual-models" aria-hidden="true">
         <figure class="installer-image-card installer-art-card">
           <div class="installer-art installer-art-providers">
-            <span class="provider-chip codex">Codex</span>
-            <span class="provider-chip claude">Claude</span>
-            <span class="provider-chip glm">GLM</span>
-            <span class="provider-chip minimax">MiniMax</span>
-            <span class="provider-chip kimi">Kimi</span>
-            <span class="provider-chip local">Local</span>
-            <span class="provider-core">Spark</span>
+            <div class="provider-choice-card">
+              <div class="provider-choice-top">
+                <span>Default provider</span>
+                <strong>Start with one brain.</strong>
+              </div>
+              <div class="provider-logo-grid">
+                <span class="provider-logo-card"><img src="/docs/assets/providers/openai.svg" alt=""><strong>OpenAI Codex</strong></span>
+                <span class="provider-logo-card"><img src="/docs/assets/providers/anthropic.svg" alt=""><strong>Claude</strong></span>
+                <span class="provider-logo-card brand-zai"><img src="/docs/assets/providers/zai.svg" alt=""><strong>GLM</strong></span>
+                <span class="provider-logo-card"><img src="/docs/assets/providers/minimax.svg" alt=""><strong>MiniMax</strong></span>
+                <span class="provider-logo-card text-logo"><strong>Kimi</strong></span>
+                <span class="provider-logo-card"><img src="/docs/assets/providers/gemini.svg" alt=""><strong>Gemma</strong></span>
+              </div>
+              <div class="provider-split-map">
+                <span><strong>Agent</strong><em>chat + reasoning + memory</em></span>
+                <span><strong>Builder</strong><em>missions + tools to build</em></span>
+              </div>
+            </div>
           </div>
           <figcaption>
-          <div class="installer-panel-kicker">One default brain</div>
-          <h3>Start with one provider.</h3>
-          <div class="installer-role-map">
-            <span><strong>Agent</strong> chat + reasoning</span>
-            <span><strong>Memory</strong> recall + preferences</span>
-            <span><strong>Build</strong> missions + tools</span>
-          </div>
+            <div class="installer-panel-kicker">One default brain</div>
+            <h3>Pick once, customize later.</h3>
+            <p>Most people should choose one provider first. Spark can use it for the bot, memory, and building until you decide to split roles.</p>
           </figcaption>
         </figure>
       </div>
       <div>
         <span class="doc-kicker">Step 2</span>
         <h2>Choose the LLM Spark will use.</h2>
-        <p>Start simple: choose one default LLM brain for Spark. That can power the agent chat, memory, runtime reasoning, and build sessions while you are getting started.</p>
+        <p>Start simple: choose one default LLM brain for Spark. That can power the agent chat, memory, reasoning, and build sessions while you are getting started.</p>
         <ul>
-          <li>Later, you can tell Spark to use one model for chat and another model for building.</li>
+          <li><strong>Agent</strong> means normal chat, reasoning, preferences, and memory.</li>
+          <li><strong>Builder</strong> means missions, tools, code work, and project creation.</li>
+          <li>Later, you can use one model for Agent and another model for Builder.</li>
           <li>If you already have a Codex or Claude Code subscription, tell it to connect that with Spark.</li>
-          <li>Use an API key if you prefer Z.AI GLM, Kimi, MiniMax, OpenRouter, or DeepSeek-compatible routes.</li>
-          <li>Use local models through Ollama, LM Studio, or Hugging Face when your computer is strong enough.</li>
+          <li>Use an API key if you prefer Z.AI GLM, Kimi, MiniMax, Gemma, OpenRouter, or DeepSeek-compatible routes.</li>
+          <li>Use local models through Ollama, LM Studio, Hugging Face, or Gemma when your computer is strong enough.</li>
         </ul>
       </div>
     </section>

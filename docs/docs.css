@@ -611,6 +611,13 @@
   line-height: 1.5;
 }
 
+.installer-image-card figcaption p {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
 .installer-art {
   position: relative;
   min-height: 210px;
@@ -687,39 +694,113 @@
 .installer-art-providers {
   display: grid;
   place-items: center;
+  padding: 18px;
 }
 
-.provider-core {
+.provider-choice-card {
   position: relative;
-  z-index: 2;
+  z-index: 1;
+  width: min(100%, 336px);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 58%, transparent), color-mix(in srgb, var(--bg) 84%, transparent));
+  color: var(--text);
+  padding: 14px;
+}
+
+.provider-choice-top {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.provider-choice-top span {
+  color: var(--accent);
+  font: 800 10px var(--font-mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.provider-choice-top strong {
+  color: var(--text-bright);
+  font: 800 21px/1.05 var(--font-sans);
+}
+
+.provider-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.provider-logo-card {
+  min-height: 74px;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 86%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bg) 74%, transparent);
+  color: var(--text);
   display: grid;
   place-items: center;
-  width: 92px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--border-strong));
-  background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+  align-content: center;
+  gap: 7px;
+  padding: 9px 6px;
+  text-align: center;
+}
+
+.provider-logo-card img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.provider-logo-card.brand-zai img {
+  filter: none;
+}
+
+.provider-logo-card strong {
+  font: 800 10.5px/1.15 var(--font-sans);
+}
+
+.provider-logo-card.text-logo strong {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 25px;
   color: var(--text-bright);
-  font: 800 17px var(--font-sans);
+  font: 900 15px var(--font-sans);
 }
 
-.provider-chip {
-  position: absolute;
-  z-index: 2;
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--bg) 82%, transparent);
-  color: var(--text);
-  padding: 8px 10px;
-  font: 700 12px var(--font-sans);
+.provider-split-map {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
 }
 
-.provider-chip.codex { top: 34px; left: 34px; color: var(--accent); }
-.provider-chip.claude { top: 36px; right: 34px; color: var(--iris); }
-.provider-chip.glm { left: 26px; bottom: 70px; }
-.provider-chip.minimax { right: 24px; bottom: 70px; }
-.provider-chip.kimi { left: 50%; bottom: 28px; transform: translateX(-50%); }
-.provider-chip.local { top: 88px; left: 50%; transform: translateX(-50%); color: var(--text-secondary); }
+.provider-split-map span {
+  border-left: 2px solid color-mix(in srgb, var(--accent) 58%, var(--border-strong));
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border-radius: 6px;
+  padding: 9px 10px;
+}
+
+.provider-split-map strong,
+.provider-split-map em {
+  display: block;
+}
+
+.provider-split-map strong {
+  color: var(--text-bright);
+  font: 800 13px var(--font-sans);
+}
+
+.provider-split-map em {
+  color: var(--text-secondary);
+  font: 650 10.5px/1.35 var(--font-sans);
+  font-style: normal;
+  margin-top: 2px;
+}
 
 .installer-art-telegram {
   display: grid;
