@@ -134,9 +134,7 @@
   margin: 30px 0 10px;
   border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--border-strong));
   border-radius: 8px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 42%),
-    color-mix(in srgb, var(--surface) 90%, transparent);
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
   padding: clamp(18px, 3vw, 28px);
   overflow: hidden;
   box-shadow: 0 24px 72px -48px rgba(0, 0, 0, 0.82);
@@ -144,9 +142,7 @@
 
 .docs-install-banner:hover {
   border-color: color-mix(in srgb, var(--accent) 60%, var(--border-strong));
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, transparent), transparent 45%),
-    color-mix(in srgb, var(--surface) 94%, transparent);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
 }
 
 .docs-install-banner-visual {
@@ -462,9 +458,7 @@
 
 .docs-path-primary {
   border-color: color-mix(in srgb, var(--accent) 52%, var(--border-strong));
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 58%),
-    color-mix(in srgb, var(--surface) 58%, transparent);
+  background: color-mix(in srgb, var(--surface) 58%, transparent);
 }
 
 .docs-path strong {
@@ -1664,6 +1658,9 @@
     padding-top: 136px;
     max-width: 100vw;
     overflow-x: hidden;
+  }
+  .topbar .topbar-right {
+    display: none;
   }
   .docs-main,
   .docs-layout,
