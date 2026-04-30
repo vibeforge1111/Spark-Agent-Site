@@ -62,7 +62,7 @@
     <section class="doc-hero installer-guide-hero">
       <span class="overline">Guided Installer</span>
       <h1>Install Spark in five calm steps.</h1>
-      <p>This page is for people who want Spark installed without decoding a wall of terminal commands. Let GPT Codex, Claude Code, or another coding assistant follow it with you.</p>
+      <p>This page is for people who want Spark installed without decoding a wall of terminal commands. Let Codex, Claude Code, or another AI coding assistant follow it with you.</p>
       <div class="doc-mini-nav">
         <a href="/install">Open Install Page</a>
         <a href="/docs/install-safety/">Safety Details</a>
@@ -75,10 +75,10 @@
       <p>Popular app onboarding works best when every screen has one job. Spark should do the same: show the next step, say why it matters, then help the user confirm it worked.</p>
       <div class="installer-flow-strip" aria-label="Spark installer guide steps">
         <span>Helper</span>
-        <span>Preview</span>
         <span>Models</span>
         <span>Telegram</span>
-        <span>First Run</span>
+        <span>Chat</span>
+        <span>Build</span>
       </div>
     </section>
 
@@ -92,8 +92,8 @@
       </div>
       <div>
         <span class="doc-kicker">Step 1</span>
-        <h2>Tell Codex, Claude Code, or your agent harness to install Spark.</h2>
-        <p>The easiest path is to ask GPT Codex, Claude Code, or another coding assistant to read this guide or agent.sparkswarm.ai and install Spark with you. They can usually get you through setup in a few minutes and explain what is happening as they go.</p>
+        <h2>Tell Codex, Claude Code, or your setup assistant to install Spark.</h2>
+        <p>The easiest path is to ask an AI coding assistant like Codex or Claude Code to read this guide or agent.sparkswarm.ai and install Spark with you. They can usually get you through setup in a few minutes and explain what is happening as they go.</p>
         <ul>
           <li>The assistant picks the right Mac, Linux, WSL, or Windows install path.</li>
           <li>It can run the dry run first, so you can check whether the download and installer look secure before installing.</li>
@@ -104,43 +104,22 @@
 
     <section class="installer-step">
       <div class="installer-visual" aria-hidden="true">
-        <div class="mock-terminal">
-          <span>$ spark installer dry run</span>
-          <span class="ok">OK checksum verified</span>
-          <span class="ok">OK pinned CLI version</span>
-          <span class="soft">No files changed yet</span>
+        <div class="mock-choice">
+          <div class="mock-choice-row active">Default brain for everything</div>
+          <div class="mock-choice-row">Agent chat + memory</div>
+          <div class="mock-choice-row">Build missions</div>
+          <div class="mock-choice-row">Local or hosted models</div>
         </div>
       </div>
       <div>
         <span class="doc-kicker">Step 2</span>
-        <h2>Preview before installing.</h2>
-        <p>Spark has a dry-run path so the user and their assistant can see what will happen before anything is written.</p>
+        <h2>Choose the LLM Spark will use.</h2>
+        <p>Start simple: choose one default LLM brain for Spark. That can power the agent chat, memory, runtime reasoning, and build sessions while you are getting started.</p>
         <ul>
-          <li>Which script is downloaded.</li>
-          <li>Which repos and versions are used.</li>
-          <li>Which local folder Spark will write to.</li>
-          <li>Whether startup will be enabled.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="installer-step">
-      <div class="installer-visual" aria-hidden="true">
-        <div class="mock-choice">
-          <div class="mock-choice-row active">One provider for everything</div>
-          <div class="mock-choice-row">OpenAI Codex or Claude Code</div>
-          <div class="mock-choice-row">Z.AI GLM, Kimi, MiniMax, OpenRouter</div>
-          <div class="mock-choice-row">Ollama, LM Studio, Hugging Face</div>
-        </div>
-      </div>
-      <div>
-        <span class="doc-kicker">Step 3</span>
-        <h2>Choose the brain Spark will use.</h2>
-        <p>Setup should start simple: one model provider can power chat, memory, runtime reasoning, and missions. Advanced users can split agent and mission providers later.</p>
-        <ul>
-          <li>Use a subscription-style CLI if you already use GPT Codex or Claude Code.</li>
+          <li>Later, you can tell Spark to use one model for chat and another model for building.</li>
+          <li>If you already have a Codex or Claude Code subscription, tell it to connect that with Spark.</li>
           <li>Use an API key if you prefer Z.AI GLM, Kimi, MiniMax, OpenRouter, or DeepSeek-compatible routes.</li>
-          <li>Use local models through Ollama or LM Studio when your computer is strong enough.</li>
+          <li>Use local models through Ollama, LM Studio, or Hugging Face when your computer is strong enough.</li>
         </ul>
       </div>
     </section>
@@ -149,19 +128,41 @@
       <div class="installer-visual" aria-hidden="true">
         <div class="mock-phone">
           <div class="mock-phone-header">Telegram</div>
-          <div class="mock-bubble user">/myid</div>
-          <div class="mock-bubble bot">Your Telegram ID is ready for Spark setup.</div>
-          <div class="mock-bubble user">/diagnose</div>
+          <div class="mock-bubble user">@BotFather /newbot</div>
+          <div class="mock-bubble bot">Here is your bot token.</div>
+          <div class="mock-bubble user">Spark setup adds your Telegram ID as admin.</div>
+        </div>
+      </div>
+      <div>
+        <span class="doc-kicker">Step 3</span>
+        <h2>Create your Spark Telegram bot.</h2>
+        <p>Open Telegram, search for <strong>@BotFather</strong>, send <code>/newbot</code>, and follow the prompts. BotFather gives you a bot token. If you already have a bot, you can use that token instead.</p>
+        <ul>
+          <li>Spark uses that bot as the chat door to your agent.</li>
+          <li>Your own Telegram account becomes the admin account, so only you can run powerful Spark commands.</li>
+          <li>After setup, this bot becomes Spark: it uses the LLM brain, memory, and build tools you connected.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="installer-step">
+      <div class="installer-visual" aria-hidden="true">
+        <div class="mock-phone">
+          <div class="mock-phone-header">Spark</div>
+          <div class="mock-bubble user">I like concise warm replies.</div>
+          <div class="mock-bubble bot">Got it. I will remember that.</div>
+          <div class="mock-bubble user">What should we work on today?</div>
         </div>
       </div>
       <div>
         <span class="doc-kicker">Step 4</span>
-        <h2>Connect the Telegram front door.</h2>
-        <p>BotFather gives the bot token. Telegram gives the admin ID. Spark keeps those local and uses long polling for the first launch version.</p>
+        <h2>Start chatting and build resonance.</h2>
+        <p>Before building, just talk to Spark. Tell it how you like to work, what you care about, what you dislike, and what you want help remembering.</p>
         <ul>
-          <li>The bot should reply to <code>/start</code>.</li>
-          <li><code>/myid</code> confirms the admin ID.</li>
-          <li><code>/diagnose</code> checks Telegram, memory, models, and Mission Control.</li>
+          <li>Use normal chat for daily ideas, plans, and questions.</li>
+          <li>Use <code>/remember</code> for preferences Spark should keep.</li>
+          <li>Use <code>/recall</code> to check what Spark remembers.</li>
+          <li>Use <code>/diagnose</code> if the bot feels quiet or confused.</li>
         </ul>
       </div>
     </section>
@@ -176,12 +177,13 @@
       </div>
       <div>
         <span class="doc-kicker">Step 5</span>
-        <h2>Start Spark Live and try one real action.</h2>
-        <p>Once Spark Live is running, the user should try one small loop: remember something, recall it, then run a tiny build mission.</p>
+        <h2>Build with Spark Mission Control.</h2>
+        <p>When you are ready, ask Spark to build something small. Mission Control shows the work through Kanban and Canvas so you can see what is happening.</p>
         <ul>
-          <li><code>/remember I like concise warm replies</code></li>
-          <li><code>/recall concise warm replies</code></li>
-          <li><code>/run say exactly OK</code></li>
+          <li>Start with a tiny app, workflow, or tool.</li>
+          <li>Then build domain chips when Spark needs to master a specific topic or skill.</li>
+          <li>Use autoloops when you want Spark to keep improving a repeated process over time.</li>
+          <li>The Domain Chip Creator path helps turn useful know-how into reusable Spark skills.</li>
         </ul>
       </div>
     </section>
