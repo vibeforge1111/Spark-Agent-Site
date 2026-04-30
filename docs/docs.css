@@ -1054,18 +1054,18 @@
 .mission-kanban-board {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 7px;
 }
 
 .mission-kanban-lane {
-  min-height: 142px;
+  min-height: 134px;
   border: 1px solid color-mix(in srgb, var(--border-strong) 86%, transparent);
   border-radius: 8px;
   background: color-mix(in srgb, var(--bg) 74%, transparent);
-  padding: 10px;
+  padding: 8px;
   display: grid;
   align-content: start;
-  gap: 9px;
+  gap: 8px;
 }
 
 .mission-kanban-lane.active {
@@ -1074,24 +1074,109 @@
   box-shadow: 0 18px 38px -32px rgba(52, 211, 153, 0.55);
 }
 
-.mission-kanban-lane span {
+.mission-lane-head {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.mission-lane-head span {
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 60%, transparent);
+  flex: 0 0 auto;
+}
+
+.mission-lane-head strong {
   color: var(--accent);
-  font: 850 10px var(--font-mono);
-  letter-spacing: 1.2px;
+  font: 850 9px var(--font-mono);
+  letter-spacing: 0.9px;
   text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.mission-kanban-lane strong {
-  color: var(--text-bright);
-  font: 800 13px/1.25 var(--font-sans);
-}
-
-.mission-kanban-lane em {
-  align-self: end;
+.mission-lane-head em {
+  margin-left: auto;
   color: var(--text-secondary);
-  font: 700 11px/1.2 var(--font-sans);
+  font: 850 10px var(--font-mono);
   font-style: normal;
-  margin-top: auto;
+}
+
+.mission-task-card {
+  min-height: 82px;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 70%, transparent);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--surface) 58%, transparent);
+  display: grid;
+  justify-items: start;
+  align-content: start;
+  gap: 5px;
+  padding: 8px;
+}
+
+.mission-task-icon {
+  width: 22px;
+  height: 22px;
+  border: 1px solid color-mix(in srgb, var(--accent) 54%, var(--border-strong));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  position: relative;
+}
+
+.mission-task-icon::before,
+.mission-task-icon::after {
+  content: "";
+  position: absolute;
+  background: var(--accent);
+}
+
+.mission-task-icon.scope::before {
+  width: 10px;
+  height: 2px;
+  left: 5px;
+  top: 7px;
+  box-shadow: 0 5px 0 var(--accent);
+}
+
+.mission-task-icon.build::before {
+  width: 11px;
+  height: 11px;
+  left: 5px;
+  top: 5px;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.mission-task-icon.review::before {
+  width: 10px;
+  height: 2px;
+  left: 5px;
+  top: 10px;
+  transform: rotate(-45deg);
+}
+
+.mission-task-icon.review::after {
+  width: 6px;
+  height: 2px;
+  left: 4px;
+  top: 12px;
+  transform: rotate(45deg);
+}
+
+.mission-task-card strong {
+  color: var(--text-bright);
+  font: 850 13px/1.05 var(--font-sans);
+}
+
+.mission-task-card em {
+  color: var(--text-secondary);
+  font: 750 10px/1.2 var(--font-sans);
+  font-style: normal;
+  text-transform: lowercase;
 }
 
 .installer-visual-memory {
