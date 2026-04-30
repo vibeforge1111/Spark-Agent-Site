@@ -1068,12 +1068,6 @@
   gap: 8px;
 }
 
-.mission-kanban-lane.active {
-  border-color: color-mix(in srgb, var(--accent) 72%, var(--border-strong));
-  background: color-mix(in srgb, var(--accent) 8%, var(--bg));
-  box-shadow: 0 18px 38px -32px rgba(52, 211, 153, 0.55);
-}
-
 .mission-lane-head {
   display: flex;
   align-items: center;
@@ -1113,70 +1107,41 @@
   border-radius: 7px;
   background: color-mix(in srgb, var(--surface) 58%, transparent);
   display: grid;
-  justify-items: start;
-  align-content: start;
-  gap: 5px;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
   padding: 8px;
 }
 
 .mission-task-icon {
-  width: 22px;
-  height: 22px;
-  border: 1px solid color-mix(in srgb, var(--accent) 54%, var(--border-strong));
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
-  position: relative;
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }
 
-.mission-task-icon::before,
-.mission-task-icon::after {
-  content: "";
-  position: absolute;
-  background: var(--accent);
+.mission-task-lines {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 100%;
 }
 
-.mission-task-icon.scope::before {
-  width: 10px;
+.mission-task-lines i {
+  display: block;
+  width: min(42px, 72%);
   height: 2px;
-  left: 5px;
-  top: 7px;
-  box-shadow: 0 5px 0 var(--accent);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--text-secondary) 42%, transparent);
 }
 
-.mission-task-icon.build::before {
-  width: 11px;
-  height: 11px;
-  left: 5px;
-  top: 5px;
-  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
-}
-
-.mission-task-icon.review::before {
-  width: 10px;
-  height: 2px;
-  left: 5px;
-  top: 10px;
-  transform: rotate(-45deg);
-}
-
-.mission-task-icon.review::after {
-  width: 6px;
-  height: 2px;
-  left: 4px;
-  top: 12px;
-  transform: rotate(45deg);
-}
-
-.mission-task-card strong {
-  color: var(--text-bright);
-  font: 850 13px/1.05 var(--font-sans);
-}
-
-.mission-task-card em {
-  color: var(--text-secondary);
-  font: 750 10px/1.2 var(--font-sans);
-  font-style: normal;
-  text-transform: lowercase;
+.mission-task-lines i + i {
+  width: min(28px, 52%);
+  opacity: 0.65;
 }
 
 .installer-visual-memory {
