@@ -723,40 +723,76 @@
 
 .installer-art-telegram {
   display: grid;
-  align-content: center;
-  gap: 10px;
-  padding: 26px;
+  place-items: center;
+  padding: 18px;
+  background:
+    linear-gradient(180deg, rgba(34, 158, 217, 0.10), transparent 58%),
+    color-mix(in srgb, var(--surface) 72%, transparent);
 }
 
-.telegram-search,
-.telegram-command,
-.telegram-token,
-.telegram-admin {
+.telegram-phone-card {
   position: relative;
   z-index: 1;
-  display: block;
-  border: 1px solid var(--border-strong);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  width: min(100%, 260px);
+  border: 1px solid color-mix(in srgb, #229ed9 36%, var(--border-strong));
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, #229ed9 12%, var(--bg)), color-mix(in srgb, var(--bg) 86%, transparent));
+  padding: 14px;
+  box-shadow: 0 18px 46px -36px rgba(34, 158, 217, 0.72);
+}
+
+.telegram-phone-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: var(--text);
-  padding: 11px 12px;
   font: 700 13px var(--font-sans);
+  margin-bottom: 14px;
 }
 
-.telegram-command {
-  color: var(--accent);
-  width: 46%;
+.telegram-plane {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #229ed9;
+  color: white;
+  font: 900 18px var(--font-sans);
+  transform: rotate(-28deg);
+  padding-bottom: 2px;
 }
 
-.telegram-token {
-  color: var(--iris);
-  width: 64%;
+.telegram-bubble {
+  display: block;
+  max-width: 86%;
+  border-radius: 14px;
+  padding: 9px 11px;
+  color: var(--text);
+  font: 700 12px/1.35 var(--font-sans);
+}
+
+.telegram-bubble + .telegram-bubble {
+  margin-top: 9px;
+}
+
+.telegram-bubble.user {
   margin-left: auto;
+  background: color-mix(in srgb, #229ed9 24%, transparent);
+  border: 1px solid color-mix(in srgb, #229ed9 30%, transparent);
 }
 
-.telegram-admin {
-  color: var(--text-secondary);
-  width: 76%;
+.telegram-bubble.bot {
+  background: color-mix(in srgb, var(--surface) 84%, transparent);
+  border: 1px solid var(--border-strong);
+}
+
+.telegram-bubble.spark {
+  max-width: 94%;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border-strong));
 }
 
 .installer-art-build {
