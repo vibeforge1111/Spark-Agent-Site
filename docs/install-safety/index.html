@@ -78,27 +78,27 @@
         <div class="safety-stage">
           <span>01</span>
           <strong>Download</strong>
-          <p>Get the installer from agent.sparkswarm.ai.</p>
+          <p>Save the installer as a file first. This lets you or your coding assistant inspect it before anything runs.</p>
         </div>
         <div class="safety-stage">
           <span>02</span>
           <strong>Verify</strong>
-          <p>Compare checksums and release metadata.</p>
+          <p>Compare the downloaded file with the checksum and release manifest published by Spark.</p>
         </div>
         <div class="safety-stage is-active">
           <span>03</span>
           <strong>Dry-run</strong>
-          <p>See files, repos, versions, and commands first.</p>
+          <p>Preview the install. The dry-run should show where Spark will install, what it will download, and what commands it would run.</p>
         </div>
         <div class="safety-stage">
           <span>04</span>
           <strong>Install</strong>
-          <p>Continue only after the plan looks right.</p>
+          <p>Continue only after the plan is understandable and matches what you asked for.</p>
         </div>
         <div class="safety-stage">
           <span>05</span>
           <strong>Check</strong>
-          <p>Run Spark verify and confirm the bot responds.</p>
+          <p>Run Spark verification, then confirm your Telegram bot, memory, LLM provider, and Mission Control are working.</p>
         </div>
       </div>
     </section>
@@ -106,10 +106,11 @@
     <section class="doc-section">
       <h2>Dry-run first.</h2>
       <p>These commands are meant to be readable by both people and local coding assistants. The dry-run should show what Spark would download, where it would install, which versions it would use, and which commands it would run.</p>
-      <div class="safety-command-grid">
+      <div class="safety-step-list">
         <div class="safety-command-card">
-          <span class="doc-kicker">macOS, Linux, WSL</span>
-          <h3>New install preview</h3>
+          <span class="doc-kicker">Step 1</span>
+          <h3>Preview a new install on macOS, Linux, or WSL</h3>
+          <p>Use this when you are installing Spark for the first time on a Unix-style terminal.</p>
           <div class="command-list">
             <code>curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh</code>
             <code>bash spark-install.sh --dry-run</code>
@@ -117,8 +118,9 @@
           <p>After the preview looks safe, run <code>bash spark-install.sh</code>.</p>
         </div>
         <div class="safety-command-card">
-          <span class="doc-kicker">Windows</span>
-          <h3>New install preview</h3>
+          <span class="doc-kicker">Step 2</span>
+          <h3>Preview a new install on Windows</h3>
+          <p>Use this when you are installing Spark from PowerShell.</p>
           <div class="command-list">
             <code>iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1</code>
             <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun</code>
@@ -126,8 +128,9 @@
           <p>After the preview looks safe, run the same command without <code>-DryRun</code>.</p>
         </div>
         <div class="safety-command-card">
-          <span class="doc-kicker">Existing install</span>
-          <h3>Upgrade preview</h3>
+          <span class="doc-kicker">Step 3</span>
+          <h3>Preview an upgrade when Spark is already installed</h3>
+          <p>Use this when the docs mention a command your local Spark does not know yet, or when you want the latest installer improvements.</p>
           <div class="command-list">
             <code>bash spark-install.sh --dry-run --upgrade-existing</code>
             <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun -UpgradeExisting</code>
@@ -140,8 +143,9 @@
     <section class="doc-section">
       <h2>What the installer is allowed to do.</h2>
       <p>A safe installer should be boring and predictable. Spark should only talk to expected places, write inside the Spark folder, and make startup changes only when setup says it will.</p>
-      <div class="safety-scope-grid">
+      <div class="safety-step-list">
         <div class="safety-scope-card">
+          <span class="doc-kicker">Allowed area 1</span>
           <h3>Downloads</h3>
           <ul>
             <li><code>agent.sparkswarm.ai</code> for the installer and metadata.</li>
@@ -150,6 +154,7 @@
           </ul>
         </div>
         <div class="safety-scope-card">
+          <span class="doc-kicker">Allowed area 2</span>
           <h3>Local files</h3>
           <ul>
             <li>Spark installs into <code>~/.spark</code> on macOS, Linux, and WSL.</li>
@@ -158,6 +163,7 @@
           </ul>
         </div>
         <div class="safety-scope-card">
+          <span class="doc-kicker">Allowed area 3</span>
           <h3>Startup</h3>
           <ul>
             <li>Autostart can turn Spark Live on when the computer logs in.</li>
