@@ -532,14 +532,6 @@
   overflow: hidden;
 }
 
-.installer-panel {
-  width: min(100%, 360px);
-  border: 1px solid var(--border-strong);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--bg) 76%, transparent);
-  padding: 18px;
-}
-
 .installer-panel-kicker {
   color: var(--accent);
   font: 600 11px var(--font-mono);
@@ -548,7 +540,6 @@
   margin-bottom: 10px;
 }
 
-.installer-panel h3,
 .installer-image-card figcaption strong {
   color: var(--text-bright);
   font: 700 20px var(--font-sans);
@@ -556,19 +547,13 @@
   line-height: 1.2;
 }
 
-.installer-check-list,
-.installer-role-map,
-.installer-board-preview,
-.installer-mini-steps {
+.installer-role-map {
   display: grid;
   gap: 9px;
   margin-top: 16px;
 }
 
-.installer-check-list span,
-.installer-role-map span,
-.installer-board-preview span,
-.installer-mini-steps li {
+.installer-role-map span {
   border-left: 1px solid color-mix(in srgb, var(--accent) 34%, var(--border-strong));
   color: var(--text-secondary);
   font-size: 13px;
@@ -576,13 +561,10 @@
   padding: 2px 0 2px 11px;
 }
 
-.installer-role-map strong,
-.installer-board-preview strong,
-.installer-mini-steps strong {
+.installer-role-map strong {
   color: var(--text);
 }
 
-.installer-provider-tags,
 .installer-memory-tags {
   display: flex;
   flex-wrap: wrap;
@@ -590,7 +572,6 @@
   margin-top: 16px;
 }
 
-.installer-provider-tags span,
 .installer-memory-tags span {
   border: 1px solid var(--border-strong);
   border-radius: 999px;
@@ -600,50 +581,16 @@
   font: 600 11px var(--font-sans);
 }
 
-.installer-mini-steps {
-  padding-left: 0;
-  list-style: none;
-  counter-reset: mini-step;
-}
-
-.installer-mini-steps li {
-  position: relative;
-  counter-increment: mini-step;
-  padding-left: 34px;
-  border-left: 0;
-}
-
-.installer-mini-steps li::before {
-  content: counter(mini-step);
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--border-strong));
-  border-radius: 50%;
-  color: var(--accent);
-  font: 700 11px var(--font-mono);
-}
-
-.installer-admin-note {
-  margin-top: 16px;
-  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border-strong));
-  border-radius: 7px;
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
-  color: var(--text);
-  font: 700 13px var(--font-sans);
-  padding: 10px 11px;
-}
-
 .installer-image-card {
   width: min(100%, 370px);
   border: 1px solid var(--border-strong);
   border-radius: 8px;
   background: color-mix(in srgb, var(--bg) 76%, transparent);
   overflow: hidden;
+}
+
+.installer-art-card {
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
 }
 
 .installer-image-card img {
@@ -664,6 +611,190 @@
   line-height: 1.5;
 }
 
+.installer-art {
+  position: relative;
+  min-height: 210px;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  overflow: hidden;
+}
+
+.installer-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, color-mix(in srgb, var(--border-strong) 44%, transparent) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in srgb, var(--border-strong) 36%, transparent) 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: 0.28;
+}
+
+.installer-art-assistant {
+  display: grid;
+  place-items: center;
+}
+
+.art-guide-page {
+  position: relative;
+  z-index: 1;
+  width: 128px;
+  height: 154px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--text) 9%, transparent), transparent 28%),
+    color-mix(in srgb, var(--bg) 82%, transparent);
+}
+
+.art-guide-page::before,
+.art-guide-page::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  height: 1px;
+  background: color-mix(in srgb, var(--text-secondary) 46%, transparent);
+}
+
+.art-guide-page::before { top: 48px; box-shadow: 0 24px 0 color-mix(in srgb, var(--text-secondary) 32%, transparent); }
+.art-guide-page::after { bottom: 34px; background: color-mix(in srgb, var(--accent) 70%, transparent); }
+
+.art-spark-line {
+  position: absolute;
+  z-index: 2;
+  width: 196px;
+  height: 92px;
+  border: 1px solid color-mix(in srgb, var(--accent) 52%, transparent);
+  border-left: 0;
+  border-right: 0;
+  border-radius: 50%;
+  transform: rotate(-18deg);
+}
+
+.art-install-check {
+  position: absolute;
+  z-index: 2;
+  width: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.art-install-check.one { top: 46px; right: 72px; }
+.art-install-check.two { bottom: 66px; left: 76px; }
+.art-install-check.three { bottom: 44px; right: 94px; }
+
+.installer-art-providers {
+  display: grid;
+  place-items: center;
+}
+
+.provider-core {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--border-strong));
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+  color: var(--text-bright);
+  font: 800 17px var(--font-sans);
+}
+
+.provider-chip {
+  position: absolute;
+  z-index: 2;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  color: var(--text);
+  padding: 8px 10px;
+  font: 700 12px var(--font-sans);
+}
+
+.provider-chip.codex { top: 34px; left: 34px; color: var(--accent); }
+.provider-chip.claude { top: 36px; right: 34px; color: var(--iris); }
+.provider-chip.glm { left: 26px; bottom: 70px; }
+.provider-chip.minimax { right: 24px; bottom: 70px; }
+.provider-chip.kimi { left: 50%; bottom: 28px; transform: translateX(-50%); }
+.provider-chip.local { top: 88px; left: 50%; transform: translateX(-50%); color: var(--text-secondary); }
+
+.installer-art-telegram {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  padding: 26px;
+}
+
+.telegram-search,
+.telegram-command,
+.telegram-token,
+.telegram-admin {
+  position: relative;
+  z-index: 1;
+  display: block;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  color: var(--text);
+  padding: 11px 12px;
+  font: 700 13px var(--font-sans);
+}
+
+.telegram-command {
+  color: var(--accent);
+  width: 46%;
+}
+
+.telegram-token {
+  color: var(--iris);
+  width: 64%;
+  margin-left: auto;
+}
+
+.telegram-admin {
+  color: var(--text-secondary);
+  width: 76%;
+}
+
+.installer-art-build {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 1fr 0.74fr;
+  gap: 10px;
+  padding: 18px;
+}
+
+.build-column,
+.build-canvas,
+.build-chip {
+  position: relative;
+  z-index: 1;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font: 800 12px var(--font-sans);
+}
+
+.build-column.plan { border-top: 2px solid var(--text-ghost); }
+.build-column.build { border-top: 2px solid var(--accent); }
+.build-column.done { border-top: 2px solid var(--iris); }
+
+.build-canvas {
+  grid-column: span 2;
+  color: var(--accent);
+}
+
+.build-chip {
+  color: var(--iris);
+}
+
 .installer-visual-memory {
   gap: 12px;
 }
@@ -671,15 +802,6 @@
 .installer-memory-tags {
   justify-content: center;
   margin-top: 0;
-}
-
-.installer-board-preview span {
-  display: block;
-  border: 1px solid var(--border-strong);
-  border-left: 2px solid color-mix(in srgb, var(--accent) 44%, var(--border-strong));
-  border-radius: 7px;
-  padding: 11px 12px;
-  background: color-mix(in srgb, var(--surface) 68%, transparent);
 }
 
 .docs-prompt-panel {
@@ -1105,7 +1227,6 @@
     overflow-wrap: anywhere;
   }
   .installer-visual,
-  .installer-panel,
   .installer-image-card {
     width: 100%;
     max-width: 100%;
@@ -1119,8 +1240,7 @@
   .docs-install-banner-summary {
     gap: 6px;
   }
-  .installer-role-map,
-  .installer-board-preview {
+  .installer-role-map {
     grid-template-columns: 1fr;
   }
   .docs-card,
