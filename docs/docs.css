@@ -724,62 +724,73 @@
 .installer-art-telegram {
   display: grid;
   place-items: center;
-  padding: 18px;
+  padding: 16px;
   background:
-    linear-gradient(180deg, rgba(34, 158, 217, 0.10), transparent 58%),
+    linear-gradient(180deg, rgba(34, 158, 217, 0.08), transparent 62%),
     color-mix(in srgb, var(--surface) 72%, transparent);
 }
 
-.telegram-phone-card {
+.telegram-chat-card {
   position: relative;
   z-index: 1;
-  width: min(100%, 260px);
+  width: min(100%, 340px);
   border: 1px solid color-mix(in srgb, #229ed9 36%, var(--border-strong));
-  border-radius: 18px;
+  border-radius: 8px;
   background:
-    linear-gradient(180deg, color-mix(in srgb, #229ed9 12%, var(--bg)), color-mix(in srgb, var(--bg) 86%, transparent));
+    linear-gradient(180deg, color-mix(in srgb, #229ed9 10%, var(--bg)), color-mix(in srgb, var(--bg) 88%, transparent));
   padding: 14px;
-  box-shadow: 0 18px 46px -36px rgba(34, 158, 217, 0.72);
+  box-shadow: 0 18px 42px -34px rgba(34, 158, 217, 0.66);
 }
 
-.telegram-phone-top {
+.telegram-chat-top {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   color: var(--text);
-  font: 700 13px var(--font-sans);
+  font: 700 13px/1.2 var(--font-sans);
   margin-bottom: 14px;
 }
 
-.telegram-plane {
+.telegram-chat-top span {
+  display: block;
+  color: var(--text-muted);
+  font: 600 11px/1.3 var(--font-sans);
+  margin-top: 2px;
+}
+
+.telegram-botfather-avatar {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid color-mix(in srgb, #229ed9 36%, var(--border-strong));
+}
+
+.installer-image-card .telegram-botfather-avatar {
+  width: 36px;
+  height: 36px;
+  aspect-ratio: 1;
+}
+
+.telegram-chat-thread {
   display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #229ed9;
-  color: white;
-  font: 900 18px var(--font-sans);
-  transform: rotate(-28deg);
-  padding-bottom: 2px;
+  gap: 8px;
 }
 
 .telegram-bubble {
   display: block;
-  max-width: 86%;
-  border-radius: 14px;
-  padding: 9px 11px;
+  max-width: 88%;
+  border-radius: 7px;
+  padding: 8px 10px;
   color: var(--text);
-  font: 700 12px/1.35 var(--font-sans);
-}
-
-.telegram-bubble + .telegram-bubble {
-  margin-top: 9px;
+  font: 650 11.5px/1.35 var(--font-sans);
 }
 
 .telegram-bubble.user {
   margin-left: auto;
-  background: color-mix(in srgb, #229ed9 24%, transparent);
+  background: color-mix(in srgb, #229ed9 22%, transparent);
   border: 1px solid color-mix(in srgb, #229ed9 30%, transparent);
 }
 
@@ -788,11 +799,24 @@
   border: 1px solid var(--border-strong);
 }
 
-.telegram-bubble.spark {
+.telegram-bubble.bot.token {
   max-width: 94%;
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border-strong));
+}
+
+.telegram-bubble code {
+  color: inherit;
+  font: 800 11px var(--font-mono);
+}
+
+.telegram-bubble em {
+  display: block;
+  color: var(--text-secondary);
+  font-style: normal;
+  font-weight: 700;
+  margin-top: 5px;
 }
 
 .installer-art-build {
