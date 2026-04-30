@@ -70,24 +70,22 @@
       </div>
     </section>
 
-    <section class="doc-section">
-      <h2>The flow we want users to feel.</h2>
-      <p>Popular app onboarding works best when every screen has one job. Spark should do the same: show the next step, say why it matters, then help the user confirm it worked.</p>
-      <div class="installer-flow-strip" aria-label="Spark installer guide steps">
-        <span>Helper</span>
-        <span>Models</span>
-        <span>Telegram</span>
-        <span>Chat</span>
-        <span>Build</span>
-      </div>
-    </section>
-
     <section class="installer-step">
-      <div class="installer-visual installer-visual-helper" aria-hidden="true">
-        <div class="mock-window">
-          <div class="mock-title">AI coding assistant</div>
-          <div class="mock-chat-line user">Please read this page and install Spark for me.</div>
-          <div class="mock-chat-line assistant">I will open the install docs, run the dry run, explain the plan, then install Spark with you.</div>
+      <div class="installer-visual installer-visual-helper installer-scene-assistant" aria-hidden="true">
+        <div class="scene-assistant-card">
+          <div class="scene-assistant-glow"></div>
+          <div class="scene-assistant-top">
+            <span>Codex / Claude Code</span>
+            <strong>reads the guide</strong>
+          </div>
+          <div class="scene-command-card">
+            <span>install Spark for me</span>
+          </div>
+          <div class="scene-check-row">
+            <span>OS path picked</span>
+            <span>Dry run reviewed</span>
+            <span>Setup explained</span>
+          </div>
         </div>
       </div>
       <div>
@@ -103,12 +101,20 @@
     </section>
 
     <section class="installer-step">
-      <div class="installer-visual" aria-hidden="true">
-        <div class="mock-choice">
-          <div class="mock-choice-row active">Default brain for everything</div>
-          <div class="mock-choice-row">Agent chat + memory</div>
-          <div class="mock-choice-row">Build missions</div>
-          <div class="mock-choice-row">Local or hosted models</div>
+      <div class="installer-visual installer-scene-models" aria-hidden="true">
+        <div class="scene-model-core">
+          <span>one default brain</span>
+          <strong>LLM</strong>
+        </div>
+        <div class="scene-model-orbit orbit-chat">chat</div>
+        <div class="scene-model-orbit orbit-memory">memory</div>
+        <div class="scene-model-orbit orbit-build">build</div>
+        <div class="scene-model-orbit orbit-local">local</div>
+        <div class="scene-provider-rail">
+          <span>Codex</span>
+          <span>Claude</span>
+          <span>GLM</span>
+          <span>LM Studio</span>
         </div>
       </div>
       <div>
@@ -125,12 +131,15 @@
     </section>
 
     <section class="installer-step">
-      <div class="installer-visual" aria-hidden="true">
-        <div class="mock-phone">
-          <div class="mock-phone-header">Telegram</div>
-          <div class="mock-bubble user">@BotFather /newbot</div>
-          <div class="mock-bubble bot">Here is your bot token.</div>
-          <div class="mock-bubble user">Spark setup adds your Telegram ID as admin.</div>
+      <div class="installer-visual installer-scene-telegram" aria-hidden="true">
+        <div class="scene-telegram-phone">
+          <div class="scene-telegram-header">@BotFather</div>
+          <div class="scene-telegram-line">/newbot</div>
+          <div class="scene-token-card">bot token</div>
+        </div>
+        <div class="scene-admin-badge">
+          <span>admin account</span>
+          <strong>only you</strong>
         </div>
       </div>
       <div>
@@ -146,13 +155,16 @@
     </section>
 
     <section class="installer-step">
-      <div class="installer-visual" aria-hidden="true">
-        <div class="mock-phone">
-          <div class="mock-phone-header">Spark</div>
-          <div class="mock-bubble user">I like concise warm replies.</div>
-          <div class="mock-bubble bot">Got it. I will remember that.</div>
-          <div class="mock-bubble user">What should we work on today?</div>
+      <div class="installer-visual installer-scene-memory" aria-hidden="true">
+        <div class="scene-memory-core">
+          <strong>Spark</strong>
+          <span>remembers how you work</span>
         </div>
+        <div class="scene-memory-note note-one">concise warm replies</div>
+        <div class="scene-memory-note note-two">favorite projects</div>
+        <div class="scene-memory-note note-three">daily rhythm</div>
+        <div class="scene-memory-ring ring-one"></div>
+        <div class="scene-memory-ring ring-two"></div>
       </div>
       <div>
         <span class="doc-kicker">Step 4</span>
@@ -168,11 +180,14 @@
     </section>
 
     <section class="installer-step">
-      <div class="installer-visual" aria-hidden="true">
-        <div class="mock-board">
-          <div class="mock-column"><strong>New</strong><span>Build a tiny app</span></div>
-          <div class="mock-column"><strong>Running</strong><span>Codex is planning</span></div>
-          <div class="mock-column"><strong>Done</strong><span>Canvas ready</span></div>
+      <div class="installer-visual installer-scene-build" aria-hidden="true">
+        <div class="scene-build-board">
+          <div><strong>Kanban</strong><span>Plan</span><span>Build</span><span>Done</span></div>
+          <div><strong>Canvas</strong><span class="wide">app sketch</span><span class="accent">live preview</span></div>
+        </div>
+        <div class="scene-chip-loop">
+          <span>domain chip</span>
+          <strong>autoloop</strong>
         </div>
       </div>
       <div>
@@ -189,8 +204,8 @@
     </section>
 
     <section class="doc-section">
-      <h2>What Spark opens up after setup.</h2>
-      <p>Spark connects your chat, memory, models, mission board, and self-improvement loops so your agent can grow with your work.</p>
+      <h2>A Spark that keeps getting better.</h2>
+      <p>Spark is meant to become a personal system that learns your taste, your projects, and the tools you care about. With the right domain chips and benchmarks, it can keep practicing a skill or workflow even while you sleep. You get to see that progress through memory, visible missions, and recursive self-improvement loops.</p>
       <div class="doc-grid doc-grid-3">
         <div class="doc-card">
           <h3>Mission board</h3>
