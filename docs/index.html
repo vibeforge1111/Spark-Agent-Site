@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260429-readable-chips">
+<link rel="stylesheet" href="/docs/docs.css?v=20260430-docs-home">
 </head>
 <body>
 
@@ -77,48 +77,60 @@
       </section>
 
       <a class="docs-install-banner" href="/docs/installer-guide/" aria-label="Open the guided Spark installer">
-        <span class="docs-install-banner-mark" aria-hidden="true">
-          <svg viewBox="0 0 264 113" preserveAspectRatio="xMidYMid meet"><use href="#spark-mark"/></svg>
+        <span class="docs-install-banner-visual" aria-hidden="true">
+          <span class="docs-install-banner-mark">
+            <svg viewBox="0 0 264 113" preserveAspectRatio="xMidYMid meet"><use href="#spark-mark"/></svg>
+          </span>
+          <span class="docs-install-banner-steps">
+            <i>1</i>
+            <i>2</i>
+            <i>3</i>
+          </span>
         </span>
         <span class="docs-install-banner-copy">
-          <span class="docs-install-banner-kicker">Best first stop</span>
-          <strong>Install Spark step by step.</strong>
-          <span>Ask Codex, Claude Code, or another setup assistant to follow the guide with you. It explains the bot, model, memory, and mission setup in plain English.</span>
+          <span class="docs-install-banner-kicker">Guided installer</span>
+          <strong>Install Spark in five calm steps.</strong>
+          <span>Start here if you want Codex, Claude Code, or another setup assistant to walk through the install with you.</span>
         </span>
         <span class="docs-install-banner-summary" aria-hidden="true">
-          <span>5 steps</span>
-          <span>plain English</span>
-          <span>Telegram ready</span>
+          <span>Opens the visual guide</span>
+          <span>Shows models and BotFather</span>
+          <span>Ends with Telegram + Mission Control</span>
         </span>
       </a>
 
       <section class="docs-section docs-start-path" id="fast-path">
-        <h2>The easiest way to install Spark.</h2>
+        <h2>Start here if you want the smooth path.</h2>
         <p class="docs-start-lead">
-          If you want to install Spark, start by asking an AI coding assistant like <a href="https://help.openai.com/en/collections/13193998-codex-cli">Codex</a>,
-          <a href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code</a>, or another assistant that can read docs and run terminal commands to read this page or
-          <a href="/">agent.sparkswarm.ai</a> and install Spark with you. It can pick the right command, run the safety preview, and walk you through the setup.
+          The easiest install is not copying a terminal command alone. Ask an AI coding assistant like <a href="https://help.openai.com/en/collections/13193998-codex-cli">Codex</a>,
+          <a href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code</a>, or another assistant that can read docs and run terminal commands to open
+          <a href="/">agent.sparkswarm.ai</a> and install Spark with you.
         </p>
-        <div class="docs-copy-block">
-          <p>
-            You can also install Spark yourself with the curl or PowerShell commands on the install page. If you are non-technical, we do not recommend starting there.
-            It is much easier to let Codex, Claude Code, or another AI coding assistant read the page, explain each step, and help if your computer needs something different.
-          </p>
-          <p>
-            Spark is a local, self-improving agent stack. It gives you a Telegram front door, Spark Live, memory, Researcher, Builder runtime, and Spawner Mission Control.
-            That means you can chat with Spark, save useful memory, research ideas, start builds, and watch work move through Kanban and Canvas instead of losing track in terminal logs.
-          </p>
-          <p>
-            The recursive part is simple: Spark can notice what worked, remember useful lessons, turn repeated patterns into domain chips, and use those chips to get better at the next similar job.
-            Over time, it can help you build tools, learn how those tools work, and reuse that know-how instead of starting from zero every time.
-          </p>
+        <div class="docs-start-plain">
+          <p>You can still install Spark yourself from the install page. If you are non-technical, start with the assistant-guided path first. It can choose the right Mac, Linux, WSL, or Windows command, run the safety preview, and explain each setup choice.</p>
+          <p>Spark gives you a Telegram chat door, memory, Spark Live, Researcher, Builder runtime, and Mission Control. You can talk to it, save what matters, research ideas, start builds, and watch work move through Kanban and Canvas.</p>
+          <p>The self-improving part comes from domain chips: reusable skills Spark can build, test, and reuse. With the right chip, Spark can practice a workflow even while you are away and come back with visible progress instead of vague promises.</p>
         </div>
-        <ul class="docs-start-list">
-          <li><strong>You need an LLM path.</strong> Spark can use a subscription-style CLI path such as <a href="https://help.openai.com/en/collections/13193998-codex-cli">OpenAI Codex</a> or <a href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code</a>, an API provider such as <a href="https://docs.z.ai/">Z.AI GLM</a>, <a href="https://platform.moonshot.ai/docs/overview">Kimi</a>, <a href="https://platform.minimax.io/docs">MiniMax</a>, <a href="https://openrouter.ai/docs">OpenRouter</a>, or <a href="https://api-docs.deepseek.com/">DeepSeek</a>, or a local model through <a href="https://ollama.com/">Ollama</a>, <a href="https://lmstudio.ai/">LM Studio</a>, or <a href="https://huggingface.co/docs/api-inference/main/en">Hugging Face</a>.</li>
-          <li><strong>Start with one provider.</strong> During setup, one provider can power chat, memory, runtime reasoning, and missions. You can split agent and mission providers later when you want more control.</li>
-          <li><strong>Use dry run before trust.</strong> The installer can preview the files, repos, versions, checksums, and commands before it writes to your computer. That gives your agent something concrete to inspect.</li>
-          <li><strong>Local models are possible.</strong> For smaller machines, start with <a href="https://huggingface.co/google/gemma-4-31B-it">Gemma 4</a>-class local models. If you have a stronger gaming laptop or workstation, you can try larger local coding models in the 27B range, such as <a href="https://huggingface.co/Qwen/Qwen3.6-27B">Qwen 3.6 27B</a>. Hosted providers are still usually easier for the first successful setup.</li>
-        </ul>
+        <div class="docs-start-columns" aria-label="Spark setup basics">
+          <div>
+            <span>01</span>
+            <strong>Bring an LLM path.</strong>
+            <p>Use Codex, Claude Code, Z.AI GLM, Kimi, MiniMax, OpenRouter, DeepSeek, Ollama, LM Studio, Hugging Face, or another provider Spark supports.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Start with one provider.</strong>
+            <p>One model can power chat, memory, runtime reasoning, and missions first. Split agent and mission models later if you want more control.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Preview before install.</strong>
+            <p>The dry run shows files, repos, versions, checksums, and commands before anything is written to your computer.</p>
+          </div>
+        </div>
+        <p class="docs-local-note">
+          Local models are possible too. Start with <a href="https://huggingface.co/google/gemma-4-31B-it">Gemma 4</a>-class models on smaller machines, or try larger local coding models such as <a href="https://huggingface.co/Qwen/Qwen3.6-27B">Qwen 3.6 27B</a> if your computer is stronger.
+        </p>
         <div class="docs-paths">
           <a class="docs-path" href="/docs/installer-guide/">
             <strong>Guided Install</strong>

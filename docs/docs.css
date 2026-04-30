@@ -128,26 +128,47 @@
 .docs-install-banner {
   position: relative;
   display: grid;
-  grid-template-columns: 72px minmax(0, 1fr) minmax(180px, 0.45fr);
+  grid-template-columns: 122px minmax(0, 1fr) minmax(210px, 0.5fr);
   gap: clamp(16px, 3vw, 28px);
   align-items: center;
-  margin: 28px 0 8px;
-  border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--border-strong));
+  margin: 30px 0 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--border-strong));
   border-radius: 8px;
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  padding: clamp(18px, 3vw, 26px);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 42%),
+    color-mix(in srgb, var(--surface) 90%, transparent);
+  padding: clamp(18px, 3vw, 28px);
   overflow: hidden;
-  box-shadow: 0 18px 54px -42px rgba(0, 0, 0, 0.72);
+  box-shadow: 0 24px 72px -48px rgba(0, 0, 0, 0.82);
 }
 
 .docs-install-banner:hover {
-  border-color: color-mix(in srgb, var(--accent) 48%, var(--border-strong));
+  border-color: color-mix(in srgb, var(--accent) 60%, var(--border-strong));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, transparent), transparent 45%),
+    color-mix(in srgb, var(--surface) 94%, transparent);
+}
+
+.docs-install-banner-visual {
+  min-height: 108px;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 72%, transparent);
+  border-radius: 8px;
+  background:
+    linear-gradient(color-mix(in srgb, var(--border) 42%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 42%, transparent) 1px, transparent 1px),
+    color-mix(in srgb, var(--bg) 72%, transparent);
+  background-size: 28px 28px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
 }
 
 .docs-install-banner-mark {
   display: grid;
   place-items: center;
-  width: 58px;
+  width: 56px;
   aspect-ratio: 1;
   border-radius: 8px;
   background: color-mix(in srgb, var(--accent) 10%, transparent);
@@ -159,6 +180,24 @@
   width: 34px;
   height: auto;
 }
+
+.docs-install-banner-steps {
+  display: grid;
+  gap: 8px;
+}
+
+.docs-install-banner-steps i {
+  display: block;
+  height: 10px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--accent) 22%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, var(--border));
+  color: transparent;
+}
+
+.docs-install-banner-steps i:nth-child(1) { width: 58px; }
+.docs-install-banner-steps i:nth-child(2) { width: 78px; }
+.docs-install-banner-steps i:nth-child(3) { width: 48px; }
 
 .docs-install-banner-copy,
 .docs-install-banner-summary {
@@ -178,7 +217,7 @@
 .docs-install-banner-copy strong {
   display: block;
   color: var(--text-bright);
-  font: 700 clamp(22px, 3vw, 32px) var(--font-sans);
+  font: 700 clamp(24px, 3vw, 34px) var(--font-sans);
   letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
@@ -192,15 +231,15 @@
 
 .docs-install-banner-summary {
   display: grid;
-  gap: 8px;
+  gap: 9px;
 }
 
 .docs-install-banner-summary span {
   border-left: 1px solid color-mix(in srgb, var(--accent) 38%, var(--border-strong));
   color: var(--text-secondary);
-  font: 600 12px var(--font-sans);
+  font: 650 13px var(--font-sans);
   line-height: 1.35;
-  padding-left: 10px;
+  padding-left: 12px;
 }
 
 .docs-hero,
@@ -241,45 +280,71 @@
   max-width: 820px !important;
 }
 
-.docs-copy-block {
+.docs-start-plain {
   display: grid;
   gap: 14px;
   max-width: 820px;
   margin: 8px 0 18px;
 }
 
-.docs-copy-block p {
+.docs-start-plain p {
   color: var(--text-secondary);
   font-size: 15px;
-  line-height: 1.75;
+  line-height: 1.68;
 }
 
-.docs-start-list {
+.docs-start-columns {
   display: grid;
-  gap: 10px;
-  max-width: 840px;
-  margin: 22px 0 26px;
-  padding-left: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  max-width: 860px;
+  margin: 26px 0 20px;
 }
 
-.docs-start-list li {
-  color: var(--text-secondary);
-  font-size: 15px;
-  line-height: 1.72;
+.docs-start-columns div {
+  border-top: 1px solid color-mix(in srgb, var(--accent) 36%, var(--border-strong));
+  padding-top: 14px;
 }
 
-.docs-start-list strong {
+.docs-start-columns span {
+  display: block;
+  color: var(--accent);
+  font: 650 11px var(--font-mono);
+  letter-spacing: 1.2px;
+  margin-bottom: 10px;
+}
+
+.docs-start-columns strong {
+  display: block;
   color: var(--text);
+  font: 700 15px var(--font-sans);
+  margin-bottom: 7px;
+}
+
+.docs-start-columns p,
+.docs-local-note {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.62;
+}
+
+.docs-local-note {
+  max-width: 820px;
+  margin: 6px 0 26px;
+  border-left: 1px solid color-mix(in srgb, var(--accent) 42%, var(--border-strong));
+  padding-left: 15px;
 }
 
 .docs-start-path a,
-.docs-start-list a {
+.docs-start-columns a,
+.docs-local-note a {
   color: var(--accent);
   border-bottom: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
 }
 
 .docs-start-path a:hover,
-.docs-start-list a:hover {
+.docs-start-columns a:hover,
+.docs-local-note a:hover {
   color: var(--text-bright);
   border-color: var(--text-bright);
 }
@@ -1521,9 +1586,14 @@
   .docs-install-banner {
     grid-template-columns: 1fr;
   }
-  .docs-install-banner-mark {
-    width: 54px;
+  .docs-install-banner-visual {
+    grid-template-columns: auto minmax(0, 1fr);
+    min-height: 92px;
   }
+  .docs-install-banner-mark {
+    width: 52px;
+  }
+  .docs-start-columns { grid-template-columns: 1fr; }
   .docs-paths { grid-template-columns: 1fr; }
   .docs-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .docs-flow span { border-bottom: 1px solid var(--border); }
