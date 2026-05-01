@@ -139,6 +139,14 @@ jobs:
           ! grep -q "add_header Cache-Control" nginx.conf
           ! git grep -n -I -E '301a16435504eaf2|9d32b1d17df505|docs\.sparkswarm\.ai|sparkswarm\.ai/docs/insight' -- . ':!.github/workflows/install-hardening.yml'
 
+      - name: Validate command docs
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/check-command-docs.mjs
+          git clone --depth 1 https://github.com/vibeforge1111/spark-cli "$RUNNER_TEMP/spark-cli"
+          SPARK_CLI_PATH="$RUNNER_TEMP/spark-cli" node scripts/smoke-command-docs-cli.mjs
+
       - name: Build container
         shell: bash
         run: docker build -t spark-agent-site-hardening .
