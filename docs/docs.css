@@ -2015,6 +2015,10 @@
 .command-choice-list {
   gap: 7px;
   margin-top: 0;
+  max-height: min(520px, 62vh);
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-color: color-mix(in srgb, var(--accent) 45%, var(--border-strong)) transparent;
 }
 
 .command-choice-list button {
@@ -2124,26 +2128,41 @@
 }
 
 .command-coach-panel dl {
-  gap: 10px;
-  margin-top: 16px;
+  gap: 12px;
+  margin-top: 18px;
 }
 
 .command-coach-panel dl div {
-  border-left: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border-strong));
+  border-left: 0;
+  padding-left: 0;
+}
+
+.command-coach-panel dl div:first-child {
+  border-left: 1px solid color-mix(in srgb, var(--accent) 42%, var(--border-strong));
   padding-left: 13px;
 }
 
 .command-coach-panel dt {
-  color: var(--text);
-  font: 750 13px var(--font-sans);
-  margin-bottom: 3px;
+  color: var(--text-secondary);
+  font: 800 11px var(--font-mono);
+  letter-spacing: 0.9px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.command-coach-panel dl div:first-child dt {
+  color: var(--accent);
 }
 
 .command-coach-panel dd {
-  color: var(--text-secondary);
+  color: color-mix(in srgb, var(--text-secondary) 84%, var(--text));
   font-size: 14px;
-  line-height: 1.58;
+  line-height: 1.65;
   margin: 0;
+}
+
+.command-coach-panel dl div:first-child dd {
+  color: var(--text);
 }
 
 .command-finder { margin-top: 22px; }

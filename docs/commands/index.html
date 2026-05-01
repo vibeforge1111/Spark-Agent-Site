@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-factcheck">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-coach-expanded">
 </head>
 <body>
 
@@ -85,10 +85,16 @@
         <div class="command-choice-list" aria-label="Command situations">
           <button type="button" class="is-active" data-command-target="start" aria-pressed="true">Turn Spark on</button>
           <button type="button" data-command-target="quiet" aria-pressed="false">Bot is quiet</button>
+          <button type="button" data-command-target="mission-control" aria-pressed="false">Open Kanban</button>
           <button type="button" data-command-target="model" aria-pressed="false">Choose model</button>
+          <button type="button" data-command-target="test-model" aria-pressed="false">Test model</button>
           <button type="button" data-command-target="build" aria-pressed="false">Build something</button>
+          <button type="button" data-command-target="board" aria-pressed="false">Check missions</button>
           <button type="button" data-command-target="memory" aria-pressed="false">Use memory</button>
+          <button type="button" data-command-target="access" aria-pressed="false">Change access</button>
           <button type="button" data-command-target="update" aria-pressed="false">Update safely</button>
+          <button type="button" data-command-target="logs" aria-pressed="false">Read logs</button>
+          <button type="button" data-command-target="doctor" aria-pressed="false">Ask Doctor</button>
         </div>
         <div class="command-panel-stack">
           <div class="command-screen-top" aria-hidden="true"><span></span><span></span><span></span><strong>spark command screen</strong></div>
@@ -112,6 +118,16 @@
               <div><dt>Try next</dt><dd>Run <code>spark verify --onboarding</code>, then send <code>/diagnose</code>.</dd></div>
             </dl>
           </article>
+          <article class="command-coach-panel" data-command-panel="mission-control" hidden>
+            <span class="surface-pill">Computer terminal + browser</span>
+            <h3>Open the Kanban board without guessing the port.</h3>
+            <code>spark live status</code>
+            <dl>
+              <div><dt>Use it for</dt><dd>Finds the current Mission Control URL before you open Kanban or Canvas.</dd></div>
+              <div><dt>You should see</dt><dd>Copy the Mission Control URL Spark prints, open it in your browser, then add <code>/kanban</code>.</dd></div>
+              <div><dt>Try next</dt><dd>If the browser refuses connection, run <code>spark fix spawner</code>.</dd></div>
+            </dl>
+          </article>
           <article class="command-coach-panel" data-command-panel="model" hidden>
             <span class="surface-pill">Computer terminal</span>
             <h3>Pick the LLM Spark should use.</h3>
@@ -120,6 +136,16 @@
               <div><dt>Use it for</dt><dd>Shows good provider paths for Codex, Claude, GLM, Kimi, MiniMax, OpenRouter, Hugging Face, Ollama, and LM Studio.</dd></div>
               <div><dt>You should see</dt><dd>You choose one default provider first. Spark can use it for chat, memory, and missions unless you customize later.</dd></div>
               <div><dt>Try next</dt><dd><code>spark providers status</code> and <code>spark providers test --role chat</code>.</dd></div>
+            </dl>
+          </article>
+          <article class="command-coach-panel" data-command-panel="test-model" hidden>
+            <span class="surface-pill">Computer terminal</span>
+            <h3>Confirm the model actually answers before you rely on it.</h3>
+            <code>spark providers test --role chat</code>
+            <dl>
+              <div><dt>Use it for</dt><dd>Sends a small test through the provider route Spark will use for chat.</dd></div>
+              <div><dt>You should see</dt><dd>A clean success proves the provider is reachable. If it fails, Spark should name the missing key, login, or local service.</dd></div>
+              <div><dt>Try next</dt><dd>Run <code>spark providers status</code> to see every role: chat, memory, agent, and mission.</dd></div>
             </dl>
           </article>
           <article class="command-coach-panel" data-command-panel="build" hidden>
@@ -132,6 +158,16 @@
               <div><dt>Try next</dt><dd>Open the Mission Control URL printed by <code>spark live status</code>, then go to <code>/kanban</code>, or send <code>/board</code>.</dd></div>
             </dl>
           </article>
+          <article class="command-coach-panel" data-command-panel="board" hidden>
+            <span class="surface-pill">Telegram bot</span>
+            <h3>Check whether Spark is still working on a mission.</h3>
+            <code>/board</code>
+            <dl>
+              <div><dt>Use it for</dt><dd>Shows running, completed, and failed missions without leaving Telegram.</dd></div>
+              <div><dt>You should see</dt><dd>If a mission is running, Spark shows it. If nothing is running, you know the last build finished or failed.</dd></div>
+              <div><dt>Try next</dt><dd>For a visual board, open the current Mission Control URL and add <code>/kanban</code>.</dd></div>
+            </dl>
+          </article>
           <article class="command-coach-panel" data-command-panel="memory" hidden>
             <span class="surface-pill">Telegram bot</span>
             <h3>Teach Spark something you want it to remember.</h3>
@@ -142,6 +178,16 @@
               <div><dt>Try next</dt><dd><code>/recall concise warm replies</code>.</dd></div>
             </dl>
           </article>
+          <article class="command-coach-panel" data-command-panel="access" hidden>
+            <span class="surface-pill">Telegram bot</span>
+            <h3>Choose how much Spark is allowed to do.</h3>
+            <code>/access 3</code>
+            <dl>
+              <div><dt>Use it for</dt><dd>Sets the normal Research + Build access level, which lets Spark research and create missions when you ask.</dd></div>
+              <div><dt>You should see</dt><dd>Spark confirms the level and explains what changed in plain language.</dd></div>
+              <div><dt>Try next</dt><dd>Use <code>/access 1</code> for chat only, or <code>/access 4</code> only when you want full operating-system access.</dd></div>
+            </dl>
+          </article>
           <article class="command-coach-panel" data-command-panel="update" hidden>
             <span class="surface-pill">Computer terminal</span>
             <h3>Update Spark without losing track of what changed.</h3>
@@ -150,6 +196,26 @@
               <div><dt>Use it for</dt><dd>Updates clean Spark modules and skips repos with local edits instead of clobbering work.</dd></div>
               <div><dt>You should see</dt><dd>Spark reports what updated, what was skipped, and what still needs attention.</dd></div>
               <div><dt>Try next</dt><dd><code>spark verify --onboarding</code>.</dd></div>
+            </dl>
+          </article>
+          <article class="command-coach-panel" data-command-panel="logs" hidden>
+            <span class="surface-pill">Computer terminal</span>
+            <h3>Read the recent logs when Spark says something went wrong.</h3>
+            <code>spark live logs</code>
+            <dl>
+              <div><dt>Use it for</dt><dd>Shows recent Spark Live logs in one place so you can see whether Telegram, Mission Control, or a provider is stuck.</dd></div>
+              <div><dt>You should see</dt><dd>Recent service messages. Look for clear names like provider, token, port, relay, or process.</dd></div>
+              <div><dt>Try next</dt><dd>Use <code>spark logs spark-telegram-bot --lines 80</code> when the bot is the only broken part.</dd></div>
+            </dl>
+          </article>
+          <article class="command-coach-panel" data-command-panel="doctor" hidden>
+            <span class="surface-pill">Computer terminal</span>
+            <h3>Ask Spark Doctor for a private repair plan.</h3>
+            <code>spark doctor llm "Telegram bot is quiet"</code>
+            <dl>
+              <div><dt>Use it for</dt><dd>Creates a redacted diagnostic prompt and asks your configured LLM for next steps.</dd></div>
+              <div><dt>You should see</dt><dd>A local fix plan. Logs stay out unless you explicitly include them, and upstream reports are drafts you review first.</dd></div>
+              <div><dt>Try next</dt><dd>Add <code>--save-report</code> if you want to keep the local report.</dd></div>
             </dl>
           </article>
         </div>
