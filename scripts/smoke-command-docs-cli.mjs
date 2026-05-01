@@ -45,12 +45,18 @@ function requireSuccess(args, label = args.join(" ")) {
 
 const html = fs.readFileSync(path.join(siteRoot, "docs", "commands", "index.html"), "utf8");
 const markdown = fs.readFileSync(path.join(siteRoot, "docs", "commands.md"), "utf8");
+const catalog = JSON.parse(fs.readFileSync(path.join(siteRoot, "docs", "command-catalog.json"), "utf8"));
 const combined = `${html}\n${markdown}`;
 const sparkExamples = [...new Set(
   [...combined.matchAll(/(?:<code>|`)(spark\s+[^<`\n]+)(?:<\/code>|`)/g)]
     .map((match) => match[1].replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&").trim())
     .filter((command) => !command.includes("<module-name>")),
 )];
+for (const entry of catalog.commands) {
+  if (entry.command.startsWith("spark ") && !entry.command.includes("<module-name>")) {
+    sparkExamples.push(entry.command);
+  }
+}
 
 const topHelp = requireSuccess(["--help"], "--help");
 const documentedTopLevel = [...new Set(sparkExamples.map((command) => command.replace(/^spark\s+/, "").split(/\s+/)[0]))];

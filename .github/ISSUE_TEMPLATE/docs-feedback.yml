@@ -1,0 +1,57 @@
+name: Docs or onboarding feedback
+description: Tell us where Spark docs, install, or setup felt confusing.
+title: "Docs feedback: "
+labels:
+  - docs
+  - onboarding
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping us make Spark easier to install and use.
+        Please do not paste API keys, Telegram bot tokens, private logs, or personal secrets.
+  - type: input
+    id: page
+    attributes:
+      label: Page or command
+      description: Which page, command, or step were you using?
+      placeholder: "Example: /docs/commands/, spark live start, Telegram /diagnose"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: What got confusing?
+      options:
+        - Installer or upgrade
+        - LLM/provider setup
+        - Telegram bot setup
+        - Commands or where to type them
+        - Mission Control / Kanban / Canvas
+        - Memory or domain chips
+        - Security or access levels
+        - Other docs wording
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+      placeholder: "I expected the page to tell me..."
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened?
+      placeholder: "Instead I got stuck at..."
+    validations:
+      required: true
+  - type: textarea
+    id: safe_details
+    attributes:
+      label: Safe details
+      description: Share commands, screenshots, or error text after removing secrets.
+      placeholder: "Paste redacted output here. Replace tokens with <redacted>."
+    validations:
+      required: false

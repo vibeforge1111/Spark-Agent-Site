@@ -1,5 +1,7 @@
 # Spark Security
 
+Human page: `/docs/security/`
+
 Spark is local-first. Installers should be inspectable, secrets should stay local, and support reports should be reviewed before sharing.
 
 ## Checks

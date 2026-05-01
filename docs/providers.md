@@ -1,5 +1,7 @@
 # Spark LLM Providers
 
+Human page: `/docs/providers/`
+
 Spark should be easy first and customizable later.
 
 ## Recommended Setup

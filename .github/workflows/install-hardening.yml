@@ -143,6 +143,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          node scripts/check-docs-readiness.mjs
           node scripts/check-command-docs.mjs
           git clone --depth 1 https://github.com/vibeforge1111/spark-cli "$RUNNER_TEMP/spark-cli"
           SPARK_CLI_PATH="$RUNNER_TEMP/spark-cli" node scripts/smoke-command-docs-cli.mjs

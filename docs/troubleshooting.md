@@ -1,5 +1,7 @@
 # Spark Troubleshooting
 
+Human page: `/docs/troubleshooting/`
+
 Do not guess. Check one layer at a time.
 
 ## First Five Checks

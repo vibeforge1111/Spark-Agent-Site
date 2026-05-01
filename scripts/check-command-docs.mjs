@@ -4,9 +4,11 @@ import path from "node:path";
 const root = process.cwd();
 const htmlPath = path.join(root, "docs", "commands", "index.html");
 const mdPath = path.join(root, "docs", "commands.md");
+const catalogPath = path.join(root, "docs", "command-catalog.json");
 
 const html = fs.readFileSync(htmlPath, "utf8");
 const markdown = fs.readFileSync(mdPath, "utf8");
+const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
 
 function fail(message) {
   console.error(`command docs check failed: ${message}`);
@@ -109,5 +111,11 @@ assert(markdown.includes("If it starts with `/`, type it in Telegram."), "agent 
 
 const sparkCodeExamples = [...new Set(allMatches(html, /<code>(spark [^<]+)<\/code>/g).map(decodeHtml))];
 assert(sparkCodeExamples.length >= 25, `expected a broad CLI command set, found ${sparkCodeExamples.length}`);
+
+for (const entry of catalog.commands) {
+  assert(["terminal", "telegram", "browser"].includes(entry.surface), `catalog command has unknown surface: ${entry.command}`);
+  assert(entry.use.length <= 130, `catalog description is too long for ${entry.command}`);
+  assert(combined.includes(entry.command), `catalog command missing from docs: ${entry.command}`);
+}
 
 console.log(`command docs content ok: ${targets.size} coach moments, ${sparkCodeExamples.length} Spark CLI examples`);

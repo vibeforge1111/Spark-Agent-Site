@@ -2311,6 +2311,57 @@
   border-color: var(--text);
 }
 
+.docs-feedback-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 18px 0 28px;
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border-strong));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  padding: 16px 18px;
+}
+
+.docs-feedback-banner span {
+  display: block;
+  color: var(--accent);
+  font: 800 11px var(--font-mono);
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.docs-feedback-banner strong {
+  display: block;
+  color: var(--text);
+  font: 760 16px/1.35 var(--font-sans);
+  margin-bottom: 4px;
+}
+
+.docs-feedback-banner p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.docs-feedback-banner a {
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, var(--accent) 44%, var(--border-strong));
+  border-radius: 7px;
+  color: var(--text);
+  font: 800 12px var(--font-mono);
+  letter-spacing: 0.7px;
+  padding: 10px 12px;
+  text-transform: uppercase;
+}
+
+.docs-feedback-banner a:hover {
+  background: color-mix(in srgb, var(--accent) 11%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 70%, var(--border-strong));
+}
+
 .doc-readable-list {
   display: grid;
   gap: 14px;

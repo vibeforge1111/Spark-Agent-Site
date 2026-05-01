@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-playbook-readable">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-docs-draft-feedback">
 </head>
 <body>
 
@@ -70,6 +70,15 @@
       </div>
     </section>
 
+    <aside class="docs-feedback-banner" aria-label="Community draft feedback">
+      <div>
+        <span>Public draft</span>
+        <strong>Module names should not make Spark harder to understand.</strong>
+        <p>If any Spark piece feels mysterious, tell us which name or explanation needs simpler wording.</p>
+      </div>
+      <a href="https://github.com/vibeforge1111/Spark-Agent-Site/issues/new?template=docs-feedback.yml&title=Docs%20feedback%3A%20Modules">Share feedback</a>
+    </aside>
+
     <section class="doc-section">
       <h2>How the pieces talk.</h2>
       <div class="doc-flowline" aria-label="Spark suite flow">
@@ -87,8 +96,8 @@
       <div class="doc-grid doc-grid-3">
         <div class="doc-card"><span class="doc-kicker">Front Door</span><h3>Telegram Bot</h3><p>Receives commands and normal messages. Uses long polling, not webhooks.</p></div>
         <div class="doc-card"><span class="doc-kicker">Brain Router</span><h3>Intelligence Builder</h3><p>Routes chat, memory, builder, and mission roles to the chosen providers.</p></div>
-        <div class="doc-card"><span class="doc-kicker">Memory</span><h3>Domain Chip Memory</h3><p>Saves and recalls useful facts when memory is wired and enabled.</p></div>
-        <div class="doc-card"><span class="doc-kicker">Missions</span><h3>Spawner UI</h3><p>Mission Control for bigger work, boards, and tracked execution.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Memory</span><h3>Domain Chip Memory</h3><p><code>domain-chip-memory</code> saves and recalls useful facts when memory is wired and enabled.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Missions</span><h3>Spawner UI</h3><p><code>spawner-ui</code> is Mission Control for bigger work, boards, and tracked execution.</p></div>
         <div class="doc-card"><span class="doc-kicker">Research</span><h3>Spark Researcher</h3><p>Runs evidence, advisory, and bounded improvement workflows.</p></div>
         <div class="doc-card"><span class="doc-kicker">Identity</span><h3>Spark Character</h3><p>Keeps role, voice, and access-level behavior stable.</p></div>
         <div class="doc-card"><span class="doc-kicker">Startup</span><h3>Spark Live</h3><p>Runs Spark services quietly in the background and can autostart after login.</p></div>

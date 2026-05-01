@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "purpose": "Small shared catalog for keeping Spark command docs aligned with the CLI.",
+  "commands": [
+    {
+      "surface": "terminal",
+      "command": "spark setup",
+      "use": "Run first-time setup for Telegram, provider, and access defaults."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark guide",
+      "use": "Show the friendly starter path after install."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark live start",
+      "use": "Start Spark services quietly in the background."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark live run",
+      "use": "Run Spark with one combined visible console."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark live status",
+      "use": "Check whether Spark Live is running and find the current Mission Control URL."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark live logs",
+      "use": "Read recent combined Spark Live logs."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark recommend llms",
+      "use": "See recommended LLM paths for Spark."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark providers status",
+      "use": "After setup, check chat, memory, and mission model wiring."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark providers test --role chat",
+      "use": "Test the configured chat provider."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark fix telegram",
+      "use": "Repair common Telegram bot issues."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark fix spawner",
+      "use": "Repair Mission Control or Spawner reachability issues."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark verify --onboarding",
+      "use": "Run the main install and onboarding health check."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark logs spark-telegram-bot --lines 80",
+      "use": "Read recent Telegram bot logs."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark support bundle",
+      "use": "Create a local redacted support archive."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark security audit",
+      "use": "Check Spark security posture and common risky settings."
+    },
+    {
+      "surface": "terminal",
+      "command": "spark doctor llm \"Telegram bot is quiet\"",
+      "use": "Ask the configured LLM for a redacted repair plan."
+    },
+    {
+      "surface": "telegram",
+      "command": "/diagnose",
+      "use": "Check Telegram, provider routing, memory, and Spawner from chat."
+    },
+    {
+      "surface": "telegram",
+      "command": "/remember I like concise warm replies",
+      "use": "Save a useful memory."
+    },
+    {
+      "surface": "telegram",
+      "command": "/recall concise warm replies",
+      "use": "Search Spark memory."
+    },
+    {
+      "surface": "telegram",
+      "command": "/run say exactly OK",
+      "use": "Start a small Spawner mission."
+    },
+    {
+      "surface": "telegram",
+      "command": "/board",
+      "use": "Show mission status in Telegram."
+    },
+    {
+      "surface": "telegram",
+      "command": "/access 3",
+      "use": "Set the recommended Research + Build access level."
+    },
+    {
+      "surface": "browser",
+      "command": "Mission Control URL + /kanban",
+      "use": "Open the visual mission board after Spark Live or Spawner is running."
+    }
+  ]
+}
