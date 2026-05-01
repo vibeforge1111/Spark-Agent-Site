@@ -44,7 +44,7 @@ const pages = [
 for (const page of pages) {
   const html = read(page.path);
   assert(html.includes("docs-nav-links"), `${page.name} is missing left docs navigation`);
-  assert(html.includes("docs-feedback-banner"), `${page.name} is missing public draft feedback banner`);
+  assert(html.includes("docs-feedback-banner"), `${page.name} is missing docs feedback banner`);
   assert(html.includes(feedbackTemplate), `${page.name} feedback banner does not point to the issue form`);
   assert(html.includes(`/docs/docs.css?v=${cssVersion}`), `${page.name} uses stale docs CSS cache key`);
   assert(!html.includes("docs.css?v=20260501-command-playbook-readable"), `${page.name} still uses old command-playbook CSS key`);

@@ -72,8 +72,8 @@ If a token appears in chat, logs, screenshots, GitHub issues, or commits, tell t
 
 ## Plain-Language Map
 
-- Telegram Bot: where the user talks to Spark.
-- Intelligence Builder: routes Spark to the chosen LLM provider.
+- Spark Telegram Bot: where the user talks to Spark.
+- Spark Intelligence Builder: routes Spark to the chosen LLM provider.
 - Domain Chip Memory: remembers useful facts.
 - Spawner UI: Mission Control for bigger tasks.
 - Spark Researcher: gathers context and evidence.

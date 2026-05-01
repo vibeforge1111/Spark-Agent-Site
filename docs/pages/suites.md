@@ -21,7 +21,7 @@ Spark installs a starter kit called `telegram-starter`.
 
 This page explains what each part does.
 
-## Telegram Bot
+## Spark Telegram Bot
 
 This is the front door.
 
@@ -29,7 +29,7 @@ You message Spark in Telegram.
 
 Spark replies there.
 
-## Intelligence Builder
+## Spark Intelligence Builder
 
 This is the runtime router.
 

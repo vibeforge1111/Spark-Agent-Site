@@ -19,7 +19,7 @@ This page is for agents. If you are human, this is not for you. :)
 - [Install safety](https://agent.sparkswarm.ai/docs/install-safety.md): Safe install steps, hashes, downloads, writes, and secret rules.
 - [Spark commands](https://agent.sparkswarm.ai/docs/commands.md): CLI and Telegram command map.
 - [Spark providers](https://agent.sparkswarm.ai/docs/providers.md): Provider families and role setup.
-- [Spark suites](https://agent.sparkswarm.ai/docs/suites.md): What Telegram Bot, Builder, memory, Mission Control, and Researcher do.
+- [Spark suites](https://agent.sparkswarm.ai/docs/suites.md): What Spark Telegram Bot, Spark Intelligence Builder, memory, Mission Control, and Researcher do.
 - [Self-improvement](https://agent.sparkswarm.ai/docs/self-improvement.md): Domain chips, Spark Researcher loops, and safe chip-building prompts.
 - [Lifecycle](https://agent.sparkswarm.ai/docs/lifecycle.md): Spark Live, autostart, uninstall, and checks.
 - [Troubleshooting](https://agent.sparkswarm.ai/docs/troubleshooting.md): Known failure modes and smallest fixes.

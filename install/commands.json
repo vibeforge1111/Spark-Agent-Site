@@ -37,7 +37,7 @@
   },
   "starterBundle": {
     "name": "telegram-starter",
-    "summary": "Researcher + character runtime + Builder runtime + default memory + Spawner execution plane + Telegram gateway",
+    "summary": "Researcher + character runtime + Spark Intelligence Builder runtime + default memory + Spawner execution plane + Telegram gateway",
     "modules": [
       "spark-researcher",
       "spark-character",

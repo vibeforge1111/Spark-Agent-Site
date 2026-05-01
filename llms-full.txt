@@ -46,11 +46,11 @@ It includes:
 
 ## Plain-Language Module Map
 
-Telegram Bot is the front door.
+Spark Telegram Bot is the front door.
 
 The user sends Spark messages in Telegram.
 
-Intelligence Builder is the runtime router.
+Spark Intelligence Builder is the runtime router.
 
 It connects Spark to the chosen LLM provider.
 
