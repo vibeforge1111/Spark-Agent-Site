@@ -1645,15 +1645,24 @@
 
 .command-surface-map,
 .command-walkthrough,
-.command-reference {
+.command-reference,
+.command-choice-list,
+.command-coach-panel dl,
+.command-finder,
+.command-search-results {
   display: grid;
-  gap: 14px;
   margin-top: 22px;
 }
 
+.command-surface-map,
+.command-walkthrough,
+.command-reference { gap: 14px; }
+
 .command-surface-card,
 .command-step,
-.command-row {
+.command-row,
+.command-coach-panel,
+.command-search-results article {
   border: 1px solid var(--border-strong);
   border-radius: 8px;
   background: color-mix(in srgb, var(--surface) 82%, transparent);
@@ -1776,6 +1785,164 @@
 
 .command-row p {
   grid-column: 3;
+}
+
+.command-coach {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+  gap: 18px;
+  margin-top: 24px;
+  align-items: start;
+}
+
+.command-choice-list {
+  gap: 8px;
+  margin-top: 0;
+}
+
+.command-choice-list button {
+  appearance: none;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font: 750 14px var(--font-sans);
+  padding: 12px 13px;
+  text-align: left;
+  transition: border-color var(--t-fast), background var(--t-fast), color var(--t-fast);
+}
+
+.command-choice-list button:hover,
+.command-choice-list button.is-active {
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--border-strong));
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  color: var(--text);
+}
+
+.command-coach-panel {
+  border-color: color-mix(in srgb, var(--accent) 36%, var(--border-strong));
+  background:
+    linear-gradient(color-mix(in srgb, var(--border) 28%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 28%, transparent) 1px, transparent 1px),
+    color-mix(in srgb, var(--surface) 84%, transparent);
+  background-size: 30px 30px;
+  padding: 22px;
+  box-shadow: 0 28px 90px -70px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.surface-pill {
+  display: inline-block;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--border-strong));
+  border-radius: 999px;
+  color: var(--accent);
+  font: 800 11px var(--font-mono);
+  letter-spacing: 1px;
+  padding: 6px 9px;
+  text-transform: uppercase;
+}
+
+.command-coach-panel h3 {
+  color: var(--text-bright);
+  font: 750 clamp(22px, 3vw, 30px)/1.15 var(--font-sans);
+  letter-spacing: -0.015em;
+  margin: 14px 0;
+}
+
+.command-coach-panel > code {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 76%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bg-deep) 88%, transparent);
+  color: var(--text);
+  font: 800 13px/1.5 var(--font-mono);
+  padding: 12px 13px;
+  overflow-wrap: anywhere;
+}
+
+.command-coach-panel dl {
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.command-coach-panel dl div {
+  border-left: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border-strong));
+  padding-left: 13px;
+}
+
+.command-coach-panel dt {
+  color: var(--text);
+  font: 750 13px var(--font-sans);
+  margin-bottom: 3px;
+}
+
+.command-coach-panel dd {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.58;
+  margin: 0;
+}
+
+.command-finder { margin-top: 22px; }
+
+.command-finder label {
+  display: block;
+  color: var(--text);
+  font: 750 14px var(--font-sans);
+  margin-bottom: 9px;
+}
+
+.command-finder input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--border-strong));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bg-deep) 86%, transparent);
+  color: var(--text);
+  font: 650 16px var(--font-sans);
+  outline: none;
+  padding: 14px 15px;
+}
+
+.command-finder input:focus {
+  border-color: color-mix(in srgb, var(--accent) 70%, var(--border-strong));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.command-search-results {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.command-search-results article {
+  padding: 14px;
+}
+
+.command-search-results span {
+  display: block;
+  color: var(--accent);
+  font: 800 10px var(--font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.command-search-results code {
+  display: block;
+  color: var(--text);
+  font: 800 12px/1.45 var(--font-mono);
+  overflow-wrap: anywhere;
+}
+
+.command-search-results p,
+.command-empty {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.58;
+  margin: 8px 0 0;
 }
 
 .doc-steps {
@@ -1962,7 +2129,9 @@
   }
   .command-surface-card,
   .command-step,
-  .command-row {
+  .command-row,
+  .command-coach,
+  .command-search-results {
     grid-template-columns: 1fr;
   }
   .command-step > span,

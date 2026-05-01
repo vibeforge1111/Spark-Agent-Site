@@ -12,6 +12,28 @@ Spark has three command surfaces.
 2. Telegram bot: slash commands typed inside the Spark bot.
 3. Mission Control: browser UI for Kanban, Canvas, and build progress.
 
+## Command Coach
+
+If the command list feels too large, start from the user goal.
+
+- Turn Spark on: use `spark live start` in the computer terminal.
+- Bot is quiet: use `spark fix telegram` in the computer terminal, then `/diagnose` in Telegram.
+- Choose model: use `spark recommend llms`, then `spark providers status`.
+- Build something: use `/run <goal>` inside Telegram.
+- Use memory: use `/remember <note>` and `/recall <topic>` inside Telegram.
+- Update safely: use `spark update --skip-dirty`, then `spark verify --onboarding`.
+
+## Find By Need
+
+Search terms that should map to commands:
+
+- `quiet`, `bot`, `telegram`: `spark fix telegram`, `/diagnose`
+- `model`, `provider`, `llm`: `spark recommend llms`, `spark providers status`
+- `memory`, `remember`, `recall`: `/remember <note>`, `/recall <topic>`
+- `build`, `mission`, `app`: `/run <goal>`, `/board`
+- `logs`, `error`, `support`: `spark logs ...`, `spark support bundle`
+- `update`, `latest`, `missing command`: `spark update --skip-dirty`
+
 ## First-Day Path
 
 Run setup in the computer terminal:

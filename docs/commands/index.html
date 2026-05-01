@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-surfaces">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-coach">
 </head>
 <body>
 
@@ -67,6 +67,83 @@
         <a href="/docs/commands.md">Agent Markdown</a>
         <a href="/docs/providers/">Providers</a>
         <a href="/docs/troubleshooting/">Fix</a>
+      </div>
+    </section>
+
+    <section class="doc-section command-coach-section">
+      <h2>Tell Spark what you are trying to do.</h2>
+      <p>Start here if the command list feels like too much. Pick the situation that matches your moment; Spark shows where to type it, what it does, and what a good result looks like.</p>
+      <div class="command-coach" data-command-coach>
+        <div class="command-choice-list" aria-label="Command situations">
+          <button type="button" class="is-active" data-command-target="start" aria-pressed="true">Turn Spark on</button>
+          <button type="button" data-command-target="quiet" aria-pressed="false">Bot is quiet</button>
+          <button type="button" data-command-target="model" aria-pressed="false">Choose model</button>
+          <button type="button" data-command-target="build" aria-pressed="false">Build something</button>
+          <button type="button" data-command-target="memory" aria-pressed="false">Use memory</button>
+          <button type="button" data-command-target="update" aria-pressed="false">Update safely</button>
+        </div>
+        <div class="command-panel-stack">
+          <article class="command-coach-panel" data-command-panel="start">
+            <span class="surface-pill">Computer terminal</span>
+            <h3>Turn Spark on without extra terminal windows.</h3>
+            <code>spark live start</code>
+            <dl>
+              <div><dt>What it does</dt><dd>Starts the background Spark services: Telegram bot, Mission Control, and the local relay pieces Spark needs.</dd></div>
+              <div><dt>Good result</dt><dd>Spark says services are ready. Telegram can answer, and Mission Control opens in the browser.</dd></div>
+              <div><dt>Try next</dt><dd><code>spark live status</code> or send <code>/diagnose</code> in Telegram.</dd></div>
+            </dl>
+          </article>
+          <article class="command-coach-panel" data-command-panel="quiet" hidden>
+            <span class="surface-pill">Computer terminal</span>
+            <h3>Find out why the Telegram bot is not replying.</h3>
+            <code>spark fix telegram</code>
+            <dl>
+              <div><dt>What it does</dt><dd>Checks the common quiet-bot causes: token, admin ID, Spark Live process, LLM provider, memory bridge, and logs.</dd></div>
+              <div><dt>Good result</dt><dd>You get a short repair path instead of a vague error.</dd></div>
+              <div><dt>Try next</dt><dd>Run <code>spark verify --onboarding</code>, then send <code>/diagnose</code>.</dd></div>
+            </dl>
+          </article>
+          <article class="command-coach-panel" data-command-panel="model" hidden>
+            <span class="surface-pill">Computer terminal</span>
+            <h3>Pick the LLM Spark should use.</h3>
+            <code>spark recommend llms</code>
+            <dl>
+              <div><dt>What it does</dt><dd>Shows good provider paths for Codex, Claude, GLM, Kimi, MiniMax, OpenRouter, Hugging Face, Ollama, and LM Studio.</dd></div>
+              <div><dt>Good result</dt><dd>You choose one default provider first. Spark can use it for chat, memory, and missions unless you customize later.</dd></div>
+              <div><dt>Try next</dt><dd><code>spark providers status</code> and <code>spark providers test --role chat</code>.</dd></div>
+            </dl>
+          </article>
+          <article class="command-coach-panel" data-command-panel="build" hidden>
+            <span class="surface-pill">Telegram bot</span>
+            <h3>Ask Spark to build or research something.</h3>
+            <code>/run build me a tiny notes app</code>
+            <dl>
+              <div><dt>What it does</dt><dd>Creates a mission in Spawner/Mission Control and routes the work to the configured mission provider.</dd></div>
+              <div><dt>Good result</dt><dd>Telegram shows the mission starting, then Mission Control shows it on Kanban or Canvas.</dd></div>
+              <div><dt>Try next</dt><dd>Open <code>http://127.0.0.1:5173/kanban</code> or send <code>/board</code>.</dd></div>
+            </dl>
+          </article>
+          <article class="command-coach-panel" data-command-panel="memory" hidden>
+            <span class="surface-pill">Telegram bot</span>
+            <h3>Teach Spark something you want it to remember.</h3>
+            <code>/remember I like concise warm replies</code>
+            <dl>
+              <div><dt>What it does</dt><dd>Saves the note through Spark memory so future conversations can use it.</dd></div>
+              <div><dt>Good result</dt><dd>Spark confirms the memory was saved and can recall it later.</dd></div>
+              <div><dt>Try next</dt><dd><code>/recall concise warm replies</code>.</dd></div>
+            </dl>
+          </article>
+          <article class="command-coach-panel" data-command-panel="update" hidden>
+            <span class="surface-pill">Computer terminal</span>
+            <h3>Update Spark without losing track of what changed.</h3>
+            <code>spark update --skip-dirty</code>
+            <dl>
+              <div><dt>What it does</dt><dd>Updates clean Spark modules and skips repos with local edits instead of clobbering work.</dd></div>
+              <div><dt>Good result</dt><dd>Spark reports what updated, what was skipped, and what still needs attention.</dd></div>
+              <div><dt>Try next</dt><dd><code>spark verify --onboarding</code>.</dd></div>
+            </dl>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -146,6 +223,66 @@
             <p>Spark creates a mission, posts progress in Telegram, and shows the work in Kanban or Canvas.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Find a command by need.</h2>
+      <p>Search like a person. Try words like <code>quiet</code>, <code>model</code>, <code>memory</code>, <code>build</code>, <code>logs</code>, or <code>update</code>.</p>
+      <div class="command-finder">
+        <label for="command-search">What are you trying to do?</label>
+        <input id="command-search" type="search" placeholder="Example: bot quiet, change model, build app..." data-command-search>
+        <div class="command-search-results">
+          <article data-command-search-card data-keywords="setup install first day guide onboarding terminal">
+            <span>Terminal</span><code>spark setup</code><p>Run first-time setup for Telegram, provider, and access defaults.</p>
+          </article>
+          <article data-command-search-card data-keywords="start run live background terminal no windows">
+            <span>Terminal</span><code>spark live start</code><p>Start Spark services quietly in the background.</p>
+          </article>
+          <article data-command-search-card data-keywords="status health running live background terminal">
+            <span>Terminal</span><code>spark live status</code><p>Check whether Spark Live is running.</p>
+          </article>
+          <article data-command-search-card data-keywords="model llm provider codex claude glm minimax openrouter local">
+            <span>Terminal</span><code>spark recommend llms</code><p>See recommended LLM paths for Spark.</p>
+          </article>
+          <article data-command-search-card data-keywords="provider model roles chat memory mission wrong llm">
+            <span>Terminal</span><code>spark providers status</code><p>Check chat, memory, and mission model wiring.</p>
+          </article>
+          <article data-command-search-card data-keywords="quiet bot telegram not replying fix diagnose">
+            <span>Terminal</span><code>spark fix telegram</code><p>Repair the most common Telegram bot issues.</p>
+          </article>
+          <article data-command-search-card data-keywords="spawner mission control unreachable 5173 fix">
+            <span>Terminal</span><code>spark fix spawner</code><p>Repair Mission Control or Spawner reachability issues.</p>
+          </article>
+          <article data-command-search-card data-keywords="logs errors support telegram spawner">
+            <span>Terminal</span><code>spark logs spark-telegram-bot --lines 80</code><p>Read recent Telegram bot logs.</p>
+          </article>
+          <article data-command-search-card data-keywords="security audit secrets permissions vps docker">
+            <span>Terminal</span><code>spark security audit</code><p>Check Spark security posture and common risky settings.</p>
+          </article>
+          <article data-command-search-card data-keywords="update upgrade latest missing command dirty repo">
+            <span>Terminal</span><code>spark update --skip-dirty</code><p>Update clean modules while preserving repos with local edits.</p>
+          </article>
+          <article data-command-search-card data-keywords="diagnose telegram bot health provider memory mission">
+            <span>Telegram</span><code>/diagnose</code><p>Check Spark health from inside Telegram.</p>
+          </article>
+          <article data-command-search-card data-keywords="memory remember save preference profile telegram">
+            <span>Telegram</span><code>/remember &lt;note&gt;</code><p>Save something Spark should remember.</p>
+          </article>
+          <article data-command-search-card data-keywords="recall memory search remember telegram">
+            <span>Telegram</span><code>/recall &lt;topic&gt;</code><p>Search Spark memory.</p>
+          </article>
+          <article data-command-search-card data-keywords="build mission run app create telegram">
+            <span>Telegram</span><code>/run &lt;goal&gt;</code><p>Start a build, research, or coding mission.</p>
+          </article>
+          <article data-command-search-card data-keywords="board mission status running completed telegram">
+            <span>Telegram</span><code>/board</code><p>Show running and completed missions.</p>
+          </article>
+          <article data-command-search-card data-keywords="access permissions level full research build chat telegram">
+            <span>Telegram</span><code>/access 3</code><p>Set the recommended Research + Build access level.</p>
+          </article>
+        </div>
+        <p class="command-empty" data-command-empty hidden>No match yet. Try a simpler word like <code>bot</code>, <code>model</code>, <code>memory</code>, or <code>build</code>.</p>
       </div>
     </section>
 
@@ -245,5 +382,39 @@
     </section>
   </article>
 </main>
+<script>
+(() => {
+  const buttons = document.querySelectorAll("[data-command-target]");
+  const panels = document.querySelectorAll("[data-command-panel]");
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = button.getAttribute("data-command-target");
+      buttons.forEach((item) => {
+        const active = item === button;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.getAttribute("data-command-panel") !== target;
+      });
+    });
+  });
+
+  const input = document.querySelector("[data-command-search]");
+  const cards = document.querySelectorAll("[data-command-search-card]");
+  const empty = document.querySelector("[data-command-empty]");
+  input?.addEventListener("input", () => {
+    const query = input.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      const haystack = `${card.textContent} ${card.getAttribute("data-keywords") || ""}`.toLowerCase();
+      const visible = !query || haystack.includes(query);
+      card.hidden = !visible;
+      if (visible) shown += 1;
+    });
+    if (empty) empty.hidden = shown > 0;
+  });
+})();
+</script>
 </body>
 </html>
