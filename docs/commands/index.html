@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-playbook-clean">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-playbook-readable">
 </head>
 <body>
 
@@ -233,7 +233,7 @@
 
     <section class="doc-section">
       <h2>Find a command by need.</h2>
-      <p>Search like a person. Try words like <code>quiet</code>, <code>model</code>, <code>memory</code>, <code>build</code>, <code>logs</code>, or <code>update</code>.</p>
+      <p>Search like a person. Try words like <code>quiet</code>, <code>model</code>, <code>memory</code>, <code>build</code>, <code>logs</code>, <code>security</code>, or <code>update</code>.</p>
       <div class="command-finder">
         <label for="command-search">What are you trying to do?</label>
         <input id="command-search" type="search" placeholder="Example: bot quiet, change model, build app..." data-command-search>
@@ -244,8 +244,14 @@
           <article data-command-search-card data-keywords="start run live background terminal no windows">
             <span>Terminal</span><code>spark live start</code><p>Start Spark services quietly in the background.</p>
           </article>
+          <article data-command-search-card data-keywords="console live combined logs debug terminal">
+            <span>Terminal</span><code>spark live run</code><p>Run Spark with one combined visible console.</p>
+          </article>
           <article data-command-search-card data-keywords="status health running live background terminal">
             <span>Terminal</span><code>spark live status</code><p>Check whether Spark Live is running.</p>
+          </article>
+          <article data-command-search-card data-keywords="live logs background debug terminal">
+            <span>Terminal</span><code>spark live logs</code><p>Read recent Spark Live logs.</p>
           </article>
           <article data-command-search-card data-keywords="model llm provider codex claude glm minimax openrouter local">
             <span>Terminal</span><code>spark recommend llms</code><p>See recommended LLM paths for Spark.</p>
@@ -262,8 +268,47 @@
           <article data-command-search-card data-keywords="logs errors support telegram spawner">
             <span>Terminal</span><code>spark logs spark-telegram-bot --lines 80</code><p>Read recent Telegram bot logs.</p>
           </article>
+          <article data-command-search-card data-keywords="support bundle redacted report share review">
+            <span>Terminal</span><code>spark support bundle</code><p>Create a local redacted support archive.</p>
+          </article>
           <article data-command-search-card data-keywords="security audit secrets permissions vps docker">
             <span>Terminal</span><code>spark security audit</code><p>Check Spark security posture and common risky settings.</p>
+          </article>
+          <article data-command-search-card data-keywords="approval classify permissions sensitive action guardrail">
+            <span>Terminal</span><code>spark approval classify "delete local logs"</code><p>Check whether an action needs approval.</p>
+          </article>
+          <article data-command-search-card data-keywords="secrets token key list masked backend">
+            <span>Terminal</span><code>spark secrets list</code><p>Confirm stored secret IDs without printing values.</p>
+          </article>
+          <article data-command-search-card data-keywords="modules installed list manifest">
+            <span>Terminal</span><code>spark list</code><p>Show installed Spark modules.</p>
+          </article>
+          <article data-command-search-card data-keywords="module search registry install">
+            <span>Terminal</span><code>spark search memory</code><p>Search the local Spark module registry.</p>
+          </article>
+          <article data-command-search-card data-keywords="config json profile routing advanced debug">
+            <span>Terminal</span><code>spark config list</code><p>Inspect local Spark config while debugging.</p>
+          </article>
+          <article data-command-search-card data-keywords="doctor json structured diagnostics agent support">
+            <span>Terminal</span><code>spark doctor --json</code><p>Show structured diagnostics for agents or support.</p>
+          </article>
+          <article data-command-search-card data-keywords="restart module spawner telegram service support">
+            <span>Terminal</span><code>spark restart spawner-ui</code><p>Restart one Spark module when a repair guide asks.</p>
+          </article>
+          <article data-command-search-card data-keywords="start module telegram starter service support">
+            <span>Terminal</span><code>spark start telegram-starter</code><p>Start a specific module bundle when support asks.</p>
+          </article>
+          <article data-command-search-card data-keywords="stop module telegram starter service support">
+            <span>Terminal</span><code>spark stop telegram-starter</code><p>Stop a specific module bundle when support asks.</p>
+          </article>
+          <article data-command-search-card data-keywords="install module registry add advanced">
+            <span>Terminal</span><code>spark install &lt;module-name&gt;</code><p>Install another Spark module after reviewing it.</p>
+          </article>
+          <article data-command-search-card data-keywords="init scaffold module developer create">
+            <span>Terminal</span><code>spark init my-module</code><p>Scaffold a new Spark module.</p>
+          </article>
+          <article data-command-search-card data-keywords="uninstall remove module cleanup careful">
+            <span>Terminal</span><code>spark uninstall &lt;module-name&gt;</code><p>Remove a Spark module intentionally.</p>
           </article>
           <article data-command-search-card data-keywords="update upgrade latest missing command dirty repo">
             <span>Terminal</span><code>spark update --skip-dirty</code><p>Update clean modules while preserving repos with local edits.</p>
@@ -324,11 +369,29 @@
         </article>
         <article class="command-play-card">
           <span>Computer terminal</span>
+          <h3>I want one live console showing what Spark is doing.</h3>
+          <code>spark live run</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Starts Spark Live and keeps one combined log console open for debugging.</dd></div>
+            <div><dt>You should see</dt><dd>One terminal shows the important Spark services instead of several separate windows.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
           <h3>I want to know whether Spark is actually on.</h3>
           <code>spark live status</code>
           <dl>
             <div><dt>Use it for</dt><dd>Checks whether Spark Live is supervising the running services.</dd></div>
             <div><dt>You should see</dt><dd>You can see which services are running and which one needs attention.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I want to read Spark Live logs.</h3>
+          <code>spark live logs</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Shows recent combined Spark Live logs when the background agent is acting strange.</dd></div>
+            <div><dt>You should see</dt><dd>Service messages that help explain whether Telegram, Mission Control, or provider wiring is stuck.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -391,7 +454,7 @@
           <code>spark fix telegram</code>
           <dl>
             <div><dt>Use it for</dt><dd>Checks token, admin IDs, polling, provider wiring, Builder bridge, and recent bot trouble spots.</dd></div>
-            <div><dt>You should see</dt><dd>You get a focused repair path instead of a generic “try again later.”</dd></div>
+            <div><dt>You should see</dt><dd>You get a focused repair path instead of a generic "try again later."</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -410,6 +473,24 @@
           <dl>
             <div><dt>Use it for</dt><dd>Guides BotFather token entry without making you hunt for secret files.</dd></div>
             <div><dt>You should see</dt><dd>The token is saved locally, routed only to the Telegram bot, and ready for restart.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I want to confirm secrets exist without printing them.</h3>
+          <code>spark secrets list</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Lists saved secret IDs and storage backend without showing token or API key values.</dd></div>
+            <div><dt>You should see</dt><dd>Secret names such as Telegram or provider keys, with values still protected.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I want to see what Spark modules are installed.</h3>
+          <code>spark list</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Shows the locally installed Spark modules and their manifest state.</dd></div>
+            <div><dt>You should see</dt><dd>The core starter modules, such as Telegram bot, Builder, memory, Researcher, character, and Mission Control.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -437,6 +518,114 @@
           <dl>
             <div><dt>Use it for</dt><dd>Builds a redacted diagnostic prompt and asks your configured LLM for a fix plan.</dd></div>
             <div><dt>You should see</dt><dd>You get a local report with next commands, not an automatic risky edit.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I want a local support package I can review before sharing.</h3>
+          <code>spark support bundle</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Creates a local, redacted troubleshooting bundle for support or upstream issue reports.</dd></div>
+            <div><dt>You should see</dt><dd>A local archive path and a reminder to review it before sending anything.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I want to check Spark's local security posture.</h3>
+          <code>spark security audit</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Checks secrets, provider wiring, Telegram ingress mode, and risky local settings.</dd></div>
+            <div><dt>You should see</dt><dd>Clear OK, warning, or repair lines without exposing private tokens.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I want to know whether an action should ask approval first.</h3>
+          <code>spark approval classify "delete local logs"</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Checks how Spark classifies sensitive actions before an agent or user performs them.</dd></div>
+            <div><dt>You should see</dt><dd>A clear approval category so risky actions can be slowed down instead of guessed.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I want to find another Spark module.</h3>
+          <code>spark search memory</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Searches the local blessed registry by module name or summary.</dd></div>
+            <div><dt>You should see</dt><dd>Matching Spark modules before you decide whether to install anything.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I need to inspect advanced config while debugging.</h3>
+          <code>spark config list</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Shows the local Spark user config as JSON for agents or support helpers.</dd></div>
+            <div><dt>You should see</dt><dd>Configuration values that explain routing and profiles; secrets should remain in the secret store.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I need structured diagnostics for an agent or support helper.</h3>
+          <code>spark doctor --json</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Prints diagnostic state in a structured format that another tool can read.</dd></div>
+            <div><dt>You should see</dt><dd>JSON-style health information instead of only human text.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I need to restart one Spark piece, not everything.</h3>
+          <code>spark restart spawner-ui</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Restarts one module when a repair guide names the exact service.</dd></div>
+            <div><dt>You should see</dt><dd>That module stops, starts again, and reports whether it became healthy.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>A support guide tells me to start a specific bundle.</h3>
+          <code>spark start telegram-starter</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Starts a named Spark bundle or module directly. For normal daily use, prefer Spark Live.</dd></div>
+            <div><dt>You should see</dt><dd>Spark reports which services started and whether any dependency is unhealthy.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>A support guide tells me to stop a specific bundle.</h3>
+          <code>spark stop telegram-starter</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Stops a named Spark bundle or module directly when you are repairing a specific service.</dd></div>
+            <div><dt>You should see</dt><dd>Spark reports what stopped and what was already inactive.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I found a module and want to install it.</h3>
+          <code>spark install &lt;module-name&gt;</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Installs a Spark module from the registry or a local repo after you review what it is.</dd></div>
+            <div><dt>You should see</dt><dd>An install plan, trust checks, and a clear success or repair message.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I want to create a new Spark module.</h3>
+          <code>spark init my-module</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Scaffolds a new Spark module with the starter manifest files.</dd></div>
+            <div><dt>You should see</dt><dd>A new local module folder ready for editing and testing.</dd></div>
+          </dl>
+        </article>
+        <article class="command-play-card">
+          <span>Computer terminal</span>
+          <h3>I need to remove a module on purpose.</h3>
+          <code>spark uninstall &lt;module-name&gt;</code>
+          <dl>
+            <div><dt>Use it for</dt><dd>Removes a Spark module intentionally. Use destructive cleanup flags only when you mean it.</dd></div>
+            <div><dt>You should see</dt><dd>Spark explains what was removed and what local state remains.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">

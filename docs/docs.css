@@ -1902,9 +1902,7 @@
   align-items: start;
   border: 1px solid color-mix(in srgb, var(--border-strong) 74%, transparent);
   border-radius: 8px;
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--accent) 5%, transparent), transparent 34%),
-    color-mix(in srgb, var(--surface) 50%, transparent);
+  background: color-mix(in srgb, var(--surface) 58%, transparent);
   padding: 17px 18px;
 }
 
@@ -1957,7 +1955,7 @@
 }
 
 .command-play-card dt {
-  color: var(--text-ghost);
+  color: color-mix(in srgb, var(--text) 84%, var(--text-secondary));
   font: 850 10px var(--font-mono);
   letter-spacing: 1px;
   margin: 2px 0 0;
@@ -1969,6 +1967,11 @@
   font-size: 14px;
   line-height: 1.58;
   margin: 0;
+}
+
+.command-play-card dl div:nth-child(2) dt,
+.command-play-card dl div:nth-child(2) dd {
+  color: var(--text);
 }
 
 .command-coach {
