@@ -61,7 +61,7 @@ Options:
   --bundle NAME             Bundle for setup (default: telegram-starter)
   --bot-token TOKEN         Telegram BotFather token passed to setup
   --admin-telegram-ids IDS  Comma-separated Telegram admin IDs passed to setup
-  --llm-provider PROVIDER   Provider passed to setup: openai, codex, anthropic, zai, minimax, or ollama
+  --llm-provider PROVIDER   Default provider for Agent and Mission: codex, anthropic, zai, kimi, openrouter, huggingface, lmstudio, minimax, ollama, or openai
   --zai-api-key KEY         Z.AI / GLM API key passed to setup
   --openai-api-key KEY      OpenAI API key passed to setup
   --anthropic-api-key KEY   Anthropic API key passed to setup
@@ -524,6 +524,7 @@ print_plan() {
   CLI commit:          $SPARK_CLI_REF
   Bundle:              $SPARK_BUNDLE
   Setup enabled:       $([ "$SPARK_SKIP_SETUP" = "1" ] && printf no || printf yes)
+  Default provider:    $([ -n "$SPARK_LLM_PROVIDER" ] && printf '%s for Agent and Mission' "$SPARK_LLM_PROVIDER" || printf 'choose during spark setup')
   Shell profile edit:  $([ "$SPARK_SHELL_PROFILE" = "0" ] && printf no || printf "$SPARK_SHELL_PROFILE")
   Autostart:           $([ "$SPARK_AUTOSTART" = "1" ] && printf yes || printf no)
   Existing mode:       $SPARK_EXISTING_MODE
@@ -552,7 +553,11 @@ Would run:
   python -m venv "$SPARK_PREFIX/tools/spark-cli-venv"
 EOF
   if [ "$SPARK_SKIP_SETUP" != "1" ]; then
-    printf '  "%s/bin/spark" setup "%s"\n' "$SPARK_PREFIX" "$SPARK_BUNDLE"
+    if [ -n "$SPARK_LLM_PROVIDER" ]; then
+      printf '  "%s/bin/spark" setup "%s" --llm-provider "%s"\n' "$SPARK_PREFIX" "$SPARK_BUNDLE" "$SPARK_LLM_PROVIDER"
+    else
+      printf '  "%s/bin/spark" setup "%s"\n' "$SPARK_PREFIX" "$SPARK_BUNDLE"
+    fi
   fi
   if [ "$SPARK_AUTOSTART" = "1" ]; then
     printf '  "%s/bin/spark" autostart install "%s" --now\n' "$SPARK_PREFIX" "$SPARK_BUNDLE"

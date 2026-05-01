@@ -244,6 +244,8 @@ function Show-DryRunPlan {
     Write-Host "  CLI commit:          $Ref"
     Write-Host "  Bundle:              $Bundle"
     Write-Host "  Setup enabled:       $setupEnabled"
+    $providerPlan = if ($LlmProvider) { "$LlmProvider for Agent and Mission" } else { "choose during spark setup" }
+    Write-Host "  Default provider:    $providerPlan"
     Write-Host "  User PATH edit:      yes"
     Write-Host "  Autostart:           $autostartEnabled"
     Write-Host "  Existing mode:       $existingMode"
@@ -270,7 +272,11 @@ function Show-DryRunPlan {
     Write-Host "Would run:"
     Write-Host "  python -m venv `"$Script:SparkPrefix\tools\spark-cli-venv`""
     if (-not $SkipSetup) {
-        Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`""
+        if ($LlmProvider) {
+            Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`" --llm-provider `"$LlmProvider`""
+        } else {
+            Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`""
+        }
     }
     if (-not $NoAutostart) {
         Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" autostart install `"$Bundle`" --now"

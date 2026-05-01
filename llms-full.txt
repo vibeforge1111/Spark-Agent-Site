@@ -50,7 +50,7 @@ Telegram Bot is the front door.
 
 The user sends Spark messages in Telegram.
 
-Intelligence Builder is the brain router.
+Intelligence Builder is the runtime router.
 
 It connects Spark to the chosen LLM provider.
 
@@ -153,7 +153,7 @@ spark verify --onboarding
 
 ## Provider Setup
 
-Default to one provider for agent chat, runtime, memory, and missions.
+Default to one provider for Agent and Mission, or split them during setup.
 
 Useful commands:
 

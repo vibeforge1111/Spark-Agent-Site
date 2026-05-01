@@ -16,7 +16,7 @@ Spark replies there.
 
 ## Intelligence Builder
 
-This is the brain router.
+This is the runtime router.
 
 It decides which LLM provider Spark should use.
 
