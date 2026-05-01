@@ -220,7 +220,7 @@ spark logs spawner-ui --lines 80
 
 ## Provider Setup
 
-Default to one provider for agent chat, runtime, memory, and missions.
+Default to one provider for Agent and Mission, or split them during setup. Agent means chat, runtime reasoning, memory, and recall. Mission means Spawner/Mission Control builds, research, coding, and longer tracked work.
 
 ```bash
 spark recommend llms

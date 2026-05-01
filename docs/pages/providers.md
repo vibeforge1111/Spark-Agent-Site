@@ -10,6 +10,6 @@ sources:
 
 # Spark LLM Providers
 
-Default to one provider for agent chat, runtime, memory, and missions. Let users split agent and mission providers later.
+Default to one provider for Agent and Mission, or let users split them during setup. Agent means chat, runtime reasoning, memory, and recall. Mission means Spawner/Mission Control builds, research, coding, and longer tracked work.
 
 See `/docs/providers.md` for provider families and setup commands.

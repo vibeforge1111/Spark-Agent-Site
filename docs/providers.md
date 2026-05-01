@@ -2,14 +2,14 @@
 
 Human page: `/docs/providers/`
 
-Spark should be easy first and customizable later. Start with one provider for the whole agent, then split roles only when you have a reason.
+Spark should be easy first and customizable when the user wants control. Start with one provider for Agent and Mission, or split them during setup if the user already knows they want separate models.
 
 ## Recommended Setup For Most People
 
-Choose one provider during `spark setup`. Use it for both Agent and Mission:
+Choose one provider during `spark setup`. Use it for both Agent and Mission unless the user already wants a split:
 
-- Agent: Telegram chat, runtime decisions, and memory.
-- Mission: Spawner builds, research work, and longer tracked tasks.
+- Agent: Telegram chat, runtime reasoning, memory synthesis, and recall.
+- Mission: Spawner/Mission Control builds, research, coding work, and longer tracked missions.
 
 That avoids surprise fallback behavior. Spark should not call Ollama, LM Studio, or another local endpoint unless the user selected it.
 
@@ -77,4 +77,4 @@ spark verify --onboarding
 - A normal Telegram message gets a real answer.
 - `/run say exactly OK` starts a mission and returns a result through Mission Control.
 
-Advanced users can later rerun `spark setup` and choose separate Agent and Mission providers.
+Users can choose separate Agent and Mission providers during first setup, or rerun `spark setup` later to change the split.

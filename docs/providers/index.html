@@ -62,7 +62,7 @@
     <section class="doc-hero">
       <span class="overline">Providers</span>
       <h1>Choose the model Spark will use.</h1>
-      <p>Start with one provider for the whole agent. That keeps setup calm: chat, memory, runtime reasoning, and build missions all use the same path until you decide to split them.</p>
+      <p>Start with one provider for Agent and Mission, or split them during setup if you already know what you want. Agent means chat, runtime reasoning, memory, and recall. Mission means Spark's longer build work in Mission Control.</p>
       <div class="doc-mini-nav">
         <a href="/docs/providers.md">Agent Markdown</a>
         <a href="/docs/commands/">Commands</a>
@@ -110,12 +110,12 @@
         <article>
           <span>01</span>
           <h3>Pick a default provider</h3>
-          <p>This is the model family Spark starts with for normal chat and work.</p>
+          <p>This is the model family Spark starts with for Agent and Mission.</p>
         </article>
         <article>
           <span>02</span>
-          <h3>Use it everywhere first</h3>
-          <p>For most people, one provider should power Agent and Mission until there is a reason to split.</p>
+          <h3>Keep it together or split now</h3>
+          <p>Most people use one provider for both. If you already know your build model should be different, choose a separate Mission provider during setup.</p>
         </article>
         <article>
           <span>03</span>
@@ -169,18 +169,18 @@ spark verify --onboarding</pre>
       <div class="provider-role-map">
         <article>
           <span>Agent</span>
-          <h3>Conversation, memory, and Spark's day-to-day thinking.</h3>
+          <h3>Chat, runtime reasoning, memory, and recall.</h3>
           <p>This is what answers Telegram messages, remembers preferences, recalls context, and decides how Spark should respond.</p>
         </article>
         <article>
           <span>Mission</span>
-          <h3>Build work that goes through Mission Control.</h3>
-          <p>This is what runs longer Spawner work: building apps, researching, debugging, and tracking progress on the Kanban or Canvas.</p>
+          <h3>Builds and longer tracked work in Mission Control.</h3>
+          <p>This is what runs bigger Spark work: building apps, researching, debugging, coding, and tracking progress on Kanban or Canvas.</p>
         </article>
       </div>
       <div class="doc-callout">
         <h3>Default recommendation</h3>
-        <p>Choose one provider first and use it for both Agent and Mission. If builds need a different model later, rerun <code>spark setup</code> and choose the role split.</p>
+        <p>Choose one provider and use it for both Agent and Mission unless you already know you want a split. You can change this later by rerunning <code>spark setup</code>.</p>
       </div>
     </section>
 
@@ -198,7 +198,7 @@ spark providers test --role chat</pre>
         <article>
           <span class="doc-kicker">More control</span>
           <h3>Agent on one provider, builds on another</h3>
-          <p>Use this when you like one model for conversation and memory, but want a different model for longer build missions.</p>
+          <p>Use this during setup or later when you like one model for conversation and memory, but want a different model for longer build missions.</p>
           <pre class="docs-code">spark setup --agent-llm-provider anthropic --mission-llm-provider codex
 spark providers status
 spark providers test --role chat
@@ -319,7 +319,7 @@ spark providers test --role mission</pre>
     <section class="doc-section">
       <h2>What good looks like.</h2>
       <div class="provider-good-state">
-        <p><strong>Provider status:</strong> Agent and Mission roles show the provider you chose.</p>
+        <p><strong>Provider status:</strong> Agent and Mission show the provider or split you chose.</p>
         <p><strong>No surprise fallback:</strong> Spark should not call Ollama, LM Studio, or another local endpoint unless you selected it.</p>
         <p><strong>Telegram chat:</strong> A normal message gets a real answer from the selected Agent provider.</p>
         <p><strong>Build test:</strong> <code>/run say exactly OK</code> starts a mission and returns a result through Mission Control.</p>
