@@ -4,10 +4,12 @@ Spark improves best when a repeatable task has a score.
 
 A domain chip is both a reusable tool Spark can call and a bounded specialization loop Spark Researcher can run.
 
+Use `/docs/feedback.md` for feedback and PR routing. This page is about Researcher, OTOLO/autoloops, domain chips, benchmarks, and specialization paths.
+
 ## Loop
 
 ```text
-task family -> chip tool -> score -> memory packet -> next run
+workflow -> Researcher -> benchmark -> memory packet -> better next run
 ```
 
 ## Domain Chips

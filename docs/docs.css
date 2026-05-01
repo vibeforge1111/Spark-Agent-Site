@@ -1622,6 +1622,241 @@
   color: var(--text);
 }
 
+.feedback-choice {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.feedback-picker,
+.feedback-agent-card,
+.improve-diagram,
+.improve-score-card {
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 84%, transparent);
+}
+
+.feedback-picker,
+.feedback-agent-card {
+  padding: 18px;
+}
+
+.feedback-picker label,
+.feedback-agent-card span,
+.improve-diagram > span,
+.improve-score-card > span {
+  display: inline-block;
+  color: var(--accent);
+  font: 700 11px var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.feedback-picker select {
+  width: 100%;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bg-deep) 88%, transparent);
+  color: var(--text);
+  padding: 12px 14px;
+  font: 600 14px var(--font-sans);
+}
+
+.feedback-picker p,
+.feedback-agent-card p,
+.feedback-repo-card p,
+.improve-diagram p,
+.improve-score-card p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.feedback-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.feedback-actions a,
+.feedback-repo-card a,
+.improve-diagram a {
+  width: fit-content;
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, var(--border-strong));
+  border-radius: 7px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--bg-deep) 84%, transparent);
+  padding: 9px 11px;
+  font: 700 12px var(--font-mono);
+}
+
+.feedback-actions a:hover,
+.feedback-repo-card a:hover,
+.improve-diagram a:hover {
+  color: var(--text-bright);
+  border-color: color-mix(in srgb, var(--accent) 70%, var(--border-strong));
+}
+
+.feedback-repo-grid,
+.improve-use-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.feedback-repo-card {
+  display: grid;
+  gap: 9px;
+  align-content: start;
+  border-left: 1px solid var(--border-strong);
+  padding: 2px 0 2px 18px;
+  min-width: 0;
+}
+
+.feedback-repo-card h3,
+.improve-diagram h3,
+.improve-score-card h3 {
+  color: var(--text);
+  font: 600 16px var(--font-sans);
+  line-height: 1.28;
+}
+
+.feedback-repo-card code {
+  width: fit-content;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: var(--accent);
+  font: 600 12px var(--font-mono);
+}
+
+.improve-diagram {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  margin-top: 22px;
+}
+
+.improve-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--bg-deep) 72%, transparent);
+}
+
+.improve-flow div {
+  position: relative;
+  min-height: 92px;
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  padding: 14px;
+  border-right: 1px solid var(--border);
+}
+
+.improve-flow div:last-child { border-right: 0; }
+
+.improve-flow strong {
+  color: var(--text);
+  font: 700 13px var(--font-sans);
+}
+
+.improve-flow em {
+  color: var(--text-ghost);
+  font: 500 12px/1.45 var(--font-sans);
+  font-style: normal;
+}
+
+.improve-flow div::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+  animation: docsPulse 2.8s ease-in-out infinite;
+}
+
+.improve-flow div:nth-child(2)::before { animation-delay: 0.25s; }
+.improve-flow div:nth-child(3)::before { animation-delay: 0.5s; }
+.improve-flow div:nth-child(4)::before { animation-delay: 0.75s; }
+.improve-flow div:nth-child(5)::before { animation-delay: 1s; }
+
+.improve-lab-map {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 0.9fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
+.improve-lab-column {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+}
+
+.improve-lab-column strong {
+  display: block;
+  color: var(--text);
+  font: 700 14px var(--font-sans);
+  margin-bottom: 8px;
+}
+
+.improve-lab-column ul {
+  display: grid;
+  gap: 8px;
+  padding-left: 18px;
+}
+
+.improve-lab-column li {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.improve-score-row {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr) 90px;
+  gap: 12px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.improve-score-row span {
+  color: var(--text-ghost);
+  font: 700 11px var(--font-mono);
+  text-transform: uppercase;
+}
+
+.improve-meter {
+  height: 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--bg-deep) 82%, transparent);
+}
+
+.improve-meter i {
+  display: block;
+  height: 100%;
+  width: var(--score, 40%);
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 42%, #b8a8dc));
+}
+
+.improve-use-grid .doc-card {
+  min-height: 100%;
+}
+
 .safety-visual {
   display: grid;
   gap: 12px;
@@ -2622,8 +2857,26 @@
   .provider-recipe-grid,
   .provider-matrix,
   .provider-command-list,
-  .provider-family-list article {
+  .provider-family-list article,
+  .feedback-choice,
+  .feedback-repo-grid,
+  .improve-use-grid,
+  .improve-lab-map {
     grid-template-columns: 1fr;
+  }
+  .improve-flow {
+    grid-template-columns: 1fr;
+  }
+  .improve-flow div {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .improve-flow div:last-child {
+    border-bottom: 0;
+  }
+  .improve-score-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
   .provider-family-list article {
     align-items: start;
@@ -2787,7 +3040,10 @@
   .provider-matrix article,
   .provider-command-list article,
   .provider-family-list article,
-  .provider-good-state {
+  .provider-good-state,
+  .feedback-picker,
+  .feedback-agent-card,
+  .improve-diagram {
     padding: 14px;
   }
   .docs-card,

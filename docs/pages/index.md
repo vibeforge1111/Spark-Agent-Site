@@ -28,6 +28,7 @@ They also include clean Markdown files for agents.
 - Read `/docs/commands/` for current Spark CLI and Telegram commands.
 - Read `/docs/providers/` for LLM provider setup.
 - Read `/docs/suites/` to understand what gets installed.
+- Read `/docs/feedback/` to route feedback, issues, and PRs.
 - Read `/docs/self-improvement/` to understand domain chips, recursive loops, and benchmarks.
 - Read `/docs/lifecycle/` for Spark Live, startup, and local lifecycle.
 - Read `/docs/troubleshooting/` when Telegram, memory, providers, or missions need help.
@@ -39,6 +40,7 @@ Agents can use the matching Markdown pages:
 - `/docs/commands.md`
 - `/docs/providers.md`
 - `/docs/suites.md`
+- `/docs/feedback.md`
 - `/docs/self-improvement.md`
 - `/docs/lifecycle.md`
 - `/docs/troubleshooting.md`

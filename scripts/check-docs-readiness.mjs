@@ -38,14 +38,19 @@ const pages = [
   { path: "docs/troubleshooting/index.html", name: "Troubleshooting", required: ["spark fix telegram", "spark fix spawner", "spark doctor llm"] },
   { path: "docs/security/index.html", name: "Security", required: ["spark security audit", "spark support bundle", "access"] },
   { path: "docs/suites/index.html", name: "Modules", required: ["telegram-starter", "Domain Chip Memory", "Spawner UI"] },
-  { path: "docs/self-improvement/index.html", name: "Self-improvement", required: ["domain chip", "Spark Researcher", "score"] },
+  { path: "docs/feedback/index.html", name: "Feedback", required: ["Choose the repo first", "Spark-Agent-Site", "spark-cli", "spark-researcher", "Open PR route"] },
+  { path: "docs/self-improvement/index.html", name: "Self-improvement", required: ["domain chip", "Spark Researcher", "benchmark", "OTOLO", "Flowchart 1", "Flowchart 2", "Flowchart 3"] },
 ];
 
 for (const page of pages) {
   const html = read(page.path);
   assert(html.includes("docs-nav-links"), `${page.name} is missing left docs navigation`);
   assert(html.includes("docs-feedback-banner"), `${page.name} is missing docs feedback banner`);
-  assert(html.includes(feedbackTemplate), `${page.name} feedback banner does not point to the issue form`);
+  if (page.name === "Feedback" || page.name === "Self-improvement") {
+    assert(html.includes("/docs/feedback/") || html.includes(feedbackTemplate), `${page.name} should route readers to feedback paths`);
+  } else {
+    assert(html.includes(feedbackTemplate), `${page.name} feedback banner does not point to the issue form`);
+  }
   assert(html.includes(`/docs/docs.css?v=${cssVersion}`), `${page.name} uses stale docs CSS cache key`);
   assert(!html.includes("docs.css?v=20260501-command-playbook-readable"), `${page.name} still uses old command-playbook CSS key`);
   for (const required of page.required) {
@@ -92,7 +97,7 @@ for (const href of internalLinks) {
   assert(fs.existsSync(localPath), `internal docs link target missing: ${cleanHref}`);
 }
 
-for (const relPath of ["docs/commands.md", "docs/providers.md", "docs/install-safety.md", "docs/lifecycle.md", "docs/troubleshooting.md", "docs/security.md"]) {
+for (const relPath of ["docs/commands.md", "docs/providers.md", "docs/install-safety.md", "docs/lifecycle.md", "docs/troubleshooting.md", "docs/security.md", "docs/feedback.md"]) {
   const markdown = read(relPath);
   assert(markdown.includes("Human page:"), `${relPath} should point agents back to the human page`);
 }

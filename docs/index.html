@@ -58,6 +58,7 @@
       <a href="/docs/lifecycle/">Start/Stop</a>
       <a href="/docs/troubleshooting/">Fix</a>
       <a href="/docs/security/">Security</a>
+      <a href="/docs/feedback/">Feedback</a>
       <a href="/docs/self-improvement/">Improve</a>
       <a href="/llms.txt">Agents</a>
     </div>
@@ -261,14 +262,41 @@
         </div>
       </section>
 
+      <section class="docs-section" id="feedback">
+        <span class="overline">Feedback</span>
+        <h2>Send improvements to the right Spark repo.</h2>
+        <p>
+          If a doc, command, module, benchmark, or setup path can be better, route it as feedback or a PR. The feedback page helps humans and agents choose the repo, redact secrets, and write a useful issue.
+        </p>
+        <div class="docs-grid">
+          <div class="docs-card">
+            <span class="docs-card-kicker">Humans</span>
+            <h3>Pick the area, then open GitHub.</h3>
+            <p>Choose docs, CLI, Researcher, Telegram, Mission Control, memory, character, or chip work.</p>
+            <p>The page gives you a direct issue and PR path for each repo.</p>
+          </div>
+          <div class="docs-card">
+            <span class="docs-card-kicker">Agents</span>
+            <h3>Prepare feedback safely.</h3>
+            <p>Agents should name the repo, expected behavior, actual behavior, redacted evidence, and the smallest useful change.</p>
+            <p>Secrets, private memory, and raw logs stay out of GitHub.</p>
+          </div>
+        </div>
+        <div class="docs-links">
+          <a class="docs-link" href="/docs/feedback/">Feedback guide</a>
+          <a class="docs-link" href="/docs/feedback.md">Agent Markdown</a>
+          <a class="docs-link" href="https://github.com/vibeforge1111/Spark-Agent-Site/issues/new?template=docs-feedback.yml&title=Spark%20feedback%3A%20">Open feedback</a>
+        </div>
+      </section>
+
       <section class="docs-section" id="self-improvement">
         <span class="overline">Self-Improvement</span>
-        <h2>How Spark turns a task into a specialist.</h2>
+        <h2>How Spark turns a task into a scored specialist.</h2>
         <p>
           A domain chip is both a tool Spark can use and a bounded specialization loop Spark Researcher can run.
         </p>
         <p>
-          It gives Spark a way to inspect one kind of work, score it, save the useful lesson, and suggest the next safe experiment.
+          It gives Spark a way to inspect one kind of work, score it, save the useful lesson, and suggest the next safe experiment. Feedback and PRs live in the feedback guide; this section is about benchmark-driven agent improvement.
         </p>
         <div class="docs-flow" aria-label="Spark recursive loop">
           <span>Tool</span>
@@ -311,8 +339,8 @@ Ask before making risky changes.</pre>
         </div>
         <div class="docs-links">
           <a class="docs-link" href="/docs/self-improvement/">Self-improvement guide</a>
+          <a class="docs-link" href="/docs/feedback/">Feedback guide</a>
           <a class="docs-link" href="/docs/suites/">Spark suites</a>
-          <a class="docs-link" href="/llms-full.txt">Agent context</a>
         </div>
       </section>
 

@@ -80,6 +80,8 @@ For example:
 
 Read `/docs/self-improvement.md` when you want to create your own chip or recursive loop.
 
+Read `/docs/feedback.md` when you want to report a module issue or route a PR to the right repo.
+
 ## Spark Live And Autostart
 
 Spark Live runs Spark services quietly in the background.

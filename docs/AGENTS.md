@@ -23,6 +23,7 @@ Use these pages first for humans:
 - `/docs/commands/` for current CLI and Telegram commands
 - `/docs/providers/` for LLM provider setup
 - `/docs/suites/` to explain what Spark installs
+- `/docs/feedback/` to route feedback, issues, and PRs to the right repo
 - `/docs/self-improvement/` to explain domain chips, recursive loops, and benchmarks
 - `/docs/lifecycle/` for Spark Live, startup, checks, and uninstall
 - `/docs/troubleshooting/` for quiet bots, provider failures, memory, and Spawner
@@ -34,6 +35,7 @@ Use these Markdown pages first for agents:
 - `/docs/commands.md` for current CLI and Telegram commands
 - `/docs/providers.md` for LLM provider setup
 - `/docs/suites.md` to explain what Spark installs
+- `/docs/feedback.md` to route feedback, issues, and PRs to the right repo
 - `/docs/self-improvement.md` to explain domain chips, recursive loops, and benchmarks
 - `/docs/lifecycle.md` for repair, checks, autostart, and uninstall
 - `/docs/troubleshooting.md` for known failure modes
@@ -97,6 +99,16 @@ For domain chips and recursive loops, keep the answer grounded:
 - require review before risky changes
 
 Do not invent a one-click chip command if it has not been verified. Ask the local agent to inspect Spark Researcher's chip-authoring docs and propose the smallest v0 before writing files.
+
+## Feedback And PR Rule
+
+When a user wants to report feedback or share an improvement:
+
+- read `/docs/feedback/`
+- choose the right repo
+- redact secrets before writing any issue or PR body
+- include expected behavior, actual behavior, evidence, and the smallest useful improvement
+- ask before opening GitHub, pushing a branch, or submitting anything
 
 ## Current Installer Pins
 

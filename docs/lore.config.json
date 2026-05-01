@@ -38,6 +38,7 @@
       { "label": "Overview", "href": "/docs" },
       { "label": "Install Safety", "href": "/docs/install-safety/" },
       { "label": "Suites", "href": "/docs/suites/" },
+      { "label": "Feedback", "href": "/docs/feedback/" },
       { "label": "Self-Improvement", "href": "/docs/self-improvement/" },
       { "label": "Lifecycle", "href": "/docs/lifecycle/" }
     ],

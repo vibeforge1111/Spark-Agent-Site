@@ -1,6 +1,6 @@
-name: Docs or onboarding feedback
-description: Tell us where Spark docs, install, or setup felt confusing.
-title: "Docs feedback: "
+name: Spark feedback
+description: Tell us where Spark docs, install, setup, or a module felt confusing.
+title: "Spark feedback: "
 labels:
   - docs
   - onboarding
@@ -8,14 +8,32 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for helping us make Spark easier to install and use.
+        Thanks for helping us make Spark easier to install, use, and improve.
         Please do not paste API keys, Telegram bot tokens, private logs, or personal secrets.
+  - type: dropdown
+    id: repo
+    attributes:
+      label: Best target repo
+      description: Pick the repo or module this feedback most likely belongs to.
+      options:
+        - Spark-Agent-Site: docs, install page, hosted metadata
+        - spark-cli: installer, setup, providers, autostart, commands
+        - spark-researcher: research, OTOLO/autoloops, chip authoring
+        - spark-intelligence-builder: runtime routing and provider roles
+        - domain-chip-memory: memory and memory benchmarks
+        - spark-telegram-bot: Telegram chat and commands
+        - vibeship-spawner-ui: Mission Control, Kanban, Canvas
+        - spark-character: role, voice, access level
+        - spark-skill-graphs: domain chips and skill graphs
+        - Not sure
+    validations:
+      required: true
   - type: input
     id: page
     attributes:
-      label: Page or command
-      description: Which page, command, or step were you using?
-      placeholder: "Example: /docs/commands/, spark live start, Telegram /diagnose"
+      label: Page, command, module, or repo
+      description: Which page, command, module, repo, or step were you using?
+      placeholder: "Example: /docs/commands/, spark live start, spark-researcher autoloop, Telegram /diagnose"
     validations:
       required: true
   - type: dropdown
@@ -29,6 +47,9 @@ body:
         - Commands or where to type them
         - Mission Control / Kanban / Canvas
         - Memory or domain chips
+        - Researcher / OTOLO / autoloops
+        - Benchmark or score behavior
+        - Pull request or contribution path
         - Security or access levels
         - Other docs wording
     validations:
@@ -53,5 +74,13 @@ body:
       label: Safe details
       description: Share commands, screenshots, or error text after removing secrets.
       placeholder: "Paste redacted output here. Replace tokens with <redacted>."
+    validations:
+      required: false
+  - type: textarea
+    id: suggested_fix
+    attributes:
+      label: Suggested improvement or PR link
+      description: Optional. Share the smallest change you think would help, or link a PR if you opened one.
+      placeholder: "A clearer sentence, command example, test, diagram, or PR link would be..."
     validations:
       required: false

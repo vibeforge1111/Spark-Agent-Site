@@ -16,6 +16,7 @@ Spark can remember useful facts, run missions, and help with research or buildin
 - Human commands: https://agent.sparkswarm.ai/docs/commands/
 - Human providers: https://agent.sparkswarm.ai/docs/providers/
 - Human suites: https://agent.sparkswarm.ai/docs/suites/
+- Human feedback: https://agent.sparkswarm.ai/docs/feedback/
 - Human self-improvement: https://agent.sparkswarm.ai/docs/self-improvement/
 - Human lifecycle: https://agent.sparkswarm.ai/docs/lifecycle/
 - Human troubleshooting: https://agent.sparkswarm.ai/docs/troubleshooting/
@@ -24,6 +25,7 @@ Spark can remember useful facts, run missions, and help with research or buildin
 - Spark commands: https://agent.sparkswarm.ai/docs/commands.md
 - Spark providers: https://agent.sparkswarm.ai/docs/providers.md
 - Spark suites: https://agent.sparkswarm.ai/docs/suites.md
+- Spark feedback: https://agent.sparkswarm.ai/docs/feedback.md
 - Self-improvement: https://agent.sparkswarm.ai/docs/self-improvement.md
 - Lifecycle: https://agent.sparkswarm.ai/docs/lifecycle.md
 - Troubleshooting: https://agent.sparkswarm.ai/docs/troubleshooting.md
@@ -70,6 +72,8 @@ Spark Character keeps identity, role, voice, and access-level behavior stable.
 
 Domain chips teach Spark how to score and improve one domain.
 
+Feedback and PRs should be routed through the repo map at `/docs/feedback/`.
+
 Benchmarks keep those loops honest.
 
 Autostart brings Spark back after login.
@@ -77,6 +81,8 @@ Autostart brings Spark back after login.
 ## Domain Chips And Loops
 
 A domain chip is both a reusable tool Spark can call and a bounded specialization loop Spark Researcher can run.
+
+OTOLO/autoloops are bounded Researcher loops: one task, one score, a few rounds, then review.
 
 The chip owns domain behavior:
 
@@ -90,7 +96,7 @@ Spark Researcher owns loop execution, ledger, queue, memory index, vault generat
 The simple loop is:
 
 ```text
-task family -> chip tool -> score -> memory packet -> next run
+workflow -> Researcher -> benchmark -> memory packet -> better next run
 ```
 
 Examples:

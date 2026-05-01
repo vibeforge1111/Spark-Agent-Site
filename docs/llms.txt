@@ -12,6 +12,7 @@ This page is for agents. If you are human, this is not for you. :)
 - [Human commands](https://agent.sparkswarm.ai/docs/commands/): Current CLI and Telegram commands.
 - [Human providers](https://agent.sparkswarm.ai/docs/providers/): LLM provider setup.
 - [Human suites](https://agent.sparkswarm.ai/docs/suites/): Polished module map.
+- [Human feedback](https://agent.sparkswarm.ai/docs/feedback/): Repo routing for feedback, issues, and PRs.
 - [Human self-improvement](https://agent.sparkswarm.ai/docs/self-improvement/): Domain chips as reusable tools and Spark Researcher specialization loops.
 - [Human lifecycle](https://agent.sparkswarm.ai/docs/lifecycle/): Spark Live, startup, and lifecycle.
 - [Human troubleshooting](https://agent.sparkswarm.ai/docs/troubleshooting/): Quiet bot, provider, memory, and Spawner fixes.
@@ -20,6 +21,7 @@ This page is for agents. If you are human, this is not for you. :)
 - [Spark commands](https://agent.sparkswarm.ai/docs/commands.md): CLI and Telegram command map.
 - [Spark providers](https://agent.sparkswarm.ai/docs/providers.md): Provider families and role setup.
 - [Spark suites](https://agent.sparkswarm.ai/docs/suites.md): What Spark Telegram Bot, Spark Intelligence Builder, memory, Mission Control, and Researcher do.
+- [Spark feedback](https://agent.sparkswarm.ai/docs/feedback.md): Feedback and PR routing for agents.
 - [Self-improvement](https://agent.sparkswarm.ai/docs/self-improvement.md): Domain chips, Spark Researcher loops, and safe chip-building prompts.
 - [Lifecycle](https://agent.sparkswarm.ai/docs/lifecycle.md): Spark Live, autostart, uninstall, and checks.
 - [Troubleshooting](https://agent.sparkswarm.ai/docs/troubleshooting.md): Known failure modes and smallest fixes.

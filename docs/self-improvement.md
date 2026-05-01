@@ -4,30 +4,47 @@ Human page: `/docs/self-improvement/`
 
 Spark improves best when a repeatable task has a clear score, a small loop, and a memory record.
 
+This page is about Researcher, OTOLO/autoloops, domain chips, benchmarks, and specialization paths.
+
+Use `/docs/feedback.md` when the goal is to report feedback or open a PR.
+
+## Core Idea
+
+A normal skill helps once.
+
+A benchmarked specialization path can improve over repeated runs.
+
 A domain chip is both:
 
 - a reusable tool Spark can call for one task family
 - a bounded specialization loop Spark Researcher can run and score
 
-## Simple Loop
+## Improvement Loop
 
 ```text
-task family -> chip tool -> score -> memory packet -> next run
+workflow -> Researcher -> benchmark -> memory packet -> better next run
 ```
 
-Spark runs something.
+The score is the important part.
 
-It checks the result.
+Spark should not promote a change because it sounds clever.
 
-It records what happened.
+Spark should promote a change because it improves a benchmark, rubric, replay, or workflow outcome.
 
-It saves the useful lesson.
+## Researcher And OTOLO / Autoloops
 
-Then it suggests the next small experiment.
+Spark Researcher is the local lab runner.
+
+OTOLO/autoloops are bounded loops:
+
+- one task
+- one score
+- a few rounds
+- a review before risky changes
 
 ## Domain Chip Contract
 
-The chip owns domain-specific behavior:
+The chip owns specialist behavior:
 
 - `evaluate`: score the task with a benchmark or rubric
 - `suggest`: propose the next small experiment or repair
@@ -44,6 +61,17 @@ Spark Researcher owns the generic runtime:
 - self-edit and review policy
 
 Keep Spark core generic. Keep domain logic in the chip.
+
+## What Gets Better
+
+Examples:
+
+- startup operations: better founder decisions, launch plans, customer follow-up, investor updates
+- marketing: better hooks, evidence, audience fit, distribution plans, and outcome reviews
+- automations: better tool choice, workflow reliability, failure repair, and replay checks
+- projects: better file selection, commands, plugins, tests, and completion reviews
+
+Every real improvement should map to a better score, better decision, better tool use, better reasoning path, or better project execution.
 
 ## Spark Researcher Commands
 
@@ -89,15 +117,16 @@ First inspect the installed Spark Researcher docs at:
 Then propose the smallest v0 chip and ask before writing files.
 ```
 
-## Good Chip Shapes
+## Good First Specialization Paths
 
-Useful first chips are narrow:
+Useful first paths are narrow:
 
-- diagnose one kind of Spark failure
-- score one kind of research packet
-- improve one recurring writing workflow
-- inspect one project type
+- score one recurring marketing workflow
+- improve one startup operating cadence
 - benchmark one kind of agent answer
+- replay one automation and repair weak tool usage
+- inspect one project type before Mission work starts
+- improve one research packet shape
 
 Avoid broad chips like "make Spark smarter at everything."
 
