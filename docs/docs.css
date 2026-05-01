@@ -1787,6 +1787,104 @@
   grid-column: 3;
 }
 
+.command-reference {
+  gap: 16px;
+}
+
+.command-surface-group {
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 66%, transparent);
+  overflow: hidden;
+}
+
+.command-surface-group header {
+  display: grid;
+  grid-template-columns: minmax(112px, 0.36fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 76%, transparent);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 48%),
+    color-mix(in srgb, var(--bg-deep) 50%, transparent);
+  padding: 18px;
+}
+
+.command-surface-group header span {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--border-strong));
+  border-radius: 999px;
+  color: var(--accent);
+  font: 850 11px var(--font-mono);
+  letter-spacing: 1.15px;
+  padding: 7px 10px;
+  text-transform: uppercase;
+}
+
+.command-surface-group h3 {
+  color: var(--text);
+  font: 750 18px/1.25 var(--font-sans);
+  margin: 0 0 5px;
+}
+
+.command-surface-group header p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.58;
+  margin: 0;
+}
+
+.command-ref-list {
+  display: grid;
+}
+
+.command-ref-item {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.78fr) minmax(0, 1.22fr);
+  gap: 18px;
+  align-items: start;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 68%, transparent);
+  padding: 16px 18px;
+}
+
+.command-ref-item:last-child {
+  border-bottom: 0;
+}
+
+.command-ref-item strong {
+  display: block;
+  color: var(--text);
+  font: 750 15px/1.35 var(--font-sans);
+  margin-bottom: 4px;
+}
+
+.command-ref-item p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.58;
+  margin: 0;
+}
+
+.command-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.command-chip-list code {
+  display: inline-flex;
+  max-width: 100%;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 76%, transparent);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--bg-deep) 88%, transparent);
+  color: var(--text);
+  font: 750 12px/1.45 var(--font-mono);
+  padding: 8px 9px;
+  overflow-wrap: anywhere;
+}
+
 .command-coach {
   display: grid;
   grid-template-columns: minmax(170px, 220px) minmax(0, 1fr);
@@ -2219,9 +2317,17 @@
   .command-surface-card,
   .command-step,
   .command-row,
+  .command-surface-group header,
+  .command-ref-item,
   .command-coach,
   .command-search-results {
     grid-template-columns: 1fr;
+  }
+  .command-surface-group header {
+    gap: 10px;
+  }
+  .command-ref-item {
+    gap: 10px;
   }
   .command-tv-label {
     grid-column: auto;

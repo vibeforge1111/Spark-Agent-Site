@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-tv">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-reference">
 </head>
 <body>
 
@@ -293,96 +293,161 @@
 
     <section class="doc-section">
       <h2>Command reference by surface.</h2>
-      <p>Use the label on each row to know where to type it.</p>
+      <p>Start by choosing where you are working. Then pick the row that matches the job.</p>
       <div class="command-reference">
-        <div class="command-row">
-          <span>Terminal</span>
-          <strong>Setup and guidance</strong>
-          <code>spark setup</code>
-          <code>spark guide</code>
-          <code>spark recommend llms</code>
-          <p>Use when installing, changing your model provider, or relearning the first-run path.</p>
-        </div>
-        <div class="command-row">
-          <span>Terminal</span>
-          <strong>Run Spark</strong>
-          <code>spark live start</code>
-          <code>spark live status</code>
-          <code>spark live stop</code>
-          <code>spark autostart install --now</code>
-          <p>Use Spark Live for normal daily running. Use old module start commands only when a support guide asks for them.</p>
-        </div>
-        <div class="command-row">
-          <span>Terminal</span>
-          <strong>LLM providers</strong>
-          <code>spark providers list</code>
-          <code>spark providers status</code>
-          <code>spark providers test --role chat</code>
-          <code>spark setup --llm-provider codex</code>
-          <p>Use these when chat, memory, or missions are using the wrong model or no model.</p>
-        </div>
-        <div class="command-row">
-          <span>Terminal</span>
-          <strong>Proof and repair</strong>
-          <code>spark status</code>
-          <code>spark verify --onboarding</code>
-          <code>spark verify --deep</code>
-          <code>spark fix telegram</code>
-          <code>spark fix spawner</code>
-          <p>Use these when something is quiet, unreachable, or confusing.</p>
-        </div>
-        <div class="command-row">
-          <span>Terminal</span>
-          <strong>Telegram and secrets</strong>
-          <code>spark telegram connect</code>
-          <code>spark secrets list</code>
-          <code>spark secrets get telegram.bot_token</code>
-          <p>Use these when you need to connect a fresh BotFather token or confirm which secrets exist. Secret values stay masked unless you explicitly ask to reveal them.</p>
-        </div>
-        <div class="command-row">
-          <span>Terminal</span>
-          <strong>Update safely</strong>
-          <code>spark update</code>
-          <code>spark update --skip-dirty</code>
-          <code>spark verify --onboarding</code>
-          <p>Use this when docs mention a command your local Spark does not know yet. Run verification after updating.</p>
-        </div>
-        <div class="command-row">
-          <span>Terminal</span>
-          <strong>Logs, security, and support</strong>
-          <code>spark logs spark-telegram-bot --lines 80</code>
-          <code>spark logs spawner-ui --lines 80</code>
-          <code>spark security audit</code>
-          <code>spark doctor llm "Telegram bot is quiet"</code>
-          <code>spark support bundle</code>
-          <p>Doctor and support flows should redact secrets. Include logs only when you choose to.</p>
-        </div>
-        <div class="command-row">
-          <span>Telegram</span>
-          <strong>Daily chat commands</strong>
-          <code>/start</code>
-          <code>/myid</code>
-          <code>/diagnose</code>
-          <code>/remember &lt;note&gt;</code>
-          <code>/recall &lt;topic&gt;</code>
-          <p>Use inside your Spark Telegram bot.</p>
-        </div>
-        <div class="command-row">
-          <span>Telegram</span>
-          <strong>Build and mission commands</strong>
-          <code>/run &lt;goal&gt;</code>
-          <code>/board</code>
-          <code>/mission status &lt;id&gt;</code>
-          <code>/access 3</code>
-          <p>Use these when you want Spark to build, check work, or change access level.</p>
-        </div>
-        <div class="command-row">
-          <span>Browser</span>
-          <strong>Mission Control</strong>
-          <code>http://127.0.0.1:5173/kanban</code>
-          <code>http://127.0.0.1:5173/canvas</code>
-          <p>Use the browser when you want to see what Spark is building instead of reading only chat updates.</p>
-        </div>
+        <section class="command-surface-group">
+          <header>
+            <span>Terminal</span>
+            <div>
+              <h3>Computer, CMD, PowerShell, or coding assistant</h3>
+              <p>Use these when you are installing, starting, fixing, updating, or checking the local Spark stack.</p>
+            </div>
+          </header>
+          <div class="command-ref-list">
+            <article class="command-ref-item">
+              <div>
+                <strong>Setup and guidance</strong>
+                <p>Install Spark, change your model provider, or relearn the first-run path.</p>
+              </div>
+              <div class="command-chip-list">
+                <code>spark setup</code>
+                <code>spark guide</code>
+                <code>spark recommend llms</code>
+              </div>
+            </article>
+            <article class="command-ref-item">
+              <div>
+                <strong>Run Spark</strong>
+                <p>Use Spark Live for daily running. Older module start commands are mainly for support guides.</p>
+              </div>
+              <div class="command-chip-list">
+                <code>spark live start</code>
+                <code>spark live status</code>
+                <code>spark live stop</code>
+                <code>spark autostart install --now</code>
+              </div>
+            </article>
+            <article class="command-ref-item">
+              <div>
+                <strong>LLM providers</strong>
+                <p>Check or change which model powers chat, memory, and missions.</p>
+              </div>
+              <div class="command-chip-list">
+                <code>spark providers list</code>
+                <code>spark providers status</code>
+                <code>spark providers test --role chat</code>
+                <code>spark setup --llm-provider codex</code>
+              </div>
+            </article>
+            <article class="command-ref-item">
+              <div>
+                <strong>Proof and repair</strong>
+                <p>Use these when something is quiet, unreachable, or confusing.</p>
+              </div>
+              <div class="command-chip-list">
+                <code>spark status</code>
+                <code>spark verify --onboarding</code>
+                <code>spark verify --deep</code>
+                <code>spark fix telegram</code>
+                <code>spark fix spawner</code>
+              </div>
+            </article>
+            <article class="command-ref-item">
+              <div>
+                <strong>Telegram and secrets</strong>
+                <p>Connect a fresh BotFather token or confirm which secrets exist. Secret values stay masked unless you explicitly reveal them.</p>
+              </div>
+              <div class="command-chip-list">
+                <code>spark telegram connect</code>
+                <code>spark secrets list</code>
+                <code>spark secrets get telegram.bot_token</code>
+              </div>
+            </article>
+            <article class="command-ref-item">
+              <div>
+                <strong>Update safely</strong>
+                <p>Use this when docs mention a command your local Spark does not know yet. Verify after updating.</p>
+              </div>
+              <div class="command-chip-list">
+                <code>spark update</code>
+                <code>spark update --skip-dirty</code>
+                <code>spark verify --onboarding</code>
+              </div>
+            </article>
+            <article class="command-ref-item">
+              <div>
+                <strong>Logs, security, and support</strong>
+                <p>Doctor and support flows should redact secrets. Include logs only when you choose to.</p>
+              </div>
+              <div class="command-chip-list">
+                <code>spark logs spark-telegram-bot --lines 80</code>
+                <code>spark logs spawner-ui --lines 80</code>
+                <code>spark security audit</code>
+                <code>spark doctor llm "Telegram bot is quiet"</code>
+                <code>spark support bundle</code>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="command-surface-group">
+          <header>
+            <span>Telegram</span>
+            <div>
+              <h3>Your Spark bot chat</h3>
+              <p>Use these inside Telegram after the bot is connected to your account.</p>
+            </div>
+          </header>
+          <div class="command-ref-list">
+            <article class="command-ref-item">
+              <div>
+                <strong>Daily chat commands</strong>
+                <p>Check health, save useful context, and recall what Spark knows.</p>
+              </div>
+              <div class="command-chip-list">
+                <code>/start</code>
+                <code>/myid</code>
+                <code>/diagnose</code>
+                <code>/remember &lt;note&gt;</code>
+                <code>/recall &lt;topic&gt;</code>
+              </div>
+            </article>
+            <article class="command-ref-item">
+              <div>
+                <strong>Build and mission commands</strong>
+                <p>Ask Spark to build, check work, or change how much access it has.</p>
+              </div>
+              <div class="command-chip-list">
+                <code>/run &lt;goal&gt;</code>
+                <code>/board</code>
+                <code>/mission status &lt;id&gt;</code>
+                <code>/access 3</code>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="command-surface-group">
+          <header>
+            <span>Browser</span>
+            <div>
+              <h3>Mission Control</h3>
+              <p>Use the browser when you want to see what Spark is building instead of reading only chat updates.</p>
+            </div>
+          </header>
+          <div class="command-ref-list">
+            <article class="command-ref-item">
+              <div>
+                <strong>Watch active work</strong>
+                <p>Kanban is best for status. Canvas is best for richer project flow.</p>
+              </div>
+              <div class="command-chip-list">
+                <code>http://127.0.0.1:5173/kanban</code>
+                <code>http://127.0.0.1:5173/canvas</code>
+              </div>
+            </article>
+          </div>
+        </section>
       </div>
     </section>
   </article>
