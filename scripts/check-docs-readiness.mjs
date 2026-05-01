@@ -3,7 +3,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const docsRoot = path.join(root, "docs");
-const cssVersion = "20260501-docs-draft-feedback";
+const cssVersion = "20260501-provider-guide";
 const feedbackTemplate = "docs-feedback.yml";
 
 function fail(message) {
@@ -32,7 +32,7 @@ const pages = [
   { path: "docs/index.html", name: "Overview", required: ["Guided installer", "What you need before installing Spark"] },
   { path: "docs/installer-guide/index.html", name: "Installer guide", required: ["Install Spark in five calm steps", "BotFather", "Mission Control"] },
   { path: "docs/install-safety/index.html", name: "Install safety", required: ["dry-run", "checksums", "access level"] },
-  { path: "docs/providers/index.html", name: "Providers", required: ["one provider", "Codex", "Claude", "Ollama", "LM Studio"] },
+  { path: "docs/providers/index.html", name: "Providers", required: ["one provider", "Agent", "Mission", "spark providers test --role chat", "Codex", "Claude", "Ollama", "LM Studio", "surprise fallback"] },
   { path: "docs/commands/index.html", name: "Commands", required: ["Tell Spark what you are trying to do", "Computer terminal", "Telegram bot", "Mission Control"] },
   { path: "docs/lifecycle/index.html", name: "Start/Stop", required: ["spark live start", "spark live status", "autostart"] },
   { path: "docs/troubleshooting/index.html", name: "Troubleshooting", required: ["spark fix telegram", "spark fix spawner", "spark doctor llm"] },

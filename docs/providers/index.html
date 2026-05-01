@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260501-docs-draft-feedback">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-provider-guide">
 </head>
 <body>
 
@@ -61,8 +61,8 @@
   <article class="doc-page">
     <section class="doc-hero">
       <span class="overline">Providers</span>
-      <h1>Pick one Spark brain first. Split roles later.</h1>
-      <p>The easiest setup uses one provider for chat, memory, runtime decisions, and missions. Advanced users can later choose a different mission model.</p>
+      <h1>Choose the model Spark will use.</h1>
+      <p>Start with one provider for the whole agent. That keeps setup calm: chat, memory, runtime reasoning, and build missions all use the same path until you decide to split them.</p>
       <div class="doc-mini-nav">
         <a href="/docs/providers.md">Agent Markdown</a>
         <a href="/docs/commands/">Commands</a>
@@ -80,13 +80,48 @@
     </aside>
 
     <section class="doc-section">
-      <h2>The normal provider flow.</h2>
-      <div class="doc-flowline" aria-label="Provider setup flow">
-        <span>Choose</span>
-        <span>Authorize</span>
-        <span>Test chat</span>
-        <span>Test mission</span>
-        <span>Save</span>
+      <h2>Start with the easiest choice.</h2>
+      <p>If you already pay for or use one of these tools, use that first. Spark can always be reconfigured later.</p>
+      <div class="provider-start-grid">
+        <article class="provider-path-card">
+          <span class="doc-kicker">Already use OpenAI?</span>
+          <h3>Choose OpenAI Codex</h3>
+          <p>Use the Codex CLI sign-in path so Spark can use your existing Codex or ChatGPT setup without asking most users for an OpenAI API key.</p>
+          <code>spark setup --llm-provider codex</code>
+        </article>
+        <article class="provider-path-card">
+          <span class="doc-kicker">Already use Claude Code?</span>
+          <h3>Choose Anthropic Claude</h3>
+          <p>Spark can use the Claude CLI route when Claude Code is installed and signed in. This is the friendliest Claude path for many subscription users.</p>
+          <code>spark setup --llm-provider anthropic</code>
+        </article>
+        <article class="provider-path-card">
+          <span class="doc-kicker">Have an API key or local model?</span>
+          <h3>Choose your provider</h3>
+          <p>Use Z.AI GLM, Kimi, MiniMax, OpenRouter, Hugging Face, Ollama, LM Studio, or another OpenAI-compatible endpoint you already trust.</p>
+          <code>spark recommend llms</code>
+        </article>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>What setup will ask.</h2>
+      <div class="provider-setup-lane" aria-label="Provider setup steps">
+        <article>
+          <span>01</span>
+          <h3>Pick a default provider</h3>
+          <p>This is the model family Spark starts with for normal chat and work.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Use it everywhere first</h3>
+          <p>For most people, one provider should power Agent and Mission until there is a reason to split.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Prove it works</h3>
+          <p>Run the provider test and onboarding verify before you expect Telegram or builds to work.</p>
+        </article>
       </div>
       <pre class="docs-code">spark recommend llms
 spark setup
@@ -96,27 +131,67 @@ spark verify --onboarding</pre>
     </section>
 
     <section class="doc-section">
-      <h2>Provider families.</h2>
-      <div class="doc-grid">
-        <div class="doc-card"><span class="doc-kicker">Subscription</span><h3>OpenAI Codex</h3><p>Best if the user already uses Codex or ChatGPT. Sign in with the Codex CLI, then choose Codex in Spark setup.</p></div>
-        <div class="doc-card"><span class="doc-kicker">Subscription</span><h3>Anthropic Claude</h3><p>Best if the user already uses Claude Code. Use the Claude CLI sign-in path, including <code>claude -p</code> style prompts where available.</p></div>
-        <div class="doc-card"><span class="doc-kicker">API Key</span><h3>Z.AI GLM, Kimi, MiniMax, OpenRouter, OpenAI-compatible</h3><p>Good when the user has an API key. Spark stores secrets locally and masks input in setup.</p></div>
-        <div class="doc-card"><span class="doc-kicker">Local</span><h3>Ollama and LM Studio</h3><p>Good for local-first users. Spark should use only the selected local endpoint, not a surprise fallback.</p></div>
-        <div class="doc-card"><span class="doc-kicker">Router</span><h3>Hugging Face Router</h3><p>Use when the user wants a hosted model router with an HF token and OpenAI-compatible chat endpoint.</p></div>
-        <div class="doc-card"><span class="doc-kicker">Advanced</span><h3>Separate mission provider</h3><p>Keep chat/memory on one provider and missions on another only when the user asks for it.</p></div>
+      <h2>Agent and Mission, in plain English.</h2>
+      <div class="provider-role-map">
+        <article>
+          <span>Agent</span>
+          <h3>Conversation, memory, and Spark's day-to-day thinking.</h3>
+          <p>This is what answers Telegram messages, remembers preferences, recalls context, and decides how Spark should respond.</p>
+        </article>
+        <article>
+          <span>Mission</span>
+          <h3>Build work that goes through Mission Control.</h3>
+          <p>This is what runs longer Spawner work: building apps, researching, debugging, and tracking progress on the Kanban or Canvas.</p>
+        </article>
+      </div>
+      <div class="doc-callout">
+        <h3>Default recommendation</h3>
+        <p>Choose one provider first and use it for both Agent and Mission. If builds need a different model later, rerun <code>spark setup</code> and choose the role split.</p>
       </div>
     </section>
 
     <section class="doc-section">
-      <h2>What each role means.</h2>
-      <div class="doc-grid">
-        <div class="doc-card"><h3>Agent</h3><p>Normal chat, runtime decisions, and memory. This is the user-facing Spark personality and reasoning path.</p></div>
-        <div class="doc-card"><h3>Mission</h3><p>Spawner work: building, coding, research tasks, and longer tracked missions.</p></div>
+      <h2>Provider families.</h2>
+      <div class="provider-family-list">
+        <article>
+          <div><span class="doc-kicker">Subscription</span><h3>OpenAI Codex</h3></div>
+          <p>Best if you already use Codex or ChatGPT. Connect with the Codex CLI sign-in path, then test chat.</p>
+          <code>spark providers test --role chat</code>
+        </article>
+        <article>
+          <div><span class="doc-kicker">Subscription</span><h3>Anthropic Claude</h3></div>
+          <p>Best if you already use Claude Code. Spark can use the Claude CLI route, including <code>claude -p</code> style prompts where your local Claude CLI supports them.</p>
+          <code>spark providers test --role chat</code>
+        </article>
+        <article>
+          <div><span class="doc-kicker">API Key</span><h3>Z.AI GLM, Kimi, MiniMax, OpenRouter, OpenAI-compatible</h3></div>
+          <p>Good when you have a provider key. Spark stores secrets locally and masks input during setup so keys are not printed in the terminal.</p>
+          <code>spark secrets list</code>
+        </article>
+        <article>
+          <div><span class="doc-kicker">Local</span><h3>Ollama and LM Studio</h3></div>
+          <p>Good for local-first users. The local app must be running, and Spark should use only the selected endpoint instead of falling back to a surprise local server.</p>
+          <code>spark providers status</code>
+        </article>
+        <article>
+          <div><span class="doc-kicker">Router</span><h3>Hugging Face Router</h3></div>
+          <p>Use this when you want a hosted model router with an HF token and an OpenAI-compatible chat endpoint.</p>
+          <code>spark providers test --role chat</code>
+        </article>
       </div>
-      <div class="doc-callout">
-        <h3>Default recommendation</h3>
-        <p>For non-technical users, choose one provider and use it everywhere. If missions need a stronger or different model later, rerun <code>spark setup</code> and choose the advanced role split.</p>
+    </section>
+
+    <section class="doc-section">
+      <h2>What good looks like.</h2>
+      <div class="provider-good-state">
+        <p><strong>Provider status:</strong> Agent and Mission roles show the provider you chose.</p>
+        <p><strong>No surprise fallback:</strong> Spark should not call Ollama, LM Studio, or another local endpoint unless you selected it.</p>
+        <p><strong>Telegram chat:</strong> A normal message gets a real answer from the selected Agent provider.</p>
+        <p><strong>Build test:</strong> <code>/run say exactly OK</code> starts a mission and returns a result through Mission Control.</p>
       </div>
+      <pre class="docs-code">spark providers status
+spark providers test --role chat
+spark verify --onboarding</pre>
     </section>
   </article>
 </main>

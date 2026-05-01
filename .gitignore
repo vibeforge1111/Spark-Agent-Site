@@ -3,6 +3,7 @@ node_modules/
 Thumbs.db
 *.log
 qa-*.png
+tmp-provider-*.png
 .vscode/
 .idea/
 dist/
