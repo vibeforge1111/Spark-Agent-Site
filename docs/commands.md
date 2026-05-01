@@ -76,10 +76,18 @@ Start a small build from Telegram:
 
 Open Mission Control in the browser:
 
-```text
-http://127.0.0.1:5173/kanban
-http://127.0.0.1:5173/canvas
+```bash
+spark live status
 ```
+
+Then copy the Mission Control URL it prints and add:
+
+```text
+<mission-control-url>/kanban
+<mission-control-url>/canvas
+```
+
+Do not assume the port is always the same. Spark Live may choose another local port when the default is busy.
 
 ## Terminal Commands
 
@@ -161,8 +169,10 @@ spark support bundle
 
 ## Browser Surfaces
 
-- `http://127.0.0.1:5173/kanban`: see build work as a board.
-- `http://127.0.0.1:5173/canvas`: see the build plan and output canvas.
+- Mission Control URL + `/kanban`: see build work as a board.
+- Mission Control URL + `/canvas`: see the build plan and output canvas.
+
+Use `spark live status` or `spark status` to find the current Mission Control URL. If the browser says connection refused, run `spark fix spawner`.
 
 ## Rule Of Thumb
 
@@ -170,4 +180,4 @@ If it starts with `spark`, type it in a terminal.
 
 If it starts with `/`, type it in Telegram.
 
-If it starts with `http://127.0.0.1:5173`, open it in a browser.
+If it starts with `http://127.0.0.1`, open it in a browser only after Spark Live or Spawner UI is running.

@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-playbook-readable">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-factcheck">
 </head>
 <body>
 
@@ -63,6 +63,10 @@
       <span class="overline">Commands</span>
       <h1>Know where to type each Spark command.</h1>
       <p>Some commands go in Terminal, CMD, or PowerShell. Some go inside your Telegram bot. Some things are better clicked in Mission Control. This page keeps those surfaces separate.</p>
+      <div class="docs-note">
+        <strong>Localhost note</strong>
+        <span>Kanban and Canvas browser links only work while Spark Live or Spawner UI is running. The port is not always the same, so copy the current Mission Control URL from <code>spark live status</code> instead of guessing it.</span>
+      </div>
       <div class="doc-mini-nav">
         <a href="/docs/commands.md">Agent Markdown</a>
         <a href="/docs/providers/">Providers</a>
@@ -94,7 +98,7 @@
             <code>spark live start</code>
             <dl>
               <div><dt>Use it for</dt><dd>Starts the background Spark services: Telegram bot, Mission Control, and the local relay pieces Spark needs.</dd></div>
-              <div><dt>You should see</dt><dd>Spark says services are ready. Telegram can answer, and Mission Control opens in the browser.</dd></div>
+              <div><dt>You should see</dt><dd>Spark says services are ready and shows the current Mission Control URL when it is available.</dd></div>
               <div><dt>Try next</dt><dd><code>spark live status</code> or send <code>/diagnose</code> in Telegram.</dd></div>
             </dl>
           </article>
@@ -125,7 +129,7 @@
             <dl>
               <div><dt>Use it for</dt><dd>Creates a mission in Spawner/Mission Control and routes the work to the configured mission provider.</dd></div>
               <div><dt>You should see</dt><dd>Telegram shows the mission starting, then Mission Control shows it on Kanban or Canvas.</dd></div>
-              <div><dt>Try next</dt><dd>Open <code>http://127.0.0.1:5173/kanban</code> or send <code>/board</code>.</dd></div>
+              <div><dt>Try next</dt><dd>Open the Mission Control URL printed by <code>spark live status</code>, then go to <code>/kanban</code>, or send <code>/board</code>.</dd></div>
             </dl>
           </article>
           <article class="command-coach-panel" data-command-panel="memory" hidden>
@@ -171,8 +175,8 @@
         <div class="command-surface-card">
           <span>03</span>
           <h3>Mission Control</h3>
-          <p>Use the browser UI when you want to see builds, Kanban, Canvas, and mission progress.</p>
-          <code>http://127.0.0.1:5173/kanban</code>
+          <p>Use the browser UI when you want to see builds, Kanban, Canvas, and mission progress. The port can change, so use the URL Spark prints.</p>
+          <code>spark live status</code>
         </div>
       </div>
     </section>
@@ -257,12 +261,12 @@
             <span>Terminal</span><code>spark recommend llms</code><p>See recommended LLM paths for Spark.</p>
           </article>
           <article data-command-search-card data-keywords="provider model roles chat memory mission wrong llm">
-            <span>Terminal</span><code>spark providers status</code><p>Check chat, memory, and mission model wiring.</p>
+            <span>Terminal</span><code>spark providers status</code><p>After setup, check chat, memory, and mission model wiring.</p>
           </article>
           <article data-command-search-card data-keywords="quiet bot telegram not replying fix diagnose">
             <span>Terminal</span><code>spark fix telegram</code><p>Repair the most common Telegram bot issues.</p>
           </article>
-          <article data-command-search-card data-keywords="spawner mission control unreachable 5173 fix">
+          <article data-command-search-card data-keywords="spawner mission control unreachable localhost kanban canvas port fix">
             <span>Terminal</span><code>spark fix spawner</code><p>Repair Mission Control or Spawner reachability issues.</p>
           </article>
           <article data-command-search-card data-keywords="logs errors support telegram spawner">
@@ -364,7 +368,7 @@
           <code>spark live start</code>
           <dl>
             <div><dt>Use it for</dt><dd>Starts the background services Spark needs, including Telegram, Mission Control, and relay pieces.</dd></div>
-            <div><dt>You should see</dt><dd>The terminal says Spark Live is ready, and your bot can answer without a visible dev server window.</dd></div>
+            <div><dt>You should see</dt><dd>The terminal says Spark Live is ready, shows service health, and gives you the Mission Control URL when Spawner is running.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -417,7 +421,7 @@
           <h3>I need to see what model Spark is using.</h3>
           <code>spark providers status</code>
           <dl>
-            <div><dt>Use it for</dt><dd>Shows the configured chat, memory, agent, and mission provider wiring.</dd></div>
+            <div><dt>Use it for</dt><dd>After setup, shows the configured chat, memory, agent, and mission provider wiring.</dd></div>
             <div><dt>You should see</dt><dd>You can spot if chat is on one model while missions are on another.</dd></div>
           </dl>
         </article>
@@ -462,8 +466,8 @@
           <h3>Mission Control or builds are not reachable.</h3>
           <code>spark fix spawner</code>
           <dl>
-            <div><dt>Use it for</dt><dd>Checks the local Spawner/Mission Control service and the relay Spark uses for builds.</dd></div>
-            <div><dt>You should see</dt><dd>Spark tells you whether to start the service, repair provider config, or inspect logs.</dd></div>
+            <div><dt>Use it for</dt><dd>Checks the local Spawner/Mission Control service, the current browser port, and the relay Spark uses for builds.</dd></div>
+            <div><dt>You should see</dt><dd>Spark tells you whether to start the service, use a different localhost URL, repair provider config, or inspect logs.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -685,10 +689,10 @@
         <article class="command-play-card">
           <span>Browser</span>
           <h3>I want to watch mission progress visually.</h3>
-          <code>http://127.0.0.1:5173/kanban</code>
+          <code>Mission Control URL + /kanban</code>
           <dl>
-            <div><dt>Use it for</dt><dd>Opens the local Kanban board for current and recent missions.</dd></div>
-            <div><dt>You should see</dt><dd>You can see planning, building, review, and completion without reading every Telegram update.</dd></div>
+            <div><dt>Use it for</dt><dd>Opens the local Kanban board for current and recent missions after Spark Live or Spawner is running.</dd></div>
+            <div><dt>You should see</dt><dd><code>spark live status</code> prints the current URL. Add <code>/kanban</code> to that URL. If the browser says connection refused, run <code>spark fix spawner</code>.</dd></div>
           </dl>
         </article>
       </div>
