@@ -13,23 +13,61 @@ Choose one provider during `spark setup`. Use it for both Agent and Mission:
 
 That avoids surprise fallback behavior. Spark should not call Ollama, LM Studio, or another local endpoint unless the user selected it.
 
+## Provider Types
+
+- Subscription CLI: OpenAI Codex (`codex`) and Anthropic Claude (`anthropic`). Best when the user already has Codex/ChatGPT or Claude Code signed in locally.
+- API key: Z.AI GLM (`zai`), Kimi/Moonshot (`kimi`), MiniMax (`minimax`), OpenRouter (`openrouter`), Hugging Face Router (`huggingface`), and OpenAI API (`openai`). Spark stores keys locally and masks secret input.
+- Local model: LM Studio (`lmstudio`) and Ollama (`ollama`). The local app/server must be running while Spark uses it.
+
+## Default Versus Split Roles
+
+Default path:
+
+```bash
+spark setup --llm-provider codex
+spark providers status
+spark providers test --role chat
+```
+
+Split Agent and Mission:
+
+```bash
+spark setup --agent-llm-provider anthropic --mission-llm-provider codex
+spark providers status
+spark providers test --role chat
+spark providers test --role mission
+```
+
+Expert split:
+
+```bash
+spark setup --chat-llm-provider codex --builder-llm-provider zai --memory-llm-provider lmstudio --mission-llm-provider anthropic
+```
+
 ## Useful Commands
 
 ```bash
 spark recommend llms
 spark setup
+spark providers list
 spark providers status
 spark providers test --role chat
+spark providers test --role mission
 spark verify --onboarding
 ```
 
-## Provider Families
+## Supported Providers
 
-- OpenAI Codex: best for users who already use Codex or ChatGPT. Use the Codex CLI sign-in path, then choose Codex in Spark setup.
-- Anthropic Claude: best for users who already use Claude Code. Spark can use the Claude CLI route, including `claude -p` style prompts where the local Claude CLI supports them.
-- Z.AI GLM, Kimi, MiniMax, OpenRouter, and OpenAI-compatible providers: use API keys stored locally by Spark.
-- Ollama and LM Studio: local-first endpoints. The local app must be running, and Spark must use only the selected endpoint.
-- Hugging Face Router: hosted router path using an HF token and an OpenAI-compatible chat endpoint.
+- `codex`: OpenAI Codex CLI sign-in route for Codex/ChatGPT users.
+- `anthropic`: Claude Code CLI or Anthropic API key route.
+- `zai`: Z.AI GLM API-key route.
+- `kimi`: Kimi/Moonshot API-key route.
+- `minimax`: MiniMax API-key route.
+- `openrouter`: OpenRouter gateway route.
+- `huggingface`: Hugging Face Router route.
+- `lmstudio`: local LM Studio server route.
+- `ollama`: local Ollama server route.
+- `openai`: OpenAI API-key route.
 
 ## What Good Looks Like
 

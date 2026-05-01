@@ -4,6 +4,7 @@ Thumbs.db
 *.log
 qa-*.png
 tmp-provider-*.png
+local-handoffs/
 .vscode/
 .idea/
 dist/

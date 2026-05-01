@@ -1471,13 +1471,19 @@
 .provider-setup-lane,
 .provider-role-map,
 .provider-family-list,
+.provider-type-grid,
+.provider-recipe-grid,
+.provider-matrix,
+.provider-command-list,
 .provider-good-state {
   display: grid;
   gap: 14px;
   margin-top: 22px;
 }
 
-.provider-start-grid {
+.provider-start-grid,
+.provider-type-grid,
+.provider-recipe-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -1485,6 +1491,10 @@
 .provider-setup-lane article,
 .provider-role-map article,
 .provider-family-list article,
+.provider-type-grid article,
+.provider-recipe-grid article,
+.provider-matrix article,
+.provider-command-list article,
 .provider-good-state {
   border: 1px solid var(--border-strong);
   border-radius: 8px;
@@ -1502,7 +1512,11 @@
 .provider-path-card h3,
 .provider-setup-lane h3,
 .provider-role-map h3,
-.provider-family-list h3 {
+.provider-family-list h3,
+.provider-type-grid h3,
+.provider-recipe-grid h3,
+.provider-matrix h3,
+.provider-command-list h3 {
   color: var(--text);
   font: 600 16px var(--font-sans);
   line-height: 1.28;
@@ -1512,6 +1526,11 @@
 .provider-setup-lane p,
 .provider-role-map p,
 .provider-family-list p,
+.provider-type-grid p,
+.provider-type-grid li,
+.provider-recipe-grid p,
+.provider-matrix p,
+.provider-command-list p,
 .provider-good-state p {
   color: var(--text-secondary);
   font-size: 14px;
@@ -1520,6 +1539,10 @@
 
 .provider-path-card code,
 .provider-family-list code,
+.provider-type-grid code,
+.provider-recipe-grid code,
+.provider-matrix code,
+.provider-command-list code,
 .provider-good-state code {
   width: fit-content;
   max-width: 100%;
@@ -1556,6 +1579,57 @@
 
 .provider-role-map article {
   padding: 20px;
+}
+
+.provider-type-grid article,
+.provider-recipe-grid article,
+.provider-matrix article,
+.provider-command-list article {
+  padding: 18px;
+}
+
+.provider-type-grid ul {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding-left: 18px;
+}
+
+.provider-recipe-grid .docs-code {
+  margin-top: 12px;
+  font-size: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.provider-matrix {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.provider-matrix article {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.provider-matrix article > span {
+  width: fit-content;
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+  border-radius: 999px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--bg-deep) 80%, transparent);
+  padding: 5px 8px;
+  font: 700 11px var(--font-mono);
+}
+
+.provider-command-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.provider-command-list article {
+  display: grid;
+  gap: 8px;
+  align-content: start;
 }
 
 .provider-family-list article {
@@ -2585,6 +2659,10 @@
   .provider-start-grid,
   .provider-setup-lane,
   .provider-role-map,
+  .provider-type-grid,
+  .provider-recipe-grid,
+  .provider-matrix,
+  .provider-command-list,
   .provider-family-list article {
     grid-template-columns: 1fr;
   }
@@ -2745,6 +2823,10 @@
   .provider-path-card,
   .provider-setup-lane article,
   .provider-role-map article,
+  .provider-type-grid article,
+  .provider-recipe-grid article,
+  .provider-matrix article,
+  .provider-command-list article,
   .provider-family-list article,
   .provider-good-state {
     padding: 14px;
