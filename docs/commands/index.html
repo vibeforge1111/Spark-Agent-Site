@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-coach">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-tv">
 </head>
 <body>
 
@@ -74,6 +74,10 @@
       <h2>Tell Spark what you are trying to do.</h2>
       <p>Start here if the command list feels like too much. Pick the situation that matches your moment; Spark shows where to type it, what it does, and what a good result looks like.</p>
       <div class="command-coach" data-command-coach>
+        <div class="command-tv-label">
+          <span>Command tutorial</span>
+          <strong>Pick a moment. Watch the exact move.</strong>
+        </div>
         <div class="command-choice-list" aria-label="Command situations">
           <button type="button" class="is-active" data-command-target="start" aria-pressed="true">Turn Spark on</button>
           <button type="button" data-command-target="quiet" aria-pressed="false">Bot is quiet</button>
@@ -83,6 +87,7 @@
           <button type="button" data-command-target="update" aria-pressed="false">Update safely</button>
         </div>
         <div class="command-panel-stack">
+          <div class="command-screen-top" aria-hidden="true"><span></span><span></span><span></span><strong>spark command screen</strong></div>
           <article class="command-coach-panel" data-command-panel="start">
             <span class="surface-pill">Computer terminal</span>
             <h3>Turn Spark on without extra terminal windows.</h3>
