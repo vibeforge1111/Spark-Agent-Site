@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-playbook">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-command-playbook-clean">
 </head>
 <body>
 
@@ -93,8 +93,8 @@
             <h3>Turn Spark on without extra terminal windows.</h3>
             <code>spark live start</code>
             <dl>
-              <div><dt>What it does</dt><dd>Starts the background Spark services: Telegram bot, Mission Control, and the local relay pieces Spark needs.</dd></div>
-              <div><dt>Good result</dt><dd>Spark says services are ready. Telegram can answer, and Mission Control opens in the browser.</dd></div>
+              <div><dt>Use it for</dt><dd>Starts the background Spark services: Telegram bot, Mission Control, and the local relay pieces Spark needs.</dd></div>
+              <div><dt>You should see</dt><dd>Spark says services are ready. Telegram can answer, and Mission Control opens in the browser.</dd></div>
               <div><dt>Try next</dt><dd><code>spark live status</code> or send <code>/diagnose</code> in Telegram.</dd></div>
             </dl>
           </article>
@@ -103,8 +103,8 @@
             <h3>Find out why the Telegram bot is not replying.</h3>
             <code>spark fix telegram</code>
             <dl>
-              <div><dt>What it does</dt><dd>Checks the common quiet-bot causes: token, admin ID, Spark Live process, LLM provider, memory bridge, and logs.</dd></div>
-              <div><dt>Good result</dt><dd>You get a short repair path instead of a vague error.</dd></div>
+              <div><dt>Use it for</dt><dd>Checks the common quiet-bot causes: token, admin ID, Spark Live process, LLM provider, memory bridge, and logs.</dd></div>
+              <div><dt>You should see</dt><dd>You get a short repair path instead of a vague error.</dd></div>
               <div><dt>Try next</dt><dd>Run <code>spark verify --onboarding</code>, then send <code>/diagnose</code>.</dd></div>
             </dl>
           </article>
@@ -113,8 +113,8 @@
             <h3>Pick the LLM Spark should use.</h3>
             <code>spark recommend llms</code>
             <dl>
-              <div><dt>What it does</dt><dd>Shows good provider paths for Codex, Claude, GLM, Kimi, MiniMax, OpenRouter, Hugging Face, Ollama, and LM Studio.</dd></div>
-              <div><dt>Good result</dt><dd>You choose one default provider first. Spark can use it for chat, memory, and missions unless you customize later.</dd></div>
+              <div><dt>Use it for</dt><dd>Shows good provider paths for Codex, Claude, GLM, Kimi, MiniMax, OpenRouter, Hugging Face, Ollama, and LM Studio.</dd></div>
+              <div><dt>You should see</dt><dd>You choose one default provider first. Spark can use it for chat, memory, and missions unless you customize later.</dd></div>
               <div><dt>Try next</dt><dd><code>spark providers status</code> and <code>spark providers test --role chat</code>.</dd></div>
             </dl>
           </article>
@@ -123,8 +123,8 @@
             <h3>Ask Spark to build or research something.</h3>
             <code>/run build me a tiny notes app</code>
             <dl>
-              <div><dt>What it does</dt><dd>Creates a mission in Spawner/Mission Control and routes the work to the configured mission provider.</dd></div>
-              <div><dt>Good result</dt><dd>Telegram shows the mission starting, then Mission Control shows it on Kanban or Canvas.</dd></div>
+              <div><dt>Use it for</dt><dd>Creates a mission in Spawner/Mission Control and routes the work to the configured mission provider.</dd></div>
+              <div><dt>You should see</dt><dd>Telegram shows the mission starting, then Mission Control shows it on Kanban or Canvas.</dd></div>
               <div><dt>Try next</dt><dd>Open <code>http://127.0.0.1:5173/kanban</code> or send <code>/board</code>.</dd></div>
             </dl>
           </article>
@@ -133,8 +133,8 @@
             <h3>Teach Spark something you want it to remember.</h3>
             <code>/remember I like concise warm replies</code>
             <dl>
-              <div><dt>What it does</dt><dd>Saves the note through Spark memory so future conversations can use it.</dd></div>
-              <div><dt>Good result</dt><dd>Spark confirms the memory was saved and can recall it later.</dd></div>
+              <div><dt>Use it for</dt><dd>Saves the note through Spark memory so future conversations can use it.</dd></div>
+              <div><dt>You should see</dt><dd>Spark confirms the memory was saved and can recall it later.</dd></div>
               <div><dt>Try next</dt><dd><code>/recall concise warm replies</code>.</dd></div>
             </dl>
           </article>
@@ -143,8 +143,8 @@
             <h3>Update Spark without losing track of what changed.</h3>
             <code>spark update --skip-dirty</code>
             <dl>
-              <div><dt>What it does</dt><dd>Updates clean Spark modules and skips repos with local edits instead of clobbering work.</dd></div>
-              <div><dt>Good result</dt><dd>Spark reports what updated, what was skipped, and what still needs attention.</dd></div>
+              <div><dt>Use it for</dt><dd>Updates clean Spark modules and skips repos with local edits instead of clobbering work.</dd></div>
+              <div><dt>You should see</dt><dd>Spark reports what updated, what was skipped, and what still needs attention.</dd></div>
               <div><dt>Try next</dt><dd><code>spark verify --onboarding</code>.</dd></div>
             </dl>
           </article>
@@ -300,8 +300,8 @@
           <h3>I just installed Spark and need the first setup.</h3>
           <code>spark setup</code>
           <dl>
-            <div><dt>What it does</dt><dd>Walks through Telegram, LLM provider, access level, and module wiring.</dd></div>
-            <div><dt>Good result</dt><dd>Setup ends with next steps, provider roles, and a safe place to test the bot.</dd></div>
+            <div><dt>Use it for</dt><dd>Walks through Telegram, LLM provider, access level, and module wiring.</dd></div>
+            <div><dt>You should see</dt><dd>Setup ends with next steps, provider roles, and a safe place to test the bot.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -309,8 +309,8 @@
           <h3>I forgot what to do next.</h3>
           <code>spark guide</code>
           <dl>
-            <div><dt>What it does</dt><dd>Shows the friendly starter path: BotFather, providers, start commands, Telegram commands, and fixes.</dd></div>
-            <div><dt>Good result</dt><dd>You get a readable checklist instead of guessing from old terminal output.</dd></div>
+            <div><dt>Use it for</dt><dd>Shows the friendly starter path: BotFather, providers, start commands, Telegram commands, and fixes.</dd></div>
+            <div><dt>You should see</dt><dd>You get a readable checklist instead of guessing from old terminal output.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -318,8 +318,8 @@
           <h3>I want Spark running without extra terminal windows.</h3>
           <code>spark live start</code>
           <dl>
-            <div><dt>What it does</dt><dd>Starts the background services Spark needs, including Telegram, Mission Control, and relay pieces.</dd></div>
-            <div><dt>Good result</dt><dd>The terminal says Spark Live is ready, and your bot can answer without a visible dev server window.</dd></div>
+            <div><dt>Use it for</dt><dd>Starts the background services Spark needs, including Telegram, Mission Control, and relay pieces.</dd></div>
+            <div><dt>You should see</dt><dd>The terminal says Spark Live is ready, and your bot can answer without a visible dev server window.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -327,8 +327,8 @@
           <h3>I want to know whether Spark is actually on.</h3>
           <code>spark live status</code>
           <dl>
-            <div><dt>What it does</dt><dd>Checks whether Spark Live is supervising the running services.</dd></div>
-            <div><dt>Good result</dt><dd>You can see which services are running and which one needs attention.</dd></div>
+            <div><dt>Use it for</dt><dd>Checks whether Spark Live is supervising the running services.</dd></div>
+            <div><dt>You should see</dt><dd>You can see which services are running and which one needs attention.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -336,8 +336,8 @@
           <h3>I want Spark to start every time this computer logs in.</h3>
           <code>spark autostart install --now</code>
           <dl>
-            <div><dt>What it does</dt><dd>Installs login startup and starts Spark immediately.</dd></div>
-            <div><dt>Good result</dt><dd>After reboot, Spark can come back without you manually opening terminals.</dd></div>
+            <div><dt>Use it for</dt><dd>Installs login startup and starts Spark immediately.</dd></div>
+            <div><dt>You should see</dt><dd>After reboot, Spark can come back without you manually opening terminals.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -345,8 +345,8 @@
           <h3>I need help choosing a model provider.</h3>
           <code>spark recommend llms</code>
           <dl>
-            <div><dt>What it does</dt><dd>Explains recommended provider paths for subscriptions, API keys, and local models.</dd></div>
-            <div><dt>Good result</dt><dd>You know which provider to connect before running setup again.</dd></div>
+            <div><dt>Use it for</dt><dd>Explains recommended provider paths for subscriptions, API keys, and local models.</dd></div>
+            <div><dt>You should see</dt><dd>You know which provider to connect before running setup again.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -354,8 +354,8 @@
           <h3>I need to see what model Spark is using.</h3>
           <code>spark providers status</code>
           <dl>
-            <div><dt>What it does</dt><dd>Shows the configured chat, memory, agent, and mission provider wiring.</dd></div>
-            <div><dt>Good result</dt><dd>You can spot if chat is on one model while missions are on another.</dd></div>
+            <div><dt>Use it for</dt><dd>Shows the configured chat, memory, agent, and mission provider wiring.</dd></div>
+            <div><dt>You should see</dt><dd>You can spot if chat is on one model while missions are on another.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -363,8 +363,8 @@
           <h3>I want to test a provider before trusting it.</h3>
           <code>spark providers test --role chat</code>
           <dl>
-            <div><dt>What it does</dt><dd>Sends a small test through the selected provider role.</dd></div>
-            <div><dt>Good result</dt><dd>Spark confirms the provider responds, or shows the exact provider issue to fix.</dd></div>
+            <div><dt>Use it for</dt><dd>Sends a small test through the selected provider role.</dd></div>
+            <div><dt>You should see</dt><dd>Spark confirms the provider responds, or shows the exact provider issue to fix.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -372,8 +372,8 @@
           <h3>Something feels broken and I need a broad health check.</h3>
           <code>spark status</code>
           <dl>
-            <div><dt>What it does</dt><dd>Checks modules, provider wiring, and common repair hints.</dd></div>
-            <div><dt>Good result</dt><dd>You get OK or repair lines that point to the next command.</dd></div>
+            <div><dt>Use it for</dt><dd>Checks modules, provider wiring, and common repair hints.</dd></div>
+            <div><dt>You should see</dt><dd>You get OK or repair lines that point to the next command.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -381,8 +381,8 @@
           <h3>I want proof the onboarding path works.</h3>
           <code>spark verify --onboarding</code>
           <dl>
-            <div><dt>What it does</dt><dd>Runs the launch checks for modules, long polling, memory bridge, LLM roles, and runtime processes.</dd></div>
-            <div><dt>Good result</dt><dd>Everything important says OK, or Spark tells you the first repair step.</dd></div>
+            <div><dt>Use it for</dt><dd>Runs the launch checks for modules, long polling, memory bridge, LLM roles, and runtime processes.</dd></div>
+            <div><dt>You should see</dt><dd>Everything important says OK, or Spark tells you the first repair step.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -390,8 +390,8 @@
           <h3>The Telegram bot is quiet.</h3>
           <code>spark fix telegram</code>
           <dl>
-            <div><dt>What it does</dt><dd>Checks token, admin IDs, polling, provider wiring, Builder bridge, and recent bot trouble spots.</dd></div>
-            <div><dt>Good result</dt><dd>You get a focused repair path instead of a generic “try again later.”</dd></div>
+            <div><dt>Use it for</dt><dd>Checks token, admin IDs, polling, provider wiring, Builder bridge, and recent bot trouble spots.</dd></div>
+            <div><dt>You should see</dt><dd>You get a focused repair path instead of a generic “try again later.”</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -399,8 +399,8 @@
           <h3>Mission Control or builds are not reachable.</h3>
           <code>spark fix spawner</code>
           <dl>
-            <div><dt>What it does</dt><dd>Checks the local Spawner/Mission Control service and the relay Spark uses for builds.</dd></div>
-            <div><dt>Good result</dt><dd>Spark tells you whether to start the service, repair provider config, or inspect logs.</dd></div>
+            <div><dt>Use it for</dt><dd>Checks the local Spawner/Mission Control service and the relay Spark uses for builds.</dd></div>
+            <div><dt>You should see</dt><dd>Spark tells you whether to start the service, repair provider config, or inspect logs.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -408,8 +408,8 @@
           <h3>I need to connect or replace my Telegram bot token.</h3>
           <code>spark telegram connect</code>
           <dl>
-            <div><dt>What it does</dt><dd>Guides BotFather token entry without making you hunt for secret files.</dd></div>
-            <div><dt>Good result</dt><dd>The token is saved locally, routed only to the Telegram bot, and ready for restart.</dd></div>
+            <div><dt>Use it for</dt><dd>Guides BotFather token entry without making you hunt for secret files.</dd></div>
+            <div><dt>You should see</dt><dd>The token is saved locally, routed only to the Telegram bot, and ready for restart.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -417,8 +417,8 @@
           <h3>I need to update Spark without overwriting local edits.</h3>
           <code>spark update --skip-dirty</code>
           <dl>
-            <div><dt>What it does</dt><dd>Updates clean modules while leaving repos with local changes alone.</dd></div>
-            <div><dt>Good result</dt><dd>You get newer safe modules without losing your own work.</dd></div>
+            <div><dt>Use it for</dt><dd>Updates clean modules while leaving repos with local changes alone.</dd></div>
+            <div><dt>You should see</dt><dd>You get newer safe modules without losing your own work.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -426,8 +426,8 @@
           <h3>I need recent logs because something still feels wrong.</h3>
           <code>spark logs spark-telegram-bot --lines 80</code>
           <dl>
-            <div><dt>What it does</dt><dd>Shows recent Telegram bot logs without exposing secrets by default.</dd></div>
-            <div><dt>Good result</dt><dd>You can see the error family: provider, token, admin ID, service, or runtime crash.</dd></div>
+            <div><dt>Use it for</dt><dd>Shows recent Telegram bot logs without exposing secrets by default.</dd></div>
+            <div><dt>You should see</dt><dd>You can see the error family: provider, token, admin ID, service, or runtime crash.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -435,8 +435,8 @@
           <h3>I want Spark to explain a hard problem with my own LLM.</h3>
           <code>spark doctor llm "Telegram bot is quiet"</code>
           <dl>
-            <div><dt>What it does</dt><dd>Builds a redacted diagnostic prompt and asks your configured LLM for a fix plan.</dd></div>
-            <div><dt>Good result</dt><dd>You get a local report with next commands, not an automatic risky edit.</dd></div>
+            <div><dt>Use it for</dt><dd>Builds a redacted diagnostic prompt and asks your configured LLM for a fix plan.</dd></div>
+            <div><dt>You should see</dt><dd>You get a local report with next commands, not an automatic risky edit.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -444,8 +444,8 @@
           <h3>I want to check Spark from inside Telegram.</h3>
           <code>/diagnose</code>
           <dl>
-            <div><dt>What it does</dt><dd>Checks the bot, LLM route, Mission Control, and current admin wiring from chat.</dd></div>
-            <div><dt>Good result</dt><dd>The bot tells you what is OK and what needs a terminal repair command.</dd></div>
+            <div><dt>Use it for</dt><dd>Checks the bot, LLM route, Mission Control, and current admin wiring from chat.</dd></div>
+            <div><dt>You should see</dt><dd>The bot tells you what is OK and what needs a terminal repair command.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -453,8 +453,8 @@
           <h3>I want Spark to remember something useful.</h3>
           <code>/remember I like concise warm replies</code>
           <dl>
-            <div><dt>What it does</dt><dd>Saves a memory through Spark memory when the bridge is healthy.</dd></div>
-            <div><dt>Good result</dt><dd>Spark confirms the memory and can recall it later.</dd></div>
+            <div><dt>Use it for</dt><dd>Saves a memory through Spark memory when the bridge is healthy.</dd></div>
+            <div><dt>You should see</dt><dd>Spark confirms the memory and can recall it later.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -462,8 +462,8 @@
           <h3>I want to check what Spark remembers.</h3>
           <code>/recall concise warm replies</code>
           <dl>
-            <div><dt>What it does</dt><dd>Searches Spark memory for the topic you ask about.</dd></div>
-            <div><dt>Good result</dt><dd>Spark returns the saved memory or tells you there is nothing useful yet.</dd></div>
+            <div><dt>Use it for</dt><dd>Searches Spark memory for the topic you ask about.</dd></div>
+            <div><dt>You should see</dt><dd>Spark returns the saved memory or tells you there is nothing useful yet.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -471,8 +471,8 @@
           <h3>I want Spark to build or research something.</h3>
           <code>/run Build a tiny notes app</code>
           <dl>
-            <div><dt>What it does</dt><dd>Creates a mission and sends it to the configured mission provider.</dd></div>
-            <div><dt>Good result</dt><dd>Telegram confirms the mission, then Kanban or Canvas shows progress.</dd></div>
+            <div><dt>Use it for</dt><dd>Creates a mission and sends it to the configured mission provider.</dd></div>
+            <div><dt>You should see</dt><dd>Telegram confirms the mission, then Kanban or Canvas shows progress.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -480,8 +480,8 @@
           <h3>I want to see what is running.</h3>
           <code>/board</code>
           <dl>
-            <div><dt>What it does</dt><dd>Shows running, completed, and failed missions from Telegram.</dd></div>
-            <div><dt>Good result</dt><dd>You can see whether Spark is still working or has finished.</dd></div>
+            <div><dt>Use it for</dt><dd>Shows running, completed, and failed missions from Telegram.</dd></div>
+            <div><dt>You should see</dt><dd>You can see whether Spark is still working or has finished.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -489,8 +489,8 @@
           <h3>I want Spark to have the normal build access level.</h3>
           <code>/access 3</code>
           <dl>
-            <div><dt>What it does</dt><dd>Sets the recommended Research + Build access level.</dd></div>
-            <div><dt>Good result</dt><dd>Spark can use research and mission tools when you explicitly ask it to build.</dd></div>
+            <div><dt>Use it for</dt><dd>Sets the recommended Research + Build access level.</dd></div>
+            <div><dt>You should see</dt><dd>Spark can use research and mission tools when you explicitly ask it to build.</dd></div>
           </dl>
         </article>
         <article class="command-play-card">
@@ -498,8 +498,8 @@
           <h3>I want to watch mission progress visually.</h3>
           <code>http://127.0.0.1:5173/kanban</code>
           <dl>
-            <div><dt>What it does</dt><dd>Opens the local Kanban board for current and recent missions.</dd></div>
-            <div><dt>Good result</dt><dd>You can see planning, building, review, and completion without reading every Telegram update.</dd></div>
+            <div><dt>Use it for</dt><dd>Opens the local Kanban board for current and recent missions.</dd></div>
+            <div><dt>You should see</dt><dd>You can see planning, building, review, and completion without reading every Telegram update.</dd></div>
           </dl>
         </article>
       </div>
