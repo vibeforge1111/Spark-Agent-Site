@@ -1360,6 +1360,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px 34px;
   margin-top: 20px;
+  min-width: 0;
 }
 
 .doc-grid-3 {
@@ -1377,6 +1378,9 @@
   border-left: 1px solid var(--border-strong);
   background: transparent;
   padding: 2px 0 2px 18px;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .doc-card h3,

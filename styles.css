@@ -1446,8 +1446,12 @@ body {
    005 / MODULES
    ══════════════════════════════════════════════════════════════ */
 .marquee {
-  margin: 24px calc(-1 * var(--side-pad)) 64px;
+  width: 100vw;
+  margin: 24px calc(50% - 50vw) 64px;
   overflow: hidden;
+  overflow: clip;
+  contain: paint;
+  min-height: 58px;
   padding: 14px 0;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -1467,6 +1471,9 @@ body {
 .marquee::after  { right: 0; background: linear-gradient(to left, var(--bg-subtle), transparent); }
 
 .marquee-track {
+  position: absolute;
+  top: 14px;
+  left: 0;
   display: flex; gap: 12px;
   animation: marqueeSlide 65s linear infinite;
   padding-right: 12px;
@@ -2038,8 +2045,9 @@ body {
    ══════════════════════════════════════════════════════════════ */
 .swarm.section {
   max-width: none;
-  margin-left: calc(-1 * var(--side-pad));
-  margin-right: calc(-1 * var(--side-pad));
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   min-height: clamp(720px, 78vw, 980px);
   padding-top: clamp(76px, 8vw, 116px);
   padding-bottom: clamp(220px, 24vw, 340px);
@@ -2720,8 +2728,9 @@ body {
     var(--bg);
   border-top: 1px solid var(--border);
   max-width: none;
-  margin-left: calc(-1 * var(--side-pad));
-  margin-right: calc(-1 * var(--side-pad));
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }
 .install-inner { max-width: 1120px; margin: 0 auto; }
 .install-marker {
