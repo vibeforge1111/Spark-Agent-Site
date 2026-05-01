@@ -29,7 +29,7 @@ function stripHtml(html) {
 }
 
 const pages = [
-  { path: "docs/index.html", name: "Overview", required: ["Guided installer", "What you need before installing Spark"] },
+  { path: "docs/index.html", name: "Overview", required: ["Guided installer", "Before installing, choose how Spark should reach an LLM"] },
   { path: "docs/installer-guide/index.html", name: "Installer guide", required: ["Install Spark in five calm steps", "BotFather", "Mission Control"] },
   { path: "docs/install-safety/index.html", name: "Install safety", required: ["dry-run", "checksums", "access level"] },
   { path: "docs/providers/index.html", name: "Providers", required: ["one provider", "Agent", "Mission", "Provider types", "Supported providers", "spark providers test --role chat", "spark providers test --role mission", "Codex", "Claude", "Ollama", "LM Studio", "surprise fallback"] },
@@ -37,7 +37,7 @@ const pages = [
   { path: "docs/lifecycle/index.html", name: "Start/Stop", required: ["spark live start", "spark live status", "autostart"] },
   { path: "docs/troubleshooting/index.html", name: "Troubleshooting", required: ["spark fix telegram", "spark fix spawner", "spark doctor llm"] },
   { path: "docs/security/index.html", name: "Security", required: ["spark security audit", "spark support bundle", "access"] },
-  { path: "docs/suites/index.html", name: "Modules", required: ["telegram-starter", "domain-chip-memory", "spawner-ui"] },
+  { path: "docs/suites/index.html", name: "Modules", required: ["telegram-starter", "Domain Chip Memory", "Spawner UI"] },
   { path: "docs/self-improvement/index.html", name: "Self-improvement", required: ["domain chip", "Spark Researcher", "score"] },
 ];
 

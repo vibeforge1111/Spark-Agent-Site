@@ -120,26 +120,12 @@
           <p>Spark gives you a Telegram chat door, memory, Spark Live, Researcher, Builder runtime, and Mission Control. You can talk to it, save what matters, research ideas, start builds, and watch work move through Kanban and Canvas.</p>
           <p>The self-improving part comes from domain chips: reusable skills Spark can build, test, and reuse. With the right chip, Spark can practice a workflow even while you are away and come back with visible progress instead of vague promises.</p>
         </div>
-        <div class="docs-start-columns" aria-label="What you need before installing Spark">
-          <div class="docs-start-item">
-            <span>01</span>
-            <strong>Bring an LLM path.</strong>
-            <p>Use Codex, Claude Code, Z.AI GLM, Kimi, MiniMax, OpenRouter, DeepSeek, Ollama, LM Studio, Hugging Face, or another provider Spark supports.</p>
-          </div>
-          <div class="docs-start-item">
-            <span>02</span>
-            <strong>Start with one provider.</strong>
-            <p>One model can power Agent and Mission first. If you already know you want separate chat/memory and build models, split them during setup.</p>
-          </div>
-          <div class="docs-start-item">
-            <span>03</span>
-            <strong>Preview before install.</strong>
-            <p>The dry run shows files, repos, versions, checksums, and commands before anything is written to your computer.</p>
-          </div>
+        <div class="docs-start-plain">
+          <p>Before installing, choose how Spark should reach an LLM. If you already use Codex or Claude Code, start there. If you prefer API keys, Spark can use Z.AI GLM, Kimi, MiniMax, OpenRouter, DeepSeek, Hugging Face, or another supported provider.</p>
+          <p>Keep the first setup simple: one provider can power both Agent and Mission. Split chat/memory from build work only if you already know you want different models for those jobs.</p>
+          <p>Run the dry-run before the real install. It shows the files, repos, versions, checksums, and commands before anything is written to your computer.</p>
+          <p>Local models are possible too. Start with <a href="https://huggingface.co/google/gemma-4-31B-it">Gemma 4</a>-class models on smaller machines, or try larger local coding models such as <a href="https://huggingface.co/Qwen/Qwen3.6-27B">Qwen 3.6 27B</a> if your computer is stronger.</p>
         </div>
-        <p class="docs-local-note">
-          Local models are possible too. Start with <a href="https://huggingface.co/google/gemma-4-31B-it">Gemma 4</a>-class models on smaller machines, or try larger local coding models such as <a href="https://huggingface.co/Qwen/Qwen3.6-27B">Qwen 3.6 27B</a> if your computer is stronger.
-        </p>
         <div class="docs-paths">
           <a class="docs-path docs-path-primary" href="/docs/installer-guide/">
             <strong>Start With The Guide</strong>
@@ -168,39 +154,39 @@
         <div class="docs-grid docs-suite-grid">
           <div class="docs-card">
             <span class="docs-card-kicker">Chat Door</span>
-            <h3>Telegram Bot</h3>
-            <p>You message Spark from Telegram. Spark replies there.</p>
-            <p>BotFather gives you the bot token. Spark keeps it local.</p>
+            <h3>Spark Telegram Bot</h3>
+            <p>Talk to Spark from Telegram without opening a dashboard.</p>
+            <p>BotFather creates the token. Spark keeps it local.</p>
           </div>
           <div class="docs-card">
             <span class="docs-card-kicker">Runtime</span>
-            <h3>Intelligence Builder</h3>
-            <p>This routes questions to your chosen LLM provider.</p>
-            <p>It also connects memory, tools, and setup roles.</p>
+            <h3>Spark Intelligence Builder</h3>
+            <p>Routes Agent and Mission work to your chosen provider.</p>
+            <p>Connects memory, tools, and setup roles behind the scenes.</p>
           </div>
           <div class="docs-card">
             <span class="docs-card-kicker">Memory</span>
             <h3>Domain Chip Memory</h3>
-            <p>This is Spark's starter memory layer.</p>
-            <p>It lets Spark save and recall useful facts when memory is enabled.</p>
+            <p>Spark's starter memory layer for facts that should stick.</p>
+            <p>Saves and recalls useful context when memory is enabled.</p>
           </div>
           <div class="docs-card">
             <span class="docs-card-kicker">Missions</span>
             <h3>Spawner UI</h3>
-            <p>This is Mission Control.</p>
-            <p>It helps Spark start, track, and manage larger work.</p>
+            <p>Mission Control for builds, research, coding, and bigger work.</p>
+            <p>Starts, tracks, and manages progress without losing the thread.</p>
           </div>
           <div class="docs-card">
             <span class="docs-card-kicker">Research</span>
             <h3>Spark Researcher</h3>
-            <p>This helps Spark gather context and prepare better work.</p>
-            <p>Use it when answers need evidence, not guesses.</p>
+            <p>Helps Spark gather evidence before it answers or builds.</p>
+            <p>Use it when the work needs context instead of guesses.</p>
           </div>
           <div class="docs-card">
             <span class="docs-card-kicker">Identity</span>
             <h3>Spark Character</h3>
-            <p>This gives Spark a stable role, voice, and access-level awareness.</p>
-            <p>It helps the agent explain what it can do without overreaching.</p>
+            <p>Keeps Spark's role, voice, and access level steady.</p>
+            <p>Helps the agent explain its limits without overreaching.</p>
           </div>
         </div>
       </section>
