@@ -338,9 +338,11 @@ spark providers test --role mission</pre>
         </article>
       </div>
       <pre class="docs-code">SPAWNER_UI_URL=http://spawner-ui.railway.internal:&lt;port&gt;
+SPAWNER_UI_PUBLIC_URL=https://&lt;protected-spawner-public-domain&gt;
 TELEGRAM_RELAY_URL=http://spark-telegram-bot.railway.internal:8788/spawner-events
 MISSION_CONTROL_WEBHOOK_URLS=http://spark-telegram-bot.railway.internal:8788/spawner-events</pre>
       <div class="doc-note">
+        <p><strong>Public board links:</strong> <code>SPAWNER_UI_URL</code> is for private service-to-service calls. If it uses <code>railway.internal</code>, set <code>SPAWNER_UI_PUBLIC_URL</code> to the protected public Spawner domain so Telegram mission links open for humans.</p>
         <p><strong>Staging smoke:</strong> use <code>TELEGRAM_SMOKE_MODE=1</code> on the bot and run a tiny Mission from Spawner. That verifies the private relay without calling Telegram. Production chat still needs a real BotFather token.</p>
         <p><strong>Deep smoke:</strong> inside Spawner, set <code>SPARK_HEALTH_DEEP=1</code> and run <code>npm run health:spark</code>. Add <code>SPARK_HEALTH_PROVIDER=zai</code>, <code>minimax</code>, or another configured Mission provider when testing one route directly.</p>
         <p><strong>Provider runtime:</strong> API providers can run in hosted containers with keys. Codex CLI and Claude Code missions need their CLI binaries and auth available inside the container.</p>

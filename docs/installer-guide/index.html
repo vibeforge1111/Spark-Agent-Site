@@ -304,6 +304,9 @@
         <div class="doc-card"><h3>Mission Control</h3><p>Runs Spawner UI, boards, workspaces, and mission state.</p><code>SPAWNER_STATE_DIR=/data/spawner</code></div>
         <div class="doc-card"><h3>Bridge Key</h3><p>Lets the two services talk privately without exposing control APIs.</p><code>SPARK_BRIDGE_API_KEY</code></div>
       </div>
+      <pre class="docs-code">SPAWNER_UI_URL=http://spawner-ui.railway.internal:&lt;port&gt;
+SPAWNER_UI_PUBLIC_URL=https://&lt;protected-spawner-public-domain&gt;</pre>
+      <p class="doc-note">Keep internal calls on Railway private DNS, but give Telegram a protected public Spawner URL for mission board links. Each user should normally run this in their own hosting account so costs, workspaces, and secrets stay under their control.</p>
       <p class="doc-note">For a cloud smoke test, run the bot with <code>TELEGRAM_SMOKE_MODE=1</code> and start a tiny Mission from Spawner. When you switch to real Telegram chat, replace the smoke token with the BotFather token and keep persistent volumes mounted at <code>/data</code>.</p>
     </section>
 

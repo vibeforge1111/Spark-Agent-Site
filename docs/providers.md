@@ -70,11 +70,17 @@ Use private service URLs between the two services:
 
 ```bash
 SPAWNER_UI_URL=http://spawner-ui.railway.internal:<port>
+SPAWNER_UI_PUBLIC_URL=https://<protected-spawner-public-domain>
 TELEGRAM_RELAY_HOST=::
 TELEGRAM_RELAY_URL=http://spark-telegram-bot.railway.internal:8788/spawner-events
 MISSION_CONTROL_WEBHOOK_URLS=http://spark-telegram-bot.railway.internal:8788/spawner-events
 SPARK_BRIDGE_API_KEY=<same long value in both services>
 ```
+
+`SPAWNER_UI_URL` is private service-to-service routing. When it points at a
+`railway.internal` host, also set `SPAWNER_UI_PUBLIC_URL` to the protected
+public Spawner domain so Telegram can send people a mission board link they can
+open. Keep the Spawner public surface protected with its UI key.
 
 Mount persistent storage for bot state, Spawner state, and workspaces. Do not
 put provider keys, Telegram tokens, or relay secrets in Docker images.
