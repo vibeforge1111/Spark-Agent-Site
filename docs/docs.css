@@ -1988,6 +1988,10 @@
   background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 42%, #b8a8dc));
 }
 
+.improve-meter i.score-42 { --score: 42%; }
+.improve-meter i.score-68 { --score: 68%; }
+.improve-meter i.score-81 { --score: 81%; }
+
 .improve-use-grid .doc-card {
   min-height: 100%;
 }
