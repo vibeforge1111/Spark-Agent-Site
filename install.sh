@@ -3,8 +3,8 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-launch-2026-05-01-1}"
-SPARK_DEFAULT_CLI_REF="03912330724530d381bf663ad88d10dbbe90cc4e"
+SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-launch-2026-05-02-1}"
+SPARK_DEFAULT_CLI_REF="b86ebae5133ba275cd41d945a50221043183c255"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -810,7 +810,7 @@ EOF
     cp "$SPARK_LOCAL_REGISTRY" "$cli_dir/registry.json"
   fi
 
-  local spark_setup_cmd=("$SPARK_PREFIX/bin/spark" setup "$SPARK_BUNDLE")
+  local spark_setup_cmd=("$SPARK_PREFIX/bin/spark" setup "$SPARK_BUNDLE" "--no-autostart")
   local spark_secret_ref_value=""
   spark_secret_ref() {
     local value="$1"
@@ -894,7 +894,7 @@ Manual fallback for this session:
   $SPARK_PREFIX/bin/spark start $SPARK_BUNDLE
 
 To try autostart again:
-  $SPARK_PREFIX/bin/spark autostart install --now
+  $SPARK_PREFIX/bin/spark autostart on --now
 EOF
   fi
 }
@@ -952,18 +952,19 @@ Operational checks:
   $SPARK_PREFIX/bin/spark providers test --role chat
   $SPARK_PREFIX/bin/spark verify --onboarding
   $SPARK_PREFIX/bin/spark autostart status
+  $SPARK_PREFIX/bin/spark fix autostart
 
 $(if [ "$SPARK_AUTOSTART" = "1" ]; then
     cat <<AUTOSTART_ON
 Spark autostart is enabled by default so Spark comes back after login.
 To disable it later:
-  $SPARK_PREFIX/bin/spark autostart uninstall
+  $SPARK_PREFIX/bin/spark autostart off
 AUTOSTART_ON
   else
     cat <<AUTOSTART_OFF
 Autostart was not installed for this run.
 To enable it later:
-  $SPARK_PREFIX/bin/spark autostart install telegram-starter --now
+  $SPARK_PREFIX/bin/spark autostart on telegram-starter --now
 AUTOSTART_OFF
   fi)
 

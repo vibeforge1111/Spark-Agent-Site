@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "03912330724530d381bf663ad88d10dbbe90cc4e",
+    [string]$Ref = "b86ebae5133ba275cd41d945a50221043183c255",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -29,7 +29,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$SparkCliReleaseName = "spark-cli-launch-2026-05-01-1"
+$SparkCliReleaseName = "spark-cli-launch-2026-05-02-1"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
@@ -617,7 +617,7 @@ function Run-Setup {
     $setupArgs += $SetupArg
     Write-SparkLog "Running spark setup $Bundle"
     try {
-        & $sparkCmd setup $Bundle @setupArgs
+        & $sparkCmd setup $Bundle --no-autostart @setupArgs
         if ($LASTEXITCODE -ne 0) {
             throw "spark setup failed with exit code $LASTEXITCODE"
         }
@@ -650,7 +650,7 @@ function Run-Autostart {
         Write-Host "  $sparkCmd start $Bundle"
         Write-Host ""
         Write-Host "To try autostart again:"
-        Write-Host "  $sparkCmd autostart install --now"
+        Write-Host "  $sparkCmd autostart on --now"
     }
 }
 
@@ -706,15 +706,16 @@ function Invoke-Install {
     Write-Host "  spark providers test --role chat"
     Write-Host "  spark verify --onboarding"
     Write-Host "  spark autostart status"
+    Write-Host "  spark fix autostart"
     Write-Host ""
     if ($NoAutostart) {
         Write-Host "Autostart was not installed for this run."
         Write-Host "To enable it later:"
-        Write-Host "  spark autostart install telegram-starter --now"
+        Write-Host "  spark autostart on telegram-starter --now"
     } else {
         Write-Host "Spark autostart is enabled by default so Spark comes back after login."
         Write-Host "To disable it later:"
-        Write-Host "  spark autostart uninstall"
+        Write-Host "  spark autostart off"
     }
     Write-Host ""
     Write-Host "Install log:"

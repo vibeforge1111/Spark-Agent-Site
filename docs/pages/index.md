@@ -66,11 +66,11 @@ The installer has checksums, a release manifest, pinned managed runtimes, immuta
 
 Current public installer state:
 
-- Release: `spark-cli-launch-2026-05-01-1`
-- Installed Spark CLI runtime commit: `03912330724530d381bf663ad88d10dbbe90cc4e`
-- Hosted installer hashes match the committed release manifest.
-- Hosted Windows sandbox install passed.
-- Hosted WSL sandbox install passed.
-- Provenance verification passed in hosted sandbox installs.
+- Release: `spark-cli-launch-2026-05-02-1`
+- Installed Spark CLI runtime commit: `b86ebae5133ba275cd41d945a50221043183c255`
+- Local installer hashes match the committed release manifest.
+- Hosted installer verification should be rerun after deploy.
+- Windows and WSL sandbox install checks should be rerun after deploy.
+- Provenance verification should be rerun in hosted sandbox installs after deploy.
 
 The docs now include human-friendly inner pages, agent-readable Markdown routes, simple schemas, visual flow diagrams, and command pages for Spark Live, providers, troubleshooting, and security.
