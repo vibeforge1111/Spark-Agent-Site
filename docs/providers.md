@@ -82,6 +82,9 @@ put provider keys, Telegram tokens, or relay secrets in Docker images.
 For staging smoke tests, set `TELEGRAM_SMOKE_MODE=1` on the bot service and run
 a tiny Mission from Spawner. That verifies the private relay without calling the
 Telegram API. Production Telegram chat still needs a real BotFather token.
+Inside the Spawner service, `SPARK_HEALTH_DEEP=1 npm run health:spark` can run
+that tiny mission smoke. Set `SPARK_HEALTH_PROVIDER=zai`, `minimax`, `codex`, or
+another configured Mission provider when you want to test one path directly.
 
 API-backed Mission providers such as Z.AI and MiniMax can run in hosted
 containers with provider keys. CLI executors such as Codex CLI and Claude Code
