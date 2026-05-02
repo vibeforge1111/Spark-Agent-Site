@@ -24,7 +24,7 @@ The manifest includes the immutable Spark CLI commit, managed Node version, mana
 
 ```bash
 curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh
-expected='b8b0b63c9be927ca19c967a68adf716a9fa94cb0ab117b09a5a84cfd24ca0830'
+expected='c45a69cc6aabdc30b93e3bc68048137d9c0e5b1f85fb9e3953a050b548bddfdc'
 actual=$(if command -v sha256sum >/dev/null 2>&1; then sha256sum ./install.sh | awk '{print $1}'; elif command -v shasum >/dev/null 2>&1; then shasum -a 256 ./install.sh | awk '{print $1}'; else echo 'Missing sha256sum or shasum'; exit 1; fi)
 test "$actual" = "$expected" || { echo 'spark installer checksum mismatch'; exit 1; }
 gh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main
@@ -36,7 +36,7 @@ bash ./install.sh --dry-run
 
 ```powershell
 iwr https://agent.sparkswarm.ai/install.ps1 -OutFile .\install.ps1
-if ((Get-FileHash .\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne '7ae21f65d0b16b4c31a88e7931da55291187c3a9ec9ffde16fafd249a4ad62eb') { throw 'install.ps1 checksum mismatch' }
+if ((Get-FileHash .\install.ps1 -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'efd8f772c16d90ad17e230be3fc4778c54d81792833edf7bdf4964db85265512') { throw 'install.ps1 checksum mismatch' }
 gh attestation verify .\install.ps1 --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main
 Get-Content .\install.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 -DryRun
