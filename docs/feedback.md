@@ -40,6 +40,7 @@ Expected: <what should have happened>
 Actual: <what happened instead>
 Evidence: <redacted command, screenshot, route, or output>
 Suggested fix: <smallest useful change>
+GitHub route: <issue or PR, after user approval>
 ```
 
 ## Good PR Shape

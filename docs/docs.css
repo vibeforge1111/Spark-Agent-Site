@@ -1311,6 +1311,20 @@
   margin-bottom: 14px;
 }
 
+.doc-note {
+  max-width: 780px;
+  margin-top: 18px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 62%, transparent);
+  padding: 2px 0 2px 16px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.doc-note p + p {
+  margin-top: 10px;
+}
+
 .doc-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1622,14 +1636,6 @@
   color: var(--text);
 }
 
-.feedback-choice {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: 18px;
-  margin-top: 22px;
-}
-
-.feedback-picker,
 .feedback-agent-card,
 .improve-diagram,
 .improve-score-card {
@@ -1638,12 +1644,11 @@
   background: color-mix(in srgb, var(--surface) 84%, transparent);
 }
 
-.feedback-picker,
 .feedback-agent-card {
   padding: 18px;
+  min-width: 0;
 }
 
-.feedback-picker label,
 .feedback-agent-card span,
 .improve-diagram > span,
 .improve-score-card > span {
@@ -1655,17 +1660,6 @@
   margin-bottom: 10px;
 }
 
-.feedback-picker select {
-  width: 100%;
-  border: 1px solid var(--border-strong);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--bg-deep) 88%, transparent);
-  color: var(--text);
-  padding: 12px 14px;
-  font: 600 14px var(--font-sans);
-}
-
-.feedback-picker p,
 .feedback-agent-card p,
 .feedback-repo-card p,
 .improve-diagram p,
@@ -1675,15 +1669,26 @@
   line-height: 1.65;
 }
 
-.feedback-actions {
+.feedback-links {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 14px;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  color: var(--text-ghost);
+  font: 600 12px var(--font-mono);
+  letter-spacing: 0;
 }
 
-.feedback-actions a,
-.feedback-repo-card a,
+.feedback-links a {
+  color: var(--accent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+}
+
+.feedback-links a:hover {
+  color: var(--text-bright);
+  border-bottom-color: color-mix(in srgb, var(--accent) 76%, transparent);
+}
+
 .improve-diagram a {
   width: fit-content;
   border: 1px solid color-mix(in srgb, var(--accent) 36%, var(--border-strong));
@@ -1694,8 +1699,6 @@
   font: 700 12px var(--font-mono);
 }
 
-.feedback-actions a:hover,
-.feedback-repo-card a:hover,
 .improve-diagram a:hover {
   color: var(--text-bright);
   border-color: color-mix(in srgb, var(--accent) 70%, var(--border-strong));
@@ -1711,10 +1714,12 @@
 
 .feedback-repo-card {
   display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   gap: 9px;
-  align-content: start;
-  border-left: 1px solid var(--border-strong);
-  padding: 2px 0 2px 18px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 74%, transparent);
+  padding: 16px;
   min-width: 0;
 }
 
@@ -1732,6 +1737,136 @@
   overflow-wrap: anywhere;
   color: var(--accent);
   font: 600 12px var(--font-mono);
+}
+
+.feedback-agent-card .docs-code {
+  max-width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.feedback-signal-board {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.feedback-signal-flow {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  padding-left: 18px;
+}
+
+.feedback-signal-flow::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 22px;
+  bottom: 22px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 14%, transparent));
+}
+
+.feedback-signal-flow article {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  padding: 16px 16px 16px 18px;
+}
+
+.feedback-signal-flow article::before {
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: 22px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.feedback-signal-flow span,
+.feedback-issue-preview > span {
+  color: var(--accent);
+  font: 700 11px var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.feedback-signal-flow h3,
+.feedback-issue-preview h3 {
+  color: var(--text);
+  font: 700 18px var(--font-sans);
+  line-height: 1.22;
+}
+
+.feedback-signal-flow p,
+.feedback-issue-preview p,
+.feedback-issue-preview dd {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.62;
+}
+
+.feedback-issue-preview {
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border-strong));
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 7%, transparent), transparent 42%),
+    color-mix(in srgb, var(--surface) 82%, transparent);
+  padding: 18px;
+}
+
+.feedback-issue-preview dl {
+  display: grid;
+  gap: 0;
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--bg-deep) 62%, transparent);
+}
+
+.feedback-issue-preview dl div {
+  display: grid;
+  grid-template-columns: minmax(92px, 0.34fr) minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.feedback-issue-preview dl div:last-child {
+  border-bottom: 0;
+}
+
+.feedback-issue-preview dt {
+  color: var(--text-ghost);
+  font: 700 11px var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.feedback-issue-preview code {
+  color: var(--accent);
+  font: 600 12px var(--font-mono);
+}
+
+.feedback-issue-preview p {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bg-deep) 48%, transparent);
+}
+
+.feedback-issue-preview strong {
+  color: var(--text);
 }
 
 .improve-diagram {
@@ -2858,11 +2993,18 @@
   .provider-matrix,
   .provider-command-list,
   .provider-family-list article,
-  .feedback-choice,
   .feedback-repo-grid,
+  .feedback-signal-board,
   .improve-use-grid,
   .improve-lab-map {
     grid-template-columns: 1fr;
+  }
+  .feedback-signal-flow {
+    padding-left: 0;
+  }
+  .feedback-signal-flow::before,
+  .feedback-signal-flow article::before {
+    display: none;
   }
   .improve-flow {
     grid-template-columns: 1fr;
@@ -3026,6 +3168,20 @@
     margin-top: 22px;
     padding: 18px;
   }
+  .docs-feedback-banner {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 14px;
+    padding: 16px;
+  }
+  .docs-feedback-banner a {
+    justify-self: start;
+  }
+  .feedback-issue-preview dl div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
   .docs-install-banner-summary {
     gap: 6px;
   }
@@ -3041,7 +3197,6 @@
   .provider-command-list article,
   .provider-family-list article,
   .provider-good-state,
-  .feedback-picker,
   .feedback-agent-card,
   .improve-diagram {
     padding: 14px;

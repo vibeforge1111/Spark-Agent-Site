@@ -83,60 +83,73 @@
     <section class="doc-section">
       <h2>Choose the repo first.</h2>
       <p>Pick the area that best matches what you saw. If you are not sure, use Site and docs; an agent or maintainer can reroute the report.</p>
-      <div class="feedback-choice">
-        <div class="feedback-picker">
-          <label for="feedback-repo">Feedback target</label>
-          <select id="feedback-repo">
-            <option value="site" data-issue="https://github.com/vibeforge1111/Spark-Agent-Site/issues/new?template=docs-feedback.yml&title=Spark%20feedback%3A%20" data-pr="https://github.com/vibeforge1111/Spark-Agent-Site/compare">Site, docs, install page</option>
-            <option value="cli" data-issue="https://github.com/vibeforge1111/spark-cli/issues/new?title=Spark%20CLI%20feedback%3A%20" data-pr="https://github.com/vibeforge1111/spark-cli/compare">Spark CLI, installer, commands</option>
-            <option value="researcher" data-issue="https://github.com/vibeforge1111/spark-researcher/issues/new?title=Spark%20Researcher%20feedback%3A%20" data-pr="https://github.com/vibeforge1111/spark-researcher/compare">Spark Researcher, autoloops, chip authoring</option>
-            <option value="builder" data-issue="https://github.com/vibeforge1111/spark-intelligence-builder/issues/new?title=Spark%20Intelligence%20Builder%20feedback%3A%20" data-pr="https://github.com/vibeforge1111/spark-intelligence-builder/compare">Spark Intelligence Builder, runtime routing</option>
-            <option value="memory" data-issue="https://github.com/vibeforge1111/domain-chip-memory/issues/new?title=Domain%20Chip%20Memory%20feedback%3A%20" data-pr="https://github.com/vibeforge1111/domain-chip-memory/compare">Domain Chip Memory, memory benchmarks</option>
-            <option value="telegram" data-issue="https://github.com/vibeforge1111/spark-telegram-bot/issues/new?title=Spark%20Telegram%20Bot%20feedback%3A%20" data-pr="https://github.com/vibeforge1111/spark-telegram-bot/compare">Spark Telegram Bot, chat commands</option>
-            <option value="spawner" data-issue="https://github.com/vibeforge1111/vibeship-spawner-ui/issues/new?title=Mission%20Control%20feedback%3A%20" data-pr="https://github.com/vibeforge1111/vibeship-spawner-ui/compare">Spawner UI, Mission Control, Kanban</option>
-            <option value="character" data-issue="https://github.com/vibeforge1111/spark-character/issues/new?title=Spark%20Character%20feedback%3A%20" data-pr="https://github.com/vibeforge1111/spark-character/compare">Spark Character, role and voice</option>
-            <option value="chips" data-issue="https://github.com/vibeforge1111/spark-skill-graphs/issues/new?title=Spark%20chip%20feedback%3A%20" data-pr="https://github.com/vibeforge1111/spark-skill-graphs/compare">Domain chips and skill graphs</option>
-          </select>
-          <p>Opening a repo link sends you to GitHub. Sign in there, then create the issue or PR with secrets removed.</p>
-          <div class="feedback-actions">
-            <a id="feedback-open-issue" href="https://github.com/vibeforge1111/Spark-Agent-Site/issues/new?template=docs-feedback.yml&title=Spark%20feedback%3A%20">Open issue</a>
-            <a id="feedback-open-pr" href="https://github.com/vibeforge1111/Spark-Agent-Site/compare">Open PR route</a>
-          </div>
-        </div>
-        <div class="feedback-agent-card">
-          <span>For agents</span>
-          <h3>Turn observations into a useful report.</h3>
-          <p>Do not just say "this is broken." Include the repo, page or command, expected behavior, actual behavior, reproduction steps, safe logs, and the smallest suggested improvement.</p>
-          <pre class="docs-code">Repo: &lt;target repo&gt;
+      <div class="feedback-repo-grid">
+        <div class="feedback-repo-card"><h3>Site and docs</h3><code>Spark-Agent-Site</code><p>Install page, docs, legal pages, LLM indexes, hosted installer metadata.</p><p class="feedback-links"><a href="https://github.com/vibeforge1111/Spark-Agent-Site/issues/new?template=docs-feedback.yml&title=Spark%20feedback%3A%20">Issue</a><span>/</span><a href="https://github.com/vibeforge1111/Spark-Agent-Site/compare">PR</a></p></div>
+        <div class="feedback-repo-card"><h3>CLI and installer</h3><code>spark-cli</code><p>Setup, dry-runs, provider selection, autostart, healthchecks, logs, update commands.</p><p class="feedback-links"><a href="https://github.com/vibeforge1111/spark-cli/issues/new?title=Spark%20CLI%20feedback%3A%20">Issue</a><span>/</span><a href="https://github.com/vibeforge1111/spark-cli/compare">PR</a></p></div>
+        <div class="feedback-repo-card"><h3>Research and autoloops</h3><code>spark-researcher</code><p>Researcher commands, evidence packets, OTOLO/autoloop runs, chip authoring, ledgers.</p><p class="feedback-links"><a href="https://github.com/vibeforge1111/spark-researcher/issues/new?title=Spark%20Researcher%20feedback%3A%20">Issue</a><span>/</span><a href="https://github.com/vibeforge1111/spark-researcher/compare">PR</a></p></div>
+        <div class="feedback-repo-card"><h3>Runtime routing</h3><code>spark-intelligence-builder</code><p>Agent and Mission provider routing, memory bridge, runtime role behavior.</p><p class="feedback-links"><a href="https://github.com/vibeforge1111/spark-intelligence-builder/issues/new?title=Spark%20Intelligence%20Builder%20feedback%3A%20">Issue</a><span>/</span><a href="https://github.com/vibeforge1111/spark-intelligence-builder/compare">PR</a></p></div>
+        <div class="feedback-repo-card"><h3>Memory chip</h3><code>domain-chip-memory</code><p>Memory packets, long-term memory evaluation, benchmark promotion rules.</p><p class="feedback-links"><a href="https://github.com/vibeforge1111/domain-chip-memory/issues/new?title=Domain%20Chip%20Memory%20feedback%3A%20">Issue</a><span>/</span><a href="https://github.com/vibeforge1111/domain-chip-memory/compare">PR</a></p></div>
+        <div class="feedback-repo-card"><h3>Telegram chat</h3><code>spark-telegram-bot</code><p>Bot commands, message handling, Telegram diagnostics, long polling behavior.</p><p class="feedback-links"><a href="https://github.com/vibeforge1111/spark-telegram-bot/issues/new?title=Spark%20Telegram%20Bot%20feedback%3A%20">Issue</a><span>/</span><a href="https://github.com/vibeforge1111/spark-telegram-bot/compare">PR</a></p></div>
+        <div class="feedback-repo-card"><h3>Mission Control</h3><code>vibeship-spawner-ui</code><p>Spawner UI, Kanban, Canvas, project boards, mission visibility.</p><p class="feedback-links"><a href="https://github.com/vibeforge1111/vibeship-spawner-ui/issues/new?title=Mission%20Control%20feedback%3A%20">Issue</a><span>/</span><a href="https://github.com/vibeforge1111/vibeship-spawner-ui/compare">PR</a></p></div>
+        <div class="feedback-repo-card"><h3>Character and access</h3><code>spark-character</code><p>Role, voice, access-level awareness, persona boundaries.</p><p class="feedback-links"><a href="https://github.com/vibeforge1111/spark-character/issues/new?title=Spark%20Character%20feedback%3A%20">Issue</a><span>/</span><a href="https://github.com/vibeforge1111/spark-character/compare">PR</a></p></div>
+        <div class="feedback-repo-card"><h3>Domain chips</h3><code>spark-skill-graphs</code><p>Chip definitions, skill graph examples, benchmarkable specialization paths.</p><p class="feedback-links"><a href="https://github.com/vibeforge1111/spark-skill-graphs/issues/new?title=Spark%20chip%20feedback%3A%20">Issue</a><span>/</span><a href="https://github.com/vibeforge1111/spark-skill-graphs/compare">PR</a></p></div>
+      </div>
+      <div class="doc-callout">
+        <h3>Not sure where it belongs?</h3>
+        <p>Start with Site and docs. Describe the module or command you touched, and we can move the feedback to the right Spark repo.</p>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Ask an agent to prepare it.</h2>
+      <div class="feedback-agent-card">
+        <span>Agent-readable</span>
+        <h3>Turn observations into a useful report.</h3>
+        <p>Do not just say "this is broken." Include the repo, page or command, expected behavior, actual behavior, reproduction steps, safe logs, and the smallest suggested improvement.</p>
+        <p>Opening a repo link sends you to GitHub. Sign in there, then create the issue or PR with secrets removed.</p>
+        <pre class="docs-code">Repo: &lt;target repo&gt;
 Area: &lt;docs | installer | provider | module | benchmark&gt;
 Expected: &lt;what should have happened&gt;
 Actual: &lt;what happened instead&gt;
 Evidence: &lt;redacted command, screenshot, or link&gt;
-Suggested fix: &lt;smallest useful change&gt;</pre>
-        </div>
+Suggested fix: &lt;smallest useful change&gt;
+GitHub route: &lt;issue or PR, after user approval&gt;</pre>
       </div>
     </section>
 
-    <section class="doc-section">
-      <h2>Repo routing map.</h2>
-      <div class="feedback-repo-grid">
-        <div class="feedback-repo-card"><h3>Site and docs</h3><code>Spark-Agent-Site</code><p>Install page, docs, legal pages, LLM indexes, hosted installer metadata.</p><a href="https://github.com/vibeforge1111/Spark-Agent-Site/issues/new?template=docs-feedback.yml&title=Spark%20feedback%3A%20">Open issue</a></div>
-        <div class="feedback-repo-card"><h3>CLI and installer</h3><code>spark-cli</code><p>Setup, dry-runs, provider selection, autostart, healthchecks, logs, update commands.</p><a href="https://github.com/vibeforge1111/spark-cli/issues/new?title=Spark%20CLI%20feedback%3A%20">Open issue</a></div>
-        <div class="feedback-repo-card"><h3>Research and autoloops</h3><code>spark-researcher</code><p>Researcher commands, evidence packets, OTOLO/autoloop runs, chip authoring, ledgers.</p><a href="https://github.com/vibeforge1111/spark-researcher/issues/new?title=Spark%20Researcher%20feedback%3A%20">Open issue</a></div>
-        <div class="feedback-repo-card"><h3>Runtime routing</h3><code>spark-intelligence-builder</code><p>Agent and Mission provider routing, memory bridge, runtime role behavior.</p><a href="https://github.com/vibeforge1111/spark-intelligence-builder/issues/new?title=Spark%20Intelligence%20Builder%20feedback%3A%20">Open issue</a></div>
-        <div class="feedback-repo-card"><h3>Memory chip</h3><code>domain-chip-memory</code><p>Memory packets, long-term memory evaluation, benchmark promotion rules.</p><a href="https://github.com/vibeforge1111/domain-chip-memory/issues/new?title=Domain%20Chip%20Memory%20feedback%3A%20">Open issue</a></div>
-        <div class="feedback-repo-card"><h3>Telegram chat</h3><code>spark-telegram-bot</code><p>Bot commands, message handling, Telegram diagnostics, long polling behavior.</p><a href="https://github.com/vibeforge1111/spark-telegram-bot/issues/new?title=Spark%20Telegram%20Bot%20feedback%3A%20">Open issue</a></div>
-        <div class="feedback-repo-card"><h3>Mission Control</h3><code>vibeship-spawner-ui</code><p>Spawner UI, Kanban, Canvas, project boards, mission visibility.</p><a href="https://github.com/vibeforge1111/vibeship-spawner-ui/issues/new?title=Mission%20Control%20feedback%3A%20">Open issue</a></div>
-        <div class="feedback-repo-card"><h3>Character and access</h3><code>spark-character</code><p>Role, voice, access-level awareness, persona boundaries.</p><a href="https://github.com/vibeforge1111/spark-character/issues/new?title=Spark%20Character%20feedback%3A%20">Open issue</a></div>
-      </div>
-    </section>
-
-    <section class="doc-section">
+    <section class="doc-section" id="high-signal">
       <h2>What high-signal feedback looks like.</h2>
-      <div class="doc-grid doc-grid-3">
-        <div class="doc-card"><span class="doc-kicker">Clear</span><h3>Point at the exact surface.</h3><p>Name the page, command, module, or repo. Add the URL or command you used.</p></div>
-        <div class="doc-card"><span class="doc-kicker">Safe</span><h3>Redact secrets first.</h3><p>Never include API keys, Telegram tokens, private memory, private repos, or raw logs that expose a user.</p></div>
-        <div class="doc-card"><span class="doc-kicker">Useful</span><h3>Suggest the smallest improvement.</h3><p>A good issue says what would have helped: one sentence, one command, one screenshot, one check, or one test.</p></div>
+      <p>Good feedback gives a maintainer or agent enough signal to act without guessing. It is specific, private by default, and small enough to turn into a check or PR.</p>
+      <div class="feedback-signal-board">
+        <div class="feedback-signal-flow" aria-label="High-signal feedback recipe">
+          <article>
+            <span>01</span>
+            <h3>Clear</h3>
+            <p>Point at the exact page, command, module, or repo.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Safe</h3>
+            <p>Remove keys, tokens, private memory, names, and raw logs.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Useful</h3>
+            <p>Name the smallest change, screenshot, command, or test.</p>
+          </article>
+        </div>
+        <div class="feedback-issue-preview" aria-label="Example high-signal feedback">
+          <span>Agent-readable example</span>
+          <h3>Provider setup docs make split roles unclear</h3>
+          <dl>
+            <div><dt>Surface</dt><dd><code>/docs/providers/</code>, setup copy</dd></div>
+            <div><dt>Expected</dt><dd>Agent and Mission defaults are easy to choose.</dd></div>
+            <div><dt>Actual</dt><dd>The split-provider path feels hidden.</dd></div>
+            <div><dt>Evidence</dt><dd>Redacted screenshot or exact paragraph.</dd></div>
+            <div><dt>Smallest fix</dt><dd>Add one sentence and one setup check.</dd></div>
+          </dl>
+          <p><strong>Redacted:</strong> no provider keys, Telegram tokens, private memory, or private repo text.</p>
+        </div>
       </div>
       <div class="doc-callout">
         <h3>Open source appreciation</h3>
@@ -145,20 +158,5 @@ Suggested fix: &lt;smallest useful change&gt;</pre>
     </section>
   </article>
 </main>
-<script>
-(() => {
-  const select = document.getElementById("feedback-repo");
-  const issue = document.getElementById("feedback-open-issue");
-  const pr = document.getElementById("feedback-open-pr");
-  if (!select || !issue || !pr) return;
-  const sync = () => {
-    const option = select.options[select.selectedIndex];
-    issue.href = option.dataset.issue;
-    pr.href = option.dataset.pr;
-  };
-  select.addEventListener("change", sync);
-  sync();
-})();
-</script>
 </body>
 </html>

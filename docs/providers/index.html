@@ -191,7 +191,7 @@ spark verify --onboarding</pre>
         <article>
           <span class="doc-kicker">Recommended first</span>
           <h3>One provider for everything</h3>
-          <p>This is the least confusing path. Agent chat, memory, runtime reasoning, and Mission Control all use the same selected provider.</p>
+          <p>This is the least confusing path. Agent chat, memory, runtime reasoning, and Mission Control all use the same selected provider. For Anthropic, Spark keeps Agent on Claude Sonnet 4.6 and Mission on Claude Opus 4.7 by default.</p>
           <pre class="docs-code">spark setup --llm-provider codex
 spark providers status
 spark providers test --role chat</pre>
@@ -227,7 +227,7 @@ spark providers test --role mission</pre>
         <article>
           <span>anthropic</span>
           <h3>Anthropic Claude</h3>
-          <p>Best if you already use Claude Code or have an Anthropic API key.</p>
+          <p>Best if you already use Claude Code or have an Anthropic API key. Agent defaults to Sonnet 4.6; Mission defaults to Opus 4.7.</p>
           <code>spark setup --llm-provider anthropic</code>
         </article>
         <article>
@@ -314,6 +314,35 @@ spark providers test --role mission</pre>
           <p>Rerun setup safely. You do not need to reinstall Spark just to switch models.</p>
           <code>spark setup</code>
         </article>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Cloud deploy note.</h2>
+      <p>Local setup is still the easiest first path. For always-on Railway or Docker installs, run Spark as two services: Spark Telegram Bot for Telegram chat, and Spawner UI for Mission Control.</p>
+      <div class="doc-grid doc-grid-3">
+        <article class="doc-card">
+          <h3>Bot service</h3>
+          <p>Uses long polling for Telegram and exposes the private mission relay.</p>
+          <code>TELEGRAM_RELAY_HOST=::</code>
+        </article>
+        <article class="doc-card">
+          <h3>Spawner service</h3>
+          <p>Runs Mission Control, state, workspaces, and provider execution.</p>
+          <code>SPAWNER_STATE_DIR=/data/spawner</code>
+        </article>
+        <article class="doc-card">
+          <h3>Private bridge</h3>
+          <p>Use one shared service key so the bot can call Spawner without public exposure.</p>
+          <code>SPARK_BRIDGE_API_KEY</code>
+        </article>
+      </div>
+      <pre class="docs-code">SPAWNER_UI_URL=http://spawner-ui.railway.internal:&lt;port&gt;
+TELEGRAM_RELAY_URL=http://spark-telegram-bot.railway.internal:8788/spawner-events
+MISSION_CONTROL_WEBHOOK_URLS=http://spark-telegram-bot.railway.internal:8788/spawner-events</pre>
+      <div class="doc-note">
+        <p><strong>Staging smoke:</strong> use <code>TELEGRAM_SMOKE_MODE=1</code> on the bot and run a tiny Mission from Spawner. That verifies the private relay without calling Telegram. Production chat still needs a real BotFather token.</p>
+        <p><strong>Provider runtime:</strong> API providers can run in hosted containers with keys. Codex CLI and Claude Code missions need their CLI binaries and auth available inside the container.</p>
       </div>
     </section>
 

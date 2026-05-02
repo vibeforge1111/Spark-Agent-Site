@@ -160,6 +160,7 @@
           <li><strong>Agent</strong> means normal chat, reasoning, preferences, memory, and recall.</li>
           <li><strong>Mission</strong> means Mission Control builds, research, coding, and longer tracked work.</li>
           <li>You can use one provider for both, or split Agent and Mission during setup.</li>
+          <li>For Anthropic, Spark defaults Agent to Claude Sonnet 4.6 and Mission to Claude Opus 4.7.</li>
           <li>If you already have a Codex or Claude Code subscription, tell it to connect that with Spark.</li>
           <li>Use an API key if you prefer Z.AI GLM, Kimi, MiniMax, Gemma, OpenRouter, or DeepSeek-compatible routes.</li>
           <li>Use local models through Ollama, LM Studio, Hugging Face, or Gemma when your computer is strong enough.</li>
@@ -293,6 +294,17 @@
           <li>The Domain Chip Creator path helps turn useful know-how into reusable Spark skills.</li>
         </ul>
       </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Always-on hosting comes after the local path.</h2>
+      <p>For Railway or Docker, Spark should run as two services: Spark Telegram Bot for Telegram chat and private relay, plus Spawner UI for Mission Control. Keep them in the same private network and share one bridge key between them.</p>
+      <div class="doc-grid doc-grid-3">
+        <div class="doc-card"><h3>Telegram Bot</h3><p>Runs long polling, Agent chat, and the relay callback.</p><code>TELEGRAM_RELAY_HOST=::</code></div>
+        <div class="doc-card"><h3>Mission Control</h3><p>Runs Spawner UI, boards, workspaces, and mission state.</p><code>SPAWNER_STATE_DIR=/data/spawner</code></div>
+        <div class="doc-card"><h3>Bridge Key</h3><p>Lets the two services talk privately without exposing control APIs.</p><code>SPARK_BRIDGE_API_KEY</code></div>
+      </div>
+      <p class="doc-note">For a cloud smoke test, run the bot with <code>TELEGRAM_SMOKE_MODE=1</code> and start a tiny Mission from Spawner. When you switch to real Telegram chat, replace the smoke token with the BotFather token and keep persistent volumes mounted at <code>/data</code>.</p>
     </section>
 
     <section class="doc-section">
