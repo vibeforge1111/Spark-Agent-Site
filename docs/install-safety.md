@@ -23,8 +23,8 @@ If you are non-technical, ask your coding assistant to open this page, run the d
 ## Current Hashes
 
 ```text
-fff6e116a83bcfd69896102170d4614ef9e4fe063c7961553cfdc2fd971aa004  install.sh
-8146d3112aa48d90bce9eae5151a6a76c5040a8d49f7962eb8de89d73cae6ee7  install.ps1
+e6682578deb78dbda49c739fe2e3cf25e108e8ef981841092162240b8c1e86ba  install.sh
+f660878a44edd3d2d070cba0887c06fff659229b3721b90a1a6ce68f374e0777  install.ps1
 ```
 
 ## Safe Procedure
