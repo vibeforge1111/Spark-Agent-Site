@@ -96,10 +96,24 @@ spark verify --onboarding</pre>
         <div class="doc-card"><h3>Bot is quiet</h3><p>Run <code>spark fix telegram</code>. Then check <code>spark logs spark-telegram-bot --lines 80</code>.</p></div>
         <div class="doc-card"><h3>Bot says private or admin only</h3><p>Send <code>/myid</code>, add that ID in <code>spark setup</code>, then restart Spark Live.</p></div>
         <div class="doc-card"><h3>LLM replies fail</h3><p>Run <code>spark providers test --role chat</code>. Rerun setup if the selected provider is missing or pointing to the wrong endpoint.</p></div>
+        <div class="doc-card"><h3>Hosted provider fails</h3><p>Installed is not authenticated. Codex needs a hosted <code>OPENAI_API_KEY</code>; Claude needs <code>ANTHROPIC_API_KEY</code>; local models need reachable endpoints.</p></div>
         <div class="doc-card"><h3>Memory does not stick</h3><p>Run <code>spark verify --deep</code>. Then test <code>/remember</code> and <code>/recall</code> with a unique phrase.</p></div>
         <div class="doc-card"><h3>Spawner is unreachable</h3><p>Run <code>spark fix spawner</code>, then <code>spark live status</code>. The user-friendly error is "Mission Control is offline."</p></div>
         <div class="doc-card"><h3>Update failed</h3><p>Run <code>spark security audit</code> and <code>spark logs</code>. If a trust scan blocks a test fixture, update Spark before bypassing anything.</p></div>
       </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Hosted Railway provider checks.</h2>
+      <p>On Railway, provider binaries and provider auth are separate checks. A container can have <code>codex</code> or <code>claude</code> on <code>PATH</code> and still fail until the service has valid hosted credentials.</p>
+      <div class="doc-grid">
+        <div class="doc-card"><h3>Codex</h3><p>Use a dedicated <code>OPENAI_API_KEY</code> and persistent <code>CODEX_HOME</code>. Do not copy a personal desktop Codex OAuth session into Railway.</p></div>
+        <div class="doc-card"><h3>Claude</h3><p>Use <code>ANTHROPIC_API_KEY</code> for hosted Claude. Claude Code OAuth is a local desktop route.</p></div>
+        <div class="doc-card"><h3>Local models</h3><p>Use Ollama, LM Studio, vLLM, TGI, or llama.cpp as reachable endpoints. Railway should not download large models into the app container.</p></div>
+      </div>
+      <pre class="docs-code">spark providers status
+spark providers test --role mission
+spark verify --hosted --deep</pre>
     </section>
 
     <section class="doc-section">

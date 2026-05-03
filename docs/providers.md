@@ -58,13 +58,21 @@ spark providers test --role mission
 spark verify --onboarding
 ```
 
-## Railway / Docker Notes
+## Hosted Railway / Docker Recommendation
 
-Local setup is the easiest first path. For always-on Railway or Docker installs,
-run Spark as two services:
+Local setup is still the easiest first path. For always-on Railway or Docker
+installs, keep Spark API-first and run it as two services:
 
 - Spark Telegram Bot: Telegram long polling, Agent chat, and the private mission relay.
 - Spawner UI: Mission Control, state, workspaces, and provider execution.
+
+Recommended hosted provider shape:
+
+- Use API-key providers for Railway: `zai`, `openai`, `anthropic`, `openrouter`, `kimi`, `minimax`, `huggingface`, DeepSeek-style OpenAI-compatible routes, or another reachable provider endpoint.
+- Codex CLI can run in the hosted Spawner image when it uses a dedicated `OPENAI_API_KEY` and a persistent `CODEX_HOME` such as `/data/codex`.
+- Do not copy personal Codex OAuth, Claude Code OAuth, browser profiles, `~/.codex`, or local desktop auth into Railway.
+- Claude Code OAuth is local-only. For hosted Claude, use `ANTHROPIC_API_KEY`.
+- Ollama, LM Studio, vLLM, TGI, and llama.cpp should run on a reachable local/private/GPU server endpoint. Do not expect Railway to run large local models inside the Spark app container.
 
 Use private service URLs between the two services:
 
@@ -75,6 +83,8 @@ TELEGRAM_RELAY_HOST=::
 TELEGRAM_RELAY_URL=http://spark-telegram-bot.railway.internal:8788/spawner-events
 MISSION_CONTROL_WEBHOOK_URLS=http://spark-telegram-bot.railway.internal:8788/spawner-events
 SPARK_BRIDGE_API_KEY=<same long value in both services>
+SPARK_UI_API_KEY=<different long value for browser login>
+CODEX_HOME=/data/codex
 ```
 
 `SPAWNER_UI_URL` is private service-to-service routing. When it points at a
@@ -93,8 +103,14 @@ that tiny mission smoke. Set `SPARK_HEALTH_PROVIDER=zai`, `minimax`, `codex`, or
 another configured Mission provider when you want to test one path directly.
 
 API-backed Mission providers such as Z.AI and MiniMax can run in hosted
-containers with provider keys. CLI executors such as Codex CLI and Claude Code
-also need their CLI binaries and auth available inside the container.
+containers with provider keys. Codex CLI needs the binary plus `OPENAI_API_KEY`
+auth inside the container. Claude Code CLI can be installed for local/self-hosted
+use, but hosted Railway should use Anthropic API auth instead of a personal
+Claude Code OAuth session.
+
+Hosted troubleshooting rule: installed is not the same as authenticated.
+`/diagnose` or provider status should tell users whether a provider has a CLI
+binary, an API key, and a successful `PING_OK` execution.
 
 ## Supported Providers
 

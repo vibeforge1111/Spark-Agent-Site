@@ -318,8 +318,8 @@ spark providers test --role mission</pre>
     </section>
 
     <section class="doc-section">
-      <h2>Cloud deploy note.</h2>
-      <p>Local setup is still the easiest first path. For always-on Railway or Docker installs, run Spark as two services: Spark Telegram Bot for Telegram chat, and Spawner UI for Mission Control.</p>
+      <h2>Hosted Railway setup.</h2>
+      <p>For always-on Railway or Docker installs, keep Spark API-first and boring. Railway should run Telegram, Spawner, Mission Control, previews, private relays, and persistent workspaces. The models should come from API providers or from a model server the container can reach.</p>
       <div class="doc-grid doc-grid-3">
         <article class="doc-card">
           <h3>Bot service</h3>
@@ -337,15 +337,37 @@ spark providers test --role mission</pre>
           <code>SPARK_BRIDGE_API_KEY</code>
         </article>
       </div>
+      <div class="provider-recipe-grid">
+        <article>
+          <span class="doc-kicker">Recommended hosted path</span>
+          <h3>Use API providers</h3>
+          <p>Z.AI, OpenAI, Anthropic, OpenRouter, Kimi, MiniMax, Hugging Face, and DeepSeek-style OpenAI-compatible routes are the cleanest Railway setup.</p>
+          <code>ZAI_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY</code>
+        </article>
+        <article>
+          <span class="doc-kicker">Safe Codex path</span>
+          <h3>Codex CLI plus a service key</h3>
+          <p>Codex CLI can run in the hosted Spawner image when it uses a dedicated <code>OPENAI_API_KEY</code>. Do not copy a personal desktop Codex OAuth session into Railway.</p>
+          <code>CODEX_HOME=/data/codex</code>
+        </article>
+        <article>
+          <span class="doc-kicker">Local models</span>
+          <h3>Use reachable endpoints</h3>
+          <p>Ollama, LM Studio, vLLM, TGI, or llama.cpp should run on your machine, a private server, or a GPU host. Railway connects to the endpoint; it should not download large models into the app container.</p>
+          <code>OLLAMA_URL / LMSTUDIO_BASE_URL</code>
+        </article>
+      </div>
       <pre class="docs-code">SPAWNER_UI_URL=http://spawner-ui.railway.internal:&lt;port&gt;
 SPAWNER_UI_PUBLIC_URL=https://&lt;protected-spawner-public-domain&gt;
 TELEGRAM_RELAY_URL=http://spark-telegram-bot.railway.internal:8788/spawner-events
-MISSION_CONTROL_WEBHOOK_URLS=http://spark-telegram-bot.railway.internal:8788/spawner-events</pre>
+MISSION_CONTROL_WEBHOOK_URLS=http://spark-telegram-bot.railway.internal:8788/spawner-events
+SPARK_BRIDGE_API_KEY=&lt;same-long-secret-in-bot-and-spawner&gt;
+SPARK_UI_API_KEY=&lt;different-long-secret-for-browser-login&gt;</pre>
       <div class="doc-note">
         <p><strong>Public board links:</strong> <code>SPAWNER_UI_URL</code> is for private service-to-service calls. If it uses <code>railway.internal</code>, set <code>SPAWNER_UI_PUBLIC_URL</code> to the protected public Spawner domain so Telegram mission links open for humans.</p>
         <p><strong>Staging smoke:</strong> use <code>TELEGRAM_SMOKE_MODE=1</code> on the bot and run a tiny Mission from Spawner. That verifies the private relay without calling Telegram. Production chat still needs a real BotFather token.</p>
         <p><strong>Deep smoke:</strong> inside Spawner, set <code>SPARK_HEALTH_DEEP=1</code> and run <code>npm run health:spark</code>. Add <code>SPARK_HEALTH_PROVIDER=zai</code>, <code>minimax</code>, or another configured Mission provider when testing one route directly.</p>
-        <p><strong>Provider runtime:</strong> API providers can run in hosted containers with keys. Codex CLI and Claude Code missions need their CLI binaries and auth available inside the container.</p>
+        <p><strong>Provider runtime:</strong> API providers can run in hosted containers with keys. Codex CLI is safe for hosted use with a dedicated OpenAI API key. Claude Code OAuth and personal Codex OAuth stay local; use Anthropic API keys and OpenAI API keys for hosted services.</p>
       </div>
     </section>
 

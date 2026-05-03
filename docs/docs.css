@@ -3114,14 +3114,19 @@
 }
 
 @media (max-width: 620px) {
+  html,
   body {
+    width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
   }
   .docs-shell {
+    width: 100%;
     padding-top: 136px;
     padding-left: 18px;
     padding-right: 18px;
     max-width: 100vw;
+    min-width: 0;
     overflow-x: hidden;
   }
   .topbar .topbar-right {
@@ -3141,17 +3146,39 @@
   .doc-hero,
   .doc-section {
     width: 100%;
-    max-width: 100%;
+    max-width: calc(100vw - 36px);
+    min-width: 0;
+    overflow-x: hidden;
+  }
+  .docs-nav,
+  .docs-feedback-banner,
+  .doc-card,
+  .provider-path-card,
+  .provider-setup-lane article,
+  .provider-role-map article,
+  .provider-type-grid article,
+  .provider-recipe-grid article,
+  .provider-matrix article,
+  .provider-command-list article,
+  .provider-good-state {
+    max-width: calc(100vw - 36px);
+    min-width: 0;
+    box-sizing: border-box;
   }
   .docs-hero h1 { font-size: clamp(34px, 13vw, 52px); }
   .doc-hero h1 {
     width: 100%;
-    max-width: 100%;
+    max-width: calc(100vw - 36px);
     font-size: 32px;
     line-height: 1.08;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-break: normal;
   }
-  .doc-hero p { font-size: 16px; }
+  .doc-hero p {
+    max-width: calc(100vw - 36px);
+    font-size: 16px;
+    overflow-wrap: break-word;
+  }
   .installer-step h2 {
     overflow-wrap: anywhere;
   }

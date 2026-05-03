@@ -38,6 +38,25 @@ spark providers status
 
 Rerun setup if the selected provider is missing or pointing to the wrong endpoint.
 
+### Hosted Railway Provider Fails
+
+Installed is not the same as authenticated. A hosted Spawner can have `codex`,
+`claude`, or another CLI on `PATH` and still fail if the service has no usable
+provider auth.
+
+- Codex hosted path: use a dedicated `OPENAI_API_KEY`, not a copied desktop OAuth session.
+- Claude hosted path: use `ANTHROPIC_API_KEY`; keep Claude Code OAuth local.
+- MiniMax, Z.AI, OpenRouter, Kimi, Hugging Face, and OpenAI-compatible providers need valid API keys and the right base URL.
+- Ollama and LM Studio must point to an endpoint reachable from the container, not `localhost` inside Railway.
+
+Run `/diagnose`, then test the exact Mission provider:
+
+```bash
+spark providers status
+spark providers test --role mission
+spark verify --hosted --deep
+```
+
 ### Memory Does Not Stick
 
 ```bash
