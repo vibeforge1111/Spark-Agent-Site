@@ -67,7 +67,7 @@ The installer has checksums, a release manifest, pinned managed runtimes, immuta
 Current public installer state:
 
 - Release: `spark-cli-launch-2026-05-05-1`
-- Installed Spark CLI runtime commit: `7c1d42a017a92dc843f34ab4174c61576f20d285`
+- Installed Spark CLI runtime commit: `699867ec0e82c3f5df5df32494403ae7aaf161b1`
 - Local installer hashes match the committed release manifest.
 - Hosted installer verification should be rerun after deploy.
 - Windows and WSL sandbox install checks should be rerun after deploy.
