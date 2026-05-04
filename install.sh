@@ -4,7 +4,7 @@ set -euo pipefail
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
 SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-launch-2026-05-05-1}"
-SPARK_DEFAULT_CLI_REF="ad4fef2f06d48b833c915d57b273d8d53f96d694"
+SPARK_DEFAULT_CLI_REF="7c1d42a017a92dc843f34ab4174c61576f20d285"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -683,6 +683,11 @@ checkout_cli_ref() {
   fi
   if git -C "$target" fetch --depth=1 origin "$SPARK_CLI_REF" >/dev/null 2>&1; then
     git -C "$target" checkout FETCH_HEAD
+    return
+  fi
+  if printf '%s' "$SPARK_CLI_REF" | grep -Eq '^[0-9a-f]{40}$'; then
+    git -C "$target" fetch --depth=1 origin '+refs/heads/*:refs/remotes/origin/*'
+    git -C "$target" checkout "$SPARK_CLI_REF"
     return
   fi
   git -C "$target" fetch --depth=1 origin "refs/tags/$SPARK_CLI_REF:refs/tags/$SPARK_CLI_REF"

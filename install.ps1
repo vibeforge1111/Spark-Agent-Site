@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "ad4fef2f06d48b833c915d57b273d8d53f96d694",
+    [string]$Ref = "7c1d42a017a92dc843f34ab4174c61576f20d285",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -474,6 +474,17 @@ function Checkout-CliRef {
         if ((Invoke-GitQuiet @("-C", $Target, "checkout", "FETCH_HEAD")) -eq 0) {
             return
         }
+    }
+    if ($Ref -match "^[0-9a-f]{40}$") {
+        git -C $Target fetch --depth=1 origin "+refs/heads/*:refs/remotes/origin/*"
+        if ($LASTEXITCODE -ne 0) {
+            throw "Could not fetch Spark CLI branch heads for commit ref: $Ref"
+        }
+        git -C $Target checkout $Ref
+        if ($LASTEXITCODE -ne 0) {
+            throw "Could not checkout Spark CLI commit ref: $Ref"
+        }
+        return
     }
     git -C $Target fetch --depth=1 origin "refs/tags/${Ref}:refs/tags/${Ref}"
     if ($LASTEXITCODE -ne 0) {
