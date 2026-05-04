@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "699867ec0e82c3f5df5df32494403ae7aaf161b1",
+    [string]$Ref = "c582e5424bf6b6d4d877c338a58de84944e3814f",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -518,7 +518,11 @@ function Checkout-Cli {
             Remove-Item -LiteralPath $target -Recurse -Force
         }
         Write-SparkLog "Cloning spark-cli from $Source"
-        git clone --depth=1 $Source $target
+        if ($Ref -match "^[0-9a-f]{40}$") {
+            git clone $Source $target
+        } else {
+            git clone --depth=1 $Source $target
+        }
     }
     Checkout-CliRef -Target $target
     return $target

@@ -4,7 +4,7 @@ set -euo pipefail
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
 SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-launch-2026-05-05-1}"
-SPARK_DEFAULT_CLI_REF="699867ec0e82c3f5df5df32494403ae7aaf161b1"
+SPARK_DEFAULT_CLI_REF="c582e5424bf6b6d4d877c338a58de84944e3814f"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -715,7 +715,11 @@ checkout_cli() {
   else
     log "Cloning spark-cli from $SPARK_CLI_SOURCE"
     rm -rf "$target"
-    git clone --depth=1 "$SPARK_CLI_SOURCE" "$target"
+    if printf '%s' "$SPARK_CLI_REF" | grep -Eq '^[0-9a-f]{40}$'; then
+      git clone "$SPARK_CLI_SOURCE" "$target"
+    else
+      git clone --depth=1 "$SPARK_CLI_SOURCE" "$target"
+    fi
   fi
   checkout_cli_ref "$target"
 }
