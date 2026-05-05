@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "33f52540d070fd1b7ddd3c0eca68cd353c85795b",
+    [string]$Ref = "dcf7d2e8c29d1d9df998192e5c26ee7df961600d",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -737,14 +737,19 @@ function Invoke-Install {
     Write-Host ""
     Write-Host "Finish in Telegram:"
     Write-Host "  1. Open your Spark bot and send /start"
-    Write-Host "  2. Choose what Spark can do when asked. Most people should allow chat, memory, diagnostics, public research, and approved missions"
-    Write-Host "  3. Send /diagnose"
-    Write-Host "  4. Try memory: /remember I like concise warm replies"
-    Write-Host "  5. Try a tiny build: /run say exactly OK"
+    Write-Host "  2. For first builds, choose Level 4 so Mission Control can inspect and build in local workspaces"
+    Write-Host "  3. Use a lower level only when you want chat, memory, diagnostics, public research, or remote missions without local files"
+    Write-Host "  4. Send /diagnose"
+    Write-Host "  5. Try memory: /remember I like concise warm replies"
+    Write-Host "  6. Try a tiny build: /run say exactly OK"
     Write-Host ""
     Write-Host "If Telegram is quiet or memory is not responding:"
     Write-Host "  spark fix telegram"
     Write-Host "  spark logs spark-telegram-bot"
+    Write-Host ""
+    Write-Host "If Mission Control, Kanban, Canvas, or preview links are not responding:"
+    Write-Host "  spark fix spawner"
+    Write-Host "  spark logs spawner-ui --lines 80"
 }
 
 try {

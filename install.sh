@@ -4,7 +4,7 @@ set -euo pipefail
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
 SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-launch-2026-05-05}"
-SPARK_DEFAULT_CLI_REF="33f52540d070fd1b7ddd3c0eca68cd353c85795b"
+SPARK_DEFAULT_CLI_REF="dcf7d2e8c29d1d9df998192e5c26ee7df961600d"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -982,14 +982,19 @@ Install log:
 
 Finish in Telegram:
   1. Open your Spark bot and send /start
-  2. Choose what Spark can do when asked. Most people should allow chat, memory, diagnostics, public research, and approved missions
-  3. Send /diagnose
-  4. Try memory: /remember I like concise warm replies
-  5. Try a tiny build: /run say exactly OK
+  2. For first builds, choose Level 4 so Mission Control can inspect and build in local workspaces
+  3. Use a lower level only when you want chat, memory, diagnostics, public research, or remote missions without local files
+  4. Send /diagnose
+  5. Try memory: /remember I like concise warm replies
+  6. Try a tiny build: /run say exactly OK
 
 If Telegram is quiet or memory is not responding:
   $SPARK_PREFIX/bin/spark fix telegram
   $SPARK_PREFIX/bin/spark logs spark-telegram-bot
+
+If Mission Control, Kanban, Canvas, or preview links are not responding:
+  $SPARK_PREFIX/bin/spark fix spawner
+  $SPARK_PREFIX/bin/spark logs spawner-ui --lines 80
 EOF
 }
 
