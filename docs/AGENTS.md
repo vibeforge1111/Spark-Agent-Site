@@ -112,7 +112,7 @@ When a user wants to report feedback or share an improvement:
 
 ## Current Installer Pins
 
-- Spark CLI commit: `1bd44f5e56b395329102fdd889ff3e3473d75f83`
+- Spark CLI commit: `38c013a31b410761f94055e70171df61fc2a5801`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
