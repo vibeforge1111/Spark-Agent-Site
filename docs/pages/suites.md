@@ -57,7 +57,7 @@ Use it when you want Spark to be careful, cite sources, or prepare work before b
 
 ## Spark Character
 
-This keeps Spark's identity, role, voice, and access-level behavior stable.
+This keeps Spark's identity, role, voice, and permission behavior stable.
 
 ## Spark Live
 

@@ -826,19 +826,19 @@
       </div>
 
       <div class="install-carousel">
-        <button type="button" class="install-option install-panel" id="install-panel-unix" role="tabpanel" aria-labelledby="install-tab-unix" data-install-panel="unix" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh && bash spark-install.sh">
+        <button type="button" class="install-option install-panel" id="install-panel-unix" role="tabpanel" aria-labelledby="install-tab-unix" data-install-panel="unix" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh&#10;bash spark-install.sh --dry-run&#10;bash spark-install.sh">
           <span class="io-kicker install-rec">recommended for this device</span>
           <span class="io-label">Mac / Linux / WSL</span>
           <span class="io-hint">downloads, shows plan, asks before install</span>
-          <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh &amp;&amp; bash spark-install.sh</code>
+          <code class="io-cmd">curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh<br>bash spark-install.sh --dry-run<br>bash spark-install.sh</code>
           <span class="io-copy">click to copy</span>
         </button>
 
-        <button type="button" class="install-option install-panel" id="install-panel-windows" role="tabpanel" aria-labelledby="install-tab-windows" hidden data-install-panel="windows" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1'>
+        <button type="button" class="install-option install-panel" id="install-panel-windows" role="tabpanel" aria-labelledby="install-tab-windows" hidden data-install-panel="windows" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1&#10;powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun&#10;powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1'>
           <span class="io-kicker install-rec">recommended for this device</span>
           <span class="io-label">Windows PowerShell</span>
           <span class="io-hint">downloads, shows plan, asks before install</span>
-          <code class="io-cmd">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code>
+          <code class="io-cmd">iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1<br>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun<br>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code>
           <span class="io-copy">click to copy</span>
         </button>
       </div>

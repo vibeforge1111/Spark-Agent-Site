@@ -32,7 +32,7 @@ They also include clean Markdown files for agents.
 - Read `/docs/self-improvement/` to understand domain chips, recursive loops, and benchmarks.
 - Read `/docs/lifecycle/` for Spark Live, startup, and local lifecycle.
 - Read `/docs/troubleshooting/` when Telegram, memory, providers, or missions need help.
-- Read `/docs/security/` for access levels, provenance, audits, and safe support sharing.
+- Read `/docs/security/` for permissions, provenance, audits, and safe support sharing.
 
 Agents can use the matching Markdown pages:
 
@@ -66,8 +66,8 @@ The installer has checksums, a release manifest, pinned managed runtimes, immuta
 
 Current public installer state:
 
-- Release: `spark-cli-launch-2026-05-05-1`
-- Installed Spark CLI runtime commit: `85574e0abafd984d5c057447fc433cfc31557725`
+- Release: `spark-cli-launch-2026-05-05`
+- Installed Spark CLI runtime commit: `33f52540d070fd1b7ddd3c0eca68cd353c85795b`
 - Local installer hashes match the committed release manifest.
 - Hosted installer verification should be rerun after deploy.
 - Windows and WSL sandbox install checks should be rerun after deploy.

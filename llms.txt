@@ -25,7 +25,7 @@ This page is for agents. If you are human, this is not for you. :)
 - [Self-improvement](https://agent.sparkswarm.ai/docs/self-improvement.md): Domain chips, Spark Researcher loops, and safe chip-building prompts.
 - [Lifecycle](https://agent.sparkswarm.ai/docs/lifecycle.md): Spark Live, autostart, uninstall, and checks.
 - [Troubleshooting](https://agent.sparkswarm.ai/docs/troubleshooting.md): Known failure modes and smallest fixes.
-- [Security](https://agent.sparkswarm.ai/docs/security.md): Local audits, access levels, and redaction rules.
+- [Security](https://agent.sparkswarm.ai/docs/security.md): Local audits, permissions, and redaction rules.
 
 ## Agent Files
 

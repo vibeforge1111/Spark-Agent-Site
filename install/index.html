@@ -99,8 +99,10 @@
             <span>Mac / Linux / WSL</span>
             <strong>Paste into Terminal</strong>
           </div>
-          <pre><code>curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh && bash spark-install.sh</code></pre>
-          <button class="copy-button" type="button" data-copy-label="Copy command" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh && bash spark-install.sh">Copy command</button>
+          <pre><code>curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh
+bash spark-install.sh --dry-run
+bash spark-install.sh</code></pre>
+          <button class="copy-button" type="button" data-copy-label="Copy command" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh&#10;bash spark-install.sh --dry-run&#10;bash spark-install.sh">Copy command</button>
         </article>
 
         <article class="command-card">
@@ -108,8 +110,10 @@
             <span>Windows</span>
             <strong>Paste into PowerShell</strong>
           </div>
-          <pre><code>iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code></pre>
-          <button class="copy-button" type="button" data-copy-label="Copy command" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1'>Copy command</button>
+          <pre><code>iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code></pre>
+          <button class="copy-button" type="button" data-copy-label="Copy command" data-copy-value='iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1&#10;powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun&#10;powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1'>Copy command</button>
         </article>
         </div>
       </div>

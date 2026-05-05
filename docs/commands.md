@@ -165,7 +165,7 @@ spark support bundle
 - `/run <goal>`: start a Spawner mission.
 - `/board`: show mission status.
 - `/mission status <id>`: inspect a mission.
-- `/access 1|2|3|4`: change access level. Level 3 is recommended.
+- `/access 1|2|3|4`: choose what Spark can do. Use 3 when you want Spark to research and build only when asked.
 
 ## Browser Surfaces
 

@@ -28,7 +28,7 @@ If you are not sure, start with `Spark-Agent-Site`.
 | Memory chip, memory packets, memory benchmarks | `https://github.com/vibeforge1111/domain-chip-memory` |
 | Telegram commands and bot behavior | `https://github.com/vibeforge1111/spark-telegram-bot` |
 | Mission Control, Spawner UI, Kanban, Canvas | `https://github.com/vibeforge1111/vibeship-spawner-ui` |
-| Spark role, voice, access-level behavior | `https://github.com/vibeforge1111/spark-character` |
+| Spark role, voice, permission behavior | `https://github.com/vibeforge1111/spark-character` |
 | Domain chips and skill graphs | `https://github.com/vibeforge1111/spark-skill-graphs` |
 
 ## Good Issue Shape

@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "85574e0abafd984d5c057447fc433cfc31557725",
+    [string]$Ref = "33f52540d070fd1b7ddd3c0eca68cd353c85795b",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -29,7 +29,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$SparkCliReleaseName = "spark-cli-launch-2026-05-05-1"
+$SparkCliReleaseName = "spark-cli-launch-2026-05-05"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
@@ -231,7 +231,16 @@ function Show-DryRunPlan {
     $autostartEnabled = if ($NoAutostart) { "no" } else { "yes" }
     $existing = if (Test-ExistingInstall) { "detected" } else { "none" }
     $existingMode = if ($UpgradeExisting) { "upgrade" } else { "abort" }
-    Write-Host "[spark-install] Dry run plan"
+    Write-Host "Spark install preview"
+    Write-Host "Nothing has changed yet."
+    Write-Host ""
+    Write-Host "Spark will:"
+    Write-Host "  1. Install the Spark command"
+    Write-Host "  2. Connect your Telegram bot"
+    Write-Host "  3. Help you choose an AI provider"
+    Write-Host "  4. Start Spark"
+    Write-Host ""
+    Write-Host "Details:"
     Write-Host "  Dry-run safety:     no network and no writes in -DryRun mode"
     Write-Host "  Prefix:              $Script:SparkPrefix"
     Write-Host "  Node platform:       win-x64"
@@ -264,7 +273,7 @@ function Show-DryRunPlan {
     Write-Host "  Python $PythonVersion via uv when Python 3.11+ is missing"
     Write-Host "  Spark CLI from $Source at $Ref"
     Write-Host ""
-    Write-Host "Network allowlist:"
+    Write-Host "Expected installer network access:"
     Write-Host "  nodejs.org"
     Write-Host "  github.com/astral-sh/uv"
     Write-Host "  github.com/vibeforge1111/spark-cli"
@@ -272,14 +281,12 @@ function Show-DryRunPlan {
     Write-Host "Would run:"
     Write-Host "  python -m venv `"$Script:SparkPrefix\tools\spark-cli-venv`""
     if (-not $SkipSetup) {
+        $setupStartArgs = if ($NoAutostart) { "--no-start-now --no-autostart" } else { "--start-now --autostart" }
         if ($LlmProvider) {
-            Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`" --llm-provider `"$LlmProvider`""
+            Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`" $setupStartArgs --llm-provider `"$LlmProvider`""
         } else {
-            Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`""
+            Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`" $setupStartArgs"
         }
-    }
-    if (-not $NoAutostart) {
-        Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" autostart install `"$Bundle`" --now"
     }
 }
 
@@ -288,7 +295,7 @@ function Confirm-Install {
         return $true
     }
     try {
-        $answer = Read-Host "Run Spark installer now? Type yes"
+        $answer = Read-Host "Ready to install Spark now? Type yes to continue, or press Ctrl-C to cancel"
     } catch {
         throw "Interactive confirmation is required before installing. Rerun with -Yes only after reviewing the dry-run plan."
     }
@@ -320,8 +327,13 @@ function Start-InstallLog {
     New-Item -ItemType Directory -Force -Path $logDir | Out-Null
     $Script:InstallLogPath = Join-Path $logDir "install.log"
     Write-SparkLog "Writing install log to $Script:InstallLogPath"
+    $transcriptCommand = Get-Command Start-Transcript -ErrorAction SilentlyContinue
+    if (-not $transcriptCommand -or -not $transcriptCommand.Parameters.ContainsKey("UseMinimalHeader")) {
+        Write-Warning "Install transcript disabled because this PowerShell cannot omit the command-line header."
+        return
+    }
     try {
-        Start-Transcript -Path $Script:InstallLogPath -Append | Out-Null
+        Start-Transcript -Path $Script:InstallLogPath -Append -UseMinimalHeader | Out-Null
         $Script:TranscriptStarted = $true
     } catch {
         Write-Warning "Could not start install transcript at $Script:InstallLogPath"
@@ -637,7 +649,8 @@ function Run-Setup {
     $setupArgs += $SetupArg
     Write-SparkLog "Running spark setup $Bundle"
     try {
-        & $sparkCmd setup $Bundle --no-autostart @setupArgs
+        $setupStartArgs = if ($NoAutostart) { @("--no-start-now", "--no-autostart") } else { @("--start-now", "--autostart") }
+        & $sparkCmd setup $Bundle @setupStartArgs @setupArgs
         if ($LASTEXITCODE -ne 0) {
             throw "spark setup failed with exit code $LASTEXITCODE"
         }
@@ -652,26 +665,7 @@ function Run-Autostart {
     if ($SkipSetup) {
         return
     }
-    $sparkCmd = Join-Path $Script:SparkPrefix "bin\spark.cmd"
-    if ($NoAutostart) {
-        Write-SparkLog "Skipping Spark autostart"
-        Write-Host ""
-        Write-Host "To start Spark manually:"
-        Write-Host "  $sparkCmd start $Bundle"
-        return
-    }
-
-    Write-SparkLog "Installing Spark autostart"
-    & $sparkCmd autostart install $Bundle --now
-    if ($LASTEXITCODE -ne 0) {
-        Write-Warning "Spark autostart could not be enabled automatically."
-        Write-Host ""
-        Write-Host "Manual fallback for this session:"
-        Write-Host "  $sparkCmd start $Bundle"
-        Write-Host ""
-        Write-Host "To try autostart again:"
-        Write-Host "  $sparkCmd autostart on --now"
-    }
+    Write-SparkLog "Spark startup was handled by setup"
 }
 
 function Invoke-Install {
@@ -743,7 +737,7 @@ function Invoke-Install {
     Write-Host ""
     Write-Host "Finish in Telegram:"
     Write-Host "  1. Open your Spark bot and send /start"
-    Write-Host "  2. Pick an access level when Spark asks. Most people should use /access 3"
+    Write-Host "  2. Choose what Spark can do when asked. Most people should allow chat, memory, diagnostics, public research, and approved missions"
     Write-Host "  3. Send /diagnose"
     Write-Host "  4. Try memory: /remember I like concise warm replies"
     Write-Host "  5. Try a tiny build: /run say exactly OK"

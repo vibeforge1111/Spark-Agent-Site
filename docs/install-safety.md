@@ -23,8 +23,8 @@ If you are non-technical, ask your coding assistant to open this page, run the d
 ## Current Hashes
 
 ```text
-c45a69cc6aabdc30b93e3bc68048137d9c0e5b1f85fb9e3953a050b548bddfdc  install.sh
-efd8f772c16d90ad17e230be3fc4778c54d81792833edf7bdf4964db85265512  install.ps1
+0003ee9a83e18ba771aeb693e675f52b211ebe166e85a8cd660880a9d37934a2  install.sh
+f12e61c9183df3606e3d7e7af23e07b7a1a029045880d640f8e6ecac2222f608  install.ps1
 ```
 
 ## Safe Procedure
@@ -100,20 +100,20 @@ Expected files:
 - `logs/install.log`
 - autostart files when autostart is on
 
-## Access Levels After Install
+## What Spark Can Do After Install
 
-Spark asks for an access level after the Telegram bot is connected.
+After the Telegram bot is connected, Spark asks what it should be allowed to do.
 
-- Level 1, Chat only: Spark can talk with the user but does not build or inspect outside chat.
-- Level 2, Build when asked: Spark can start build work only when the user explicitly asks.
-- Level 3, Research + build: recommended default. Spark can inspect public links, docs, and repos when asked, and can use Mission Control for builds.
-- Level 4, Full access: advanced local use. Spark can use broader operating-system tools with guardrails and user approval for sensitive actions.
+- 1: Spark can talk with the user but does not build or inspect outside chat.
+- 2: Spark can start build work only when the user explicitly asks.
+- 3: Recommended default. Spark can inspect public links, docs, and repos when asked, and can use Mission Control for builds.
+- 4: Advanced local use. Spark can use broader operating-system tools with guardrails and user approval for sensitive actions.
 
 Users can change this later in Telegram with `/access 1`, `/access 2`, `/access 3`, or `/access 4`.
 
 ## Pinned Parts
 
-- Spark CLI commit: `85574e0abafd984d5c057447fc433cfc31557725`
+- Spark CLI commit: `33f52540d070fd1b7ddd3c0eca68cd353c85795b`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`

@@ -31,7 +31,7 @@ function stripHtml(html) {
 const pages = [
   { path: "docs/index.html", name: "Overview", required: ["Guided installer", "Before installing, choose how Spark should reach an LLM"] },
   { path: "docs/installer-guide/index.html", name: "Installer guide", required: ["Install Spark in five calm steps", "BotFather", "Mission Control"] },
-  { path: "docs/install-safety/index.html", name: "Install safety", required: ["dry-run", "checksums", "access level"] },
+  { path: "docs/install-safety/index.html", name: "Install safety", required: ["dry-run", "checksums", "what Spark can do"] },
   { path: "docs/providers/index.html", name: "Providers", required: ["one provider", "Agent", "Mission", "Provider types", "Supported providers", "spark providers test --role chat", "spark providers test --role mission", "Codex", "Claude", "Ollama", "LM Studio", "surprise fallback"] },
   { path: "docs/commands/index.html", name: "Commands", required: ["Tell Spark what you are trying to do", "Computer terminal", "Telegram bot", "Mission Control"] },
   { path: "docs/lifecycle/index.html", name: "Start/Stop", required: ["spark live start", "spark live status", "autostart"] },

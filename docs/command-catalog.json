@@ -5,7 +5,7 @@
     {
       "surface": "terminal",
       "command": "spark setup",
-      "use": "Run first-time setup for Telegram, provider, and access defaults."
+      "use": "Run first-time setup for Telegram, provider, and permission defaults."
     },
     {
       "surface": "terminal",
@@ -110,7 +110,7 @@
     {
       "surface": "telegram",
       "command": "/access 3",
-      "use": "Set the recommended Research + Build access level."
+      "use": "Let Spark research and build when explicitly asked."
     },
     {
       "surface": "browser",
