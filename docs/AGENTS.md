@@ -27,7 +27,7 @@ Use these pages first for humans:
 - `/docs/self-improvement/` to explain domain chips, recursive loops, and benchmarks
 - `/docs/lifecycle/` for Spark Live, startup, checks, and uninstall
 - `/docs/troubleshooting/` for quiet bots, provider failures, memory, and Spawner
-- `/docs/security/` for access levels, provenance, audits, and safe support sharing
+- `/docs/security/` for permissions, provenance, audits, and safe support sharing
 
 Use these Markdown pages first for agents:
 
@@ -39,7 +39,7 @@ Use these Markdown pages first for agents:
 - `/docs/self-improvement.md` to explain domain chips, recursive loops, and benchmarks
 - `/docs/lifecycle.md` for repair, checks, autostart, and uninstall
 - `/docs/troubleshooting.md` for known failure modes
-- `/docs/security.md` for audits, access levels, and redaction rules
+- `/docs/security.md` for audits, permissions, and redaction rules
 - `/install/commands.json` for exact commands and current metadata
 
 ## Installer Rule
@@ -79,7 +79,7 @@ If a token appears in chat, logs, screenshots, GitHub issues, or commits, tell t
 - Domain Chip Memory: remembers useful facts.
 - Spawner UI: Mission Control for bigger tasks.
 - Spark Researcher: gathers context and evidence.
-- Spark Character: keeps identity, role, voice, and access-level behavior stable.
+- Spark Character: keeps identity, role, voice, and permission behavior stable.
 - Domain Chip: specialist logic for one domain.
 - Benchmark: fixed score that keeps improvement honest.
 - Recursive Loop: bounded run, score, record, remember, suggest.
@@ -112,7 +112,7 @@ When a user wants to report feedback or share an improvement:
 
 ## Current Installer Pins
 
-- Spark CLI commit: `85574e0abafd984d5c057447fc433cfc31557725`
+- Spark CLI commit: `33f52540d070fd1b7ddd3c0eca68cd353c85795b`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`

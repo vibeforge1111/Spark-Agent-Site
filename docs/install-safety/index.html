@@ -108,7 +108,7 @@
       <div>
         <span>Feedback</span>
         <strong>Help us make the safety path clearer.</strong>
-        <p>If dry-run, checksums, signatures, or access levels are confusing, tell us where the page lost you.</p>
+        <p>If dry-run, checksums, signatures, or what Spark can do after install is confusing, tell us where the page lost you.</p>
       </div>
       <a href="https://github.com/vibeforge1111/Spark-Agent-Site/issues/new?template=docs-feedback.yml&title=Docs%20feedback%3A%20Install%20safety">Share feedback</a>
     </aside>
@@ -185,13 +185,13 @@
     </section>
 
     <section class="doc-section">
-      <h2>Access levels after install.</h2>
-      <p>Install safety is only the first layer. After your Telegram bot is connected, Spark asks what access level you want. Most people should start with Level 3.</p>
-      <div class="access-level-list">
-        <div><span>1</span><strong>Chat only</strong><p>Spark can talk with you, but it will not build or inspect outside chat.</p></div>
-        <div><span>2</span><strong>Build when asked</strong><p>Spark can start build work only when you explicitly ask for it.</p></div>
-        <div class="is-recommended"><span>3</span><strong>Research + build (recommended)</strong><p>Spark can inspect public links, docs, and repos when you ask, and can use Mission Control for builds.</p></div>
-        <div><span>4</span><strong>Full access</strong><p>For advanced local use. Spark can use broader operating-system tools, with guardrails and user approval for sensitive actions.</p></div>
+      <h2>What Spark can do after install.</h2>
+      <p>Install safety is only the first layer. After your Telegram bot is connected, Spark asks what it should be allowed to do. Most people should choose 3.</p>
+      <div class="permission-list">
+        <div><span>1</span><strong>Talk only</strong><p>Spark can answer in chat, but it will not build or inspect outside chat.</p></div>
+        <div><span>2</span><strong>Build only when asked</strong><p>Spark can start build work only when you explicitly ask for it.</p></div>
+        <div class="is-recommended"><span>3</span><strong>Research and build when asked</strong><p>Spark can inspect public links, docs, and repos when you ask, and can use Mission Control for builds.</p></div>
+        <div><span>4</span><strong>Broader local tools</strong><p>For advanced local use. Spark can use broader operating-system tools, with guardrails and user approval for sensitive actions.</p></div>
       </div>
       <p class="safety-note">You can change this later from Telegram with <code>/access 1</code>, <code>/access 2</code>, <code>/access 3</code>, or <code>/access 4</code>.</p>
     </section>

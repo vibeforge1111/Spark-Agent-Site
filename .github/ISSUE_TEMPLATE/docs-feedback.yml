@@ -23,7 +23,7 @@ body:
         - domain-chip-memory: memory and memory benchmarks
         - spark-telegram-bot: Telegram chat and commands
         - vibeship-spawner-ui: Mission Control, Kanban, Canvas
-        - spark-character: role, voice, access level
+        - spark-character: role, voice, permissions
         - spark-skill-graphs: domain chips and skill graphs
         - Not sure
     validations:
@@ -50,7 +50,7 @@ body:
         - Researcher / OTOLO / autoloops
         - Benchmark or score behavior
         - Pull request or contribution path
-        - Security or access levels
+        - Security or permissions
         - Other docs wording
     validations:
       required: true

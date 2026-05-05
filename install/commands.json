@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-05-02",
+  "updated": "2026-05-05",
   "canonicalInstallPage": "https://agent.sparkswarm.ai/install",
   "scripts": {
     "unix": "https://agent.sparkswarm.ai/install.sh",
@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "fae73498312eece9bf658720908442da55735186664df019eced26a4f594c4e7",
-      "install.ps1": "5053220d890afa276bba9e741570b1edec8f4c4c77842fde6e5b46795c514e33"
+      "install.sh": "0003ee9a83e18ba771aeb693e675f52b211ebe166e85a8cd660880a9d37934a2",
+      "install.ps1": "f12e61c9183df3606e3d7e7af23e07b7a1a029045880d640f8e6ecac2222f608"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -56,9 +56,10 @@
       "scriptUrl": "https://agent.sparkswarm.ai/install.sh",
       "commands": [
         "curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh",
+        "bash spark-install.sh --dry-run",
         "bash spark-install.sh"
       ],
-      "singleCopyBlock": "curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh && bash spark-install.sh"
+      "singleCopyBlock": "curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh\nbash spark-install.sh --dry-run\nbash spark-install.sh"
     },
     {
       "id": "windows-powershell",
@@ -68,9 +69,10 @@
       "scriptUrl": "https://agent.sparkswarm.ai/install.ps1",
       "commands": [
         "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1",
+        "powershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1 -DryRun",
         "powershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1"
       ],
-      "singleCopyBlock": "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1; powershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1"
+      "singleCopyBlock": "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1\npowershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1 -DryRun\npowershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1"
     }
   ],
   "postInstallChecks": [
@@ -174,7 +176,7 @@
     },
     {
       "module": "spark-character",
-      "role": "Identity and access-level runtime. Keeps persona, consent, and self-improvement signals understandable."
+      "role": "Identity and permission runtime. Keeps persona, consent, and self-improvement signals understandable."
     },
     {
       "module": "spark-intelligence-builder",
@@ -204,8 +206,8 @@
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "releaseName": "spark-cli-launch-2026-05-05-1",
-    "ref": "85574e0abafd984d5c057447fc433cfc31557725",
+    "releaseName": "spark-cli-launch-2026-05-05",
+    "ref": "33f52540d070fd1b7ddd3c0eca68cd353c85795b",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"

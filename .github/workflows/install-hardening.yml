@@ -83,6 +83,7 @@ jobs:
                       sys.exit(f"{digest} missing from published verification metadata")
           PY
           shasum -a 256 -c install/checksums.txt
+          node scripts/check-security-release-surface.mjs
 
       - name: Validate trust boundary
         shell: bash
@@ -97,6 +98,8 @@ jobs:
           grep -q "Refusing custom git ref without -AllowDevSource" install.ps1
           grep -q "Strict-Transport-Security" nginx.conf
           grep -q "location = /install" nginx.conf
+          grep -q "location = /install/commands.json" nginx.conf
+          grep -q "location = /commands.json" nginx.conf
           grep -q "location = /docs" nginx.conf
           grep -q "location = /install/attestations.md" nginx.conf
           grep -q "location = /install/signatures.md" nginx.conf
@@ -136,6 +139,8 @@ jobs:
           ! grep -q "astral.sh/uv/install.sh | sh" install.sh
           ! grep -q "Invoke-Expression" install.ps1
           grep -q "actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26" .github/workflows/install-hardening.yml
+          grep -q 'try_files $uri $uri/ =404;' nginx.conf
+          ! grep -q 'try_files $uri $uri/ /index.html;' nginx.conf
           ! grep -q "add_header Cache-Control" nginx.conf
           ! git grep -n -I -E '301a16435504eaf2|9d32b1d17df505|docs\.sparkswarm\.ai|sparkswarm\.ai/docs/insight' -- . ':!.github/workflows/install-hardening.yml'
 

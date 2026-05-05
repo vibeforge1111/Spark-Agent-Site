@@ -1,0 +1,15 @@
+# Installer, metadata, agent docs, and release automation are security-sensitive.
+install.sh @vibeforge1111
+install.ps1 @vibeforge1111
+install/** @vibeforge1111
+index.html @vibeforge1111
+install/index.html @vibeforge1111
+install/install.js @vibeforge1111
+nginx.conf @vibeforge1111
+llms.txt @vibeforge1111
+llms-full.txt @vibeforge1111
+docs/AGENTS.md @vibeforge1111
+docs/llms.txt @vibeforge1111
+docs/llms-full.txt @vibeforge1111
+docs/**/*.md @vibeforge1111
+.github/workflows/** @vibeforge1111

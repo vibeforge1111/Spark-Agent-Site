@@ -1,6 +1,6 @@
 ---
 title: "Spark Security"
-description: "Security audit, provenance, access levels, and safe support sharing."
+description: "Security audit, provenance, permissions, and safe support sharing."
 verified_at: "2026-04-29T00:00:00Z"
 sources:
   - type: "cli-output"

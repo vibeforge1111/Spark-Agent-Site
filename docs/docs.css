@@ -2125,13 +2125,13 @@
   margin-bottom: 7px;
 }
 
-.access-level-list {
+.permission-list {
   display: grid;
   gap: 10px;
   margin-top: 22px;
 }
 
-.access-level-list div {
+.permission-list div {
   display: grid;
   grid-template-columns: 34px minmax(0, 170px) minmax(0, 1fr);
   gap: 14px;
@@ -2142,12 +2142,12 @@
   padding: 14px;
 }
 
-.access-level-list div.is-recommended {
+.permission-list div.is-recommended {
   border-color: color-mix(in srgb, var(--accent) 52%, var(--border-strong));
   background: color-mix(in srgb, var(--accent) 7%, var(--surface));
 }
 
-.access-level-list span {
+.permission-list span {
   display: grid;
   place-items: center;
   width: 28px;
@@ -2158,12 +2158,12 @@
   font: 800 12px var(--font-mono);
 }
 
-.access-level-list strong {
+.permission-list strong {
   color: var(--text);
   font: 700 15px/1.35 var(--font-sans);
 }
 
-.access-level-list p {
+.permission-list p {
   margin: 0;
   color: var(--text-secondary);
   font-size: 14px;
@@ -3094,10 +3094,10 @@
   .command-row p {
     grid-column: auto;
   }
-  .access-level-list div {
+  .permission-list div {
     grid-template-columns: 34px minmax(0, 1fr);
   }
-  .access-level-list p {
+  .permission-list p {
     grid-column: 2;
   }
   .doc-flowline { grid-template-columns: 1fr; }

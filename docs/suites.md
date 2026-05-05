@@ -60,7 +60,7 @@ That means Spark can try one small change, score it, record the lesson, and sugg
 
 ## Spark Character
 
-This keeps Spark's identity, role, voice, and access-level behavior stable.
+This keeps Spark's identity, role, voice, and permission behavior stable.
 
 It helps Spark explain what it can do without pretending it has more access than the user granted.
 

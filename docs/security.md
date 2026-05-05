@@ -14,14 +14,14 @@ spark secrets list
 spark support bundle
 ```
 
-## Access Levels
+## What Spark Can Do
 
-- Level 1: Chat Only. Spark can talk and remember.
-- Level 2: Build When Asked. Spark can start missions after an explicit request.
-- Level 3: Research + Build. Recommended. Spark can inspect public links, docs, and repos when asked, and can use Spawner for explicit missions.
-- Level 4: Full Access. For trusted local use. Spark may use broader operating-system tools, but should still ask before destructive actions.
+- 1: Spark can talk and remember.
+- 2: Spark can start missions after an explicit request.
+- 3: Recommended. Spark can inspect public links, docs, and repos when asked, and can use Spawner for explicit missions.
+- 4: For trusted local use. Spark may use broader operating-system tools, but should still ask before destructive actions.
 
-Change access in Telegram:
+Change what Spark can do in Telegram:
 
 ```text
 /access 3
