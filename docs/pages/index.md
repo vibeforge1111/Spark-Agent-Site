@@ -25,6 +25,7 @@ They also include clean Markdown files for agents.
 
 - Install Spark from `/install`.
 - Read `/docs/install-safety/` before running installers.
+- Read `/docs/updates/` for the May 9 public labs and installer update.
 - Read `/docs/commands/` for current Spark CLI and Telegram commands.
 - Read `/docs/providers/` for LLM provider setup.
 - Read `/docs/railway-vps/` for always-on Railway or VPS operations.
@@ -38,6 +39,7 @@ They also include clean Markdown files for agents.
 Agents can use the matching Markdown pages:
 
 - `/docs/install-safety.md`
+- `/docs/updates.md`
 - `/docs/commands.md`
 - `/docs/providers.md`
 - `/docs/railway-vps.md`

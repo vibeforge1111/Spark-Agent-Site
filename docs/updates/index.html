@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spark Update · Public Labs And May 9 Installer</title>
+  <meta name="description" content="Spark's May 9 public update: installer refresh, public domain chip labs, character, personality chips, and voice comms without making Spark Swarm public yet.">
+  <link rel="stylesheet" href="/docs/docs.css?v=20260501-provider-roles">
+</head>
+<body>
+<main class="doc-shell">
+  <nav class="docs-nav" aria-label="Spark docs navigation">
+    <a class="docs-brand" href="/docs/">Spark Docs</a>
+    <div class="docs-nav-links">
+      <a href="/docs/">Overview</a>
+      <a href="/install/">Install</a>
+      <a href="/docs/suites/">Suites</a>
+      <a href="/docs/self-improvement/">Self-Improvement</a>
+      <a href="/docs/security/">Security</a>
+      <a href="/docs/feedback/">Feedback</a>
+      <a href="/llms.txt">Agents</a>
+    </div>
+  </nav>
+  <article class="doc-page">
+    <section class="doc-hero">
+      <span class="overline">May 9 Update</span>
+      <h1>Public labs are open. Spark Swarm stays private for now.</h1>
+      <p>This update publishes the safe public surfaces we can share today: a refreshed installer, public creator labs, character/personality systems, and voice communication hooks.</p>
+      <div class="doc-mini-nav">
+        <a href="/docs/updates.md">Agent Markdown</a>
+        <a href="/install/release-manifest.json">Release manifest</a>
+        <a href="/install/commands.json">commands.json</a>
+      </div>
+    </section>
+
+    <aside class="docs-feedback-banner" aria-label="Docs feedback">
+      <div>
+        <span>Feedback</span>
+        <strong>Tell us what is still confusing before we widen the release.</strong>
+        <p>Public labs should feel understandable without requiring private Spark Swarm context.</p>
+      </div>
+      <a href="/docs/feedback/">Feedback paths</a>
+    </aside>
+
+    <section class="doc-section">
+      <h2>What changed.</h2>
+      <div class="doc-grid doc-grid-3">
+        <div class="doc-card"><span class="doc-kicker">Installer</span><h3>May 9 pin</h3><p>The hosted installer now points at <code>spark-cli-launch-2026-05-09</code> with matching checksums, manifest, command metadata, attestations, and production smoke.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Creator Lab</span><h3>Domain Chip Labs</h3><p>Public standards for domain chips, benchmarks, specialization paths, autoloop policies, tool integrations, and publish packet drafts.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Identity</span><h3>Character And Personality</h3><p>Spark Character is public, and Personality Chip Labs is public for modular profile experiments.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Voice</span><h3>Voice Comms</h3><p>Voice hooks, profiles, and local or paid provider examples are available as a public chip surface.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Docs</span><h3>Clearer bundle boundary</h3><p>The docs now separate default starter modules from public builder labs so users do not install the wrong thing.</p></div>
+        <div class="doc-card"><span class="doc-kicker">Security</span><h3>No private network dependency</h3><p>Spark Swarm workspace and network submission are not public installer dependencies in this update.</p></div>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>What is deliberately not included.</h2>
+      <div class="doc-callout">
+        <h3>Spark Swarm comes later</h3>
+        <p>The hosted workspace, network submission, and review flow stay private. Public users can still install Spark, use the starter bundle, and experiment with public labs locally.</p>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Verify the release.</h2>
+      <pre class="docs-code">spark verify --installers --hosted-installers</pre>
+      <p>Expected release: <code>spark-cli-launch-2026-05-09</code> at <code>899dca9911d59bb4576aa6601b171689fdf315af</code>.</p>
+    </section>
+  </article>
+</main>
+</body>
+</html>
