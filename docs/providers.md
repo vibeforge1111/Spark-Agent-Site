@@ -60,6 +60,8 @@ spark verify --onboarding
 
 ## Hosted Railway / Docker Recommendation
 
+Full hosted operations page: `/docs/railway-vps/`
+
 Local setup is still the easiest first path. For always-on Railway or Docker
 installs, keep Spark API-first and run it as two services:
 

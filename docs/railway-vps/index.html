@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<title>Spark Railway and VPS Operations</title>
+<meta name="description" content="Spark hosted operations guide for Railway and VPS deployments, including service layout, environment, smoke tests, and rollback checks.">
+<link rel="canonical" href="https://agent.sparkswarm.ai/docs/railway-vps/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/docs/docs.css?v=20260501-provider-roles">
+</head>
+<body>
+
+<svg class="svg-sprite" width="0" height="0" aria-hidden="true">
+  <defs>
+    <symbol id="spark-mark" viewBox="0 0 264 113" overflow="visible">
+      <path fill="currentColor" d="M 189.07,0.85 c -24.30,4.40 -39.50,14.70 -80.50,54.50 -35.20,34.20 -37.30,35.90 -49.80,39.70 -18.40,5.60 -39.10,-3.20 -47.40,-20.00 -6.50,-13.20 -2.60,-32.50 8.40,-42.10 8.70,-7.70 14.10,-9.60 27.30,-9.60 14.70,-0.00 19.40,2.10 37.40,16.50 12.80,10.30 12.80,10.30 15.40,7.60 2.70,-2.70 2.70,-2.70 -1.30,-6.20 -25.20,-21.90 -34.30,-26.70 -51.00,-26.80 -14.70,-0.00 -25.70,4.60 -35.00,14.60 -30.70,33.20 -0.90,83.40 44.40,74.80 14.00,-2.60 23.60,-9.70 54.30,-39.80 46.80,-46.00 63.70,-56.20 92.80,-56.30 61.20,-0.10 73.10,80.10 14.20,95.20 -24.00,6.10 -50.20,-3.00 -81.40,-28.30 -10.10,-8.20 -11.30,-8.60 -14.60,-4.50 -2.70,3.30 25.80,25.10 43.30,33.20 31.90,14.80 63.10,11.80 82.90,-8.00 31.20,-31.20 15.80,-83.80 -27.50,-94.00 -6.80,-1.60 -24.10,-1.80 -31.90,-0.50 z"/>
+    </symbol>
+    <symbol id="spark-wordmark" viewBox="0 0 218 59" overflow="visible">
+      <g transform="translate(-0.253195,59.000000) scale(0.100000,-0.100000)" fill="currentColor">
+        <path d="M52 435 c-38 -16 -56 -56 -47 -101 9 -50 42 -65 153 -69 100 -3 122 -13 122 -55 0 -40 -31 -50 -153 -50 -112 0 -117 -1 -117 -21 0 -20 4 -20 129 -17 155 4 181 17 181 94 0 66 -30 84 -136 84 -101 0 -130 10 -137 45 -9 52 18 65 143 65 103 0 110 1 110 20 0 26 -192 29 -248 5z"/>
+        <path d="M573 443 c-31 -6 -70 -48 -77 -84 -14 -72 -7 -349 9 -356 24 -9 28 1 31 74 1 38 3 69 3 71 1 1 14 -4 31 -13 73 -38 229 -11 257 45 17 34 16 163 -1 204 -23 56 -134 82 -253 59z m180 -44 c63 -29 64 -209 2 -233 -53 -20 -187 -2 -207 28 -10 14 -10 168 0 182 22 33 151 48 205 23z"/>
+        <path d="M1152 443 c-10 -4 -162 -303 -162 -319 0 -2 10 -4 23 -4 19 0 31 21 86 140 35 77 70 140 76 140 6 0 22 -24 34 -52 82 -188 104 -228 127 -228 l23 0 -18 43 c-113 256 -142 299 -189 280z"/>
+        <path d="M1520 285 c0 -158 1 -165 20 -165 19 0 20 7 20 114 0 63 3 122 6 131 10 25 58 45 109 45 38 0 45 3 45 20 0 25 -79 28 -124 5 -35 -18 -36 -18 -36 0 0 8 -9 15 -20 15 -19 0 -20 -7 -20 -165z"/>
+        <path d="M1880 355 c0 -228 1 -235 20 -235 16 0 20 7 20 33 0 26 10 42 46 77 l45 45 37 -40 c20 -22 51 -57 67 -78 23 -30 37 -38 55 -35 23 3 21 6 -35 73 -33 39 -66 78 -74 88 -13 16 -8 25 60 93 72 72 73 74 44 74 -25 0 -48 -18 -130 -100 -55 -55 -103 -100 -107 -100 -5 0 -8 77 -8 170 0 163 -1 170 -20 170 -19 0 -20 -7 -20 -235z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+<div class="grain" aria-hidden="true"></div>
+<header class="topbar">
+  <a href="/docs/" class="brand" aria-label="Spark docs home">
+    <svg class="brand-mark" viewBox="0 0 264 113" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-mark"/></svg>
+    <svg class="brand-wordmark docs-wordmark" viewBox="0 0 218 59" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-wordmark"/></svg>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-slash"><span class="brand-slash-prefix">/</span>docs</span>
+  </a>
+  <div class="topbar-right"><a href="/docs/installer-guide/" class="cta-install">Guide<span class="cta-arrow">-&gt;</span></a></div>
+</header>
+<main class="docs-shell">
+  <nav class="docs-nav" aria-label="Docs navigation">
+    <p>Docs Map</p>
+    <div class="docs-nav-links">
+      <a href="/docs/">Overview</a>
+      <a href="/docs/installer-guide/">Guide</a>
+      <a href="/docs/install-safety/">Safety</a>
+      <a href="/docs/commands/">Commands</a>
+      <a href="/docs/providers/">Providers</a>
+      <a href="/docs/railway-vps/">Railway/VPS</a>
+      <a href="/docs/suites/">Modules</a>
+      <a href="/docs/lifecycle/">Start/Stop</a>
+      <a href="/docs/troubleshooting/">Fix</a>
+      <a href="/docs/security/">Security</a>
+      <a href="/docs/feedback/">Feedback</a>
+      <a href="/docs/self-improvement/">Self-Improvement</a>
+      <a href="/llms.txt">Agents</a>
+    </div>
+  </nav>
+  <article class="doc-page">
+    <section class="doc-hero">
+      <span class="overline">Railway and VPS</span>
+      <h1>Run Spark always-on without guessing.</h1>
+      <p>Use this when Spark is hosted outside a personal laptop. The goal is boring production: two services, private relay, pinned code, explicit keys, and a smoke test that proves Telegram can reach Mission Control.</p>
+      <div class="doc-mini-nav">
+        <a href="/docs/railway-vps.md">Agent Markdown</a>
+        <a href="/docs/providers/">Providers</a>
+        <a href="/docs/troubleshooting/">Fix</a>
+      </div>
+    </section>
+
+    <aside class="docs-feedback-banner" aria-label="Docs feedback">
+      <div>
+        <span>Feedback</span>
+        <strong>Hosted docs should make production checks obvious.</strong>
+        <p>If a Railway or VPS step needs private context, share redacted output and the exact service you were checking.</p>
+      </div>
+      <a href="https://github.com/vibeforge1111/Spark-Agent-Site/issues/new?template=docs-feedback.yml&title=Docs%20feedback%3A%20Railway%20VPS">Share feedback</a>
+    </aside>
+
+    <section class="doc-section">
+      <h2>Use the two-service shape.</h2>
+      <div class="doc-grid doc-grid-3">
+        <article class="doc-card">
+          <h3>Spark Live / Spawner</h3>
+          <p>Runs Mission Control, workspaces, provider execution, previews, and board state.</p>
+          <code>SPAWNER_STATE_DIR=/data/spawner</code>
+        </article>
+        <article class="doc-card">
+          <h3>Telegram bot</h3>
+          <p>Runs Telegram long polling, access control, and the private mission relay.</p>
+          <code>TELEGRAM_RELAY_PORT=8788</code>
+        </article>
+        <article class="doc-card">
+          <h3>Private bridge</h3>
+          <p>Use one shared bridge key for bot-to-Spawner calls. Use a different UI key for browser login.</p>
+          <code>SPARK_BRIDGE_API_KEY</code>
+        </article>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Railway rules worth remembering.</h2>
+      <p>Railway deploys application code with <code>railway up</code>. Healthchecks should return HTTP 200 on the configured path and the app should listen on Railway's <code>PORT</code>. Services in the same environment can call each other over private DNS such as <code>service.railway.internal</code>.</p>
+      <div class="provider-command-list">
+        <article>
+          <h3>Deploy code</h3>
+          <p>Use this when the code changed.</p>
+          <code>railway up</code>
+        </article>
+        <article>
+          <h3>Redeploy same code</h3>
+          <p>Use this after environment changes or a restart.</p>
+          <code>railway redeploy</code>
+        </article>
+        <article>
+          <h3>Read bounded logs</h3>
+          <p>Start with a small log pull before streaming.</p>
+          <code>railway logs --lines 100</code>
+        </article>
+      </div>
+      <div class="doc-mini-nav">
+        <a href="https://docs.railway.com/cli/deploying">Railway deploy docs</a>
+        <a href="https://docs.railway.com/reference/healthchecks">Railway healthchecks</a>
+        <a href="https://docs.railway.com/networking/private-networking">Railway private networking</a>
+        <a href="https://docs.railway.com/reference/variables">Railway variables</a>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Environment checklist.</h2>
+      <div class="provider-recipe-grid">
+        <article>
+          <span class="doc-kicker">Spawner service</span>
+          <h3>Public UI, private state.</h3>
+          <pre class="docs-code">SPARK_HOSTED_PRIVATE_PREVIEW=1
+SPARK_WORKSPACE_ID=&lt;workspace-id&gt;
+SPARK_ALLOWED_HOSTS=&lt;public-spawner-host&gt;
+SPARK_UI_API_KEY=&lt;browser-login-key&gt;
+SPARK_BRIDGE_API_KEY=&lt;shared-bot-spawner-key&gt;
+SPAWNER_STATE_DIR=/data/spawner
+SPARK_WORKSPACE_ROOT=/data/spark/workspaces
+CODEX_HOME=/data/codex</pre>
+        </article>
+        <article>
+          <span class="doc-kicker">Telegram bot service</span>
+          <h3>Long polling plus private relay.</h3>
+          <pre class="docs-code">TELEGRAM_BOT_TOKEN=&lt;botfather-token&gt;
+SPARK_TELEGRAM_ADMIN_IDS=&lt;telegram-user-id&gt;
+TELEGRAM_RELAY_HOST=::
+TELEGRAM_RELAY_PORT=8788
+SPAWNER_UI_URL=http://&lt;spawner-service&gt;.railway.internal:&lt;port&gt;
+SPAWNER_UI_PUBLIC_URL=https://&lt;protected-spawner-public-domain&gt;
+MISSION_CONTROL_WEBHOOK_URLS=http://&lt;bot-service&gt;.railway.internal:8788/spawner-events
+SPARK_BRIDGE_API_KEY=&lt;same-shared-bot-spawner-key&gt;</pre>
+        </article>
+      </div>
+      <div class="doc-callout">
+        <h3>Key rule</h3>
+        <p><code>SPAWNER_UI_URL</code> is for private service-to-service calls. <code>SPAWNER_UI_PUBLIC_URL</code> is for Telegram links that humans open in a browser.</p>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Hosted provider rules.</h2>
+      <div class="doc-grid">
+        <article class="doc-card"><h3>Use API keys</h3><p>Z.AI, OpenAI, Anthropic, OpenRouter, Kimi, MiniMax, Hugging Face, and OpenAI-compatible providers are the clean hosted path.</p></article>
+        <article class="doc-card"><h3>Codex hosted path</h3><p>Use a dedicated <code>OPENAI_API_KEY</code> and persistent <code>CODEX_HOME</code>. Do not copy personal desktop OAuth.</p></article>
+        <article class="doc-card"><h3>Claude hosted path</h3><p>Use <code>ANTHROPIC_API_KEY</code>. Keep Claude Code OAuth on the local desktop.</p></article>
+        <article class="doc-card"><h3>Local models</h3><p>Ollama, LM Studio, vLLM, TGI, and llama.cpp must be reachable endpoints. Do not download large models into the Spark app container.</p></article>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Production smoke.</h2>
+      <p>First prove the public Spawner surface. Then prove Telegram can start and finish a tiny mission through the private relay.</p>
+      <pre class="docs-code">curl -fsS https://&lt;spawner-public-domain&gt;/api/health/live
+curl -fsS https://&lt;spawner-public-domain&gt;/api/providers
+curl -fsS https://&lt;spawner-public-domain&gt;/api/mission-control/board</pre>
+      <pre class="docs-code">/diagnose
+/run Build a tiny static HTML page called Spark Production Smoke. It should have one file, index.html, with a dark Mission Control panel, a green "Spark Live OK" status, and the text "Telegram to Spawner relay worked on May 8, 2026". Do not add package files, do not install dependencies, and keep it simple enough to finish fast.</pre>
+      <div class="provider-good-state">
+        <p><strong>Spawner:</strong> UI is reachable and provider metadata is visible.</p>
+        <p><strong>Access:</strong> `/diagnose` shows the current Telegram user is allowed.</p>
+        <p><strong>Mission:</strong> provider ping succeeds and the smoke mission completes.</p>
+        <p><strong>Workspace:</strong> one-file prompts produce exactly the expected static file shape.</p>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Common hosted fixes.</h2>
+      <div class="doc-grid">
+        <article class="doc-card"><h3>Spawner is HTTP 401</h3><p>Check <code>SPARK_UI_API_KEY</code> for browsers and <code>SPARK_BRIDGE_API_KEY</code> for bot relay calls. Do not make Spawner public to fix auth.</p></article>
+        <article class="doc-card"><h3>Mission board unreachable</h3><p>Check <code>SPAWNER_UI_URL</code> from the bot service. On Railway it should usually be private DNS.</p></article>
+        <article class="doc-card"><h3>Telegram links open private DNS</h3><p>Set <code>SPAWNER_UI_PUBLIC_URL</code> to the protected public Spawner domain.</p></article>
+        <article class="doc-card"><h3>Plain chat fails, missions work</h3><p>Fix chat provider key, base URL, or model, then restart Telegram. Mission routing can still be healthy.</p></article>
+        <article class="doc-card"><h3>Provider CLI exists but fails</h3><p>Installed does not mean authenticated. Use hosted API keys instead of desktop OAuth state.</p></article>
+        <article class="doc-card"><h3>Old code still appears</h3><p>Check deployment IDs and service selection. Use <code>railway up</code> for code changes and <code>railway redeploy</code> for same-code restarts.</p></article>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>VPS notes.</h2>
+      <p>Use the same two-service shape with Docker Compose or a process supervisor. Put Nginx, Caddy, or another reverse proxy in front of Spawner, terminate TLS there, and keep the bot relay private to the host or overlay network.</p>
+      <div class="doc-callout">
+        <h3>Backups before upgrades</h3>
+        <p>Back up <code>/data/spawner</code>, <code>/data/spark/workspaces</code>, and provider config before production upgrades.</p>
+      </div>
+    </section>
+
+    <section class="doc-section">
+      <h2>Release rule.</h2>
+      <p>Do not point the public installer or <code>agent.sparkswarm.ai</code> release manifest at a new Spark CLI commit until registry pins, provenance, installer verification, Railway smoke, and at least one Telegram <code>/run</code> smoke are green.</p>
+    </section>
+  </article>
+</main>
+</body>
+</html>

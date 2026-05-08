@@ -27,6 +27,7 @@ They also include clean Markdown files for agents.
 - Read `/docs/install-safety/` before running installers.
 - Read `/docs/commands/` for current Spark CLI and Telegram commands.
 - Read `/docs/providers/` for LLM provider setup.
+- Read `/docs/railway-vps/` for always-on Railway or VPS operations.
 - Read `/docs/suites/` to understand what gets installed.
 - Read `/docs/feedback/` to route feedback, issues, and PRs.
 - Read `/docs/self-improvement/` to understand domain chips, recursive loops, and benchmarks.
@@ -39,6 +40,7 @@ Agents can use the matching Markdown pages:
 - `/docs/install-safety.md`
 - `/docs/commands.md`
 - `/docs/providers.md`
+- `/docs/railway-vps.md`
 - `/docs/suites.md`
 - `/docs/feedback.md`
 - `/docs/self-improvement.md`
@@ -73,4 +75,4 @@ Current public installer state:
 - Windows and WSL sandbox install checks should be rerun after deploy.
 - Provenance verification should be rerun in hosted sandbox installs after deploy.
 
-The docs now include human-friendly inner pages, agent-readable Markdown routes, simple schemas, visual flow diagrams, and command pages for Spark Live, providers, troubleshooting, and security.
+The docs now include human-friendly inner pages, agent-readable Markdown routes, simple schemas, visual flow diagrams, and command pages for Spark Live, providers, Railway/VPS hosting, troubleshooting, and security.

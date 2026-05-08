@@ -50,6 +50,7 @@
 <a href="/docs/install-safety/">Safety</a>
       <a href="/docs/commands/">Commands</a>
       <a href="/docs/providers/">Providers</a>
+      <a href="/docs/railway-vps/">Railway/VPS</a>
       <a href="/docs/suites/">Modules</a>
       <a href="/docs/lifecycle/">Start/Stop</a>
       <a href="/docs/troubleshooting/">Fix</a>
@@ -106,6 +107,7 @@ spark verify --onboarding</pre>
     <section class="doc-section">
       <h2>Hosted Railway provider checks.</h2>
       <p>On Railway, provider binaries and provider auth are separate checks. A container can have <code>codex</code> or <code>claude</code> on <code>PATH</code> and still fail until the service has valid hosted credentials.</p>
+      <p>For service layout, private DNS, relay keys, and smoke tests, use the <a href="/docs/railway-vps/">Railway/VPS operations page</a>.</p>
       <div class="doc-grid">
         <div class="doc-card"><h3>Codex</h3><p>Use a dedicated <code>OPENAI_API_KEY</code> and persistent <code>CODEX_HOME</code>. Do not copy a personal desktop Codex OAuth session into Railway.</p></div>
         <div class="doc-card"><h3>Claude</h3><p>Use <code>ANTHROPIC_API_KEY</code> for hosted Claude. Claude Code OAuth is a local desktop route.</p></div>

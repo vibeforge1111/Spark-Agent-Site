@@ -15,6 +15,7 @@ Spark can remember useful facts, run missions, and help with research or buildin
 - Human install safety: https://agent.sparkswarm.ai/docs/install-safety/
 - Human commands: https://agent.sparkswarm.ai/docs/commands/
 - Human providers: https://agent.sparkswarm.ai/docs/providers/
+- Human Railway/VPS: https://agent.sparkswarm.ai/docs/railway-vps/
 - Human suites: https://agent.sparkswarm.ai/docs/suites/
 - Human feedback: https://agent.sparkswarm.ai/docs/feedback/
 - Human self-improvement: https://agent.sparkswarm.ai/docs/self-improvement/
@@ -24,6 +25,7 @@ Spark can remember useful facts, run missions, and help with research or buildin
 - Install safety: https://agent.sparkswarm.ai/docs/install-safety.md
 - Spark commands: https://agent.sparkswarm.ai/docs/commands.md
 - Spark providers: https://agent.sparkswarm.ai/docs/providers.md
+- Spark Railway/VPS: https://agent.sparkswarm.ai/docs/railway-vps.md
 - Spark suites: https://agent.sparkswarm.ai/docs/suites.md
 - Spark feedback: https://agent.sparkswarm.ai/docs/feedback.md
 - Self-improvement: https://agent.sparkswarm.ai/docs/self-improvement.md
@@ -170,6 +172,31 @@ spark providers list
 spark providers status
 spark providers test --role chat
 ```
+
+## Hosted Railway And VPS
+
+Use hosted Spark only when the user wants always-on Telegram, Mission Control,
+and persistent workspaces. Keep the local installer path as the default first
+experience.
+
+Recommended hosted shape:
+
+- Spark Live / Spawner service for Mission Control, provider execution, previews,
+  board state, and workspaces.
+- Spark Telegram Bot service for long polling, access control, and private
+  mission relay.
+- Private service-to-service URL for `SPAWNER_UI_URL`.
+- Public protected Spawner URL for `SPAWNER_UI_PUBLIC_URL`.
+- Shared `SPARK_BRIDGE_API_KEY` between bot and Spawner.
+- Separate `SPARK_UI_API_KEY` for browser login.
+
+Hosted provider rule: use API keys or reachable private model endpoints. Do not
+copy personal Codex OAuth, Claude Code OAuth, browser profiles, `~/.codex`, or
+desktop auth into Railway or a VPS.
+
+Railway deploy note: use `railway up` for code changes and `railway redeploy`
+for same-code restarts or environment changes. Healthchecks should return HTTP
+200 and the app should listen on Railway's `PORT`.
 
 ## Repair
 

@@ -33,6 +33,7 @@ const pages = [
   { path: "docs/installer-guide/index.html", name: "Installer guide", required: ["Install Spark in five calm steps", "BotFather", "Mission Control"] },
   { path: "docs/install-safety/index.html", name: "Install safety", required: ["dry-run", "checksums", "what Spark can do"] },
   { path: "docs/providers/index.html", name: "Providers", required: ["one provider", "Agent", "Mission", "Provider types", "Supported providers", "spark providers test --role chat", "spark providers test --role mission", "Codex", "Claude", "Ollama", "LM Studio", "surprise fallback"] },
+  { path: "docs/railway-vps/index.html", name: "Railway/VPS", required: ["two services", "railway up", "SPAWNER_UI_PUBLIC_URL", "SPARK_BRIDGE_API_KEY", "Production smoke"] },
   { path: "docs/commands/index.html", name: "Commands", required: ["Tell Spark what you are trying to do", "Computer terminal", "Telegram bot", "Mission Control"] },
   { path: "docs/lifecycle/index.html", name: "Start/Stop", required: ["spark live start", "spark live status", "autostart"] },
   { path: "docs/troubleshooting/index.html", name: "Troubleshooting", required: ["spark fix telegram", "spark fix spawner", "spark doctor llm"] },
@@ -68,6 +69,7 @@ const installJourney = [
   "/docs/installer-guide/",
   "/docs/install-safety/",
   "/docs/providers/",
+  "/docs/railway-vps/",
   "/docs/commands/",
   "/docs/lifecycle/",
   "/docs/troubleshooting/",
@@ -97,7 +99,7 @@ for (const href of internalLinks) {
   assert(fs.existsSync(localPath), `internal docs link target missing: ${cleanHref}`);
 }
 
-for (const relPath of ["docs/commands.md", "docs/providers.md", "docs/install-safety.md", "docs/lifecycle.md", "docs/troubleshooting.md", "docs/security.md", "docs/feedback.md"]) {
+for (const relPath of ["docs/commands.md", "docs/providers.md", "docs/railway-vps.md", "docs/install-safety.md", "docs/lifecycle.md", "docs/troubleshooting.md", "docs/security.md", "docs/feedback.md"]) {
   const markdown = read(relPath);
   assert(markdown.includes("Human page:"), `${relPath} should point agents back to the human page`);
 }

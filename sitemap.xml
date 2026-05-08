@@ -81,6 +81,18 @@
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://agent.sparkswarm.ai/docs/railway-vps.md</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://agent.sparkswarm.ai/docs/railway-vps/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
     <loc>https://agent.sparkswarm.ai/docs/suites.md</loc>
     <lastmod>2026-04-29</lastmod>
     <changefreq>weekly</changefreq>

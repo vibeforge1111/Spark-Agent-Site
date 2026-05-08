@@ -11,6 +11,7 @@ This page is for agents. If you are human, this is not for you. :)
 - [Human install safety](https://agent.sparkswarm.ai/docs/install-safety/): Polished install safety page.
 - [Human commands](https://agent.sparkswarm.ai/docs/commands/): Current CLI and Telegram commands.
 - [Human providers](https://agent.sparkswarm.ai/docs/providers/): LLM provider setup.
+- [Human Railway/VPS](https://agent.sparkswarm.ai/docs/railway-vps/): Hosted Railway and VPS operations.
 - [Human suites](https://agent.sparkswarm.ai/docs/suites/): Polished module map.
 - [Human feedback](https://agent.sparkswarm.ai/docs/feedback/): Repo routing for feedback, issues, and PRs.
 - [Human self-improvement](https://agent.sparkswarm.ai/docs/self-improvement/): Domain chips as reusable tools and Spark Researcher specialization loops.
@@ -20,6 +21,7 @@ This page is for agents. If you are human, this is not for you. :)
 - [Install safety](https://agent.sparkswarm.ai/docs/install-safety.md): Safe install steps, hashes, downloads, writes, and secret rules.
 - [Spark commands](https://agent.sparkswarm.ai/docs/commands.md): CLI and Telegram command map.
 - [Spark providers](https://agent.sparkswarm.ai/docs/providers.md): Provider families and role setup.
+- [Spark Railway/VPS](https://agent.sparkswarm.ai/docs/railway-vps.md): Hosted service layout, env, smoke tests, and fixes.
 - [Spark suites](https://agent.sparkswarm.ai/docs/suites.md): What Spark Telegram Bot, Spark Intelligence Builder, memory, Mission Control, and Researcher do.
 - [Spark feedback](https://agent.sparkswarm.ai/docs/feedback.md): Feedback and PR routing for agents.
 - [Self-improvement](https://agent.sparkswarm.ai/docs/self-improvement.md): Domain chips, Spark Researcher loops, and safe chip-building prompts.

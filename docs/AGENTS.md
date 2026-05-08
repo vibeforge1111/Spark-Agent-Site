@@ -22,6 +22,7 @@ Use these pages first for humans:
 - `/docs/install-safety/` before install
 - `/docs/commands/` for current CLI and Telegram commands
 - `/docs/providers/` for LLM provider setup
+- `/docs/railway-vps/` for hosted Railway or VPS operations
 - `/docs/suites/` to explain what Spark installs
 - `/docs/feedback/` to route feedback, issues, and PRs to the right repo
 - `/docs/self-improvement/` to explain domain chips, recursive loops, and benchmarks
@@ -34,6 +35,7 @@ Use these Markdown pages first for agents:
 - `/docs/install-safety.md` before install
 - `/docs/commands.md` for current CLI and Telegram commands
 - `/docs/providers.md` for LLM provider setup
+- `/docs/railway-vps.md` for hosted Railway or VPS operations
 - `/docs/suites.md` to explain what Spark installs
 - `/docs/feedback.md` to route feedback, issues, and PRs to the right repo
 - `/docs/self-improvement.md` to explain domain chips, recursive loops, and benchmarks

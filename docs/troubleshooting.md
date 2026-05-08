@@ -40,6 +40,8 @@ Rerun setup if the selected provider is missing or pointing to the wrong endpoin
 
 ### Hosted Railway Provider Fails
 
+Full hosted operations page: `/docs/railway-vps/`
+
 Installed is not the same as authenticated. A hosted Spawner can have `codex`,
 `claude`, or another CLI on `PATH` and still fail if the service has no usable
 provider auth.
