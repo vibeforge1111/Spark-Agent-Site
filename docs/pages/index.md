@@ -2,7 +2,7 @@
 title: Spark Docs
 slug: index
 status: published
-verified_at: "2026-04-29T00:00:00Z"
+verified_at: "2026-05-09T00:00:00Z"
 verified_by: codex@sparkswarm.ai
 authority_level: L3
 canonical_for:
@@ -73,13 +73,13 @@ Current public installer state:
 - Release: `spark-cli-launch-2026-05-09`
 - Installed Spark CLI runtime commit: `1b91a73f91e3bc5785717682e61d251d21f65206`
 - Local installer hashes match the committed release manifest.
-- Hosted installer verification should be rerun after deploy.
-- Windows and WSL sandbox install checks should be rerun after deploy.
-- Provenance verification should be rerun in hosted sandbox installs after deploy.
+- Hosted installer verification passed after deploy.
+- Windows and WSL sandbox install checks are part of the release gate.
+- Provenance verification is part of hosted installer verification.
 
 Public labs available now:
 
-- `spark-domain-chip-labs` for domain chips, benchmark packs, autoloops, specialization paths, and standardization docs.
+- `spark-domain-chip-labs` for domain chips, benchmark packs, autoloops, specialization paths, local review packets, and standardization docs.
 - `spark-character` for Spark identity, voice consistency, permission posture, and character evolution.
 - `spark-personality-chip-labs` for modular personality chips and profile experiments.
 - `spark-voice-comms` for voice communication hooks and profiles.

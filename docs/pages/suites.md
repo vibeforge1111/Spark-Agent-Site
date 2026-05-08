@@ -2,7 +2,7 @@
 title: Spark Suites
 slug: suites
 status: published
-verified_at: "2026-04-29T00:00:00Z"
+verified_at: "2026-05-09T00:00:00Z"
 verified_by: codex@sparkswarm.ai
 authority_level: L3
 canonical_for:
@@ -69,8 +69,8 @@ This runs Spark services quietly in the background and can autostart after login
 
 These are public for experimentation and standardization:
 
-- `spark-domain-chip-labs`: domain chips, benchmark packs, specialization paths, autoloop policies, and publish packet standards.
+- `spark-domain-chip-labs`: domain chips, benchmark packs, specialization paths, autoloop policies, local review packets, and creator standards.
 - `spark-personality-chip-labs`: modular personality chips and profile experiments.
 - `spark-voice-comms`: voice communication hooks, voice profiles, and local or paid provider examples.
 
-Spark Swarm network submission and hosted workspace features are not public installer dependencies yet.
+Spark Swarm network submission and hosted Workspace features are not public installer dependencies yet.

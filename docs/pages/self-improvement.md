@@ -6,7 +6,9 @@ A domain chip is both a reusable tool Spark can call and a bounded specializatio
 
 Use `/docs/feedback.md` for feedback and PR routing. This page is about Researcher, OTOLO/autoloops, domain chips, benchmarks, and specialization paths.
 
-The public starting point for builders is `spark-domain-chip-labs`. It contains the creator standards for domain chips, benchmark packs, specialization paths, autoloop policies, tool integrations, and future network publish packets.
+The public starting point for builders is `spark-domain-chip-labs`. It contains the creator standards for domain chips, benchmark packs, specialization paths, autoloop policies, tool integrations, and local review packets.
+
+Local recursive Builder chip loops can run through Telegram without Spark Swarm. Spark Swarm submission and hosted Workspace review are upcoming private/network features, not required for local chip experiments.
 
 ## Loop
 
@@ -51,4 +53,4 @@ Ask before risky changes.
 
 Let Spark propose. Let benchmarks score. Let humans approve risky changes.
 
-Public note: Spark Swarm submission and hosted workspace review are upcoming network features, not required for local chip experiments.
+Public note: keep local experiments private by default. Do not claim official network absorption without benchmark proof, privacy review, rollback review, and explicit publication approval.

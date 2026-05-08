@@ -8,6 +8,8 @@ This page is about Researcher, OTOLO/autoloops, domain chips, benchmarks, and sp
 
 Use `/docs/feedback.md` when the goal is to report feedback or open a PR.
 
+Current public boundary: use `spark-domain-chip-labs` for creator standards and local gates. Local recursive Builder chip loops can run through Telegram without Spark Swarm. Spark Swarm Workspace review, network submission, and official network absorption are private/upcoming and are not required for local experiments.
+
 ## Core Idea
 
 A normal skill helps once.
