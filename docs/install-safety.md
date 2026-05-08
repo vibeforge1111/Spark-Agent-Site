@@ -113,7 +113,7 @@ Users can change this later in Telegram with `/access 1`, `/access 2`, `/access 
 
 ## Pinned Parts
 
-- Spark CLI commit: `899dca9f96d0db914649533dc3c9a1123fd56175`
+- Spark CLI commit: `1b91a73f91e3bc5785717682e61d251d21f65206`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`

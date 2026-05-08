@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "410de13e4ebfcf7366f2d82abcce47d7177f4ed05206fd2b40802f1f82d88ecc",
-      "install.ps1": "3e809fcffe03191e454e4d4924516471d83e7a25c48482cd1d19792f2a2f7b45"
+      "install.sh": "be8783f41eb889d9eeacda52c2e09a52fb3347038f2837e206d00d444919b02e",
+      "install.ps1": "cebef8459d469ea85687c503527ee32223368a1ae1d8151eada927addcb4717f"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -165,6 +165,18 @@
       "use": "Show current mission board/status."
     },
     {
+      "command": "/recursive start <chipKey> rounds <n>",
+      "use": "Run a local Builder chip loop and report from local status files. Spark Swarm Workspace is optional."
+    },
+    {
+      "command": "/recursive sessions",
+      "use": "List local or connected Workspace recursive loops."
+    },
+    {
+      "command": "/recursive report <id>",
+      "use": "Show a compact recursive loop result from local status or connected Workspace state."
+    },
+    {
       "command": "normal message",
       "use": "Ask Spark to answer through the configured LLM provider."
     }
@@ -216,7 +228,7 @@
     }
   ],
   "unreleasedBoundaries": [
-    "Spark Swarm network/workspace submission is not a public installer dependency yet.",
+    "Spark Swarm network/workspace submission is not a public installer dependency yet; local Telegram recursive Builder chip loops do not require it.",
     "Optional public labs are builder surfaces until they expose the installable Spark module contract."
   ],
   "securityNotes": [
@@ -231,7 +243,7 @@
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
     "releaseName": "spark-cli-launch-2026-05-09",
-    "ref": "899dca9f96d0db914649533dc3c9a1123fd56175",
+    "ref": "1b91a73f91e3bc5785717682e61d251d21f65206",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"
