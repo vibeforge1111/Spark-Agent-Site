@@ -112,9 +112,20 @@ When a user wants to report feedback or share an improvement:
 - include expected behavior, actual behavior, evidence, and the smallest useful improvement
 - ask before opening GitHub, pushing a branch, or submitting anything
 
+## Public Labs Boundary
+
+Public builder labs now available:
+
+- `spark-domain-chip-labs`
+- `spark-character`
+- `spark-personality-chip-labs`
+- `spark-voice-comms`
+
+Spark Swarm network submission and hosted workspace review are upcoming private surfaces. Do not tell public users they must install Spark Swarm to experiment locally.
+
 ## Current Installer Pins
 
-- Spark CLI commit: `e17754f52ff22098c23cce348326fdb01a94b792`
+- Spark CLI commit: `899dca9911d59bb4576aa6601b171689fdf315af`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`

@@ -21,6 +21,8 @@ Spark installs a starter kit called `telegram-starter`.
 
 This page explains what each part does.
 
+The default installer stays conservative: it installs only modules that expose Spark's installable module contract. Public labs such as `spark-domain-chip-labs`, `spark-personality-chip-labs`, and `spark-voice-comms` are available for builders, but they are not automatic starter-bundle modules yet.
+
 ## Spark Telegram Bot
 
 This is the front door.
@@ -62,3 +64,13 @@ This keeps Spark's identity, role, voice, and permission behavior stable.
 ## Spark Live
 
 This runs Spark services quietly in the background and can autostart after login.
+
+## Public Builder Labs
+
+These are public for experimentation and standardization:
+
+- `spark-domain-chip-labs`: domain chips, benchmark packs, specialization paths, autoloop policies, and publish packet standards.
+- `spark-personality-chip-labs`: modular personality chips and profile experiments.
+- `spark-voice-comms`: voice communication hooks, voice profiles, and local or paid provider examples.
+
+Spark Swarm network submission and hosted workspace features are not public installer dependencies yet.

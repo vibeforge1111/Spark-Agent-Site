@@ -46,6 +46,8 @@ This page is for agents. If you are human, this is not for you. :)
 ## Rules For Agents
 
 - Do not pipe remote installers into a shell.
+- Current public labs: `spark-domain-chip-labs`, `spark-character`, `spark-personality-chip-labs`, and `spark-voice-comms`.
+- Spark Swarm network/workspace features are not public installer dependencies yet.
 - Download first.
 - Run dry-run first.
 - Explain the plan.

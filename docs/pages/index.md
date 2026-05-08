@@ -68,11 +68,20 @@ The installer has checksums, a release manifest, pinned managed runtimes, immuta
 
 Current public installer state:
 
-- Release: `spark-cli-launch-2026-05-05`
-- Installed Spark CLI runtime commit: `e17754f52ff22098c23cce348326fdb01a94b792`
+- Release: `spark-cli-launch-2026-05-09`
+- Installed Spark CLI runtime commit: `899dca9911d59bb4576aa6601b171689fdf315af`
 - Local installer hashes match the committed release manifest.
 - Hosted installer verification should be rerun after deploy.
 - Windows and WSL sandbox install checks should be rerun after deploy.
 - Provenance verification should be rerun in hosted sandbox installs after deploy.
+
+Public labs available now:
+
+- `spark-domain-chip-labs` for domain chips, benchmark packs, autoloops, specialization paths, and standardization docs.
+- `spark-character` for Spark identity, voice consistency, permission posture, and character evolution.
+- `spark-personality-chip-labs` for modular personality chips and profile experiments.
+- `spark-voice-comms` for voice communication hooks and profiles.
+
+These labs are public experimentation surfaces. They are not all installed by the default `telegram-starter` bundle yet, because starter modules must expose the installable Spark module contract.
 
 The docs now include human-friendly inner pages, agent-readable Markdown routes, simple schemas, visual flow diagrams, and command pages for Spark Live, providers, Railway/VPS hosting, troubleshooting, and security.

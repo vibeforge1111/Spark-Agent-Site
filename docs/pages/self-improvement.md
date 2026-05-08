@@ -6,6 +6,8 @@ A domain chip is both a reusable tool Spark can call and a bounded specializatio
 
 Use `/docs/feedback.md` for feedback and PR routing. This page is about Researcher, OTOLO/autoloops, domain chips, benchmarks, and specialization paths.
 
+The public starting point for builders is `spark-domain-chip-labs`. It contains the creator standards for domain chips, benchmark packs, specialization paths, autoloop policies, tool integrations, and future network publish packets.
+
 ## Loop
 
 ```text
@@ -22,6 +24,8 @@ The chip owns:
 - `watchtower`
 
 Spark Researcher owns loop execution, ledger, queue, memory index, vault generation, and review policy.
+
+`spark-domain-chip-labs` owns the public creator templates and standardization docs for building new chips and paths outside the core runtime.
 
 ## Researcher Commands
 
@@ -46,3 +50,5 @@ Ask before risky changes.
 ## Safety
 
 Let Spark propose. Let benchmarks score. Let humans approve risky changes.
+
+Public note: Spark Swarm submission and hosted workspace review are upcoming network features, not required for local chip experiments.
