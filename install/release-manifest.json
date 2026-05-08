@@ -5,7 +5,7 @@
   "sparkCli": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
     "releaseName": "spark-cli-launch-2026-05-09",
-    "commit": "1b91a73f91e3bc5785717682e61d251d21f65206"
+    "commit": "eddc18b80f03e133ef9b7cac586c3d93abe7fbf1"
   },
   "runtimes": {
     "node": {
