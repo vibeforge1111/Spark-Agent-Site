@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "7bcde5666df014720e0a7c3d19493daea708c37e",
+    [string]$Ref = "765dedd797acec19eed0528198aa911ac18442a6",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -60,7 +60,7 @@ function Require-Command {
 
 function Test-PythonCompatible {
     param([string]$PythonExe)
-    & $PythonExe -c 'import sys; raise SystemExit(0 if (3, 11) <= sys.version_info < (3, 14) else 1)' 2>$null | Out-Null
+    & $PythonExe -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)' 2>$null | Out-Null
     return $LASTEXITCODE -eq 0
 }
 
@@ -189,7 +189,7 @@ function Invoke-Preflight {
         $versionText = (& $Script:PythonExe --version 2>$null)
         Write-SparkLog "Python runtime: $versionText at $Script:PythonExe"
     } else {
-        Write-SparkLog "Python runtime: Python >=3.11,<3.14 not found; pinned uv $UvVersion will be downloaded after confirmation"
+        Write-SparkLog "Python runtime: Python 3.11+ not found; pinned uv $UvVersion will be downloaded after confirmation"
     }
     Require-Command git
     Write-SparkLog "Install prefix: $Script:SparkPrefix"
@@ -246,7 +246,7 @@ function Show-DryRunPlan {
     Write-Host "  Node platform:       win-x64"
     Write-Host "  Node version:        $NodeVersion"
     Write-Host "  Python version:      $PythonVersion"
-    Write-Host "  Python source:       existing Python >=3.11,<3.14 or pinned uv $UvVersion if needed"
+    Write-Host "  Python source:       existing Python 3.11+ or pinned uv $UvVersion if needed"
     Write-Host "  Managed Node forced: $ManagedNode"
     Write-Host "  CLI source:          $Source"
     Write-Host "  CLI release:         $SparkCliReleaseName"
@@ -269,8 +269,8 @@ function Show-DryRunPlan {
     Write-Host ""
     Write-Host "Would download if needed:"
     Write-Host "  Node $NodeVersion from nodejs.org"
-    Write-Host "  uv $UvVersion from github.com/astral-sh/uv when Python >=3.11,<3.14 is missing"
-    Write-Host "  Python $PythonVersion via uv when Python >=3.11,<3.14 is missing"
+    Write-Host "  uv $UvVersion from github.com/astral-sh/uv when Python 3.11+ is missing"
+    Write-Host "  Python $PythonVersion via uv when Python 3.11+ is missing"
     Write-Host "  Spark CLI from $Source at $Ref"
     Write-Host ""
     Write-Host "Expected installer network access:"
@@ -281,28 +281,12 @@ function Show-DryRunPlan {
     Write-Host "Would run:"
     Write-Host "  python -m venv `"$Script:SparkPrefix\tools\spark-cli-venv`""
     if (-not $SkipSetup) {
-        function Format-SetupPreviewArg {
-            param([string]$Value)
-            if ($Value -match '[\s"]') {
-                return '"' + $Value.Replace('"', '\"') + '"'
-            }
-            return $Value
+        $setupStartArgs = if ($NoAutostart) { "--no-start-now --no-autostart" } else { "--start-now --autostart" }
+        if ($LlmProvider) {
+            Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`" $setupStartArgs --llm-provider `"$LlmProvider`""
+        } else {
+            Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`" $setupStartArgs"
         }
-        $setupPreviewArgs = @()
-        $setupPreviewArgs += if ($NoAutostart) { @("--no-start-now", "--no-autostart") } else { @("--start-now", "--autostart") }
-        if ($NonInteractiveSetup) { $setupPreviewArgs += "--non-interactive" }
-        if ($SetupSkipInstallCommands) { $setupPreviewArgs += "--skip-install-commands" }
-        if ($SetupSkipRuntimeCheck) { $setupPreviewArgs += "--skip-runtime-check" }
-        if ($BotToken) { $setupPreviewArgs += @("--bot-token", "<redacted>") }
-        if ($AdminTelegramIds) { $setupPreviewArgs += @("--admin-telegram-ids", $AdminTelegramIds) }
-        if ($LlmProvider) { $setupPreviewArgs += @("--llm-provider", $LlmProvider) }
-        if ($ZaiApiKey) { $setupPreviewArgs += @("--zai-api-key", "<redacted>") }
-        if ($OpenAIApiKey) { $setupPreviewArgs += @("--openai-api-key", "<redacted>") }
-        if ($AnthropicApiKey) { $setupPreviewArgs += @("--anthropic-api-key", "<redacted>") }
-        if ($MiniMaxApiKey) { $setupPreviewArgs += @("--minimax-api-key", "<redacted>") }
-        $setupPreviewArgs += $SetupArg
-        $setupPreview = ($setupPreviewArgs | ForEach-Object { Format-SetupPreviewArg $_ }) -join " "
-        Write-Host "  `"$Script:SparkPrefix\bin\spark.cmd`" setup `"$Bundle`" $setupPreview"
     }
 }
 
@@ -559,6 +543,15 @@ function Checkout-Cli {
 function Install-CliVenv {
     param([string]$CliDir)
     $venvDir = Join-Path $Script:SparkPrefix "tools\spark-cli-venv"
+    $existingPython = Join-Path $venvDir "Scripts\python.exe"
+    if (Test-Path $existingPython) {
+        & $existingPython -c "import sys; raise SystemExit(0 if (3, 11) <= sys.version_info[:2] < (3, 14) else 1)" | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            $backupDir = "$venvDir.py$((Get-Date).ToString('yyyyMMddHHmmss')).bak"
+            Write-SparkLog "Existing Spark CLI virtualenv uses an unsupported Python; moving it to $backupDir"
+            Move-Item -LiteralPath $venvDir -Destination $backupDir
+        }
+    }
     Write-SparkLog "Creating Spark CLI virtualenv"
     & $Script:PythonExe -m venv $venvDir
     Write-SparkLog "Upgrading pip in Spark CLI virtualenv"
@@ -582,6 +575,19 @@ set "PATH=$NodeDir;%PATH%"
 "@
     Set-Content -Path $wrapper -Value $contents -Encoding ASCII
     Write-SparkLog "Wrote wrapper $wrapper"
+}
+
+function Repair-InstalledModulesAfterCliVenv {
+    $installedPath = Join-Path $Script:SparkPrefix "state\installed.json"
+    if (-not (Test-Path $installedPath)) {
+        return
+    }
+    Write-SparkLog "Repairing installed module runtimes after Spark CLI virtualenv refresh"
+    $sparkCmd = Join-Path $Script:SparkPrefix "bin\spark.cmd"
+    & $sparkCmd update --skip-dirty
+    if ($LASTEXITCODE -ne 0) {
+        Write-SparkLog "Module runtime repair needs attention. Run: $sparkCmd update --skip-dirty"
+    }
 }
 
 function Add-SparkBinToUserPath {
@@ -711,6 +717,7 @@ function Invoke-Install {
     $cliDir = Checkout-Cli
     $venvDir = Install-CliVenv -CliDir $cliDir
     Write-Wrapper -NodeDir $nodeDir -VenvDir $venvDir
+    Repair-InstalledModulesAfterCliVenv
     Add-SparkBinToUserPath
     Warn-SparkCommandConflict
     Run-Setup -CliDir $cliDir
