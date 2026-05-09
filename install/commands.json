@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "ea0d5c4671bc60fd2ba820c9f927ff547d3e6ec7810fb3467cc57ba357d90025",
-      "install.ps1": "1732bfd65cf9e5a710fdead8c8913366b349dcab9847a5589ac7877745155d0f"
+      "install.sh": "6ff3b8496f60a1d04223c80cdc5d577310976e81344e0444e0c54b8154387b25",
+      "install.ps1": "261d85cb6be05fd43b2a44e78ec35d601d08c81058980ed58d57e6aad6c2f99f"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -243,7 +243,7 @@
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
     "releaseName": "spark-cli-launch-2026-05-09",
-    "ref": "765dedd797acec19eed0528198aa911ac18442a6",
+    "ref": "908585b901a44ec2e766f70c03ba9ff6cdcbbe49",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"
