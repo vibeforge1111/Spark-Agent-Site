@@ -1,17 +1,17 @@
 {
   "version": 1,
-  "updated": "2026-05-09",
+  "updated": "2026-05-10",
   "algorithm": "sha256",
   "files": [
     {
       "path": "install.sh",
       "url": "https://agent.sparkswarm.ai/install.sh",
-      "sha256": "a955a6515905767086d924e44625eb85efd129a9c60e2a7079962824f1251b23"
+      "sha256": "389f1fb726cf11e9ae58b3436d8e540292d1e9e9435c7a2f7fd7665ef040bf05"
     },
     {
       "path": "install.ps1",
       "url": "https://agent.sparkswarm.ai/install.ps1",
-      "sha256": "7cdb938e6ba7c4f8797277ce13c4a3ebbacbb5870c47313d681b33285af1a733"
+      "sha256": "00e950fc76a31e899da8303ff3ba3c6a8ffbe1a7d53525a6c53b5da8c16673ca"
     }
   ]
 }

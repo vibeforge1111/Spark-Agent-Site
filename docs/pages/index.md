@@ -2,7 +2,7 @@
 title: Spark Docs
 slug: index
 status: published
-verified_at: "2026-05-09T00:00:00Z"
+verified_at: "2026-05-10T00:00:00Z"
 verified_by: codex@sparkswarm.ai
 authority_level: L3
 canonical_for:
@@ -25,7 +25,7 @@ They also include clean Markdown files for agents.
 
 - Install Spark from `/install`.
 - Read `/docs/install-safety/` before running installers.
-- Read `/docs/updates/` for the May 9 public labs and installer update.
+- Read `/docs/updates/` for the May 10 public labs and installer update.
 - Read `/docs/commands/` for current Spark CLI and Telegram commands.
 - Read `/docs/providers/` for LLM provider setup.
 - Read `/docs/railway-vps/` for always-on Railway or VPS operations.
@@ -70,8 +70,8 @@ The installer has checksums, a release manifest, pinned managed runtimes, immuta
 
 Current public installer state:
 
-- Release: `spark-cli-launch-2026-05-09`
-- Installed Spark CLI runtime commit: `3b0787e083a86e054dfba363874a2c1192cd251f`
+- Release: `spark-cli-launch-2026-05-10`
+- Installed Spark CLI runtime commit: `3860562fb76d035d25a46d5c6bee269b867463f3`
 - Local installer hashes match the committed release manifest.
 - Hosted installer verification passed after deploy.
 - Windows and WSL sandbox install checks are part of the release gate.
