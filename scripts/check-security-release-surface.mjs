@@ -3,7 +3,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 const root = process.cwd();
-const sparkCliRef = "1cafec0bea8fc4c2d0ba9fc439cf35ab5cd6b4ad";
+const sparkCliRef = "47d36350fa453261609119c5ae788f4d5b6d6665";
 const releaseName = "spark-cli-launch-2026-05-11";
 
 function fail(message) {

@@ -41,5 +41,5 @@ The expected Spark CLI release is:
 
 ```text
 spark-cli-launch-2026-05-11
-1cafec0bea8fc4c2d0ba9fc439cf35ab5cd6b4ad
+47d36350fa453261609119c5ae788f4d5b6d6665
 ```
