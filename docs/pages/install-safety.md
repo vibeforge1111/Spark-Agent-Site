@@ -2,7 +2,7 @@
 title: Spark Install Safety
 slug: install-safety
 status: published
-verified_at: "2026-05-09T00:00:00Z"
+verified_at: "2026-05-11T00:00:00Z"
 verified_by: codex@sparkswarm.ai
 authority_level: L3
 canonical_for:
@@ -12,11 +12,11 @@ sources:
   - id: 3a6c16a6-ae2f-4f00-8ccd-4d75857ef410
     url: "https://agent.sparkswarm.ai/install/checksums.txt"
     type: checksum-manifest
-    fetched_at: "2026-05-09T00:00:00Z"
+    fetched_at: "2026-05-11T00:00:00Z"
   - id: 81c4c7ef-2642-4f42-b8b2-0d86abf4e6f7
     url: "https://agent.sparkswarm.ai/install/release-manifest.json"
     type: release-manifest
-    fetched_at: "2026-05-09T00:00:00Z"
+    fetched_at: "2026-05-11T00:00:00Z"
 ---
 
 # Spark Install Safety
@@ -50,8 +50,8 @@ Only then run the real install.
 ## Current Hashes
 
 ```text
-a955a6515905767086d924e44625eb85efd129a9c60e2a7079962824f1251b23  install.sh
-7cdb938e6ba7c4f8797277ce13c4a3ebbacbb5870c47313d681b33285af1a733  install.ps1
+6c9239986478f6796df4e746207716a49aa092a5b5e35c44715341cfb9de2b39  install.sh
+a98f171d29a0292843d1b991ab057b2cfbcb6dc0ad68f4190d2ebcc371e507a5  install.ps1
 ```
 
 ## Safe Human Procedure

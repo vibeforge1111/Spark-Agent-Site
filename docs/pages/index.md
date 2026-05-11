@@ -2,7 +2,7 @@
 title: Spark Docs
 slug: index
 status: published
-verified_at: "2026-05-09T00:00:00Z"
+verified_at: "2026-05-11T00:00:00Z"
 verified_by: codex@sparkswarm.ai
 authority_level: L3
 canonical_for:
@@ -70,8 +70,8 @@ The installer has checksums, a release manifest, pinned managed runtimes, immuta
 
 Current public installer state:
 
-- Release: `spark-cli-launch-2026-05-09`
-- Installed Spark CLI runtime commit: `3b0787e083a86e054dfba363874a2c1192cd251f`
+- Release: `spark-cli-launch-2026-05-11`
+- Installed Spark CLI runtime commit: `cde2f623ef660dc34222269e59818bb9c71fc3c0`
 - Local installer hashes match the committed release manifest.
 - Hosted installer verification passed after deploy.
 - Windows and WSL sandbox install checks are part of the release gate.
