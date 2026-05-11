@@ -2,7 +2,7 @@
 title: Spark Suites
 slug: suites
 status: published
-verified_at: "2026-05-09T00:00:00Z"
+verified_at: "2026-05-11T00:00:00Z"
 verified_by: codex@sparkswarm.ai
 authority_level: L3
 canonical_for:
