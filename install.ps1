@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "057f1d5ddc5ab5781860cad5c38a0c3ccf419af0",
+    [string]$Ref = "01231b0f99e1c6efa12e88f154128a483ff046bb",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
