@@ -23,8 +23,8 @@ If you are non-technical, ask your coding assistant to open this page, run the d
 ## Current Hashes
 
 ```text
-910dd5a6942db9ff60752d0be9ea52323751654749475055742140ff54b11937  install.sh
-1215ed9635697e3056f8cb14a0886ab9d135dc9614bd99124e14faea3a83934f  install.ps1
+77cea159e2be21d1763cf29398d6d7fadbc906e7d32c323776225f9fdea0adcd  install.sh
+a1221a401edab36d6955f674669efc1545419fff5500d6862fcf848e116067f0  install.ps1
 ```
 
 ## Safe Procedure
@@ -113,7 +113,7 @@ Users can change this later in Telegram with `/access 1`, `/access 2`, `/access 
 
 ## Pinned Parts
 
-- Spark CLI commit: `4600c697b7d104111c043a988831d8c7e386ed19`
+- Spark CLI commit: `3b547630bbbf1389b291e786e259b746756144bd`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`

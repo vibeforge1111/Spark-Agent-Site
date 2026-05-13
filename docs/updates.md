@@ -40,6 +40,6 @@ spark verify --installers --hosted-installers
 The expected Spark CLI release is:
 
 ```text
-spark-cli-launch-2026-05-13-spawner-privacy
-4600c697b7d104111c043a988831d8c7e386ed19
+spark-cli-launch-2026-05-13-spawner-privacy-r3
+3b547630bbbf1389b291e786e259b746756144bd
 ```
