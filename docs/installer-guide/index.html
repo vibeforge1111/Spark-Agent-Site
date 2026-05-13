@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index,follow">
 <title>Spark Guided Installer</title>
-<meta name="description" content="A plain-English, visual Spark install walkthrough for humans and AI coding assistants.">
+<meta name="description" content="A plain-English Spark install guide for humans and AI coding assistants. Start at the visual installer tutorial, then use docs when you need detail.">
 <link rel="canonical" href="https://agent.sparkswarm.ai/docs/installer-guide/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +39,7 @@
     <span class="brand-divider" aria-hidden="true"></span>
     <span class="brand-slash"><span class="brand-slash-prefix">/</span>docs</span>
   </a>
-  <div class="topbar-right"><a href="/docs/installer-guide/" class="cta-install">Guide<span class="cta-arrow">-&gt;</span></a></div>
+  <div class="topbar-right"><a href="/install/" class="cta-install">Install<span class="cta-arrow">-&gt;</span></a></div>
 </header>
 <main class="docs-shell">
   <nav class="docs-nav" aria-label="Docs navigation">
@@ -63,10 +63,10 @@
   <article class="doc-page installer-guide-page">
     <section class="doc-hero installer-guide-hero">
       <span class="overline">Guided Installer</span>
-      <h1>Install Spark in five calm steps.</h1>
-      <p>This page is for people who want Spark installed without decoding a wall of terminal commands. Let Codex, Claude Code, or another AI coding assistant follow it with you.</p>
+      <h1>Install Spark from the visual tutorial.</h1>
+      <p>The main install experience now lives at <a href="/install/">/install</a>. Use that page first, then come back here when you want the same path with more detail.</p>
       <div class="doc-mini-nav">
-        <a href="/docs/install-safety/">Install Commands</a>
+        <a href="/install/">Start Install</a>
         <a href="/docs/providers/">Model Setup</a>
         <a href="/docs/commands/">Daily Commands</a>
       </div>
@@ -114,10 +114,11 @@
       <div>
         <span class="doc-kicker">Step 1</span>
         <h2>Tell Codex, Claude Code, or your setup assistant to install Spark.</h2>
-        <p>The easiest path is to ask an AI coding assistant like Codex or Claude Code to read this guide or agent.sparkswarm.ai and install Spark with you. They can usually get you through setup in a few minutes and explain what is happening as they go.</p>
+        <p>The easiest path is to ask an AI coding assistant like Codex or Claude Code to read <a href="/install/">agent.sparkswarm.ai/install</a> and install Spark with you. They can explain what is happening as they go.</p>
         <ul>
           <li>The assistant picks the right Mac, Linux, WSL, or Windows install path.</li>
           <li>It can run the dry run first, so you can check whether the download and installer look secure before installing.</li>
+          <li>It should help you choose one model provider before asking you to connect Telegram.</li>
         </ul>
         <p class="installer-reassurance"><strong>You can still install from terminal by hand</strong>, but non-technical users usually have a much smoother time with a coding assistant guiding the install.</p>
       </div>
@@ -161,8 +162,8 @@
           <li><strong>Agent</strong> means normal chat, reasoning, preferences, memory, and recall.</li>
           <li><strong>Mission</strong> means Mission Control builds, research, coding, and longer tracked work.</li>
           <li>You can use one provider for both, or split Agent and Mission during setup.</li>
-          <li>For Anthropic, Spark defaults Agent to Claude Sonnet 4.6 and Mission to Claude Opus 4.7.</li>
-          <li>If you already have a Codex or Claude Code subscription, tell it to connect that with Spark.</li>
+          <li>Spark chooses current recommended defaults for a provider; use the provider docs if you want exact model names.</li>
+          <li>If you already have a Codex, Claude Code, Cursor, or another local agent subscription, tell it to connect that path with Spark.</li>
           <li>Use an API key if you prefer Z.AI GLM, Kimi, MiniMax, Gemma, OpenRouter, or DeepSeek-compatible routes.</li>
           <li>Use local models through Ollama, LM Studio, Hugging Face, or Gemma when your computer is strong enough.</li>
         </ul>
@@ -204,7 +205,7 @@
         <ul>
           <li>Spark uses that bot as the chat door to your agent.</li>
           <li>Your own Telegram account becomes the admin account, so only you can run powerful Spark commands.</li>
-          <li>After setup, this bot becomes Spark: it uses the Agent provider, memory, and Mission tools you connected.</li>
+          <li>Paste the token only into local Spark setup. Never paste it into the website.</li>
         </ul>
       </div>
     </section>
@@ -299,16 +300,13 @@
 
     <section class="doc-section">
       <h2>Always-on hosting comes after the local path.</h2>
-      <p>For Railway or Docker, Spark should run as two services: Spark Telegram Bot for Telegram chat and private relay, plus Spawner UI for Mission Control. Keep them in the same private network and share one bridge key between them.</p>
+      <p>Finish the local install before touching hosting. Railway, Docker, Spawner, private service links, and persistent volumes are advanced operations details, so they now live on the dedicated operations page instead of the beginner installer path.</p>
       <div class="doc-grid doc-grid-3">
-        <div class="doc-card"><h3>Telegram Bot</h3><p>Runs long polling, Agent chat, and the relay callback.</p><code>TELEGRAM_RELAY_HOST=::</code></div>
-        <div class="doc-card"><h3>Mission Control</h3><p>Runs Spawner UI, boards, workspaces, and mission state.</p><code>SPAWNER_STATE_DIR=/data/spawner</code></div>
-        <div class="doc-card"><h3>Bridge Key</h3><p>Lets the two services talk privately without exposing control APIs.</p><code>SPARK_BRIDGE_API_KEY</code></div>
+        <div class="doc-card"><h3>Local first</h3><p>Install, choose a provider, connect Telegram, and verify onboarding before deploying anything.</p></div>
+        <div class="doc-card"><h3>Hosted later</h3><p>Use the Railway/VPS page when you need persistent hosting, service wiring, and smoke tests.</p></div>
+        <div class="doc-card"><h3>Keep secrets local</h3><p>Beginner setup should never ask you to paste tokens or bridge keys into a website.</p></div>
       </div>
-      <pre class="docs-code">SPAWNER_UI_URL=http://spawner-ui.railway.internal:&lt;port&gt;
-SPAWNER_UI_PUBLIC_URL=https://&lt;protected-spawner-public-domain&gt;</pre>
-      <p class="doc-note">Keep internal calls on Railway private DNS, but give Telegram a protected public Spawner URL for mission board links. Each user should normally run this in their own hosting account so costs, workspaces, and secrets stay under their control.</p>
-      <p class="doc-note">For a cloud smoke test, run the bot with <code>TELEGRAM_SMOKE_MODE=1</code> and start a tiny Mission from Spawner. When you switch to real Telegram chat, replace the smoke token with the BotFather token and keep persistent volumes mounted at <code>/data</code>.</p>
+      <p class="doc-note">Each user should normally run hosted Spark in their own hosting account so costs, workspaces, and secrets stay under their control.</p>
       <p class="doc-note">Use the <a href="/docs/railway-vps/">Railway/VPS operations page</a> when you need the full hosted service map, environment checklist, and production smoke prompt.</p>
     </section>
 

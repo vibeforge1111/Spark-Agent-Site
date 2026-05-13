@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/install/install.css?v=20260429-agent-first">
+<link rel="stylesheet" href="/install/install.css?v=20260513-visual-install">
 </head>
 <body>
 
@@ -46,28 +46,132 @@
   </header>
 
   <main>
-    <section class="hero">
-      <div>
-        <span class="eyebrow">Guided first install</span>
+    <section class="hero visual-hero">
+      <div class="visual-story" aria-label="Spark setup preview">
+        <div class="story-head">
+          <span class="eyebrow">Guided first install</span>
+          <span class="story-hint">Swipe the setup path</span>
+        </div>
+
+        <div class="app-carousel" aria-label="Visual install flow">
+          <article class="app-slide">
+            <div class="phone-shell">
+              <div class="phone-top">
+                <span></span>
+                <strong>choose model</strong>
+                <em>1/4</em>
+              </div>
+              <div class="phone-screen provider-screen">
+                <p class="screen-kicker">Spark setup</p>
+                <h2>Choose how Spark thinks.</h2>
+                <div class="provider-grid" aria-hidden="true">
+                  <span>Codex</span>
+                  <span>OpenRouter</span>
+                  <span>Z.AI</span>
+                  <span>LM Studio</span>
+                </div>
+                <div class="selected-provider">
+                  <span>default</span>
+                  <strong>Agent + Mission ready</strong>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="app-slide">
+            <div class="phone-shell">
+              <div class="phone-top">
+                <span></span>
+                <strong>connect telegram</strong>
+                <em>2/4</em>
+              </div>
+              <div class="phone-screen chat-screen">
+                <div class="chat-bubble bot">Create bot with @BotFather</div>
+                <div class="chat-bubble you">Paste token locally</div>
+                <div class="chat-bubble bot">Spark Live connected</div>
+                <div class="secret-lock" aria-hidden="true">
+                  <span></span>
+                  <strong>tokens stay in your terminal</strong>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="app-slide">
+            <div class="phone-shell">
+              <div class="phone-top">
+                <span></span>
+                <strong>start building</strong>
+                <em>3/4</em>
+              </div>
+              <div class="phone-screen build-screen">
+                <p class="screen-kicker">Telegram</p>
+                <h2>Start chatting and building.</h2>
+                <div class="task-stack" aria-hidden="true">
+                  <div><span>/run say exactly OK</span><i></i></div>
+                  <div><span>mission created</span><i></i></div>
+                  <div><span>agent replied</span><i></i></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="app-slide">
+            <div class="phone-shell">
+              <div class="phone-top">
+                <span></span>
+                <strong>improve later</strong>
+                <em>4/4</em>
+              </div>
+              <div class="phone-screen evolve-screen">
+                <p class="screen-kicker">When ready</p>
+                <h2>Ask Spark to adapt to your work.</h2>
+                <div class="loop-map" aria-hidden="true">
+                  <span>workflow</span>
+                  <span>review</span>
+                  <span>promote</span>
+                </div>
+                <p class="screen-note">Spark suggests the next improvement loop.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="carousel-rail" aria-hidden="true">
+          <span class="is-active"></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div class="hero-copy">
         <h1>Install Spark. Start building.</h1>
         <p class="hero-lead">
           <span>Choose how Spark thinks, connect Telegram, then start chatting and building with your agent.</span>
           <span>Best path: let Codex, Claude Code, Cursor, or another local agent sit with you during setup.</span>
-          <span>It reads the docs, shows the plan first, and keeps secrets in your local terminal.</span>
         </p>
         <div class="hero-actions">
           <a class="primary-link" href="#commands">Copy agent prompt</a>
           <a class="secondary-link" href="/docs/install-safety/">See what it changes</a>
         </div>
+        <div class="setup-strip" aria-label="What Spark asks for">
+          <div>
+            <span>1</span>
+            <strong>Local agent terminal</strong>
+            <p>Codex, Claude Code, Cursor, or another agent harness.</p>
+          </div>
+          <div>
+            <span>2</span>
+            <strong>One model path</strong>
+            <p>Subscription, API key, local model, or hosted router.</p>
+          </div>
+          <div>
+            <span>3</span>
+            <strong>Telegram app</strong>
+            <p>Create a bot with <code>@BotFather</code>; paste the token locally.</p>
+          </div>
+        </div>
       </div>
-      <aside class="setup-card" aria-label="What Spark asks for">
-        <h2>What you need ready</h2>
-        <ul>
-          <li>Recommended: Codex, Claude Code, Cursor, or another local agent terminal</li>
-          <li>One model path: subscription, API key, OpenRouter, Z.AI, MiniMax, Hugging Face, LM Studio, or Ollama</li>
-          <li>Telegram app and access to <code>@BotFather</code></li>
-        </ul>
-      </aside>
     </section>
 
     <section class="section" id="commands">
@@ -119,38 +223,36 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code></
       </div>
     </section>
 
-    <section class="section">
-      <span class="eyebrow">Step 2</span>
-      <h2>Do the first run in this order.</h2>
-      <div class="steps">
-        <div class="step">
-          <strong>1</strong>
-          <div>
-            <h3>Choose how Spark thinks</h3>
-            <p>Use one default provider for Agent and Mission, or split them during <code>spark setup</code> if you already know what you want.</p>
-          </div>
-        </div>
-        <div class="step">
-          <strong>2</strong>
-          <div>
-            <h3>Connect Telegram</h3>
-            <p>Open Telegram, message <code>@BotFather</code>, create a bot, and paste the token only into local Spark setup. Never paste it into the website.</p>
-          </div>
-        </div>
-        <div class="step">
-          <strong>3</strong>
-          <div>
-            <h3>Start Spark Live</h3>
-            <p>Spark Live starts the background services without opening extra terminal windows. Use <code>spark live start</code> and check with <code>spark live status</code>.</p>
-          </div>
-        </div>
-        <div class="step">
-          <strong>4</strong>
-          <div>
-            <h3>Start chatting and building</h3>
-            <p>Open your Spark bot in Telegram. If Telegram asks for a start code, send <code>/start</code>. Then send a normal message, or try <code>/run say exactly OK</code>. When ready, ask Spark how it can improve for your workflows.</p>
-          </div>
-        </div>
+    <section class="section tutorial-section">
+      <span class="eyebrow">Tutorial</span>
+      <h2>The first run should feel like this.</h2>
+      <p class="section-lead">Keep it boring and local: read the plan, pick one model path, connect one Telegram bot, then start with a tiny message before you ask Spark to improve itself for your workflows.</p>
+      <div class="tutorial-grid">
+        <article>
+          <span>01</span>
+          <h3>Let your agent read the install page</h3>
+          <p>Paste the recommended prompt into Codex, Claude Code, Cursor, or another local agent. Ask it to show the dry-run plan first.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Choose how Spark thinks</h3>
+          <p>Start with one default provider for Agent and Mission. Split roles later only when you know why.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Connect Telegram safely</h3>
+          <p>Create a bot with <code>@BotFather</code>. Paste the token only into local Spark setup; never into this website.</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>Start chatting and building</h3>
+          <p>Send <code>/start</code> if Telegram asks, then a normal message, then <code>/run say exactly OK</code>.</p>
+        </article>
+        <article>
+          <span>05</span>
+          <h3>Improve when ready</h3>
+          <p>Once Spark is useful, ask it how it can self-improve for your specific workflows. Your agent will guide that path.</p>
+        </article>
       </div>
     </section>
 
