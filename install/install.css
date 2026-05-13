@@ -186,7 +186,7 @@ pre {
   text-transform: uppercase;
 }
 
-.app-carousel {
+.setup-carousel {
   display: flex;
   gap: clamp(12px, 1.8vw, 18px);
   overflow-x: auto;
@@ -196,7 +196,7 @@ pre {
   padding: 2px 2px 12px;
 }
 
-.app-carousel::-webkit-scrollbar {
+.setup-carousel::-webkit-scrollbar {
   display: none;
 }
 
@@ -216,30 +216,32 @@ pre {
 .carousel-rail .is-active {
   width: 42px;
   background: var(--accent);
+  animation: railPulse 2.8s ease-in-out infinite;
 }
 
-.app-slide {
+.setup-slide {
   flex: 0 0 clamp(230px, 22vw, 270px);
   scroll-snap-align: center;
 }
 
-.phone-shell {
+.setup-panel {
   min-height: 420px;
-  aspect-ratio: 9 / 15.5;
+  aspect-ratio: 9 / 15.2;
   display: grid;
   grid-template-rows: auto 1fr;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 32px;
+  border-radius: 8px;
   background: #080a10;
   box-shadow:
-    inset 0 0 0 6px rgba(255, 255, 255, 0.035),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.035),
     0 18px 44px rgba(0, 0, 0, 0.36);
+  transform: translateY(0);
 }
 
-.phone-top {
+.panel-top {
   display: grid;
-  grid-template-columns: 36px 1fr 36px;
+  grid-template-columns: 54px 1fr 36px;
   align-items: center;
   min-height: 46px;
   padding: 8px 16px;
@@ -250,26 +252,24 @@ pre {
   text-transform: uppercase;
 }
 
-.phone-top span {
-  width: 28px;
-  height: 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
+.panel-top span {
+  color: var(--accent);
+  font: inherit;
 }
 
-.phone-top strong {
+.panel-top strong {
   color: var(--text-secondary);
   font: inherit;
   text-align: center;
 }
 
-.phone-top em {
+.panel-top em {
   color: var(--accent);
   font-style: normal;
   text-align: right;
 }
 
-.phone-screen {
+.panel-screen {
   display: grid;
   align-content: start;
   gap: 16px;
@@ -280,7 +280,7 @@ pre {
     #10131c;
 }
 
-.phone-screen h2 {
+.panel-screen h2 {
   color: var(--text-bright);
   font-size: 28px;
   line-height: 1.04;
@@ -300,6 +300,50 @@ pre {
     #10131c;
 }
 
+.terminal-screen {
+  background:
+    linear-gradient(180deg, rgba(184, 168, 220, 0.10), transparent 44%),
+    #10131c;
+}
+
+.terminal-lines {
+  display: grid;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.terminal-lines span {
+  position: relative;
+  display: block;
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.055);
+  padding: 12px 12px 12px 28px;
+  color: var(--text-secondary);
+  font: 700 12px var(--font-mono);
+  overflow: hidden;
+}
+
+.terminal-lines span::before {
+  content: ">";
+  position: absolute;
+  left: 12px;
+  color: var(--accent);
+}
+
+.terminal-lines span::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  right: 12px;
+  bottom: 9px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  transform-origin: left;
+}
+
 .provider-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -309,9 +353,7 @@ pre {
 .provider-grid span,
 .selected-provider,
 .chat-bubble,
-.task-stack div,
-.loop-map span,
-.screen-note {
+.task-stack div {
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.055);
@@ -382,7 +424,7 @@ pre {
 
 .build-screen {
   background:
-    linear-gradient(180deg, rgba(238, 197, 107, 0.12), transparent 42%),
+    linear-gradient(180deg, rgba(184, 168, 220, 0.13), transparent 42%),
     #10131c;
 }
 
@@ -411,48 +453,51 @@ pre {
   background: linear-gradient(90deg, var(--accent), rgba(47, 202, 148, 0.18));
 }
 
-.evolve-screen {
-  background:
-    linear-gradient(180deg, rgba(95, 174, 255, 0.12), transparent 42%),
-    #10131c;
-}
-
-.loop-map {
-  display: grid;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-.loop-map span {
-  position: relative;
-  display: block;
-  padding: 13px 14px;
-  color: var(--text-bright);
-  font-weight: 800;
-  text-transform: lowercase;
-}
-
-.loop-map span::after {
-  content: "";
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  width: 32px;
-  height: 2px;
-  background: var(--accent);
-}
-
-.screen-note {
-  margin-top: 2px;
-  padding: 12px;
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.45;
-}
-
 .hero-copy {
   display: grid;
   gap: 0;
+}
+
+@keyframes railPulse {
+  0%, 100% { opacity: 1; transform: scaleX(1); }
+  50% { opacity: 0.72; transform: scaleX(0.82); }
+}
+
+@keyframes panelLift {
+  from { transform: translateY(12px); }
+  to { transform: translateY(0); }
+}
+
+@keyframes progressFill {
+  from { transform: scaleX(0.24); opacity: 0.72; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+.setup-slide {
+  animation: panelLift 560ms ease both;
+}
+
+.setup-slide:nth-child(2) { animation-delay: 80ms; }
+.setup-slide:nth-child(3) { animation-delay: 160ms; }
+.setup-slide:nth-child(4) { animation-delay: 240ms; }
+
+.terminal-lines span::after,
+.task-stack i {
+  animation: progressFill 1.8s ease both;
+}
+
+.terminal-lines span:nth-child(2)::after,
+.task-stack div:nth-child(2) i { animation-delay: 160ms; }
+.terminal-lines span:nth-child(3)::after,
+.task-stack div:nth-child(3) i { animation-delay: 320ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-rail .is-active,
+  .setup-slide,
+  .terminal-lines span::after,
+  .task-stack i {
+    animation: none;
+  }
 }
 
 .eyebrow {
@@ -775,7 +820,7 @@ pre {
 }
 
 .tutorial-grid article:nth-child(3) {
-  border-color: color-mix(in srgb, #229ed9 34%, var(--border));
+  border-color: color-mix(in srgb, var(--iris) 34%, var(--border));
 }
 
 .tutorial-grid article:nth-child(5) {
@@ -980,20 +1025,19 @@ pre {
     gap: 7px;
   }
 
-  .app-slide {
+  .setup-slide {
     flex-basis: min(78vw, 292px);
   }
 
-  .phone-shell {
+  .setup-panel {
     min-height: 392px;
-    border-radius: 28px;
   }
 
-  .phone-screen {
+  .panel-screen {
     padding: 20px 16px;
   }
 
-  .phone-screen h2 {
+  .panel-screen h2 {
     font-size: 24px;
   }
 

@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/install/install.css?v=20260513-visual-install">
+<link rel="stylesheet" href="/install/install.css?v=20260513-workspace-visual">
 </head>
 <body>
 
@@ -50,18 +50,37 @@
       <div class="visual-story" aria-label="Spark setup preview">
         <div class="story-head">
           <span class="eyebrow">Guided first install</span>
-          <span class="story-hint">Swipe the setup path</span>
+          <span class="story-hint">Scroll the workspace path</span>
         </div>
 
-        <div class="app-carousel" aria-label="Visual install flow">
-          <article class="app-slide">
-            <div class="phone-shell">
-              <div class="phone-top">
-                <span></span>
-                <strong>choose model</strong>
+        <div class="setup-carousel" aria-label="Visual install flow">
+          <article class="setup-slide">
+            <div class="setup-panel">
+              <div class="panel-top">
+                <span>terminal</span>
+                <strong>agent-guided install</strong>
                 <em>1/4</em>
               </div>
-              <div class="phone-screen provider-screen">
+              <div class="panel-screen terminal-screen">
+                <p class="screen-kicker">Dry-run first</p>
+                <h2>Let your local agent install Spark with you.</h2>
+                <div class="terminal-lines" aria-hidden="true">
+                  <span>read install docs</span>
+                  <span>show safe plan</span>
+                  <span>install after you approve</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="setup-slide">
+            <div class="setup-panel">
+              <div class="panel-top">
+                <span>models</span>
+                <strong>choose model</strong>
+                <em>2/4</em>
+              </div>
+              <div class="panel-screen provider-screen">
                 <p class="screen-kicker">Spark setup</p>
                 <h2>Choose how Spark thinks.</h2>
                 <div class="provider-grid" aria-hidden="true">
@@ -78,14 +97,14 @@
             </div>
           </article>
 
-          <article class="app-slide">
-            <div class="phone-shell">
-              <div class="phone-top">
-                <span></span>
-                <strong>connect telegram</strong>
-                <em>2/4</em>
+          <article class="setup-slide">
+            <div class="setup-panel">
+              <div class="panel-top">
+                <span>telegram</span>
+                <strong>connect chat</strong>
+                <em>3/4</em>
               </div>
-              <div class="phone-screen chat-screen">
+              <div class="panel-screen chat-screen">
                 <div class="chat-bubble bot">Create bot with @BotFather</div>
                 <div class="chat-bubble you">Paste token locally</div>
                 <div class="chat-bubble bot">Spark Live connected</div>
@@ -97,14 +116,14 @@
             </div>
           </article>
 
-          <article class="app-slide">
-            <div class="phone-shell">
-              <div class="phone-top">
-                <span></span>
+          <article class="setup-slide">
+            <div class="setup-panel">
+              <div class="panel-top">
+                <span>build</span>
                 <strong>start building</strong>
-                <em>3/4</em>
+                <em>4/4</em>
               </div>
-              <div class="phone-screen build-screen">
+              <div class="panel-screen build-screen">
                 <p class="screen-kicker">Telegram</p>
                 <h2>Start chatting and building.</h2>
                 <div class="task-stack" aria-hidden="true">
@@ -112,26 +131,6 @@
                   <div><span>mission created</span><i></i></div>
                   <div><span>agent replied</span><i></i></div>
                 </div>
-              </div>
-            </div>
-          </article>
-
-          <article class="app-slide">
-            <div class="phone-shell">
-              <div class="phone-top">
-                <span></span>
-                <strong>improve later</strong>
-                <em>4/4</em>
-              </div>
-              <div class="phone-screen evolve-screen">
-                <p class="screen-kicker">When ready</p>
-                <h2>Ask Spark to adapt to your work.</h2>
-                <div class="loop-map" aria-hidden="true">
-                  <span>workflow</span>
-                  <span>review</span>
-                  <span>promote</span>
-                </div>
-                <p class="screen-note">Spark suggests the next improvement loop.</p>
               </div>
             </div>
           </article>
