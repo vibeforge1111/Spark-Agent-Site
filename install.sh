@@ -857,11 +857,6 @@ EOF
 run_setup() {
   if [ "$SPARK_SKIP_SETUP" = "1" ]; then
     log "Skipping spark setup"
-    cat <<EOF
-
-Next:
-  $SPARK_PREFIX/bin/spark setup $SPARK_BUNDLE
-EOF
     return
   fi
 
@@ -990,6 +985,22 @@ To use \`spark\` by name in this terminal:
 For default installs, the installer also adds this line to your shell profile:
   source "$SPARK_PREFIX/env"
 
+Install log:
+  $SPARK_INSTALL_LOG
+EOF
+  if [ "$SPARK_SKIP_SETUP" = "1" ]; then
+    cat <<EOF
+
+Setup was skipped.
+Next:
+  $SPARK_PREFIX/bin/spark setup $SPARK_BUNDLE
+
+After setup succeeds:
+  $SPARK_PREFIX/bin/spark verify --onboarding
+EOF
+  else
+    cat <<EOF
+
 Operational checks:
   $SPARK_PREFIX/bin/spark live start
   $SPARK_PREFIX/bin/spark live status
@@ -1012,9 +1023,8 @@ To enable it later:
   $SPARK_PREFIX/bin/spark autostart on telegram-starter --now
 AUTOSTART_OFF
   fi)
-
-Install log:
-  $SPARK_INSTALL_LOG
+EOF
+    cat <<EOF
 
 Start chatting and building:
   1. Open your Spark bot in Telegram
@@ -1032,6 +1042,7 @@ If Mission Control, Kanban, Canvas, or preview links are not responding:
   $SPARK_PREFIX/bin/spark fix spawner
   $SPARK_PREFIX/bin/spark logs spawner-ui --lines 80
 EOF
+  fi
 }
 
 main "$@"

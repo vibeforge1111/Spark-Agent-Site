@@ -633,9 +633,6 @@ function Run-Setup {
     param([string]$CliDir)
     if ($SkipSetup) {
         Write-SparkLog "Skipping spark setup"
-        Write-Host ""
-        Write-Host "Next:"
-        Write-Host "  $Script:SparkPrefix\bin\spark.cmd setup $Bundle"
         return
     }
     if ($LocalRegistry) {
@@ -729,6 +726,19 @@ function Invoke-Install {
     Write-Host ""
     Write-Host "If `spark` is not found in this terminal yet, close and reopen the terminal."
     Write-Host ""
+    Write-Host "Install log:"
+    Write-Host "  $Script:InstallLogPath"
+    Write-Host ""
+    if ($SkipSetup) {
+        Write-Host "Setup was skipped."
+        Write-Host "Next:"
+        Write-Host "  $Script:SparkPrefix\bin\spark.cmd setup $Bundle"
+        Write-Host ""
+        Write-Host "After setup succeeds:"
+        Write-Host "  $Script:SparkPrefix\bin\spark.cmd verify --onboarding"
+        return
+    }
+    Write-Host ""
     Write-Host "Operational checks:"
     Write-Host "  spark live start"
     Write-Host "  spark live status"
@@ -747,9 +757,6 @@ function Invoke-Install {
         Write-Host "To disable it later:"
         Write-Host "  spark autostart off"
     }
-    Write-Host ""
-    Write-Host "Install log:"
-    Write-Host "  $Script:InstallLogPath"
     Write-Host ""
     Write-Host "Start chatting and building:"
     Write-Host "  1. Open your Spark bot in Telegram"
