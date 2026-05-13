@@ -9,7 +9,7 @@ This page is for agents. If you are human, this is not for you. :)
 - [Human docs](https://agent.sparkswarm.ai/docs): Plain-language overview.
 - [Install page](https://agent.sparkswarm.ai/install): Main install UI.
 - [Human install safety](https://agent.sparkswarm.ai/docs/install-safety/): Polished install safety page.
-- [Human updates](https://agent.sparkswarm.ai/docs/updates/): May 9 installer and public labs update.
+- [Human updates](https://agent.sparkswarm.ai/docs/updates/): May 13 installer and public labs update.
 - [Human commands](https://agent.sparkswarm.ai/docs/commands/): Current CLI and Telegram commands.
 - [Human providers](https://agent.sparkswarm.ai/docs/providers/): LLM provider setup.
 - [Human Railway/VPS](https://agent.sparkswarm.ai/docs/railway-vps/): Hosted Railway and VPS operations.
@@ -20,7 +20,7 @@ This page is for agents. If you are human, this is not for you. :)
 - [Human troubleshooting](https://agent.sparkswarm.ai/docs/troubleshooting/): Quiet bot, provider, memory, and Spawner fixes.
 - [Human security](https://agent.sparkswarm.ai/docs/security/): Access levels, provenance, audits, and safe support sharing.
 - [Install safety](https://agent.sparkswarm.ai/docs/install-safety.md): Safe install steps, hashes, downloads, writes, and secret rules.
-- [Spark update](https://agent.sparkswarm.ai/docs/updates.md): Public labs and May 9 installer boundary.
+- [Spark update](https://agent.sparkswarm.ai/docs/updates.md): Public labs and May 13 installer boundary.
 - [Spark commands](https://agent.sparkswarm.ai/docs/commands.md): CLI and Telegram command map.
 - [Spark providers](https://agent.sparkswarm.ai/docs/providers.md): Provider families and role setup.
 - [Spark Railway/VPS](https://agent.sparkswarm.ai/docs/railway-vps.md): Hosted service layout, env, smoke tests, and fixes.
