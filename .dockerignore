@@ -1,0 +1,10 @@
+.git
+.gitignore
+.tmp*
+.tmp-*/
+.tmp-launch-qa/
+.tmp-launch-qa-after-csp/
+docs/DNS_SECURITY_BASELINE.md
+LICENSE
+node_modules/
+npm-debug.log*
