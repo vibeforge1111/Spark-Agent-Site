@@ -3,7 +3,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 const root = process.cwd();
-const sparkCliRef = "8b7ec67ad5e35ef94a851105c629fcfc110f66a8";
+const sparkCliRef = "b5e5dba559d6945a2e211f79ee862ffe1d3c230d";
 const releaseName = "spark-cli-launch-2026-05-13-agents";
 
 function fail(message) {
@@ -80,6 +80,9 @@ const publicFiles = walk(".").filter((relPath) => {
 });
 
 const staleTokens = [
+  "8b7ec67ad5e35ef94a851105c629fcfc110f66a8",
+  "9fe6a5e58b7ab2aff55f1a960dc60f8380d9a590319673d06770d6cb4dddafa1",
+  "e2233e2720b0e5cf95820fd9ec0089ef83c48ebe335d3cd9c999cb211d915e0e",
   "fd040b0125862d1d070a1a9f926c007111a77e90",
   "042e25f06347504dd691e1c3007f5bc06f482b3bc67266b7732a77b469b43ebd",
   "83dd3cf769f318a08a22fcc0ba5fb38f112387b008e1fb6203ed084a82d28241",
