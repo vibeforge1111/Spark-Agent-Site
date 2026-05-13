@@ -95,7 +95,7 @@ public Spawner domain so Telegram can send people a mission board link they can
 open. Keep the Spawner public surface protected with its UI key.
 
 Mount persistent storage for bot state, Spawner state, and workspaces. Do not
-put provider keys, Telegram tokens, or relay secrets in Docker images.
+put provider keys, Telegram tokens, or private bridge credentials in Docker images.
 
 For staging smoke tests, set `TELEGRAM_SMOKE_MODE=1` on the bot service and run
 a tiny Mission from Spawner. That verifies the private relay without calling the

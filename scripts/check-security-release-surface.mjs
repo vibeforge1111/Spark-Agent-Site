@@ -175,10 +175,32 @@ const injectionPatterns = [
   /iwr [^\n|]+\|\s*iex/i,
 ];
 
+const confusingInstallerCopyPatterns = [
+  /TELEGRAM_RELAY_SECRET/,
+  /\btelegram relay secret\b/i,
+  /\brelay secrets?\b/i,
+  /Finish in Telegram/i,
+  /Finish onboarding in Telegram/i,
+  /Spawner execution plane/i,
+  /Review the installer plan with me/i,
+  /Telegram \+ LLM setup/i,
+  /First, create a Telegram bot/i,
+  /first, enter the required Telegram setup values/i,
+  /Open Telegram and send:/i,
+  /Open Telegram and send \/start/i,
+];
+
 for (const relPath of agentDocs) {
   const text = read(relPath);
   for (const pattern of injectionPatterns) {
     assert(!pattern.test(text), `${relPath} contains suspicious agent-doc phrase: ${pattern}`);
+  }
+}
+
+for (const relPath of publicFiles) {
+  const text = read(relPath);
+  for (const pattern of confusingInstallerCopyPatterns) {
+    assert(!pattern.test(text), `${relPath} contains confusing installer copy: ${pattern}`);
   }
 }
 

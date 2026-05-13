@@ -1020,8 +1020,9 @@ Start chatting and building:
   1. Open your Spark bot in Telegram
   2. If Telegram asks for a start code, send /start
   3. For first builds, choose Level 4 so Mission Control can inspect and build in local workspaces
-  4. Send a normal message, or try: /run say exactly OK
-  5. When you are ready, ask Spark how it can improve for your workflows
+  4. Use a lower level only when you want chat or public research without local files
+  5. Send a normal message, or try: /run say exactly OK
+  6. When you are ready, ask Spark how it can improve for your workflows
 
 If Telegram is quiet or memory is not responding:
   $SPARK_PREFIX/bin/spark fix telegram
