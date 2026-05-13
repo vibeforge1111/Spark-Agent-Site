@@ -3,8 +3,8 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 const root = process.cwd();
-const sparkCliRef = "35fbedf5ad960d54d392a76a99be7ab383348f6a";
-const releaseName = "spark-cli-launch-2026-05-13-sandbox-verified";
+const sparkCliRef = "4600c697b7d104111c043a988831d8c7e386ed19";
+const releaseName = "spark-cli-launch-2026-05-13-spawner-privacy";
 
 function fail(message) {
   console.error(`security release surface check failed: ${message}`);
