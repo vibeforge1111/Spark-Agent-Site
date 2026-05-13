@@ -3,7 +3,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 const root = process.cwd();
-const sparkCliRef = "c8b62590f9f469646246f45cb13f5636a738190c";
+const sparkCliRef = "eac0b39193dd8e0b92825b20cf7bd9bb3b08c452";
 const releaseName = "spark-cli-launch-2026-05-13-agents";
 
 function fail(message) {
@@ -107,6 +107,9 @@ const staleTokens = [
   "5053220d890afa276bba9e741570b1edec8f4c4c77842fde6e5b46795c514e33",
   "c45a69cc6aabdc30b93e3bc68048137d9c0e5b1f85fb9e3953a050b548bddfdc",
   "efd8f772c16d90ad17e230be3fc4778c54d81792833edf7bdf4964db85265512",
+  "c8b62590f9f469646246f45cb13f5636a738190c",
+  "04202414425a41435807a5feb7c9e52c18e4554919aaf6dc7a1b0b892519d485",
+  "cf6115d8702e50ae90ab275601ac7140ffd43251ca1a1b0e12cb84ab1077d07f",
 ];
 
 for (const relPath of publicFiles) {
