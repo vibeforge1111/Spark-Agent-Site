@@ -516,9 +516,9 @@ Nothing has changed yet.
 
 Spark will:
   1. Install the Spark command
-  2. Connect your Telegram bot
-  3. Help you choose an AI provider
-  4. Start Spark
+  2. Help you choose how Spark thinks
+  3. Connect your Telegram bot
+  4. Start Spark so you can chat and build
 
 Details:
   Dry-run safety:     no network and no writes in --dry-run mode
@@ -1016,13 +1016,12 @@ AUTOSTART_OFF
 Install log:
   $SPARK_INSTALL_LOG
 
-Finish in Telegram:
-  1. Open your Spark bot and send /start
-  2. For first builds, choose Level 4 so Mission Control can inspect and build in local workspaces
-  3. Use a lower level only when you want chat, memory, diagnostics, public research, or remote missions without local files
-  4. Send /diagnose
-  5. Try memory: /remember I like concise warm replies
-  6. Try a tiny build: /run say exactly OK
+Start chatting and building:
+  1. Open your Spark bot in Telegram
+  2. If Telegram asks for a start code, send /start
+  3. For first builds, choose Level 4 so Mission Control can inspect and build in local workspaces
+  4. Send a normal message, or try: /run say exactly OK
+  5. When you are ready, ask Spark how it can improve for your workflows
 
 If Telegram is quiet or memory is not responding:
   $SPARK_PREFIX/bin/spark fix telegram

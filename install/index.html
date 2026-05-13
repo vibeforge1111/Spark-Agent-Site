@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index,follow">
 <title>Install Spark</title>
-<meta name="description" content="Install Spark Agent with a guided first-run path for Telegram, LLM providers, Spark Live, memory, and missions.">
+<meta name="description" content="Install Spark Agent with a guided first-run path: choose how it thinks, connect Telegram, start chatting, and build with your agent.">
 <link rel="canonical" href="https://agent.sparkswarm.ai/install">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,11 +49,11 @@
     <section class="hero">
       <div>
         <span class="eyebrow">Guided first install</span>
-        <h1>Install Spark without guessing.</h1>
+        <h1>Install Spark. Start building.</h1>
         <p class="hero-lead">
-          <span>Strongly recommended: let Codex, Claude Code, or another local agent guide the install.</span>
-          <span>It can read the docs, explain the plan, and help with Telegram and model setup.</span>
-          <span>Manual commands are still here if you want them.</span>
+          <span>Choose how Spark thinks, connect Telegram, then start chatting and building with your agent.</span>
+          <span>Best path: let Codex, Claude Code, Cursor, or another local agent sit with you during setup.</span>
+          <span>It reads the docs, shows the plan first, and keeps secrets in your local terminal.</span>
         </p>
         <div class="hero-actions">
           <a class="primary-link" href="#commands">Copy agent prompt</a>
@@ -63,17 +63,17 @@
       <aside class="setup-card" aria-label="What Spark asks for">
         <h2>What you need ready</h2>
         <ul>
-          <li>Telegram app and access to <code>@BotFather</code></li>
           <li>Recommended: Codex, Claude Code, Cursor, or another local agent terminal</li>
           <li>One model path: subscription, API key, OpenRouter, Z.AI, MiniMax, Hugging Face, LM Studio, or Ollama</li>
+          <li>Telegram app and access to <code>@BotFather</code></li>
         </ul>
       </aside>
     </section>
 
     <section class="section" id="commands">
       <span class="eyebrow">Step 1 - recommended</span>
-      <h2>Let your local agent do the setup with you.</h2>
-      <p class="section-lead">This is the easiest route today, and the one we recommend first. Spark needs a model path anyway, and a local agent harness can read the docs, choose the right installer for your computer, explain what will happen, and help you finish setup without guessing.</p>
+      <h2>Let your local agent install Spark with you.</h2>
+      <p class="section-lead">This is the easiest route today. Your local agent can choose the right installer for your computer, explain the dry-run plan, help you pick one model provider, and then connect Telegram without guesswork.</p>
 
       <div class="command-grid">
         <article class="command-card featured agent-card">
@@ -81,8 +81,8 @@
             <span>Use this with Codex, Claude Code, Cursor, or another local agent</span>
             <strong>Recommended path. The agent reads the Spark docs and walks you through the install.</strong>
           </div>
-          <pre><code>Install Spark from https://agent.sparkswarm.ai/install. Review the installer plan with me, then finish Telegram BotFather and LLM provider setup.</code></pre>
-          <button class="copy-button" type="button" data-copy-label="Copy prompt" data-copy-value="Install Spark from https://agent.sparkswarm.ai/install. Review the installer plan with me, then finish Telegram BotFather and LLM provider setup.">Copy prompt</button>
+          <pre><code>Install Spark from https://agent.sparkswarm.ai/install. Show me the dry-run plan first, help me choose one LLM provider, then help me connect Telegram and start chatting with Spark.</code></pre>
+          <button class="copy-button" type="button" data-copy-label="Copy prompt" data-copy-value="Install Spark from https://agent.sparkswarm.ai/install. Show me the dry-run plan first, help me choose one LLM provider, then help me connect Telegram and start chatting with Spark.">Copy prompt</button>
         </article>
       </div>
 
@@ -90,7 +90,7 @@
         <div>
           <span class="eyebrow">Manual fallback</span>
           <h3>Installing without an agent is possible, but more hands-on.</h3>
-          <p>If you do not have Codex, Claude Code, Cursor, or another local agent harness yet, use the command for your operating system. Spark will still guide you, but you will do more of the setup yourself.</p>
+          <p>If you do not have Codex, Claude Code, Cursor, or another local agent harness yet, use the command for your operating system. Spark still shows the plan first and guides the setup from your terminal.</p>
         </div>
 
         <div class="manual-grid">
@@ -121,20 +121,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code></
 
     <section class="section">
       <span class="eyebrow">Step 2</span>
-      <h2>Follow the first-run questions.</h2>
+      <h2>Do the first run in this order.</h2>
       <div class="steps">
         <div class="step">
           <strong>1</strong>
           <div>
-            <h3>Create the Telegram bot</h3>
-            <p>Open Telegram, message <code>@BotFather</code>, create a bot, and paste the token only into local Spark setup. Never paste it into the website.</p>
+            <h3>Choose how Spark thinks</h3>
+            <p>Use one default provider for Agent and Mission, or split them during <code>spark setup</code> if you already know what you want.</p>
           </div>
         </div>
         <div class="step">
           <strong>2</strong>
           <div>
-            <h3>Choose one LLM provider first</h3>
-            <p>Use one default provider for Agent and Mission, or split them during <code>spark setup</code> if you already know what you want.</p>
+            <h3>Connect Telegram</h3>
+            <p>Open Telegram, message <code>@BotFather</code>, create a bot, and paste the token only into local Spark setup. Never paste it into the website.</p>
           </div>
         </div>
         <div class="step">
@@ -147,8 +147,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code></
         <div class="step">
           <strong>4</strong>
           <div>
-            <h3>Test the bot</h3>
-            <p>In Telegram, send <code>/diagnose</code>, then <code>/remember I like concise warm replies</code>, then <code>/run say exactly OK</code>.</p>
+            <h3>Start chatting and building</h3>
+            <p>Open your Spark bot in Telegram. If Telegram asks for a start code, send <code>/start</code>. Then send a normal message, or try <code>/run say exactly OK</code>. When ready, ask Spark how it can improve for your workflows.</p>
           </div>
         </div>
       </div>

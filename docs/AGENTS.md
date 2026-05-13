@@ -11,9 +11,10 @@ Keep answers short, plain, and action-focused.
 If a user asks how to install Spark:
 
 1. Send them to `https://agent.sparkswarm.ai/install`.
-2. Tell them the installer downloads first and shows a dry-run plan.
-3. Tell them not to paste Telegram tokens or LLM keys into the website.
-4. Ask before any real install, autostart change, token setup, or uninstall.
+2. Use the simple path: install Spark, choose how it thinks, connect Telegram, start chatting and building.
+3. Tell them the installer downloads first and shows a dry-run plan.
+4. Tell them not to paste Telegram tokens or LLM keys into the website.
+5. Ask before any real install, autostart change, token setup, or uninstall.
 
 ## Read Order
 
@@ -57,6 +58,9 @@ Safe installer flow:
 5. Run dry-run.
 6. Explain the plan.
 7. Ask the user before executing.
+8. Help them choose one LLM provider first unless they explicitly want advanced role splits.
+9. Help them connect Telegram through local Spark setup only.
+10. Once Spark is running, tell them to start chatting and building with the agent. `/start` is just a Telegram start step when needed.
 
 If Spark is already installed and the user wants to update it, use `--upgrade-existing` only after showing the dry-run plan.
 

@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "2dbc54cbbca5841407c4844e0aff55ff454e73c51508c2c23f5a2ec90713cce7",
-      "install.ps1": "b58607f2ec287df2a7df4dee855ad53c5de246bc74b3270a42ad017cec99ac85"
+      "install.sh": "74921048a1fb692fdf896d15d2783055be2908cf927cb56cfee27f42fb94f4da",
+      "install.ps1": "ac0ac94ee9a6bfbbc38ca56163effbce3ca347ed1b22ca101689310872715e79"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -37,7 +37,7 @@
   },
   "starterBundle": {
     "name": "telegram-starter",
-    "summary": "Researcher + character runtime + Spark Intelligence Builder runtime + default memory + Spawner execution plane + Telegram gateway",
+    "summary": "Spark agent runtime: model routing, Telegram chat, memory, Researcher, Spark Character, and Spawner/Mission Control for builds",
     "modules": [
       "spark-researcher",
       "spark-character",
@@ -47,6 +47,28 @@
       "spark-telegram-bot"
     ]
   },
+  "recommendedFlow": [
+    {
+      "step": "Install Spark",
+      "goal": "Download the installer, review the dry-run plan, then run it locally."
+    },
+    {
+      "step": "Choose how Spark thinks",
+      "goal": "Pick one LLM provider for Agent and Mission unless the user explicitly wants advanced role splits."
+    },
+    {
+      "step": "Connect Telegram",
+      "goal": "Create a BotFather bot and paste secrets only into local Spark setup."
+    },
+    {
+      "step": "Start chatting and building",
+      "goal": "Open the Spark bot in Telegram, send a normal message, then try a tiny /run build."
+    },
+    {
+      "step": "Improve it when ready",
+      "goal": "Tell the user their agent will guide memory, missions, and self-improvement for their specific workflows."
+    }
+  ],
   "installOptions": [
     {
       "id": "mac-linux-wsl",
@@ -110,7 +132,8 @@
     }
   ],
   "telegramSmokeTest": [
-    "/start",
+    "Open your Spark bot in Telegram.",
+    "If Telegram asks for a start code, send /start.",
     "/myid",
     "/access 3",
     "/diagnose",
@@ -122,8 +145,8 @@
     "Open Telegram and message @BotFather.",
     "Send /newbot and follow BotFather's prompts.",
     "Copy the token BotFather gives you.",
-    "Start your new bot and send /myid.",
-    "Use that numeric id as the admin Telegram id in spark setup."
+    "Message @userinfobot and copy your numeric Telegram id.",
+    "Use the BotFather token and numeric id only in local spark setup."
   ],
   "llmProviderExamples": [
     "spark setup --llm-provider codex --codex-model gpt-5.5",
@@ -138,7 +161,7 @@
   "telegramCommands": [
     {
       "command": "/start",
-      "use": "Show the basic command surface."
+      "use": "Open the basic command surface when Telegram asks for a start step."
     },
     {
       "command": "/myid",
