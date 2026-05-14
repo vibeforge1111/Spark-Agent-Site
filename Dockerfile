@@ -7,6 +7,9 @@ COPY app.js       /usr/share/nginx/html/app.js
 COPY avatar-3d.js /usr/share/nginx/html/avatar-3d.js
 COPY head.glb     /usr/share/nginx/html/head.glb
 COPY while-you-sleep.webp /usr/share/nginx/html/while-you-sleep.webp
+COPY og-cover.png /usr/share/nginx/html/og-cover.png
+COPY spark-logo-192.png /usr/share/nginx/html/spark-logo-192.png
+COPY spark-logo-512.png /usr/share/nginx/html/spark-logo-512.png
 COPY manifest.json /usr/share/nginx/html/manifest.json
 COPY llms.txt      /usr/share/nginx/html/llms.txt
 COPY llms-full.txt /usr/share/nginx/html/llms-full.txt
