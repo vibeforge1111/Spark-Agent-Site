@@ -25,7 +25,7 @@ They also include clean Markdown files for agents.
 
 - Install Spark from `/install`.
 - Read `/docs/install-safety/` before running installers.
-- Read `/docs/updates/` for the May 13 public labs and installer update.
+- Read `/docs/updates/` for the May 14 public labs and installer update.
 - Read `/docs/commands/` for current Spark CLI and Telegram commands.
 - Read `/docs/providers/` for LLM provider setup.
 - Read `/docs/railway-vps/` for always-on Railway or VPS operations.
@@ -70,8 +70,8 @@ The installer has checksums, a release manifest, pinned managed runtimes, immuta
 
 Current public installer state:
 
-- Release: `spark-cli-launch-2026-05-13-spawner-privacy-r3`
-- Installed Spark CLI runtime commit: `3b547630bbbf1389b291e786e259b746756144bd`
+- Release: `spark-cli-launch-2026-05-14-integrated-main-r1`
+- Installed Spark CLI runtime commit: `2a8b8765bc7b7d3233984a2b710091cc092b1756`
 - Local installer hashes match the committed release manifest.
 - Hosted installer verification passed after deploy.
 - Windows and WSL sandbox install checks are part of the release gate.

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-05-13",
+  "updated": "2026-05-14",
   "canonicalInstallPage": "https://agent.sparkswarm.ai/install",
   "scripts": {
     "unix": "https://agent.sparkswarm.ai/install.sh",
@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "77cea159e2be21d1763cf29398d6d7fadbc906e7d32c323776225f9fdea0adcd",
-      "install.ps1": "a1221a401edab36d6955f674669efc1545419fff5500d6862fcf848e116067f0"
+      "install.sh": "470de83e4ce00461c685f7f4fc6117f690321cf1efeb19412e5fd24a4c67b0f0",
+      "install.ps1": "6c19aeba936c8c70940dd3748349befb08e1eb332d8e1945842198f61d64d788"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -265,8 +265,8 @@
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "releaseName": "spark-cli-launch-2026-05-13-spawner-privacy-r3",
-    "ref": "3b547630bbbf1389b291e786e259b746756144bd",
+    "releaseName": "spark-cli-launch-2026-05-14-integrated-main-r1",
+    "ref": "2a8b8765bc7b7d3233984a2b710091cc092b1756",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"

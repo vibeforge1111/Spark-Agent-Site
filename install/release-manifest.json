@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "updated": "2026-05-13",
+  "updated": "2026-05-14",
   "installerHost": "https://agent.sparkswarm.ai",
   "sparkCli": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "releaseName": "spark-cli-launch-2026-05-13-spawner-privacy-r3",
-    "commit": "3b547630bbbf1389b291e786e259b746756144bd"
+    "releaseName": "spark-cli-launch-2026-05-14-integrated-main-r1",
+    "commit": "2a8b8765bc7b7d3233984a2b710091cc092b1756"
   },
   "runtimes": {
     "node": {
