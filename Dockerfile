@@ -7,7 +7,11 @@ COPY app.js       /usr/share/nginx/html/app.js
 COPY avatar-3d.js /usr/share/nginx/html/avatar-3d.js
 COPY head.glb     /usr/share/nginx/html/head.glb
 COPY while-you-sleep.webp /usr/share/nginx/html/while-you-sleep.webp
+COPY favicon.ico /usr/share/nginx/html/favicon.ico
 COPY favicon.svg /usr/share/nginx/html/favicon.svg
+COPY favicon-16.png /usr/share/nginx/html/favicon-16.png
+COPY favicon-32.png /usr/share/nginx/html/favicon-32.png
+COPY favicon-48.png /usr/share/nginx/html/favicon-48.png
 COPY og-cover.png /usr/share/nginx/html/og-cover.png
 COPY og-cover.jpg /usr/share/nginx/html/og-cover.jpg
 COPY spark-logo-192.png /usr/share/nginx/html/spark-logo-192.png
