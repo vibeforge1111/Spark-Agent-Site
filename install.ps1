@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "65b40a6ec1154adff71d1290e6c6e5dfdc66c327",
+    [string]$Ref = "7d953819c8c659d72ac892498ea4ddfa78e48f60",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -30,7 +30,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$SparkCliReleaseName = "spark-cli-public-installer-2026-05-15-r9"
+$SparkCliReleaseName = "spark-cli-public-installer-2026-05-15-r10"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
@@ -68,6 +68,16 @@ function Format-AutostartPlan {
         return "no; auto-disabled for -Yes/non-interactive run"
     }
     return "no"
+}
+
+function Format-InstallerRunMode {
+    if ($Yes) {
+        return "unattended (-Yes)"
+    }
+    if ([Console]::IsInputRedirected) {
+        return "unattended (non-interactive stdin)"
+    }
+    return "interactive"
 }
 
 function Resolve-FullPath {
@@ -282,6 +292,7 @@ function Show-DryRunPlan {
     Write-Host "  CLI commit:          $Ref"
     Write-Host "  Bundle:              $Bundle"
     Write-Host "  Voice included:      $voiceIncluded"
+    Write-Host "  Run mode:            $(Format-InstallerRunMode)"
     Write-Host "  Setup enabled:       $setupEnabled"
     $providerPlan = if ($LlmProvider) { "$LlmProvider for Agent and Mission" } else { "choose during spark setup" }
     Write-Host "  Default provider:    $providerPlan"

@@ -3,8 +3,8 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-05-15-r9}"
-SPARK_DEFAULT_CLI_REF="65b40a6ec1154adff71d1290e6c6e5dfdc66c327"
+SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-05-15-r10}"
+SPARK_DEFAULT_CLI_REF="7d953819c8c659d72ac892498ea4ddfa78e48f60"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -203,6 +203,16 @@ autostart_plan_label() {
     printf 'no; auto-disabled for --yes/non-interactive run'
   else
     printf 'no'
+  fi
+}
+
+installer_run_mode_label() {
+  if [ "$SPARK_ASSUME_YES" = "1" ]; then
+    printf 'unattended (--yes)'
+  elif [ ! -t 0 ]; then
+    printf 'unattended (non-TTY stdin)'
+  else
+    printf 'interactive'
   fi
 }
 
@@ -560,6 +570,7 @@ Details:
   CLI commit:          $SPARK_CLI_REF
   Bundle:              $SPARK_BUNDLE
   Voice included:      $(bundle_includes_voice && printf yes || printf no)
+  Run mode:            $(installer_run_mode_label)
   Setup enabled:       $([ "$SPARK_SKIP_SETUP" = "1" ] && printf no || printf yes)
   Default provider:    $([ -n "$SPARK_LLM_PROVIDER" ] && printf '%s for Agent and Mission' "$SPARK_LLM_PROVIDER" || printf 'choose during spark setup')
   Shell profile edit:  $([ "$SPARK_SHELL_PROFILE" = "0" ] && printf no || printf "$SPARK_SHELL_PROFILE")
