@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "bcd52881ecce3f334006eea1072384ff34d7ce08198d9fafe1ddbe6223be2444",
-      "install.ps1": "c527c7f2a6dab01c2bcbfe6862735f6a68e6acd46196adc298d67a5da35af8ef"
+      "install.sh": "a0cc6400d34b42154773d9265b6c1ba0b8aabd467e13695359b9f667c5996117",
+      "install.ps1": "1937836ef5e88ff105c8a6aea469ec4a6b1e9c9d3811a333d7ca3b41033155c9"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -264,12 +264,13 @@
     "Installer manages Python 3.11 with a pinned uv binary when a compatible local Python is not already available.",
     "Spark CLI installs from an immutable commit SHA by default.",
     "The default telegram-starter bundle does not require voice; use telegram-voice-starter when speech I/O is desired.",
-    "Unattended --yes/non-interactive installer runs default to --no-autostart unless --autostart is passed explicitly."
+    "Unattended --yes/non-interactive installer runs default to --no-autostart unless --autostart is passed explicitly.",
+    "Windows upgrades remove stale Spark-owned spark.exe shims so the new spark.cmd wrapper wins on PATH."
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "releaseName": "spark-cli-public-installer-2026-05-15-r7",
-    "ref": "45a6d10838e62d2e9905e9749c26e113c8d6bbed",
+    "releaseName": "spark-cli-public-installer-2026-05-15-r8",
+    "ref": "a4ce9680cb34f0d2275212a69eace3ad9e6c3296",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"
