@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "05abeeeeba959fd3e6b5641dac3c88e32e92d82d767cb25032a5a35c83712550",
-      "install.ps1": "1903521488c5485776ab70fac07f72cc90925a3d1591ebd5eb48ad9447a4c97d"
+      "install.sh": "bcd52881ecce3f334006eea1072384ff34d7ce08198d9fafe1ddbe6223be2444",
+      "install.ps1": "c527c7f2a6dab01c2bcbfe6862735f6a68e6acd46196adc298d67a5da35af8ef"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -45,7 +45,8 @@
       "domain-chip-memory",
       "spawner-ui",
       "spark-telegram-bot"
-    ]
+    ],
+    "voiceIncluded": false
   },
   "recommendedFlow": [
     {
@@ -74,7 +75,7 @@
       "id": "mac-linux-wsl",
       "label": "macOS, Linux, WSL",
       "shell": "bash",
-      "description": "Download the site-hosted installer, show the dry-run plan, then ask before installing. The installer auto-detects Apple Silicon, Intel Mac, Linux x64, Linux arm64, and WSL.",
+      "description": "Download the site-hosted installer, show the dry-run plan, then ask before installing. The dry-run shows the selected bundle, whether voice is included, and whether autostart will mutate login items.",
       "scriptUrl": "https://agent.sparkswarm.ai/install.sh",
       "commands": [
         "curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh",
@@ -87,7 +88,7 @@
       "id": "windows-powershell",
       "label": "Windows PowerShell",
       "shell": "powershell",
-      "description": "Download the site-hosted installer, show the dry-run plan, then ask before installing.",
+      "description": "Download the site-hosted installer, show the dry-run plan, then ask before installing. The dry-run shows the selected bundle, whether voice is included, and whether autostart will mutate login items.",
       "scriptUrl": "https://agent.sparkswarm.ai/install.ps1",
       "commands": [
         "iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1",
@@ -261,12 +262,14 @@
     "LLM provider keys and Telegram bot tokens are configured locally by the user.",
     "Installer scripts are hosted on agent.sparkswarm.ai and lock Spark CLI source overrides behind an explicit developer flag.",
     "Installer manages Python 3.11 with a pinned uv binary when a compatible local Python is not already available.",
-    "Spark CLI installs from an immutable commit SHA by default."
+    "Spark CLI installs from an immutable commit SHA by default.",
+    "The default telegram-starter bundle does not require voice; use telegram-voice-starter when speech I/O is desired.",
+    "Unattended --yes/non-interactive installer runs default to --no-autostart unless --autostart is passed explicitly."
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "releaseName": "spark-cli-public-installer-2026-05-15-r6",
-    "ref": "805f45eec7ad213424e05284bb3a83eff3dfd33b",
+    "releaseName": "spark-cli-public-installer-2026-05-15-r7",
+    "ref": "45a6d10838e62d2e9905e9749c26e113c8d6bbed",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"
@@ -274,7 +277,7 @@
   },
   "upgradeExisting": {
     "summary": "Use this only when Spark is already installed and the user wants to update the existing Spark CLI in place.",
-    "safety": "Run the dry-run first. Upgrade mode writes to the existing Spark prefix and should be approved by the user before execution.",
+    "safety": "Run the dry-run first. Upgrade mode writes to the existing Spark prefix; unattended --yes/non-interactive runs do not enable autostart unless --autostart is passed explicitly.",
     "unix": {
       "dryRun": "bash spark-install.sh --dry-run --upgrade-existing",
       "upgrade": "bash spark-install.sh --upgrade-existing"
@@ -283,5 +286,19 @@
       "dryRun": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1 -DryRun -UpgradeExisting",
       "upgrade": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\spark-install.ps1 -UpgradeExisting"
     }
+  },
+  "voiceBundle": {
+    "name": "telegram-voice-starter",
+    "summary": "Optional Telegram starter bundle with spark-voice-comms for speech I/O.",
+    "modules": [
+      "spark-researcher",
+      "spark-character",
+      "spark-intelligence-builder",
+      "domain-chip-memory",
+      "spark-voice-comms",
+      "spawner-ui",
+      "spark-telegram-bot"
+    ],
+    "enableCommand": "spark setup telegram-voice-starter --no-start-now --no-autostart"
   }
 }

@@ -21,7 +21,7 @@ Spark installs a starter kit called `telegram-starter`.
 
 This page explains what each part does.
 
-The default installer stays conservative: it installs only modules that expose Spark's installable module contract. Public labs such as `spark-domain-chip-labs`, `spark-personality-chip-labs`, and `spark-voice-comms` are available for builders, but they are not automatic starter-bundle modules yet.
+The default installer stays conservative: it installs only modules that expose Spark's installable module contract. Public labs such as `spark-domain-chip-labs` and `spark-personality-chip-labs` are available for builders, but they are not automatic starter-bundle modules yet. Voice is opt-in through `telegram-voice-starter`.
 
 ## Spark Telegram Bot
 

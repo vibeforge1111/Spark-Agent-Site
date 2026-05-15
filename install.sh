@@ -3,8 +3,8 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-05-15-r6}"
-SPARK_DEFAULT_CLI_REF="805f45eec7ad213424e05284bb3a83eff3dfd33b"
+SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-05-15-r7}"
+SPARK_DEFAULT_CLI_REF="45a6d10838e62d2e9905e9749c26e113c8d6bbed"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -14,6 +14,10 @@ SPARK_NODE_VERSION="${SPARK_NODE_VERSION:-22.18.0}"
 SPARK_PYTHON_VERSION="${SPARK_PYTHON_VERSION:-3.11}"
 SPARK_UV_VERSION="${SPARK_UV_VERSION:-0.11.7}"
 SPARK_SKIP_SETUP="${SPARK_SKIP_SETUP:-0}"
+SPARK_AUTOSTART_USER_SET=0
+if [ -n "${SPARK_AUTOSTART+x}" ]; then
+  SPARK_AUTOSTART_USER_SET=1
+fi
 SPARK_AUTOSTART="${SPARK_AUTOSTART:-1}"
 SPARK_BUNDLE="${SPARK_BUNDLE:-telegram-starter}"
 SPARK_SETUP_ARGS="${SPARK_SETUP_ARGS:-}"
@@ -156,9 +160,9 @@ while [ "$#" -gt 0 ]; do
     --skip-setup)
       SPARK_SKIP_SETUP=1; shift ;;
     --autostart)
-      SPARK_AUTOSTART=1; shift ;;
+      SPARK_AUTOSTART=1; SPARK_AUTOSTART_USER_SET=1; shift ;;
     --no-autostart)
-      SPARK_AUTOSTART=0; shift ;;
+      SPARK_AUTOSTART=0; SPARK_AUTOSTART_USER_SET=1; shift ;;
     -h|--help)
       usage; exit 0 ;;
     *)
@@ -167,6 +171,12 @@ while [ "$#" -gt 0 ]; do
       exit 2 ;;
   esac
 done
+
+SPARK_AUTOSTART_AUTO_DISABLED=0
+if [ "$SPARK_AUTOSTART_USER_SET" = "0" ] && { [ "$SPARK_ASSUME_YES" = "1" ] || [ ! -t 0 ]; }; then
+  SPARK_AUTOSTART=0
+  SPARK_AUTOSTART_AUTO_DISABLED=1
+fi
 
 need_cmd() {
   if ! command -v "$1" >/dev/null 2>&1; then
@@ -177,6 +187,23 @@ need_cmd() {
 
 log() {
   printf '[spark-install] %s\n' "$*"
+}
+
+bundle_includes_voice() {
+  case "$SPARK_BUNDLE" in
+    telegram-voice-starter|*voice*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+autostart_plan_label() {
+  if [ "$SPARK_AUTOSTART" = "1" ]; then
+    printf 'yes; will mutate login items'
+  elif [ "$SPARK_AUTOSTART_AUTO_DISABLED" = "1" ]; then
+    printf 'no; auto-disabled for --yes/non-interactive run'
+  else
+    printf 'no'
+  fi
 }
 
 cleanup_secret_files() {
@@ -532,10 +559,11 @@ Details:
   CLI release:         $SPARK_CLI_RELEASE_NAME
   CLI commit:          $SPARK_CLI_REF
   Bundle:              $SPARK_BUNDLE
+  Voice included:      $(bundle_includes_voice && printf yes || printf no)
   Setup enabled:       $([ "$SPARK_SKIP_SETUP" = "1" ] && printf no || printf yes)
   Default provider:    $([ -n "$SPARK_LLM_PROVIDER" ] && printf '%s for Agent and Mission' "$SPARK_LLM_PROVIDER" || printf 'choose during spark setup')
   Shell profile edit:  $([ "$SPARK_SHELL_PROFILE" = "0" ] && printf no || printf "$SPARK_SHELL_PROFILE")
-  Autostart:           $([ "$SPARK_AUTOSTART" = "1" ] && printf yes || printf no)
+  Autostart:           $(autostart_plan_label)
   Existing mode:       $SPARK_EXISTING_MODE
   Existing install:    $(has_existing_install && printf detected || printf none)
   Install log:         $SPARK_PREFIX/logs/install.log

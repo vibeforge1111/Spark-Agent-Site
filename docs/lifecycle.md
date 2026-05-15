@@ -103,7 +103,7 @@ This usually means Spark can receive Telegram messages, but the LLM role or memo
 
 ## Autostart
 
-Autostart is on by default.
+Interactive installs offer autostart by default. Unattended `--yes` or non-interactive installer runs use no-autostart unless `--autostart` is passed explicitly.
 
 Check it:
 
