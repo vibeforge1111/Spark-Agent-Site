@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "7d953819c8c659d72ac892498ea4ddfa78e48f60",
+    [string]$Ref = "3178fea234c82e35b9aca33bbc3844069862bb3d",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -30,7 +30,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$SparkCliReleaseName = "spark-cli-public-installer-2026-05-15-r10"
+$SparkCliReleaseName = "spark-cli-public-installer-2026-05-15-r11"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
@@ -53,6 +53,9 @@ function Apply-InstallDefaults {
     if (-not $Script:AutostartWasProvided -and ($Yes -or [Console]::IsInputRedirected)) {
         $script:NoAutostart = $true
         $Script:AutostartAutoDisabled = $true
+    }
+    if ($Yes -or [Console]::IsInputRedirected) {
+        $script:NonInteractiveSetup = $true
     }
 }
 
