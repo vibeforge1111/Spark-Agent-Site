@@ -3,8 +3,8 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 const root = process.cwd();
-const sparkCliRef = "2a8b8765bc7b7d3233984a2b710091cc092b1756";
-const releaseName = "spark-cli-launch-2026-05-14-integrated-main-r1";
+const sparkCliRef = "2abbd1de2ce93d4ac86fbc16606a26c6ad2e57b4";
+const releaseName = "spark-cli-public-installer-2026-05-15-r5";
 
 function fail(message) {
   console.error(`security release surface check failed: ${message}`);
@@ -80,6 +80,10 @@ const publicFiles = walk(".").filter((relPath) => {
 });
 
 const staleTokens = [
+  "2a8b8765bc7b7d3233984a2b710091cc092b1756",
+  "spark-cli-launch-2026-05-14-integrated-main-r1",
+  "470de83e4ce00461c685f7f4fc6117f690321cf1efeb19412e5fd24a4c67b0f0",
+  "6c19aeba936c8c70940dd3748349befb08e1eb332d8e1945842198f61d64d788",
   "8b7ec67ad5e35ef94a851105c629fcfc110f66a8",
   "9fe6a5e58b7ab2aff55f1a960dc60f8380d9a590319673d06770d6cb4dddafa1",
   "e2233e2720b0e5cf95820fd9ec0089ef83c48ebe335d3cd9c999cb211d915e0e",
