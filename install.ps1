@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "45a6d10838e62d2e9905e9749c26e113c8d6bbed",
+    [string]$Ref = "a4ce9680cb34f0d2275212a69eace3ad9e6c3296",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -30,7 +30,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$SparkCliReleaseName = "spark-cli-public-installer-2026-05-15-r7"
+$SparkCliReleaseName = "spark-cli-public-installer-2026-05-15-r8"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
@@ -603,6 +603,11 @@ function Write-Wrapper {
     $binDir = Join-Path $Script:SparkPrefix "bin"
     New-Item -ItemType Directory -Force -Path $binDir | Out-Null
     $wrapper = Join-Path $binDir "spark.cmd"
+    $legacyExe = Join-Path $binDir "spark.exe"
+    if (Test-Path -LiteralPath $legacyExe) {
+        Remove-Item -LiteralPath $legacyExe -Force
+        Write-SparkLog "Removed stale Spark executable shim $legacyExe"
+    }
     $pythonExe = Join-Path $VenvDir "Scripts\python.exe"
     $contents = @"
 @echo off
