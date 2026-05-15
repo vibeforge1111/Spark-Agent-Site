@@ -89,7 +89,7 @@ If a token appears in chat, logs, screenshots, GitHub issues, or commits, tell t
 - Domain Chip: specialist logic for one domain.
 - Benchmark: fixed score that keeps improvement honest.
 - Recursive Loop: bounded run, score, record, remember, suggest.
-- Autostart: starts Spark after login.
+- Autostart: starts Spark after login when enabled; unattended installer runs leave it off unless explicitly requested.
 
 ## Self-Improvement Rule
 
@@ -129,7 +129,7 @@ Spark Swarm network submission and hosted workspace review are upcoming private 
 
 ## Current Installer Pins
 
-- Spark CLI commit: `805f45eec7ad213424e05284bb3a83eff3dfd33b`
+- Spark CLI commit: `45a6d10838e62d2e9905e9749c26e113c8d6bbed`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
