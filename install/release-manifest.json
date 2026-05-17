@@ -4,8 +4,8 @@
   "installerHost": "https://agent.sparkswarm.ai",
   "sparkCli": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "releaseName": "spark-cli-public-installer-2026-05-17-r12",
-    "commit": "de7622cfce0798e6552c0d05b44bbec4eaa45cc8"
+    "releaseName": "spark-cli-public-installer-2026-05-17-r13",
+    "commit": "264baaaf0cbb3e1790b20c425b391d2919505a21"
   },
   "runtimes": {
     "node": {
