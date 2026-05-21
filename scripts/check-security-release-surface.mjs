@@ -62,7 +62,13 @@ for (const relPath of ["install.sh", "install.ps1"]) {
 
 const checksumsJson = JSON.parse(read("install/checksums.json"));
 const commandsJson = JSON.parse(read("install/commands.json"));
-const manifest = JSON.parse(read("install/release-manifest.json"));
+let manifest;
+try {
+  manifest = JSON.parse(read("install/release-manifest.json"));
+} catch (e) {
+  fail("Failed to parse install/release-manifest.json: " + e.message);
+  process.exit(1);
+}
 const jsonHashes = Object.fromEntries(checksumsJson.files.map((entry) => [entry.path, entry.sha256]));
 
 assert(JSON.stringify(jsonHashes) === JSON.stringify(expected), "checksums.json must match checksums.txt");
