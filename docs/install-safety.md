@@ -62,6 +62,7 @@ Windows existing install preview:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun -UpgradeExisting
 ```
 
+Use this only if spark update is unavailable or broken.
 Use upgrade mode only after reading the dry-run. It updates the existing Spark CLI inside the same Spark folder.
 
 ## Safe Coding Assistant Procedure
