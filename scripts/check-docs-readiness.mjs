@@ -39,7 +39,7 @@ const pages = [
   { path: "docs/troubleshooting/index.html", name: "Troubleshooting", required: ["spark fix telegram", "spark fix spawner", "spark doctor llm"] },
   { path: "docs/security/index.html", name: "Security", required: ["spark security audit", "spark support bundle", "access"] },
   { path: "docs/suites/index.html", name: "Modules", required: ["telegram-starter", "Domain Chip Memory", "Spawner UI"] },
-  { path: "docs/feedback/index.html", name: "Feedback", required: ["Choose the repo first", "Spark-Agent-Site", "spark-cli", "spark-researcher", "Agent-readable"] },
+  { path: "docs/feedback/index.html", name: "Feedback", required: ["Choose the repo first", "Spark-Agent-Site", "spark-cli", "spark-researcher", "spark-domain-chip-labs", "Agent-readable"] },
   { path: "docs/self-improvement/index.html", name: "Self-improvement", required: ["domain chip", "Spark Researcher", "benchmark", "OTOLO", "Flowchart 1", "Flowchart 2", "Flowchart 3"] },
 ];
 
@@ -62,6 +62,7 @@ for (const page of pages) {
   assert(!/\bretard\b/i.test(text), `${page.name} contains user-hostile wording`);
   assert(!/\bblack box\b/i.test(text), `${page.name} should avoid black-box framing`);
   assert(!/\bLocalhost note\b/i.test(text), `${page.name} should not show the old localhost note`);
+  assert(!/\bspark-skill-graphs\b/i.test(text), `${page.name} should not route feedback to retired spark-skill-graphs repo`);
 }
 
 const overview = read("docs/index.html");
