@@ -90,7 +90,7 @@ Options:
 
 Environment mirrors these flags:
   SPARK_PREFIX, SPARK_CLI_SOURCE, SPARK_CLI_REF, SPARK_NODE_VERSION,
-  SPARK_PYTHON_VERSION, SPARK_UV_VERSION, SPARK_BUNDLE, SPARK_SETUP_ARGS, SPARK_LOCAL_REGISTRY, SPARK_SKIP_SETUP,
+  SPARK_PYTHON_VERSION, SPARK_UV_VERSION, SPARK_BUNDLE, SPARK_SETUP_ARGS (newline-delimited), SPARK_LOCAL_REGISTRY, SPARK_SKIP_SETUP,
   SPARK_AUTOSTART, SPARK_ALLOW_DEV_SOURCE, SPARK_MANAGED_NODE,
   SPARK_BOT_TOKEN, SPARK_ADMIN_TELEGRAM_IDS, SPARK_LLM_PROVIDER,
   SPARK_ZAI_API_KEY, SPARK_OPENAI_API_KEY, SPARK_ANTHROPIC_API_KEY,
@@ -209,6 +209,33 @@ while [ "$#" -gt 0 ]; do
       exit 2 ;;
   esac
 done
+
+spark_setup_args_from_env=()
+load_spark_setup_args_from_env() {
+  spark_setup_args_from_env=()
+  if [ -z "$SPARK_SETUP_ARGS" ]; then
+    return
+  fi
+
+  local glob_was_disabled=0
+  case "$-" in
+    *f*) glob_was_disabled=1 ;;
+    *) set -f ;;
+  esac
+
+  if type readarray >/dev/null 2>&1; then
+    readarray -t spark_setup_args_from_env < <(printf '%s' "$SPARK_SETUP_ARGS")
+  else
+    local setup_arg_line
+    while IFS= read -r setup_arg_line || [ -n "$setup_arg_line" ]; do
+      spark_setup_args_from_env+=("$setup_arg_line")
+    done < <(printf '%s' "$SPARK_SETUP_ARGS")
+  fi
+
+  if [ "$glob_was_disabled" = "0" ]; then
+    set +f
+  fi
+}
 
 SPARK_AUTOSTART_AUTO_DISABLED=0
 if [ "$SPARK_AUTOSTART_USER_SET" = "0" ] && { [ "$SPARK_ASSUME_YES" = "1" ] || [ ! -t 0 ]; }; then
@@ -706,10 +733,9 @@ EOF
     if [ -n "$SPARK_MINIMAX_API_KEY" ]; then
       preview_setup_cmd+=("--minimax-api-key" "<redacted>")
     fi
-    if [ -n "$SPARK_SETUP_ARGS" ]; then
-      # shellcheck disable=SC2206
-      local setup_words=($SPARK_SETUP_ARGS)
-      preview_setup_cmd+=("${setup_words[@]}")
+    load_spark_setup_args_from_env
+    if [ "${#spark_setup_args_from_env[@]}" -gt 0 ]; then
+      preview_setup_cmd+=("${spark_setup_args_from_env[@]}")
     fi
     if [ "${#extra_setup_args[@]}" -gt 0 ]; then
       preview_setup_cmd+=("${extra_setup_args[@]}")
@@ -1068,10 +1094,9 @@ run_setup() {
     spark_secret_ref "$SPARK_MINIMAX_API_KEY"
     spark_setup_cmd+=("--minimax-api-key" "$spark_secret_ref_value")
   fi
-  if [ -n "$SPARK_SETUP_ARGS" ]; then
-    # shellcheck disable=SC2206
-    local setup_words=($SPARK_SETUP_ARGS)
-    spark_setup_cmd+=("${setup_words[@]}")
+  load_spark_setup_args_from_env
+  if [ "${#spark_setup_args_from_env[@]}" -gt 0 ]; then
+    spark_setup_cmd+=("${spark_setup_args_from_env[@]}")
   fi
   if [ "${#extra_setup_args[@]}" -gt 0 ]; then
     spark_setup_cmd+=("${extra_setup_args[@]}")
