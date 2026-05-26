@@ -70,6 +70,9 @@ Options:
   --openai-api-key KEY      OpenAI API key passed to setup
   --anthropic-api-key KEY   Anthropic API key passed to setup
   --minimax-api-key KEY     MiniMax API key passed to setup
+  --kimi-api-key KEY        Kimi / Moonshot API key passed to setup
+  --openrouter-api-key KEY  OpenRouter API key passed to setup
+  --huggingface-api-key KEY Hugging Face API key passed to setup
   --non-interactive-setup   Pass --non-interactive to setup
   --setup-skip-install-commands
                             Pass --skip-install-commands to setup
@@ -135,6 +138,12 @@ while [ "$#" -gt 0 ]; do
       SPARK_ANTHROPIC_API_KEY="$2"; shift 2 ;;
     --minimax-api-key)
       SPARK_MINIMAX_API_KEY="$2"; shift 2 ;;
+    --kimi-api-key)
+      SPARK_KIMI_API_KEY="$2"; shift 2 ;;
+    --openrouter-api-key)
+      SPARK_OPENROUTER_API_KEY="$2"; shift 2 ;;
+    --huggingface-api-key)
+      SPARK_HUGGINGFACE_API_KEY="$2"; shift 2 ;;
     --non-interactive-setup)
       SPARK_NON_INTERACTIVE_SETUP=1; shift ;;
     --setup-skip-install-commands)
