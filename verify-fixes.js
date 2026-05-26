@@ -1,8 +1,8 @@
-// verify-fixes.js
+﻿// verify-fixes.js
 // Automated test suite for Spark Compete frontend evolution patches
 
 console.log("====================================================");
-console.log("⚡ SPARK EVOLUTION SYSTEM - CODE PATCΗ VERIFICATION");
+console.log("? SPARK EVOLUTION SYSTEM - CODE PATC? VERIFICATION");
 console.log("====================================================\n");
 
 // Mock window and global dependencies
@@ -30,12 +30,51 @@ function clean(value) {
 // --------------------------------------------------
 // EVOLUTION 1: GitHub URL Parsing Validator
 // --------------------------------------------------
+const RESERVED_GITHUB_NAMES = new Set([
+  "about",
+  "pricing",
+  "features",
+  "trending",
+  "explore",
+  "contact",
+  "support",
+  "admin",
+  "billing",
+  "blog",
+  "help",
+  "jobs",
+  "security",
+  "settings",
+  "status",
+  "enterprise",
+  "organizations",
+  "orgs",
+  "site",
+  "search",
+  "pulls",
+  "issues",
+  "marketplace",
+  "notifications",
+  "stars",
+  "watching",
+  "sponsors",
+  "topics",
+  "collections",
+  "events",
+  "nonprofit",
+  "customer-stories",
+  "readme"
+]);
+
 function isGitHubIdentity(value) {
   const raw = clean(value);
   if (!raw) return false;
 
   const username = raw.startsWith("@") ? raw.slice(1) : raw;
-  if (/^[a-z\d](?:[a-z\d-]{0,37}[a-z\d])?$/i.test(username)) return true;
+  if (/^[a-z\d](?:[a-z\d-]{0,37}[a-z\d])?$/i.test(username)) {
+    if (RESERVED_GITHUB_NAMES.has(username.toLowerCase())) return false;
+    return true;
+  }
 
   try {
     let urlString = raw;
@@ -56,7 +95,7 @@ function isGitHubIdentity(value) {
 }
 
 // Test Suite: GitHub Validator
-console.log("🔍 Testing: GitHub URL Validator Evolution...");
+console.log("?? Testing: GitHub URL Validator Evolution...");
 const gitHubTestCases = [
   { input: "@alice", expected: true },
   { input: "alice-bob", expected: true },
@@ -69,13 +108,18 @@ const gitHubTestCases = [
   { input: "https://github.com/alice?tab=repositories", expected: true },
   { input: "http://google.com/alice", expected: false },
   { input: "github.com/alice/repo/blob/main/readme.md", expected: false },
-  { input: "invalid_url_with_@_symbol", expected: false }
+  { input: "invalid_url_with_@_symbol", expected: false },
+  { input: "pricing", expected: false },
+  { input: "@features", expected: false },
+  { input: "https://github.com/explore", expected: false },
+  { input: "www.github.com/trending", expected: false },
+  { input: "github.com/about", expected: false }
 ];
 
 let githubPassed = 0;
 gitHubTestCases.forEach((tc, idx) => {
   const actual = isGitHubIdentity(tc.input);
-  const status = actual === tc.expected ? "✅ PASS" : "❌ FAIL";
+  const status = actual === tc.expected ? "? PASS" : "? FAIL";
   if (actual === tc.expected) githubPassed++;
   console.log(`  [Case #${idx + 1}] Input: "${tc.input}" -> Expected: ${tc.expected}, Actual: ${actual} | ${status}`);
 });
@@ -100,7 +144,7 @@ function fromApiTeam(team, index) {
   };
 }
 
-console.log("🔍 Testing: API Robustness Null/Corrupt Guard...");
+console.log("?? Testing: API Robustness Null/Corrupt Guard...");
 const apiTestCases = [
   { input: null, index: 0, expectedTeam: "Registered team", expectedPoints: 0 },
   { input: undefined, index: 1, expectedTeam: "Registered team", expectedPoints: 0 },
@@ -113,11 +157,11 @@ apiTestCases.forEach((tc, idx) => {
   try {
     const result = fromApiTeam(tc.input, tc.index);
     const match = result.team === tc.expectedTeam && result.points === tc.expectedPoints && result.rank === tc.index + 1;
-    const status = match ? "✅ PASS" : "❌ FAIL";
+    const status = match ? "? PASS" : "? FAIL";
     if (match) apiPassed++;
     console.log(`  [Case #${idx + 1}] Input: ${JSON.stringify(tc.input)} -> Output: ${JSON.stringify(result)} | ${status}`);
   } catch (err) {
-    console.log(`  [Case #${idx + 1}] Input: ${JSON.stringify(tc.input)} -> ❌ CRASHED: ${err.message}`);
+    console.log(`  [Case #${idx + 1}] Input: ${JSON.stringify(tc.input)} -> ? CRASHED: ${err.message}`);
   }
 });
 console.log(`\n  API robustness tests completed: ${apiPassed}/${apiTestCases.length} passed.\n`);
@@ -144,7 +188,7 @@ function loadLeaderboardRowsMock(locationProtocol) {
   return combined.map((team, index) => ({ ...team, rank: index + 1 }));
 }
 
-console.log("🔍 Testing: Leaderboard Standings Merging & Sorting...");
+console.log("?? Testing: Leaderboard Standings Merging & Sorting...");
 
 // Setup mock local teams
 const mockRegisteredTeams = [
@@ -173,14 +217,15 @@ try {
   const sortingMatch = JSON.stringify(expectedPointsOrder) === JSON.stringify(actualPointsOrder);
   
   if (sortingMatch && rows.length === 5) {
-    console.log("\n  ✅ PASS: Leaderboard merging, sorting, and ranks recalculation works flawlessly.");
+    console.log("\n  ? PASS: Leaderboard merging, sorting, and ranks recalculation works flawlessly.");
   } else {
-    console.log("\n  ❌ FAIL: Sorting order or total length mismatch.");
+    console.log("\n  ? FAIL: Sorting order or total length mismatch.");
   }
 } catch (err) {
-  console.log(`  ❌ CRASHED: ${err.message}`);
+  console.log(`  ? CRASHED: ${err.message}`);
 }
 
 console.log("\n====================================================");
-console.log("⚡ SPARK EVOLUTION SYSTEM - VERIFICATION SUITE DONE");
+console.log("? SPARK EVOLUTION SYSTEM - VERIFICATION SUITE DONE");
 console.log("====================================================");
+

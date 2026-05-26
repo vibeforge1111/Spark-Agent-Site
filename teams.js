@@ -107,12 +107,51 @@ function validatePayload(payload) {
   return "";
 }
 
+const RESERVED_GITHUB_NAMES = new Set([
+  "about",
+  "pricing",
+  "features",
+  "trending",
+  "explore",
+  "contact",
+  "support",
+  "admin",
+  "billing",
+  "blog",
+  "help",
+  "jobs",
+  "security",
+  "settings",
+  "status",
+  "enterprise",
+  "organizations",
+  "orgs",
+  "site",
+  "search",
+  "pulls",
+  "issues",
+  "marketplace",
+  "notifications",
+  "stars",
+  "watching",
+  "sponsors",
+  "topics",
+  "collections",
+  "events",
+  "nonprofit",
+  "customer-stories",
+  "readme"
+]);
+
 function isGitHubIdentity(value) {
   const raw = clean(value);
   if (!raw) return false;
 
   const username = raw.startsWith("@") ? raw.slice(1) : raw;
-  if (/^[a-z\d](?:[a-z\d-]{0,37}[a-z\d])?$/i.test(username)) return true;
+  if (/^[a-z\d](?:[a-z\d-]{0,37}[a-z\d])?$/i.test(username)) {
+    if (RESERVED_GITHUB_NAMES.has(username.toLowerCase())) return false;
+    return true;
+  }
 
   try {
     let urlString = raw;
@@ -505,3 +544,4 @@ function startCanvas() {
   resize();
   draw();
 }
+
