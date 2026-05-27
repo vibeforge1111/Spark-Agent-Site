@@ -63,6 +63,9 @@ for (const page of pages) {
   assert(!/\bblack box\b/i.test(text), `${page.name} should avoid black-box framing`);
   assert(!/\bLocalhost note\b/i.test(text), `${page.name} should not show the old localhost note`);
   assert(!/\bspark-skill-graphs\b/i.test(text), `${page.name} should not route feedback to retired spark-skill-graphs repo`);
+  if (page.name === "Feedback") {
+    assert(!/\bdomain-chip-memory\b/i.test(text), `${page.name} should route memory-chip feedback through spark-domain-chip-labs`);
+  }
 }
 
 const overview = read("docs/index.html");

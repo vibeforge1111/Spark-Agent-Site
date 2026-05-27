@@ -25,7 +25,7 @@ If you are not sure, start with `Spark-Agent-Site`.
 | CLI, installer, setup, dry-run, providers, autostart | `https://github.com/vibeforge1111/spark-cli` |
 | Researcher, evidence packets, OTOLO/autoloops, chip authoring | `https://github.com/vibeforge1111/spark-researcher` |
 | Runtime routing, Agent/Mission providers, memory bridge | `https://github.com/vibeforge1111/spark-intelligence-builder` |
-| Memory chip, memory packets, memory benchmarks | `https://github.com/vibeforge1111/domain-chip-memory` |
+| Memory chip, memory packets, memory benchmarks | `https://github.com/vibeforge1111/spark-domain-chip-labs` |
 | Telegram commands and bot behavior | `https://github.com/vibeforge1111/spark-telegram-bot` |
 | Mission Control, Spawner UI, Kanban, Canvas | `https://github.com/vibeforge1111/vibeship-spawner-ui` |
 | Spark role, voice, permission behavior | `https://github.com/vibeforge1111/spark-character` |
