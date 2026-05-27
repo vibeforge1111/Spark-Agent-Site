@@ -29,7 +29,7 @@ If you are not sure, start with `Spark-Agent-Site`.
 | Telegram commands and bot behavior | `https://github.com/vibeforge1111/spark-telegram-bot` |
 | Mission Control, Spawner UI, Kanban, Canvas | `https://github.com/vibeforge1111/vibeship-spawner-ui` |
 | Spark role, voice, permission behavior | `https://github.com/vibeforge1111/spark-character` |
-| Domain chips and skill graphs | `https://github.com/vibeforge1111/spark-skill-graphs` |
+| Domain chips, chip quality, methodology, and specialization paths | `https://github.com/vibeforge1111/spark-domain-chip-labs` |
 
 ## Good Issue Shape
 
