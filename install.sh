@@ -31,6 +31,9 @@ SPARK_ZAI_API_KEY="${SPARK_ZAI_API_KEY:-}"
 SPARK_OPENAI_API_KEY="${SPARK_OPENAI_API_KEY:-}"
 SPARK_ANTHROPIC_API_KEY="${SPARK_ANTHROPIC_API_KEY:-}"
 SPARK_MINIMAX_API_KEY="${SPARK_MINIMAX_API_KEY:-}"
+SPARK_KIMI_API_KEY="${SPARK_KIMI_API_KEY:-}"
+SPARK_OPENROUTER_API_KEY="${SPARK_OPENROUTER_API_KEY:-}"
+SPARK_HUGGINGFACE_API_KEY="${SPARK_HUGGINGFACE_API_KEY:-}"
 SPARK_NON_INTERACTIVE_SETUP="${SPARK_NON_INTERACTIVE_SETUP:-0}"
 SPARK_SETUP_SKIP_INSTALL_COMMANDS="${SPARK_SETUP_SKIP_INSTALL_COMMANDS:-0}"
 SPARK_SETUP_SKIP_RUNTIME_CHECK="${SPARK_SETUP_SKIP_RUNTIME_CHECK:-0}"
@@ -73,6 +76,10 @@ Options:
   --kimi-api-key KEY        Kimi / Moonshot API key passed to setup
   --openrouter-api-key KEY  OpenRouter API key passed to setup
   --huggingface-api-key KEY Hugging Face API key passed to setup
+                            (For any --*-api-key: prefer exporting the matching
+                             SPARK_*_API_KEY env var instead of passing the key on
+                             the command line, which is visible in process listings
+                             and shell history.)
   --non-interactive-setup   Pass --non-interactive to setup
   --setup-skip-install-commands
                             Pass --skip-install-commands to setup
@@ -97,7 +104,8 @@ Environment mirrors these flags:
   SPARK_AUTOSTART, SPARK_ALLOW_DEV_SOURCE, SPARK_MANAGED_NODE,
   SPARK_BOT_TOKEN, SPARK_ADMIN_TELEGRAM_IDS, SPARK_LLM_PROVIDER,
   SPARK_ZAI_API_KEY, SPARK_OPENAI_API_KEY, SPARK_ANTHROPIC_API_KEY,
-  SPARK_MINIMAX_API_KEY,
+  SPARK_MINIMAX_API_KEY, SPARK_KIMI_API_KEY, SPARK_OPENROUTER_API_KEY,
+  SPARK_HUGGINGFACE_API_KEY,
   SPARK_NON_INTERACTIVE_SETUP, SPARK_SETUP_SKIP_INSTALL_COMMANDS,
   SPARK_SETUP_SKIP_RUNTIME_CHECK, SPARK_SHELL_PROFILE,
   SPARK_NODE_PLATFORM, SPARK_DRY_RUN, SPARK_PREFLIGHT_ONLY,
