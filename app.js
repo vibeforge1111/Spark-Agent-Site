@@ -387,7 +387,7 @@
     if (!stage) return;
     const rect = stage.getBoundingClientRect();
     cables.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
-    cables.innerHTML = '';
+    cables.replaceChildren();
     for (const [a, b] of connections) {
       const ea = nodeEl(a), eb = nodeEl(b);
       if (!ea || !eb) continue;
