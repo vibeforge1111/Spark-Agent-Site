@@ -3,8 +3,8 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-05-29-r16}"
-SPARK_DEFAULT_CLI_REF="f2ae90330b07db135cafb913e37c20c4bd960831"
+SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-05-29-r17}"
+SPARK_DEFAULT_CLI_REF="c4b9a909402ff1a14d810529b5625802a4d47f28"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -103,37 +103,73 @@ EOF
 }
 
 extra_setup_args=()
+
+require_option_value() {
+  local option="$1"
+  if [ "$#" -lt 2 ] || [ -z "${2:-}" ]; then
+    echo "Missing value for $option." >&2
+    usage >&2
+    exit 2
+  fi
+}
+
+require_non_option_value() {
+  local option="$1"
+  require_option_value "$@"
+  case "$2" in
+    --*)
+      echo "Missing value for $option." >&2
+      usage >&2
+      exit 2
+      ;;
+  esac
+}
+
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --prefix)
+      require_non_option_value "$@"
       SPARK_PREFIX="$2"; shift 2 ;;
     --source)
+      require_non_option_value "$@"
       SPARK_CLI_SOURCE="$2"; shift 2 ;;
     --ref)
+      require_non_option_value "$@"
       SPARK_CLI_REF="$2"; SPARK_CLI_REF_USER_SET=1; shift 2 ;;
     --node-version)
+      require_non_option_value "$@"
       SPARK_NODE_VERSION="$2"; shift 2 ;;
     --python-version)
+      require_non_option_value "$@"
       SPARK_PYTHON_VERSION="$2"; shift 2 ;;
     --uv-version)
+      require_non_option_value "$@"
       SPARK_UV_VERSION="$2"; shift 2 ;;
     --managed-node)
       SPARK_MANAGED_NODE=1; shift ;;
     --bundle)
+      require_non_option_value "$@"
       SPARK_BUNDLE="$2"; shift 2 ;;
     --bot-token)
+      require_non_option_value "$@"
       SPARK_BOT_TOKEN="$2"; shift 2 ;;
     --admin-telegram-ids)
+      require_non_option_value "$@"
       SPARK_ADMIN_TELEGRAM_IDS="$2"; shift 2 ;;
     --llm-provider)
+      require_non_option_value "$@"
       SPARK_LLM_PROVIDER="$2"; shift 2 ;;
     --zai-api-key)
+      require_non_option_value "$@"
       SPARK_ZAI_API_KEY="$2"; shift 2 ;;
     --openai-api-key)
+      require_non_option_value "$@"
       SPARK_OPENAI_API_KEY="$2"; shift 2 ;;
     --anthropic-api-key)
+      require_non_option_value "$@"
       SPARK_ANTHROPIC_API_KEY="$2"; shift 2 ;;
     --minimax-api-key)
+      require_non_option_value "$@"
       SPARK_MINIMAX_API_KEY="$2"; shift 2 ;;
     --non-interactive-setup)
       SPARK_NON_INTERACTIVE_SETUP=1; shift ;;
@@ -142,6 +178,7 @@ while [ "$#" -gt 0 ]; do
     --setup-skip-runtime-check)
       SPARK_SETUP_SKIP_RUNTIME_CHECK=1; shift ;;
     --setup-arg)
+      require_option_value "$@"
       extra_setup_args+=("$2"); shift 2 ;;
     --dry-run)
       SPARK_DRY_RUN=1; shift ;;
@@ -152,6 +189,7 @@ while [ "$#" -gt 0 ]; do
     --no-shell-profile)
       SPARK_SHELL_PROFILE=0; shift ;;
     --local-registry)
+      require_non_option_value "$@"
       SPARK_LOCAL_REGISTRY="$2"; shift 2 ;;
     --allow-dev-source)
       SPARK_ALLOW_DEV_SOURCE=1; shift ;;
@@ -821,8 +859,9 @@ install_cli_venv() {
   "$SPARK_PYTHON_BIN" -m venv "$venv_dir"
   log "Upgrading pip in Spark CLI virtualenv"
   "$venv_dir/bin/python" -m pip install --upgrade pip >/dev/null
-  log "Installing Spark CLI package"
-  "$venv_dir/bin/python" -m pip install -e "$cli_dir"
+  log "Installing Spark CLI package with browser-use support"
+  "$venv_dir/bin/python" -m pip install -e "$cli_dir[browser-use]"
+  "$venv_dir/bin/browser-use" install >/dev/null || true
 }
 
 write_wrapper() {
@@ -843,6 +882,44 @@ export PATH="$SPARK_PREFIX/bin:$SPARK_NODE_BIN_DIR:\$PATH"
 EOF
   log "Wrote wrapper $wrapper"
   log "Wrote shell env helper $env_file"
+}
+
+verify_install_layout() {
+  local wrapper="$SPARK_PREFIX/bin/spark"
+  local env_file="$SPARK_PREFIX/env"
+  local cli_dir="$SPARK_PREFIX/tools/spark-cli"
+  local python_bin="$SPARK_PREFIX/tools/spark-cli-venv/bin/python"
+
+  log "Verifying install layout"
+  if [ ! -d "$SPARK_PREFIX" ]; then
+    echo "Install prefix does not exist after install: $SPARK_PREFIX" >&2
+    exit 1
+  fi
+  if [ ! -d "$cli_dir" ]; then
+    echo "Spark CLI checkout is missing after install: $cli_dir" >&2
+    exit 1
+  fi
+  if [ ! -x "$python_bin" ]; then
+    echo "Spark CLI Python runtime is missing or not executable: $python_bin" >&2
+    exit 1
+  fi
+  if [ ! -x "$wrapper" ]; then
+    echo "Spark wrapper is missing or not executable: $wrapper" >&2
+    exit 1
+  fi
+  if [ ! -f "$env_file" ]; then
+    echo "Spark shell env helper is missing after install: $env_file" >&2
+    exit 1
+  fi
+  if ! grep -F "SPARK_HOME=\"$SPARK_PREFIX\"" "$wrapper" >/dev/null 2>&1; then
+    echo "Spark wrapper does not reference the resolved install prefix: $SPARK_PREFIX" >&2
+    exit 1
+  fi
+  if ! grep -F "$python_bin" "$wrapper" >/dev/null 2>&1; then
+    echo "Spark wrapper does not reference the installed Python runtime: $python_bin" >&2
+    exit 1
+  fi
+  log "Install layout verified"
 }
 
 write_shell_profile_hook() {
@@ -969,7 +1046,20 @@ run_setup() {
   fi
   log "Running spark setup $SPARK_BUNDLE"
   local setup_exit=0
+  local previous_setup_optional="${SPARK_SETUP_OPTIONAL_ON_UPGRADE-}"
+  local had_setup_optional=0
+  if [ "${SPARK_SETUP_OPTIONAL_ON_UPGRADE+x}" = "x" ]; then
+    had_setup_optional=1
+  fi
+  if [ "$SPARK_EXISTING_MODE" = "upgrade" ]; then
+    export SPARK_SETUP_OPTIONAL_ON_UPGRADE=1
+  fi
   "${spark_setup_cmd[@]}" || setup_exit=$?
+  if [ "$had_setup_optional" = "1" ]; then
+    export SPARK_SETUP_OPTIONAL_ON_UPGRADE="$previous_setup_optional"
+  else
+    unset SPARK_SETUP_OPTIONAL_ON_UPGRADE
+  fi
   cleanup_secret_files
   return "$setup_exit"
 }
@@ -979,6 +1069,44 @@ run_autostart() {
     return
   fi
   log "Spark startup was handled by setup"
+}
+
+setup_refresh_paused() {
+  [ -f "$SPARK_PREFIX/state/setup.pending.json" ] &&
+    grep -F '"event": "setup_refresh_paused"' "$SPARK_PREFIX/state/setup.pending.json" >/dev/null 2>&1
+}
+
+print_install_outcome() {
+  local setup_line runtime_line telegram_line
+  if [ "$SPARK_SKIP_SETUP" = "1" ]; then
+    setup_line="[SKIP] Setup: skipped by request"
+    runtime_line="[MANUAL] Runtime: start after setup"
+    telegram_line="[VERIFY] Telegram: run spark verify --onboarding after setup"
+  elif setup_refresh_paused; then
+    setup_line="[PAUSED] Setup refresh: secrets need a secure backend before Spark rewrites them"
+    runtime_line="[OK] Existing runtime: can keep running with the current setup"
+    telegram_line="[VERIFY] Telegram: run spark verify --onboarding"
+  elif [ -f "$SPARK_PREFIX/state/setup.pending.json" ]; then
+    setup_line="[PAUSED] Setup: run spark doctor"
+    runtime_line="[MANUAL] Runtime: resume setup before changing secrets"
+    telegram_line="[VERIFY] Telegram: run spark verify --onboarding after setup resumes"
+  else
+    setup_line="[OK] Setup: configured"
+    if [ "$SPARK_AUTOSTART" = "1" ]; then
+      runtime_line="[STARTED] Runtime: setup handled start/autostart"
+    else
+      runtime_line="[MANUAL] Runtime: start after setup"
+    fi
+    telegram_line="[VERIFY] Telegram: run spark verify --onboarding"
+  fi
+  cat <<EOF
+
+Install outcome:
+  [OK] CLI upgrade: complete
+  $setup_line
+  $runtime_line
+  $telegram_line
+EOF
 }
 
 main() {
@@ -1010,6 +1138,7 @@ main() {
   checkout_cli
   install_cli_venv
   write_wrapper
+  verify_install_layout
   write_shell_profile_hook
   run_setup
   run_autostart
@@ -1030,6 +1159,7 @@ For default installs, the installer also adds this line to your shell profile:
 Install log:
   $SPARK_INSTALL_LOG
 EOF
+  print_install_outcome
   if [ "$SPARK_SKIP_SETUP" = "1" ]; then
     cat <<EOF
 
