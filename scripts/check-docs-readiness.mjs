@@ -39,6 +39,7 @@ const pages = [
   { path: "docs/troubleshooting/index.html", name: "Troubleshooting", required: ["spark fix telegram", "spark fix spawner", "spark doctor llm"] },
   { path: "docs/security/index.html", name: "Security", required: ["spark security audit", "spark support bundle", "access"] },
   { path: "docs/suites/index.html", name: "Modules", required: ["telegram-starter", "Domain Chip Memory", "Spawner UI"] },
+  { path: "docs/updates/index.html", name: "Updates", required: ["May 29 r21 Update", "spark-cli-public-installer-2026-05-29-r21"] },
   { path: "docs/feedback/index.html", name: "Feedback", required: ["Choose the repo first", "Spark-Agent-Site", "spark-cli", "spark-researcher", "spark-domain-chip-labs", "Agent-readable"] },
   { path: "docs/self-improvement/index.html", name: "Self-improvement", required: ["domain chip", "Spark Researcher", "benchmark", "OTOLO", "Flowchart 1", "Flowchart 2", "Flowchart 3"] },
 ];
@@ -47,7 +48,7 @@ for (const page of pages) {
   const html = read(page.path);
   assert(html.includes("docs-nav-links"), `${page.name} is missing left docs navigation`);
   assert(html.includes("docs-feedback-banner"), `${page.name} is missing docs feedback banner`);
-  if (page.name === "Feedback" || page.name === "Self-improvement") {
+  if (["Feedback", "Self-improvement", "Updates"].includes(page.name)) {
     assert(html.includes("/docs/feedback/") || html.includes(feedbackTemplate), `${page.name} should route readers to feedback paths`);
   } else {
     assert(html.includes(feedbackTemplate), `${page.name} feedback banner does not point to the issue form`);
@@ -66,6 +67,12 @@ for (const page of pages) {
 }
 
 const overview = read("docs/index.html");
+assert(overview.includes("Read The May 29 r21 Update"), "overview update CTA should match the current r21 update");
+
+const agentUpdatesText = read("docs/llms.txt");
+assert(agentUpdatesText.includes("May 29 r21 installer and public labs update"), "llms.txt should point agents at the current r21 human update");
+assert(!agentUpdatesText.includes("May 14 installer"), "llms.txt should not describe the current update as May 14");
+
 const installJourney = [
   "/docs/installer-guide/",
   "/docs/install-safety/",
