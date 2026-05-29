@@ -3,8 +3,8 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-05-29-r19}"
-SPARK_DEFAULT_CLI_REF="d36d8e73b5f345b58c1000f851e33b1b6ee61fe0"
+SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-05-29-r20}"
+SPARK_DEFAULT_CLI_REF="bb188d440707ff0a9f866f782760929a69872ed2"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -893,7 +893,7 @@ install_cli_venv() {
   log "Installing Spark CLI package with browser-use support"
   "$venv_dir/bin/python" -m pip install -e "$cli_dir[browser-use]"
   log "Installing browser-use Chromium dependency"
-  PATH="$venv_dir/bin:$uv_dir:$PATH" "$venv_dir/bin/browser-use" install >/dev/null
+  PYTHONIOENCODING=utf-8 PYTHONUTF8=1 PATH="$venv_dir/bin:$uv_dir:$PATH" "$venv_dir/bin/browser-use" install >/dev/null
 }
 
 write_wrapper() {

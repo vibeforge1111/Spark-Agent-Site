@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "d36d8e73b5f345b58c1000f851e33b1b6ee61fe0",
+    [string]$Ref = "bb188d440707ff0a9f866f782760929a69872ed2",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -30,7 +30,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$SparkCliReleaseName = "spark-cli-public-installer-2026-05-29-r19"
+$SparkCliReleaseName = "spark-cli-public-installer-2026-05-29-r20"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
@@ -634,15 +634,24 @@ function Install-CliVenv {
     & $Script:PythonExe -m venv $venvDir
     Write-SparkLog "Upgrading pip in Spark CLI virtualenv"
     & (Join-Path $venvDir "Scripts\python.exe") -m pip install --upgrade pip | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "Failed to upgrade pip in Spark CLI virtualenv." }
     Write-SparkLog "Installing Spark CLI package with browser-use support"
     & (Join-Path $venvDir "Scripts\python.exe") -m pip install -e "$CliDir[browser-use]" | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "Failed to install Spark CLI package with browser-use support." }
     Write-SparkLog "Installing browser-use Chromium dependency"
     $oldPath = $env:PATH
+    $oldPythonIoEncoding = $env:PYTHONIOENCODING
+    $oldPythonUtf8 = $env:PYTHONUTF8
     try {
         $env:PATH = "$(Join-Path $venvDir "Scripts");$uvDir;$env:PATH"
+        $env:PYTHONIOENCODING = "utf-8"
+        $env:PYTHONUTF8 = "1"
         & (Join-Path $venvDir "Scripts\browser-use.exe") install | Out-Null
+        if ($LASTEXITCODE -ne 0) { throw "Failed to install browser-use Chromium dependency." }
     } finally {
         $env:PATH = $oldPath
+        $env:PYTHONIOENCODING = $oldPythonIoEncoding
+        $env:PYTHONUTF8 = $oldPythonUtf8
     }
     return $venvDir
 }
