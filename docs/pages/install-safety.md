@@ -50,8 +50,8 @@ Only then run the real install.
 ## Current Hashes
 
 ```text
-0b3cff3c51d21027deb3b3289850cc94ce0ea05bc24b67242b29b302d3091511  install.sh
-02dc3d134069f76361649f40a2dc1a60e419ee29730ff3ed57bdf2487ef0d1d2  install.ps1
+e879a0efcfc0703d9ea872158256cd5796130917b4bf96b0ec966a417850d5d6  install.sh
+25d10d099fe1474ed413a79234d2d8d074d431f69d85e68a01a45c0a6d2266e7  install.ps1
 ```
 
 ## Safe Human Procedure

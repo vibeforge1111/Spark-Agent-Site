@@ -3,8 +3,8 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-05-29-r18}"
-SPARK_DEFAULT_CLI_REF="4c1610c2b8ed1b0c87781129f223c08f30f16c36"
+SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-05-29-r19}"
+SPARK_DEFAULT_CLI_REF="d36d8e73b5f345b58c1000f851e33b1b6ee61fe0"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -326,16 +326,25 @@ find_system_python() {
 
 find_uv() {
   if command -v uv >/dev/null 2>&1; then
-    SPARK_UV_BIN="$(command -v uv)"
-    return 0
+    local uv_candidate uv_dir
+    uv_candidate="$(command -v uv)"
+    uv_dir="$(dirname "$uv_candidate")"
+    if [ -x "$uv_dir/uvx" ] || command -v uvx >/dev/null 2>&1; then
+      SPARK_UV_BIN="$uv_candidate"
+      return 0
+    fi
   fi
   if [ -x "$HOME/.local/bin/uv" ]; then
-    SPARK_UV_BIN="$HOME/.local/bin/uv"
-    return 0
+    if [ -x "$HOME/.local/bin/uvx" ] || command -v uvx >/dev/null 2>&1; then
+      SPARK_UV_BIN="$HOME/.local/bin/uv"
+      return 0
+    fi
   fi
   if [ -x "$HOME/.cargo/bin/uv" ]; then
-    SPARK_UV_BIN="$HOME/.cargo/bin/uv"
-    return 0
+    if [ -x "$HOME/.cargo/bin/uvx" ] || command -v uvx >/dev/null 2>&1; then
+      SPARK_UV_BIN="$HOME/.cargo/bin/uv"
+      return 0
+    fi
   fi
   return 1
 }
@@ -386,10 +395,14 @@ install_uv() {
   archive="$tools_dir/$asset"
   extract_dir="$tools_dir/uv-extract-$SPARK_UV_VERSION-$uv_platform"
   uv_bin="$uv_dir/uv"
-  if [ -x "$uv_bin" ]; then
+  if [ -x "$uv_bin" ] && [ -x "$uv_dir/uvx" ]; then
     SPARK_UV_BIN="$uv_bin"
     log "Using managed uv at $SPARK_UV_BIN"
     return
+  fi
+  if [ -x "$uv_bin" ]; then
+    log "Refreshing managed uv because uvx is missing"
+    rm -f "$uv_bin" "$uv_dir/uvx"
   fi
   mkdir -p "$tools_dir" "$uv_dir"
   log "Downloading pinned uv $SPARK_UV_VERSION for $uv_platform"
@@ -422,6 +435,21 @@ install_uv() {
   rm -rf "$extract_dir"
   SPARK_UV_BIN="$uv_bin"
   log "Using managed uv at $SPARK_UV_BIN"
+}
+
+ensure_uvx_for_browser_use() {
+  install_uv
+  local uv_dir uvx_bin
+  uv_dir="$(dirname "$SPARK_UV_BIN")"
+  uvx_bin="$uv_dir/uvx"
+  if [ -x "$uvx_bin" ]; then
+    return
+  fi
+  if PATH="$uv_dir:$PATH" command -v uvx >/dev/null 2>&1; then
+    return
+  fi
+  echo "Pinned uv install did not provide uvx, which browser-use needs to install Chromium." >&2
+  exit 1
 }
 
 ensure_python_runtime() {
@@ -855,13 +883,17 @@ checkout_cli() {
 install_cli_venv() {
   local cli_dir="$SPARK_PREFIX/tools/spark-cli"
   local venv_dir="$SPARK_PREFIX/tools/spark-cli-venv"
+  ensure_uvx_for_browser_use
+  local uv_dir
+  uv_dir="$(dirname "$SPARK_UV_BIN")"
   log "Creating Spark CLI virtualenv"
   "$SPARK_PYTHON_BIN" -m venv "$venv_dir"
   log "Upgrading pip in Spark CLI virtualenv"
   "$venv_dir/bin/python" -m pip install --upgrade pip >/dev/null
   log "Installing Spark CLI package with browser-use support"
   "$venv_dir/bin/python" -m pip install -e "$cli_dir[browser-use]"
-  "$venv_dir/bin/browser-use" install >/dev/null || true
+  log "Installing browser-use Chromium dependency"
+  PATH="$venv_dir/bin:$uv_dir:$PATH" "$venv_dir/bin/browser-use" install >/dev/null
 }
 
 write_wrapper() {

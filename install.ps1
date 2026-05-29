@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "4c1610c2b8ed1b0c87781129f223c08f30f16c36",
+    [string]$Ref = "d36d8e73b5f345b58c1000f851e33b1b6ee61fe0",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -30,7 +30,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$SparkCliReleaseName = "spark-cli-public-installer-2026-05-29-r18"
+$SparkCliReleaseName = "spark-cli-public-installer-2026-05-29-r19"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
@@ -119,16 +119,22 @@ function Find-SystemPython {
 function Find-Uv {
     $cmd = Get-Command uv -ErrorAction SilentlyContinue
     if ($cmd) {
-        $Script:UvExe = $cmd.Source
-        return $true
+        $uvDir = Split-Path -Parent $cmd.Source
+        if ((Test-Path -LiteralPath (Join-Path $uvDir "uvx.exe")) -or (Get-Command uvx -ErrorAction SilentlyContinue)) {
+            $Script:UvExe = $cmd.Source
+            return $true
+        }
     }
     foreach ($candidate in @(
         (Join-Path $HOME ".local\bin\uv.exe"),
         (Join-Path $HOME ".cargo\bin\uv.exe")
     )) {
         if (Test-Path -LiteralPath $candidate) {
-            $Script:UvExe = $candidate
-            return $true
+            $uvDir = Split-Path -Parent $candidate
+            if ((Test-Path -LiteralPath (Join-Path $uvDir "uvx.exe")) -or (Get-Command uvx -ErrorAction SilentlyContinue)) {
+                $Script:UvExe = $candidate
+                return $true
+            }
         }
     }
     return $false
@@ -167,10 +173,16 @@ function Install-Uv {
     $archive = Join-Path $toolsDir $asset
     $extractDir = Join-Path $toolsDir "uv-extract-$UvVersion-$uvPlatform"
     $uvExe = Join-Path $uvDir "uv.exe"
-    if (Test-Path -LiteralPath $uvExe) {
+    $uvxExe = Join-Path $uvDir "uvx.exe"
+    if ((Test-Path -LiteralPath $uvExe) -and (Test-Path -LiteralPath $uvxExe)) {
         $Script:UvExe = $uvExe
         Write-SparkLog "Using managed uv at $Script:UvExe"
         return
+    }
+    if (Test-Path -LiteralPath $uvExe) {
+        Write-SparkLog "Refreshing managed uv because uvx.exe is missing"
+        Remove-Item -LiteralPath $uvExe -Force
+        Remove-Item -LiteralPath $uvxExe -Force -ErrorAction SilentlyContinue
     }
     New-Item -ItemType Directory -Force -Path $toolsDir, $uvDir | Out-Null
     Write-SparkLog "Downloading pinned uv $UvVersion for $uvPlatform"
@@ -196,6 +208,20 @@ function Install-Uv {
     Remove-Item -LiteralPath $extractDir -Recurse -Force
     $Script:UvExe = $uvExe
     Write-SparkLog "Using managed uv at $Script:UvExe"
+}
+
+function Ensure-UvxForBrowserUse {
+    Install-Uv
+    $uvDir = Split-Path -Parent $Script:UvExe
+    $uvxExe = Join-Path $uvDir "uvx.exe"
+    if (Test-Path -LiteralPath $uvxExe) {
+        return $uvDir
+    }
+    $uvxOnPath = Get-Command uvx -ErrorAction SilentlyContinue
+    if ($uvxOnPath) {
+        return (Split-Path -Parent $uvxOnPath.Source)
+    }
+    throw "Pinned uv install did not provide uvx.exe, which browser-use needs to install Chromium."
 }
 
 function Ensure-PythonRuntime {
@@ -603,13 +629,21 @@ function Checkout-Cli {
 function Install-CliVenv {
     param([string]$CliDir)
     $venvDir = Join-Path $Script:SparkPrefix "tools\spark-cli-venv"
+    $uvDir = Ensure-UvxForBrowserUse
     Write-SparkLog "Creating Spark CLI virtualenv"
     & $Script:PythonExe -m venv $venvDir
     Write-SparkLog "Upgrading pip in Spark CLI virtualenv"
     & (Join-Path $venvDir "Scripts\python.exe") -m pip install --upgrade pip | Out-Null
     Write-SparkLog "Installing Spark CLI package with browser-use support"
     & (Join-Path $venvDir "Scripts\python.exe") -m pip install -e "$CliDir[browser-use]" | Out-Null
-    & (Join-Path $venvDir "Scripts\browser-use.exe") install | Out-Null
+    Write-SparkLog "Installing browser-use Chromium dependency"
+    $oldPath = $env:PATH
+    try {
+        $env:PATH = "$(Join-Path $venvDir "Scripts");$uvDir;$env:PATH"
+        & (Join-Path $venvDir "Scripts\browser-use.exe") install | Out-Null
+    } finally {
+        $env:PATH = $oldPath
+    }
     return $venvDir
 }
 
