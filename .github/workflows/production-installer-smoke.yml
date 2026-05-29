@@ -64,8 +64,11 @@ jobs:
               raise SystemExit("production checksums.json does not match checksums.txt")
           if command_hashes != expected:
               raise SystemExit("production commands.json does not match checksums.txt")
-          if commands["source"]["ref"] != manifest["sparkCli"]["commit"]:
+          manifest_ref = manifest["sparkCli"].get("ref", manifest["sparkCli"]["commit"])
+          if commands["source"]["ref"] != manifest_ref:
               raise SystemExit("production source ref does not match release manifest")
+          if commands["source"].get("commit") and commands["source"]["commit"] != manifest["sparkCli"]["commit"]:
+              raise SystemExit("production source commit does not match release manifest")
           if not all(len(value) == 64 for value in manifest["runtimes"]["uv"]["assets"].values()):
               raise SystemExit("production uv asset hashes must be sha256 digests")
           if manifest["networkAllowlist"] != [

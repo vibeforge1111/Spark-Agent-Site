@@ -68,8 +68,11 @@ jobs:
               sys.exit("checksums.json does not match checksums.txt")
           if command_hashes != expected:
               sys.exit("commands.json checksums do not match checksums.txt")
-          if commands["source"]["ref"] != manifest["sparkCli"]["commit"]:
+          manifest_ref = manifest["sparkCli"].get("ref", manifest["sparkCli"]["commit"])
+          if commands["source"]["ref"] != manifest_ref:
               sys.exit("commands.json source ref does not match release manifest")
+          if commands["source"].get("commit") and commands["source"]["commit"] != manifest["sparkCli"]["commit"]:
+              sys.exit("commands.json source commit does not match release manifest")
           if not all(len(value) == 64 for value in manifest["runtimes"]["uv"]["assets"].values()):
               sys.exit("release manifest uv asset hashes must be sha256 digests")
 
@@ -89,7 +92,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          spark_ref="$(python3 -c 'import json; print(json.load(open("install/release-manifest.json"))["sparkCli"]["commit"])')"
+          spark_ref="$(python3 -c 'import json; s=json.load(open("install/release-manifest.json"))["sparkCli"]; print(s.get("ref", s["commit"]))')"
           grep -q "SPARK_ALLOW_DEV_SOURCE" install.sh
           grep -q "AllowDevSource" install.ps1
           grep -q "Refusing non-canonical Spark CLI source" install.sh
