@@ -3,8 +3,9 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 const root = process.cwd();
-const sparkCliRef = "bb188d440707ff0a9f866f782760929a69872ed2";
-const releaseName = "spark-cli-public-installer-2026-05-29-r20";
+const sparkCliRef = "spark-cli-public-installer-2026-05-29-r21";
+const sparkCliCommit = "b07d72d5a0e510b8dddc7dffad3c9073af4031fd";
+const releaseName = "spark-cli-public-installer-2026-05-29-r21";
 
 function fail(message) {
   console.error(`security release surface check failed: ${message}`);
@@ -67,9 +68,11 @@ const jsonHashes = Object.fromEntries(checksumsJson.files.map((entry) => [entry.
 
 assert(JSON.stringify(jsonHashes) === JSON.stringify(expected), "checksums.json must match checksums.txt");
 assert(JSON.stringify(commandsJson.checksums.sha256) === JSON.stringify(expected), "commands.json hashes must match checksums.txt");
-assert(manifest.sparkCli.commit === sparkCliRef, "release manifest must use current Spark CLI commit");
+assert(manifest.sparkCli.ref === sparkCliRef, "release manifest must use current Spark CLI release ref");
+assert(manifest.sparkCli.commit === sparkCliCommit, "release manifest must use current Spark CLI commit");
 assert(manifest.sparkCli.releaseName === releaseName, "release manifest must use current Spark CLI release name");
-assert(commandsJson.source.ref === sparkCliRef, "commands.json source ref must match current Spark CLI commit");
+assert(commandsJson.source.ref === sparkCliRef, "commands.json source ref must match current Spark CLI release ref");
+assert(commandsJson.source.commit === sparkCliCommit, "commands.json source commit must match current Spark CLI commit");
 assert(commandsJson.source.releaseName === releaseName, "commands.json source release must match current Spark CLI release name");
 
 const publicExtensions = new Set([".html", ".md", ".json", ".txt"]);
@@ -80,6 +83,10 @@ const publicFiles = walk(".").filter((relPath) => {
 });
 
 const staleTokens = [
+  "spark-cli-public-installer-2026-05-29-r20",
+  "bb188d440707ff0a9f866f782760929a69872ed2",
+  "33659e85e6ac370acc5a4ae8b57eb1555140364df97bba310a6511a9c835d8f0",
+  "5cd18867b1411f2674af6620e85e205f3a69c243360a7a43a69b9c7791fe7d18",
   "spark-cli-public-installer-2026-05-29-r19",
   "d36d8e73b5f345b58c1000f851e33b1b6ee61fe0",
   "e879a0efcfc0703d9ea872158256cd5796130917b4bf96b0ec966a417850d5d6",

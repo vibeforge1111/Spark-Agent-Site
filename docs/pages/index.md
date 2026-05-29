@@ -66,12 +66,12 @@ Domain chips teach Spark how to improve one specialist area without bloating the
 
 ## Current status
 
-The installer has checksums, a release manifest, pinned managed runtimes, immutable Spark CLI source, GitHub Artifact Attestations, Sigstore keyless release signatures, multi-OS dry-run CI, and disposable real-install CI.
+The installer has checksums, a release manifest, pinned managed runtimes, a Spark CLI public release tag, GitHub Artifact Attestations, Sigstore keyless release signatures, multi-OS dry-run CI, and disposable real-install CI.
 
 Current public installer state:
 
-- Release: `spark-cli-public-installer-2026-05-29-r20`
-- Installed Spark CLI runtime commit: `bb188d440707ff0a9f866f782760929a69872ed2`
+- Release: `spark-cli-public-installer-2026-05-29-r21`
+- Installed Spark CLI runtime commit: `b07d72d5a0e510b8dddc7dffad3c9073af4031fd`
 - Local installer hashes match the committed release manifest.
 - Hosted installer verification passed after deploy.
 - Windows and WSL sandbox install checks are part of the release gate.
