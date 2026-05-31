@@ -44,7 +44,7 @@
   let veinPaths = [];   // {points, particles}
 
   const resize = () => {
-    dpr = Math.min(devicePixelRatio || 1, 2);
+    dpr = isTouch ? 1 : Math.min(devicePixelRatio || 1, 2);
     const rect = canvas.getBoundingClientRect();
     W = rect.width; H = rect.height;
     canvas.width  = W * dpr;
@@ -64,7 +64,7 @@
 
   const seedNodes = () => {
     nodes = [];
-    const step = 11;
+    const step = isTouch ? 18 : 11;
     const jitter = step * 0.35;
     for (let x = 0; x < W; x += step) {
       for (let y = 0; y < H; y += step) {
@@ -170,11 +170,21 @@
   let swayX = 0, swayY = 0;
   let scaleSway = 1;
 
-  const loop = () => {
-    if (!reduced) requestAnimationFrame(loop);
-    t += 0.012;
+  let lastFrame = 0;
 
-    // sway + breathing
+const loop = () => {
+  requestAnimationFrame(loop);
+
+  const now = performance.now();
+
+  if (isTouch && now - lastFrame < 33) {
+    return;
+  }
+
+  lastFrame = now;
+  t += 0.012;
+
+      // sway + breathing
     const targetRX = mx * 0.06;
     const targetRY = my * 0.03;
     swayX += (targetRX - swayX) * 0.06;
