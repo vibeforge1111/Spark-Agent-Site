@@ -990,8 +990,9 @@
      THEME TOGGLE
      ══════════════════════════════════════════════════════════════ */
   const themeBtn = $('#theme-toggle');
+  const ALLOWED_THEMES = new Set(['light', 'dark']);
   const saved = localStorage.getItem('spark-theme');
-  if (saved) document.documentElement.dataset.theme = saved;
+  if (saved && ALLOWED_THEMES.has(saved)) document.documentElement.dataset.theme = saved;
   themeBtn?.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
     document.documentElement.dataset.theme = next;
