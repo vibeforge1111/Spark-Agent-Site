@@ -61,9 +61,22 @@ for (const relPath of ["install.sh", "install.ps1"]) {
   assert(expected[relPath] === sha256(relPath), `${relPath} checksum does not match install/checksums.txt`);
 }
 
-const checksumsJson = JSON.parse(read("install/checksums.json"));
-const commandsJson = JSON.parse(read("install/commands.json"));
-const manifest = JSON.parse(read("install/release-manifest.json"));
+let checksumsJson, commandsJson, manifest;
+try {
+  checksumsJson = JSON.parse(read("install/checksums.json"));
+} catch (err) {
+  fail(`cannot parse install/checksums.json: ${err.message}`);
+}
+try {
+  commandsJson = JSON.parse(read("install/commands.json"));
+} catch (err) {
+  fail(`cannot parse install/commands.json: ${err.message}`);
+}
+try {
+  manifest = JSON.parse(read("install/release-manifest.json"));
+} catch (err) {
+  fail(`cannot parse install/release-manifest.json: ${err.message}`);
+}
 const jsonHashes = Object.fromEntries(checksumsJson.files.map((entry) => [entry.path, entry.sha256]));
 
 assert(JSON.stringify(jsonHashes) === JSON.stringify(expected), "checksums.json must match checksums.txt");
