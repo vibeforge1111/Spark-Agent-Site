@@ -34,3 +34,6 @@ COPY .well-known   /usr/share/nginx/html/.well-known
 COPY vendor       /usr/share/nginx/html/vendor
 
 EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1
