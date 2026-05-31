@@ -8,3 +8,5 @@ docs/DNS_SECURITY_BASELINE.md
 LICENSE
 node_modules/
 npm-debug.log*
+scripts/
+reviewer-routed/
