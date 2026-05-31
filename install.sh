@@ -527,6 +527,21 @@ validate_install_settings() {
       ;;
   esac
 
+  # --llm-provider is documented at line 68 as one of ten specific IDs. Before
+  # this guard, install.sh forwarded any string the operator typed straight to
+  # `spark setup --llm-provider`, where a typo like 'antropic' (missing 'h')
+  # only surfaced deep in setup with a less actionable error. Reject unknown
+  # values at install-args time so the error fires at the boundary the operator
+  # is typing into.
+  case "$SPARK_LLM_PROVIDER" in
+    ""|codex|anthropic|zai|kimi|openrouter|huggingface|lmstudio|minimax|ollama|openai) ;;
+    *)
+      echo "Unknown --llm-provider value: '$SPARK_LLM_PROVIDER'" >&2
+      echo "Valid providers: codex, anthropic, zai, kimi, openrouter, huggingface, lmstudio, minimax, ollama, openai" >&2
+      exit 1
+      ;;
+  esac
+
   local source_without_git="${SPARK_CLI_SOURCE%.git}"
   if [ "$source_without_git" != "$SPARK_CANONICAL_CLI_SOURCE" ]; then
     if [ "$SPARK_ALLOW_DEV_SOURCE" != "1" ]; then
