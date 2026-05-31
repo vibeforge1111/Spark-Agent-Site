@@ -45,7 +45,12 @@ function requireSuccess(args, label = args.join(" ")) {
 
 const html = fs.readFileSync(path.join(siteRoot, "docs", "commands", "index.html"), "utf8");
 const markdown = fs.readFileSync(path.join(siteRoot, "docs", "commands.md"), "utf8");
-const catalog = JSON.parse(fs.readFileSync(path.join(siteRoot, "docs", "command-catalog.json"), "utf8"));
+let catalog;
+try {
+  catalog = JSON.parse(fs.readFileSync(path.join(siteRoot, "docs", "command-catalog.json"), "utf8"));
+} catch (err) {
+  fail(`cannot parse command-catalog.json: ${err.message}`);
+}
 const combined = `${html}\n${markdown}`;
 const sparkExamples = [...new Set(
   [...combined.matchAll(/(?:<code>|`)(spark\s+[^<`\n]+)(?:<\/code>|`)/g)]
