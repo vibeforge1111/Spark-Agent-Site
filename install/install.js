@@ -8,7 +8,8 @@ document.querySelectorAll('[data-copy-value]').forEach((button) => {
       setTimeout(() => {
         button.textContent = label;
       }, 1400);
-    } catch {
+    } catch (error) {
+      console.error('[install] Clipboard copy failed:', error);
       button.textContent = 'Select and copy above';
     }
   });
