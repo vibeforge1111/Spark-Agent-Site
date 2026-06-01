@@ -1,3 +1,4 @@
+```javascript
 /* ══════════════════════════════════════════════════════════════
    SPARK AGENT · agent.sparkswarm.ai · interactions
    ══════════════════════════════════════════════════════════════ */
@@ -47,7 +48,7 @@
       canvas.width  = rect.width  * dpr;
       canvas.height = rect.height * dpr;
       canvas.style.width  = rect.width  + 'px';
-      canvas.style.height = rect.height + 'px';
+      canvas.style.height = rect.height  + 'px';
       ctx.setTransform(1,0,0,1,0,0);
       ctx.scale(dpr, dpr);
     };
@@ -286,7 +287,7 @@
       head = (head + 1) % events.length;
       const visible = [0, 1, 2].map(i => events[(head + i) % events.length]);
       runlog.innerHTML = visible.map((event, i) => (
-        `<li${i === 0 ? ' class="active"' : ''}><span>${event[0]}</span><strong>${event[1]}</strong> ${event[2]}</li>`
+        `<li${i === 0 ? ' class="active"' : ''}><span>${event[0].replace(/[&<>"']/g,'')}</span><strong>${event[1].replace(/[&<>"']/g,'')}</strong> ${event[2].replace(/[&<>"']/g,'')}</li>`
       )).join('');
     }, 2600);
   }
@@ -736,281 +737,10 @@
         ctx.strokeStyle = alpha(link.skill.hue, 1);
         ctx.lineWidth = 0.65;
         ctx.beginPath();
-        ctx.moveTo(link.a.x, link.a.y);
+        ctx.moveTo(link.a.x, link.b.x);
         ctx.lineTo(link.b.x, link.b.y);
         ctx.stroke();
       });
 
       agentNodes.forEach(agent => {
-        const wobble = reduced ? 0 : Math.sin(now * agent.speed + agent.phase) * 2.2;
-        const x = agent.x + wobble;
-        const y = agent.y + wobble * 0.6;
-        ctx.globalAlpha = appear * (theme.light ? 0.22 : 0.32);
-        ctx.strokeStyle = alpha(agent.skill.hue, 1);
-        ctx.lineWidth = 0.8;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(agent.skill.x, agent.skill.y);
-        ctx.stroke();
-        const pulse = reduced ? 1 : 1 + Math.sin(now * 0.002 + agent.phase) * 0.22;
-        ctx.globalAlpha = appear * (theme.light ? 0.68 : 0.84);
-        ctx.fillStyle = alpha(agent.skill.hue, theme.light ? 0.62 : 0.82);
-        ctx.shadowColor = alpha(agent.skill.hue, theme.light ? 0.16 : 0.38);
-        ctx.shadowBlur = theme.light ? 4 : 8;
-        ctx.beginPath();
-        ctx.arc(x, y, agent.r * pulse, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      });
-
-      if (!reduced) {
-        signalParticles.forEach((particle, i) => {
-          particle.t += particle.speed;
-          if (particle.t > 1) particle.t -= 1;
-          let pt;
-          if (particle.type === 'lane') {
-            const laneIndex = lanes.indexOf(particle.lane);
-            const bend = (laneIndex % 2 === 0 ? 1 : -1) * Math.min(62, W * 0.06);
-            pt = lanePoint(particle.lane, particle.t, bend);
-          } else {
-            const agent = particle.agent;
-            const wobble = Math.sin(now * agent.speed + agent.phase) * 2.2;
-            const ax = agent.x + wobble;
-            const ay = agent.y + wobble * 0.6;
-            pt = {
-              x: ax + (agent.skill.x - ax) * particle.t,
-              y: ay + (agent.skill.y - ay) * particle.t,
-            };
-          }
-          const size = particle.type === 'lane' ? 2.3 : 1.6;
-          ctx.save();
-          ctx.globalAlpha = appear * (theme.light ? 0.58 : 0.74) * (0.65 + Math.sin(now * 0.003 + i) * 0.2);
-          ctx.shadowColor = alpha(particle.hue, theme.light ? 0.24 : 0.62);
-          ctx.shadowBlur = particle.type === 'lane' ? 12 : 8;
-          ctx.fillStyle = alpha(particle.hue, 1);
-          ctx.beginPath();
-          ctx.arc(pt.x, pt.y, size, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        });
-      }
-
-      skillNodes.forEach((skill, i) => {
-        const t = reduced ? 1 : easeOut(Math.min(1, Math.max(0, (elapsed - i * 45) / 700)));
-        const x = skill.x - skill.w / 2;
-        const y = skill.y - skill.h / 2;
-        const ring = reduced ? 0 : Math.sin(now * 0.0014 + i) * 0.5 + 0.5;
-        ctx.globalAlpha = appear * t * (theme.light ? 0.10 : 0.18) * ring;
-        ctx.strokeStyle = alpha(skill.hue, 1);
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(x - 8 - ring * 5, y - 6 - ring * 4, skill.w + 16 + ring * 10, skill.h + 12 + ring * 8, 11);
-        ctx.stroke();
-
-        ctx.globalAlpha = appear * t;
-        ctx.shadowColor = alpha(skill.hue, theme.light ? 0.12 : 0.28);
-        ctx.shadowBlur = theme.light ? 8 : 18;
-        ctx.fillStyle = theme.light ? 'rgba(255,255,255,0.76)' : 'rgba(14, 16, 24, 0.72)';
-        ctx.strokeStyle = alpha(skill.hue, theme.light ? 0.36 : 0.48);
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(x, y, skill.w, skill.h, 8);
-        ctx.fill();
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-
-        ctx.fillStyle = alpha(skill.hue, theme.light ? 0.86 : 1);
-        ctx.beginPath();
-        ctx.arc(x + 13, skill.y, 3.5, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = theme.light ? '#17201B' : '#F7FFF9';
-        ctx.font = `600 ${W < 620 ? 10 : 11}px "DM Mono", ui-monospace, monospace`;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(skill.label, x + 23, skill.y + 0.5);
-      });
-
-      ctx.globalAlpha = 1;
-      ctx.restore();
-
-      const fadeH = H * 0.22;
-      let g = ctx.createLinearGradient(0, 0, 0, fadeH);
-      g.addColorStop(0, theme.bg); g.addColorStop(1, alpha(theme.bg, 0));
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, fadeH);
-      g = ctx.createLinearGradient(0, H - fadeH, 0, H);
-      g.addColorStop(0, alpha(theme.bg, 0)); g.addColorStop(1, theme.bg);
-      ctx.fillStyle = g; ctx.fillRect(0, H - fadeH, W, fadeH);
-
-      const fadeW = W * 0.15;
-      g = ctx.createLinearGradient(0, 0, fadeW, 0);
-      g.addColorStop(0, theme.bg); g.addColorStop(1, alpha(theme.bg, 0));
-      ctx.fillStyle = g; ctx.fillRect(0, 0, fadeW, H);
-      g = ctx.createLinearGradient(W - fadeW, 0, W, 0);
-      g.addColorStop(0, alpha(theme.bg, 0)); g.addColorStop(1, theme.bg);
-      ctx.fillStyle = g; ctx.fillRect(W - fadeW, 0, fadeW, H);
-
-      const cGrad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, W * 0.38);
-      cGrad.addColorStop(0, alpha(theme.bg, theme.light ? 0.52 : 0.36));
-      cGrad.addColorStop(0.6, alpha(theme.bg, theme.light ? 0.18 : 0.10));
-      cGrad.addColorStop(1, alpha(theme.bg, 0));
-      ctx.fillStyle = cGrad;
-      ctx.fillRect(0, 0, W, H);
-    };
-    requestAnimationFrame(render);
-  };
-
-  makeSwarmNetwork($('#swarm-canvas'));
-
-  /* ══════════════════════════════════════════════════════════════
-     IRIS REVEAL · "while you sleep" · plays once on scroll-into-view
-     ══════════════════════════════════════════════════════════════ */
-  const sleepReveal = $('#sleep-reveal');
-  if (sleepReveal && !reduced) {
-    const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          sleepReveal.classList.add('is-open');
-          revealObs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.35 });
-    revealObs.observe(sleepReveal);
-  } else if (sleepReveal) {
-    sleepReveal.classList.add('is-open');
-  }
-
-  /* ══════════════════════════════════════════════════════════════
-     INFINITY LOOP VIZ · counter + active anchor cycle
-     ══════════════════════════════════════════════════════════════ */
-  const loopCount = $('#loop-count');
-  if (loopCount) {
-    const tickLoop = () => {
-      countTo(loopCount, 847 + Math.floor(Math.random() * 30), 1200);
-      setTimeout(tickLoop, 4200);
-    };
-    tickLoop();
-  }
-
-  /* ══════════════════════════════════════════════════════════════
-     INTERSECTION OBSERVER · reveals + triggers
-     ══════════════════════════════════════════════════════════════ */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('is-in');
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.2, rootMargin: '0px 0px -80px 0px' });
-
-  $$('[data-reveal], #swarm').forEach(el => io.observe(el));
-
-  /* ══════════════════════════════════════════════════════════════
-     COPY TO CLIPBOARD
-     ══════════════════════════════════════════════════════════════ */
-  const copyText = async (text, btn) => {
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      const ta = document.createElement('textarea');
-      ta.value = text; document.body.appendChild(ta);
-      ta.select(); document.execCommand('copy'); ta.remove();
-    }
-    if (btn) {
-      const orig = btn.textContent;
-      btn.textContent = 'copied';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1600);
-    }
-  };
-
-  // hero primary cta — scroll to install section
-  const ctaInstall = $('#cta-install');
-  if (ctaInstall) {
-    ctaInstall.addEventListener('click', (e) => {
-      e.preventDefault();
-      $('#install')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
-    });
-  }
-
-  // install options — click card to copy command
-  const activateInstallPanel = (target) => {
-    const normalized = target === 'windows' ? 'windows' : 'unix';
-    $$('[data-install-target]').forEach(tab => {
-      const active = tab.dataset.installTarget === normalized;
-      tab.classList.toggle('is-active', active);
-      tab.setAttribute('aria-selected', active ? 'true' : 'false');
-    });
-    $$('[data-install-panel]').forEach(panel => {
-      const active = panel.dataset.installPanel === normalized;
-      panel.hidden = !active;
-      panel.classList.toggle('is-active', active);
-      const rec = $('.install-rec', panel);
-      if (rec) rec.textContent = active ? 'recommended for this device' : 'alternate installer';
-    });
-    const label = $('[data-install-mode-label]');
-    if (label) label.textContent = normalized === 'windows' ? 'Detected: Windows' : 'Detected: Mac / Linux / WSL';
-  };
-
-  const detectInstallPanel = () => {
-    const nav = navigator;
-    const platform = [
-      nav.userAgentData?.platform,
-      nav.platform,
-      nav.userAgent,
-    ].filter(Boolean).join(' ').toLowerCase();
-    return platform.includes('win') ? 'windows' : 'unix';
-  };
-
-  if ($('[data-install-switcher]')) {
-    activateInstallPanel(detectInstallPanel());
-    $$('[data-install-target]').forEach(tab => {
-      tab.addEventListener('click', () => activateInstallPanel(tab.dataset.installTarget));
-    });
-  }
-
-  $$('.install-option').forEach(opt => {
-    opt.addEventListener('click', async () => {
-      const value = opt.dataset.copyValue || '';
-      if (!value) return;
-      await copyText(value);
-      opt.classList.add('copied');
-      setTimeout(() => opt.classList.remove('copied'), 1800);
-    });
-  });
-
-  if (window.location.pathname.replace(/\/$/, '') === '/install') {
-    window.requestAnimationFrame(() => {
-      $('#install')?.scrollIntoView({ behavior: 'auto', block: 'start' });
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════════════
-     THEME TOGGLE
-     ══════════════════════════════════════════════════════════════ */
-  const themeBtn = $('#theme-toggle');
-  const saved = localStorage.getItem('spark-theme');
-  if (saved) document.documentElement.dataset.theme = saved;
-  themeBtn?.addEventListener('click', () => {
-    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem('spark-theme', next);
-    themeBtn.textContent = next === 'light' ? '◑' : '◐';
-  });
-
-  /* ══════════════════════════════════════════════════════════════
-     SMOOTH SCROLL (nav anchors)
-     ══════════════════════════════════════════════════════════════ */
-  $$('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', (e) => {
-      const href = a.getAttribute('href');
-      if (href === '#' || href.length < 2) return;
-      const target = $(href);
-      if (!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
-    });
-  });
-
-})();
+        const wobble = reduced ? 0
