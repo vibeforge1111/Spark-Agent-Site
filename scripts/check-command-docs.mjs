@@ -8,7 +8,13 @@ const catalogPath = path.join(root, "docs", "command-catalog.json");
 
 const html = fs.readFileSync(htmlPath, "utf8");
 const markdown = fs.readFileSync(mdPath, "utf8");
-const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
+let catalog;
+try {
+  catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
+} catch (err) {
+  fail(`cannot parse command-catalog.json: ${err.message}`);
+  process.exit(1);
+}
 
 function fail(message) {
   console.error(`command docs check failed: ${message}`);

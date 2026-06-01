@@ -24,6 +24,15 @@ function sha256(relPath) {
   return crypto.createHash("sha256").update(fs.readFileSync(path.join(root, relPath))).digest("hex");
 }
 
+function readJson(relPath) {
+  try {
+    return JSON.parse(read(relPath));
+  } catch (err) {
+    fail(`cannot parse ${relPath}: ${err.message}`);
+    process.exit(1);
+  }
+}
+
 function walk(dir, files = []) {
   for (const entry of fs.readdirSync(path.join(root, dir), { withFileTypes: true })) {
     const relPath = path.join(dir, entry.name).replaceAll("\\", "/");
@@ -61,9 +70,9 @@ for (const relPath of ["install.sh", "install.ps1"]) {
   assert(expected[relPath] === sha256(relPath), `${relPath} checksum does not match install/checksums.txt`);
 }
 
-const checksumsJson = JSON.parse(read("install/checksums.json"));
-const commandsJson = JSON.parse(read("install/commands.json"));
-const manifest = JSON.parse(read("install/release-manifest.json"));
+const checksumsJson = readJson("install/checksums.json");
+const commandsJson = readJson("install/commands.json");
+const manifest = readJson("install/release-manifest.json");
 const jsonHashes = Object.fromEntries(checksumsJson.files.map((entry) => [entry.path, entry.sha256]));
 
 assert(JSON.stringify(jsonHashes) === JSON.stringify(expected), "checksums.json must match checksums.txt");
