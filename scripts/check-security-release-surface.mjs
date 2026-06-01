@@ -153,6 +153,7 @@ for (const relPath of publicFiles) {
   for (const token of staleTokens) {
     assert(!text.includes(token), `${relPath} contains stale release token ${token}`);
   }
+  assert(!text.includes("github.com/vibeforge1111/spark-skill-graphs"), `${relPath} routes users to retired spark-skill-graphs repo`);
 
   for (const line of text.split(/\n/)) {
     const installer = line.includes("install.ps1") ? "install.ps1" : line.includes("install.sh") ? "install.sh" : null;
@@ -161,6 +162,14 @@ for (const relPath of publicFiles) {
       assert(digest.toLowerCase() === expected[installer], `${relPath} has stale ${installer} hash: ${digest}`);
     }
   }
+}
+
+for (const relPath of ["cookies.html", "privacy.html", "terms.html"]) {
+  const html = read(relPath);
+  assert(
+    html.includes('<a href="https://github.com/vibeforge1111/Spark-Agent-Site">github</a>'),
+    `${relPath} legal footer must route GitHub visitors to the active public site repo`,
+  );
 }
 
 const copyBlocks = [];
