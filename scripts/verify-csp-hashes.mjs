@@ -19,6 +19,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import childProcess from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -35,15 +36,19 @@ const EXECUTABLE_TYPES = new Set([
   "module",
 ]);
 
-function listHtmlFiles(dir) {
-  const out = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === ".git" || entry.name === "node_modules") continue;
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) out.push(...listHtmlFiles(full));
-    else if (entry.isFile() && entry.name.endsWith(".html")) out.push(full);
-  }
-  return out;
+function listTrackedHtmlFiles() {
+  return childProcess
+    .execFileSync("git", ["ls-files", "-z", "--", "*.html"], { cwd: root })
+    .toString("utf8")
+    .split("\0")
+    .filter(Boolean)
+    .sort();
+}
+
+function readTrackedFile(rel) {
+  // Hash the committed blob so Windows CRLF checkouts do not produce false CSP
+  // failures. Hosted deploys and CI use the repository bytes.
+  return childProcess.execFileSync("git", ["show", `HEAD:${rel}`], { cwd: root }).toString("utf8");
 }
 
 function getAttr(attrs, name) {
@@ -52,17 +57,17 @@ function getAttr(attrs, name) {
   return (m[2] ?? m[3] ?? m[4] ?? "").trim();
 }
 
-const files = listHtmlFiles(root).sort();
+const files = listTrackedHtmlFiles();
 const scriptRe = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
 
 const rows = [];
 for (const file of files) {
-  const html = fs.readFileSync(file, "utf8");
+  const html = readTrackedFile(file);
   let m;
   while ((m = scriptRe.exec(html)) !== null) {
     const attrs = m[1] || "";
     const body = m[2] ?? "";
-    const rel = path.relative(root, file);
+    const rel = file;
 
     if (getAttr(attrs, "src") !== null) continue; // external script
     if (body.length === 0) continue; // empty placeholder
