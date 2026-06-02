@@ -165,7 +165,8 @@ spark support bundle
 - `/run <goal>`: start a Spawner mission.
 - `/board`: show mission status.
 - `/mission status <id>`: inspect a mission.
-- `/access 1|2|3|4`: choose what Spark can do. Use 3 when you want Spark to research and build only when asked.
+- `/access 1|2|3|4|5`: choose what Spark can do. Use 3 when you want Spark to research and build only when asked.
+  - **Level 5 -- whole-computer operator mode (advanced; use with care).** Grants Spark broad operator control over the host, including filesystem and process surfaces beyond the default protected scope. Only enable on a development machine or scratch environment you fully control, only when you understand the recovery implications, and never on a shared, production, or untrusted machine. Default: leave at Level 3 or lower. Level 5 is intentionally not the default; if a use case requires it, narrow the surface (a chip, a script, or a specific spawner mission) before raising the level.
 
 ## Browser Surfaces
 
