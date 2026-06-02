@@ -4,11 +4,11 @@
   "files": [
     {
       "path": "install.sh",
-      "sha256": "40c2c8c3dbed386c5b2131cf683fc27be29dbff2010294862751ac2093461f68"
+      "sha256": "4e6372d7a100cf3275c6bc29923a9cae2f23fed53dbcc1d22ce1bab66676ddef"
     },
     {
       "path": "install.ps1",
-      "sha256": "8a625f4c1a172e9ac2cba6dc03164655575b025c674b6f03caf58f4bedcacb44"
+      "sha256": "32676b2d6b51c350b090566f4eabf90d471ec302a0e282a702bdc5641a27577f"
     }
   ]
 }
