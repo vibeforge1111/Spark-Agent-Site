@@ -6,7 +6,7 @@ This update publishes the safe public surfaces we can share now, without making 
 
 ## Included
 
-- May 30 Spark CLI r22 installer pin with hosted checksums, release manifest, command metadata, attestations, voice-safe setup defaults, stale Windows shim cleanup, production smoke checks, a softer upgrade-refresh pause, browser-use Windows proof, and self-consistent installed-checkout release metadata.
+- June 2 Spark CLI r23 installer pin with hosted checksums, release manifest, command metadata, attestations, voice-safe setup defaults, stale Windows shim cleanup, production smoke checks, a softer upgrade-refresh pause, browser-use Windows proof, and self-consistent installed-checkout release metadata.
 - Telegram recursive loops now have a local-only public path for Builder chip loops: `/recursive start <chipKey> rounds <n>`, `/recursive sessions`, `/recursive report`, and `/recursive trace` work from local status files without Spark Swarm.
 - `spark-domain-chip-labs` as the public creator lab for domain chips, benchmark packs, specialization paths, autoloop policies, tool integrations, and publish packet standards.
 - `spark-character` as the public character and voice-consistency layer.
@@ -40,6 +40,6 @@ spark verify --installers --hosted-installers
 The expected Spark CLI release is:
 
 ```text
-spark-cli-public-installer-2026-05-30-r22
-1898af489937f22f5cda25334f99857278bf9176
+spark-cli-public-installer-2026-06-02-r23
+e9bbd3137fc313644f37741bc76dbdaf1d118b9d
 ```
