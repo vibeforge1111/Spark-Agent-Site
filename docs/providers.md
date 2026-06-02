@@ -11,7 +11,7 @@ Choose one provider during `spark setup`. Use it for both Agent and Mission unle
 - Agent: Telegram chat, runtime reasoning, memory synthesis, and recall.
 - Mission: Spawner/Mission Control builds, research, coding work, and longer tracked missions.
 
-When the provider is Anthropic, Spark keeps the default split inside that provider: Claude Sonnet 4.6 for Agent and Claude Opus 4.7 for Mission.
+When the provider is Anthropic, Spark uses `--anthropic-model` (default `sonnet`) for both Agent and Mission roles. To route Mission to Opus while keeping Sonnet for Agent, set it explicitly during setup, for example `spark setup --mission-llm-provider anthropic --anthropic-model opus` after the initial Anthropic configuration.
 
 That avoids surprise fallback behavior. Spark should not call Ollama, LM Studio, or another local endpoint unless the user selected it.
 
@@ -117,7 +117,7 @@ binary, an API key, and a successful `PING_OK` execution.
 ## Supported Providers
 
 - `codex`: OpenAI Codex CLI sign-in route for Codex/ChatGPT users.
-- `anthropic`: Claude Code CLI or Anthropic API key route. Defaults to Sonnet 4.6 for Agent and Opus 4.7 for Mission.
+- `anthropic`: Claude Code CLI or Anthropic API key route. Uses `--anthropic-model` (default `sonnet`) for both roles; pass `opus` explicitly during setup to route a role to the Opus model.
 - `zai`: Z.AI GLM API-key route.
 - `kimi`: Kimi/Moonshot API-key route.
 - `minimax`: MiniMax API-key route.
