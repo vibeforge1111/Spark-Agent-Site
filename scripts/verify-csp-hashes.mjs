@@ -58,16 +58,57 @@ function getAttr(attrs, name) {
 }
 
 const files = listTrackedHtmlFiles();
-const scriptRe = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+const OPEN_SCRIPT_RE = /<script\b([^>]*)>/gi;
+
+// Extract the script body starting at startIndex using a state machine that
+// correctly handles </script> inside string literals and comments —
+// the naive regex /<script\b[^>]*>([\s\S]*?)<\/script>/gi terminates at the
+// first literal </script> in the body, producing the wrong hash if a script
+// writes a tag like: document.write("</script>");
+function extractScriptBody(html, startIndex) {
+  let state = "code"; // code | sq | dq | tl | line_comment | block_comment
+  let i = startIndex;
+  while (i < html.length) {
+    if (state === "code") {
+      if (html.slice(i, i + 9).toLowerCase() === "</script>") {
+        return { body: html.slice(startIndex, i), endIndex: i + 9 };
+      }
+      const ch = html[i];
+      if (ch === "'") { state = "sq"; }
+      else if (ch === '"') { state = "dq"; }
+      else if (ch === "`") { state = "tl"; }
+      else if (html.slice(i, i + 2) === "//") { state = "line_comment"; i++; }
+      else if (html.slice(i, i + 2) === "/*") { state = "block_comment"; i++; }
+    } else if (state === "sq") {
+      if (html[i] === "\\") { i++; }
+      else if (html[i] === "'") { state = "code"; }
+    } else if (state === "dq") {
+      if (html[i] === "\\") { i++; }
+      else if (html[i] === '"') { state = "code"; }
+    } else if (state === "tl") {
+      if (html[i] === "\\") { i++; }
+      else if (html[i] === "`") { state = "code"; }
+    } else if (state === "line_comment") {
+      if (html[i] === "\n") { state = "code"; }
+    } else if (state === "block_comment") {
+      if (html.slice(i, i + 2) === "*/") { state = "code"; i++; }
+    }
+    i++;
+  }
+  return null; // no closing </script> found
+}
 
 const rows = [];
 for (const file of files) {
   const html = readTrackedFile(file);
   let m;
-  while ((m = scriptRe.exec(html)) !== null) {
+  OPEN_SCRIPT_RE.lastIndex = 0;
+  while ((m = OPEN_SCRIPT_RE.exec(html)) !== null) {
     const attrs = m[1] || "";
-    const body = m[2] ?? "";
-    const rel = file;
+    const extracted = extractScriptBody(html, OPEN_SCRIPT_RE.lastIndex);
+    if (!extracted) continue;
+    const { body, endIndex } = extracted;
+    OPEN_SCRIPT_RE.lastIndex = endIndex;
 
     if (getAttr(attrs, "src") !== null) continue; // external script
     if (body.length === 0) continue; // empty placeholder
@@ -78,7 +119,7 @@ for (const file of files) {
     const hash = "sha256-" + crypto.createHash("sha256").update(body, "utf8").digest("base64");
     const present = nginx.includes(hash);
 
-    rows.push({ file: rel, type: type || "(none)", executable, hash, present, len: body.length });
+    rows.push({ file, type: type || "(none)", executable, hash, present, len: body.length });
   }
 }
 
