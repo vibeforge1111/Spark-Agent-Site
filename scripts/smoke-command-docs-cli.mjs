@@ -10,6 +10,7 @@ const cliRoot = process.env.SPARK_CLI_PATH
 
 function fail(message) {
   console.error(`command CLI smoke failed: ${message}`);
+  console.error(`  Hint: this gate compares docs/commands.md + docs/commands/index.html + docs/command-catalog.json against the live spark-cli --help surface. Update whichever side is stale.`);
   process.exit(1);
 }
 
