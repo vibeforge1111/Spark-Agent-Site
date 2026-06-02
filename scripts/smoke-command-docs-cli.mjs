@@ -107,7 +107,12 @@ for (const args of helpTargets) {
   requireSuccess(args);
 }
 
-const sandboxHome = fs.mkdtempSync(path.join(os.tmpdir(), "spark-command-docs-"));
+let sandboxHome;
+try {
+  sandboxHome = fs.mkdtempSync(path.join(os.tmpdir(), "spark-command-docs-"));
+} catch (error) {
+  fail(`Failed to create temporary directory for sandbox: ${error.message}`);
+}
 const safeRuns = [
   ["recommend", "llms"],
   ["providers", "list"],
