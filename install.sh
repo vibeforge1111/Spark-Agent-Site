@@ -707,8 +707,9 @@ EOF
       preview_setup_cmd+=("--minimax-api-key" "<redacted>")
     fi
     if [ -n "$SPARK_SETUP_ARGS" ]; then
-      # shellcheck disable=SC2206
-      local setup_words=($SPARK_SETUP_ARGS)
+      # Use read -ra for safe word splitting (avoids glob expansion)
+      local -a setup_words=()
+      IFS=' ' read -ra setup_words <<< "$SPARK_SETUP_ARGS"
       preview_setup_cmd+=("${setup_words[@]}")
     fi
     if [ "${#extra_setup_args[@]}" -gt 0 ]; then
@@ -1069,8 +1070,9 @@ run_setup() {
     spark_setup_cmd+=("--minimax-api-key" "$spark_secret_ref_value")
   fi
   if [ -n "$SPARK_SETUP_ARGS" ]; then
-    # shellcheck disable=SC2206
-    local setup_words=($SPARK_SETUP_ARGS)
+    # Use read -ra for safe word splitting (avoids glob expansion)
+    local -a setup_words=()
+    IFS=' ' read -ra setup_words <<< "$SPARK_SETUP_ARGS"
     spark_setup_cmd+=("${setup_words[@]}")
   fi
   if [ "${#extra_setup_args[@]}" -gt 0 ]; then
