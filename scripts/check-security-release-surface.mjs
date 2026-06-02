@@ -173,6 +173,20 @@ for (const relPath of publicFiles) {
   }
 }
 
+assert(
+  !staleTokens.includes(sparkCliRef),
+  `staleTokens must not contain the current release ref — retire the previous ref before updating sparkCliRef (found: ${sparkCliRef})`,
+);
+assert(
+  !staleTokens.includes(sparkCliCommit),
+  `staleTokens must not contain the current release commit — retire the previous commit before updating sparkCliCommit`,
+);
+assert(staleTokens.length > 0, "staleTokens list must be non-empty");
+assert(
+  staleTokens.some((t) => t.startsWith("spark-cli-")),
+  "staleTokens must contain at least one retired spark-cli release ref",
+);
+
 for (const relPath of ["cookies.html", "privacy.html", "terms.html"]) {
   const html = read(relPath);
   assert(
