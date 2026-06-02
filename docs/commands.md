@@ -164,7 +164,7 @@ spark support bundle
 - `/recall <topic>`: search memory.
 - `/run <goal>`: start a Spawner mission.
 - `/board`: show mission status.
-- `/mission status <id>`: inspect a mission.
+- `/mission <status|pause|resume|kill> <id>`: control a mission (status to inspect; pause, resume, or kill to manage it).
 - `/access 1|2|3|4`: choose what Spark can do. Use 3 when you want Spark to research and build only when asked.
 
 ## Browser Surfaces
