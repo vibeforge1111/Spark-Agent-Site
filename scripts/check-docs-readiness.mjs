@@ -16,7 +16,12 @@ function assert(condition, message) {
 }
 
 function read(relPath) {
-  return fs.readFileSync(path.join(root, relPath), "utf8");
+  try {
+    return fs.readFileSync(path.join(root, relPath), "utf8");
+  } catch (err) {
+    fail(`cannot read ${relPath}: ${err.message}`);
+    return "";
+  }
 }
 
 function stripHtml(html) {
@@ -39,7 +44,7 @@ const pages = [
   { path: "docs/troubleshooting/index.html", name: "Troubleshooting", required: ["spark fix telegram", "spark fix spawner", "spark doctor llm"] },
   { path: "docs/security/index.html", name: "Security", required: ["spark security audit", "spark support bundle", "access"] },
   { path: "docs/suites/index.html", name: "Modules", required: ["telegram-starter", "Domain Chip Memory", "Spawner UI"] },
-  { path: "docs/feedback/index.html", name: "Feedback", required: ["Choose the repo first", "Spark-Agent-Site", "spark-cli", "spark-researcher", "Agent-readable"] },
+  { path: "docs/feedback/index.html", name: "Feedback", required: ["Choose the repo first", "Spark-Agent-Site", "spark-cli", "spark-researcher", "spark-domain-chip-labs", "Agent-readable"] },
   { path: "docs/self-improvement/index.html", name: "Self-improvement", required: ["domain chip", "Spark Researcher", "benchmark", "OTOLO", "Flowchart 1", "Flowchart 2", "Flowchart 3"] },
 ];
 
@@ -62,6 +67,10 @@ for (const page of pages) {
   assert(!/\bretard\b/i.test(text), `${page.name} contains user-hostile wording`);
   assert(!/\bblack box\b/i.test(text), `${page.name} should avoid black-box framing`);
   assert(!/\bLocalhost note\b/i.test(text), `${page.name} should not show the old localhost note`);
+  assert(!/\bspark-skill-graphs\b/i.test(text), `${page.name} should not route feedback to retired spark-skill-graphs repo`);
+  if (page.name === "Feedback") {
+    assert(!/\bdomain-chip-memory\b/i.test(text), `${page.name} should route memory-chip feedback through spark-domain-chip-labs`);
+  }
 }
 
 const overview = read("docs/index.html");
@@ -104,4 +113,4 @@ for (const relPath of ["docs/commands.md", "docs/providers.md", "docs/railway-vp
   assert(markdown.includes("Human page:"), `${relPath} should point agents back to the human page`);
 }
 
-console.log(`docs readiness ok: ${pages.length} pages, ${internalLinks.size} internal links`);
+console.log(`docs readiness ok: ${pages.length} pages, ${internalLinks.size} internal links. Next: run \`npm run build\` to continue.`);
