@@ -13,6 +13,9 @@ param(
     [string]$OpenAIApiKey = "",
     [string]$AnthropicApiKey = "",
     [string]$MiniMaxApiKey = "",
+    [string]$KimiApiKey = "",
+    [string]$OpenrouterApiKey = "",
+    [string]$HuggingfaceApiKey = "",
     [switch]$NonInteractiveSetup,
     [switch]$SetupSkipInstallCommands,
     [switch]$SetupSkipRuntimeCheck,
@@ -373,6 +376,9 @@ function Show-DryRunPlan {
         if ($ZaiApiKey) { $setupPreviewArgs += @("--zai-api-key", "<redacted>") }
         if ($OpenAIApiKey) { $setupPreviewArgs += @("--openai-api-key", "<redacted>") }
         if ($AnthropicApiKey) { $setupPreviewArgs += @("--anthropic-api-key", "<redacted>") }
+        if ($KimiApiKey) { $setupPreviewArgs += @("--kimi-api-key", "<redacted>") }
+        if ($OpenrouterApiKey) { $setupPreviewArgs += @("--openrouter-api-key", "<redacted>") }
+        if ($HuggingfaceApiKey) { $setupPreviewArgs += @("--huggingface-api-key", "<redacted>") }
         if ($MiniMaxApiKey) { $setupPreviewArgs += @("--minimax-api-key", "<redacted>") }
         $setupPreviewArgs += $SetupArg
         $setupPreview = ($setupPreviewArgs | ForEach-Object { Format-SetupPreviewArg $_ }) -join " "
@@ -755,6 +761,9 @@ function Run-Setup {
     if ($ZaiApiKey) { $setupArgs += @("--zai-api-key", (New-SetupSecretRef $ZaiApiKey)) }
     if ($OpenAIApiKey) { $setupArgs += @("--openai-api-key", (New-SetupSecretRef $OpenAIApiKey)) }
     if ($AnthropicApiKey) { $setupArgs += @("--anthropic-api-key", (New-SetupSecretRef $AnthropicApiKey)) }
+    if ($KimiApiKey) { $setupArgs += @("--kimi-api-key", (New-SetupSecretRef $KimiApiKey)) }
+    if ($OpenrouterApiKey) { $setupArgs += @("--openrouter-api-key", (New-SetupSecretRef $OpenrouterApiKey)) }
+    if ($HuggingfaceApiKey) { $setupArgs += @("--huggingface-api-key", (New-SetupSecretRef $HuggingfaceApiKey)) }
     if ($MiniMaxApiKey) { $setupArgs += @("--minimax-api-key", (New-SetupSecretRef $MiniMaxApiKey)) }
     $setupArgs += $SetupArg
     Write-SparkLog "Running spark setup $Bundle"
