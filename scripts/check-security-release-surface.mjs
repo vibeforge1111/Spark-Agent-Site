@@ -3,9 +3,9 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 const root = process.cwd();
-const sparkCliRef = "spark-cli-public-installer-2026-06-03-r26";
-const sparkCliCommit = "4cab2ebbf16fa1dcf83b1a8de5b940cd7817c37a";
-const releaseName = "spark-cli-public-installer-2026-06-03-r26";
+const sparkCliRef = "spark-cli-public-installer-2026-06-03-r24-v2";
+const sparkCliCommit = "fc49c16a97ac5b69aaf27daea55918a40a28ad0c";
+const releaseName = "spark-cli-public-installer-2026-06-03-r24-v2";
 
 function fail(message) {
   console.error(`security release surface check failed: ${message}`);
@@ -92,11 +92,11 @@ const publicFiles = walk(".").filter((relPath) => {
 });
 
 const staleTokens = [
+  "spark-cli-public-installer-2026-06-03-r26",
   "spark-cli-public-installer-2026-06-03-r25",
   "f989fd06aebad0fa02c99a840b8b2d92f08daea6",
   "4e6372d7a100cf3275c6bc29923a9cae2f23fed53dbcc1d22ce1bab66676ddef",
   "32676b2d6b51c350b090566f4eabf90d471ec302a0e282a702bdc5641a27577f",
-  "spark-cli-public-installer-2026-06-03-r24",
   "495687f5267e4ac41a451a2cf60d59f8f62cba68",
   "40c2c8c3dbed386c5b2131cf683fc27be29dbff2010294862751ac2093461f68",
   "8a625f4c1a172e9ac2cba6dc03164655575b025c674b6f03caf58f4bedcacb44",
@@ -173,8 +173,18 @@ const staleTokens = [
   "db41e347d1e73e1fa147088445bbe4d400ea364008265d6be4af1d529ffeaaeb",
 ];
 
+const staleReleasePatterns = [
+  {
+    pattern: /\bspark-cli-public-installer-2026-06-03-r24(?!-v\d)\b/,
+    label: "spark-cli-public-installer-2026-06-03-r24",
+  },
+];
+
 for (const relPath of publicFiles) {
   const text = read(relPath);
+  for (const { pattern, label } of staleReleasePatterns) {
+    assert(!pattern.test(text), `${relPath} contains stale release token ${label}`);
+  }
   for (const token of staleTokens) {
     assert(!text.includes(token), `${relPath} contains stale release token ${token}`);
   }
