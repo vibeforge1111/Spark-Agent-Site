@@ -134,3 +134,50 @@
   .cookie-table { font-size: 12px; }
   .cookie-table td, .cookie-table th { padding: 10px 12px; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   Print rules · legal pages
+   Privacy/terms/cookies are the pages most likely to be printed
+   (compliance review, signed-record archive). The default theme is
+   dark navy with a sticky topbar and footer nav. Without a print
+   stylesheet, paper output is unreadable navy ink plus header /
+   footer chrome on every page. Restore black-on-white prose and
+   drop site chrome when the user prints.
+   ══════════════════════════════════════════════════════════════ */
+@media print {
+  .topbar,
+  .footer,
+  .cta-install,
+  .brand-divider,
+  .brand-slash {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .legal {
+    padding: 0 !important;
+    min-height: 0 !important;
+  }
+
+  .legal-body,
+  .legal-body p,
+  .legal-body li,
+  .legal-body h1,
+  .legal-body h2,
+  .legal-body strong,
+  .legal-body .lead,
+  .legal-body .overline,
+  .legal-body .legal-footnote,
+  .cookie-table,
+  .cookie-table td,
+  .cookie-table th {
+    color: #000 !important;
+    background: transparent !important;
+    border-color: #999 !important;
+  }
+
+  .legal-body a {
