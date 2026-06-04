@@ -826,9 +826,19 @@ install_node() {
   local tools_dir="$SPARK_PREFIX/tools"
   local node_dir="$tools_dir/node-v$SPARK_NODE_VERSION-$SPARK_NODE_PLATFORM"
   SPARK_NODE_BIN_DIR="$node_dir/bin"
-  if [ -x "$node_dir/bin/node" ]; then
+  # Treat the managed Node tree as healthy only when both `node` and `npm`
+  # are present. tar extraction is not atomic: an installer that was killed
+  # (SIGINT, OOM, lost SSH) midway can leave $node_dir/bin/node on disk while
+  # $node_dir/bin/npm and $node_dir/lib/node_modules/npm/ are still missing.
+  # The previous one-binary check then short-circuited as "already installed"
+  # and the next step `npm install` blew up far from the real cause.
+  if [ -x "$node_dir/bin/node" ] && [ -x "$node_dir/bin/npm" ]; then
     log "Node $SPARK_NODE_VERSION already installed at $node_dir"
     return
+  fi
+  if [ -d "$node_dir" ]; then
+    log "Removing partial Node $SPARK_NODE_VERSION tree at $node_dir"
+    rm -rf "$node_dir"
   fi
 
   need_cmd curl
