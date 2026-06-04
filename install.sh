@@ -92,6 +92,7 @@ Options:
   --skip-setup              Install CLI only; do not run spark setup
   --autostart               Install and start the login autostart hook after setup (default)
   --no-autostart            Do not install autostart
+  --timeout SECONDS      Timeout in seconds for network operations (default
   -h, --help                Show this help
 
 Environment mirrors these flags:
@@ -217,6 +218,7 @@ while [ "$#" -gt 0 ]; do
       SPARK_AUTOSTART=1; SPARK_AUTOSTART_USER_SET=1; shift ;;
     --no-autostart)
       SPARK_AUTOSTART=0; SPARK_AUTOSTART_USER_SET=1; shift ;;
+        --timeout)\n      require_option_value "$@"\n      SPARK_TIMEOUT="$2"; shift 2 ;;
     -h|--help)
       usage; exit 0 ;;
     *)
