@@ -1,0 +1,11 @@
+{
+  "team": "3 Pria Hebat",
+  "members": ["@ammarfasya", "1441976438"],
+  "submission_type": "spark-compete-hotfix-v1",
+  "target_component": "RouteArbiter / Bridge",
+  "bug_description": "Silent network failure (Zombie Process). When internet connection is lost during an in-flight LLM request, RouteArbiter suppresses the network timeout error. Instead of returning a connection error, it misclassifies the failure as 'intent=unclear' and 'allow=false' (confidence=high), causing the Telegram bot to hang silently without providing user feedback.",
+  "proposed_fix": {
+    "file": "modules/spark-telegram-bot/source/src/routing/RouteArbiter.ts",
+    "patch": "@@ -112,6 +112,10 @@\n- catch (error) {\n-   return { intent: 'unclear', allow: false, firewall: 'route_evidence_sufficient' };\n+ catch (error) {\n+   if (error.code === 'ENOTFOUND' || error.name === 'TimeoutError' || error.message.includes('fetch failed')) {\n+     return { intent: 'network_timeout', allow: false, fallbackMessage: 'Network Error: LLM provider is unreachable.' };\n+   }\n+   return { intent: 'unclear', allow: false, firewall: 'route_evidence_sufficient' };\n  }"
+  }
+}
