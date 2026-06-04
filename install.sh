@@ -1212,9 +1212,18 @@ main() {
   enforce_existing_install_policy
   confirm_install
   mkdir -p "$SPARK_PREFIX"
+  # Acquire the per-prefix lock BEFORE any function that writes inside
+  # $SPARK_PREFIX. ensure_python_runtime() can call install_uv() which
+  # downloads + extracts under $SPARK_PREFIX/tools, and start_install_log()
+  # opens $SPARK_PREFIX/logs/install.log via `exec >`. Without the lock held
+  # first, two concurrent `curl install.sh | bash` invocations (parallel
+  # shell, accidental double-click, automation re-trigger) raced each other
+  # into the same tools dir and log file, then the loser hit
+  # acquire_install_lock and bailed — leaving the winner with whatever
+  # partial state the loser had already written to shared paths.
+  acquire_install_lock
   ensure_python_runtime
   start_install_log
-  acquire_install_lock
   install_node
   export PATH="$SPARK_NODE_BIN_DIR:$PATH"
   log "Node runtime: $(node -v)"
