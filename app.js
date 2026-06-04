@@ -506,7 +506,7 @@
       { slug: 'gmail',        tier: 'free', line: 'drafts like you taught it' },
       { slug: 'github',       tier: 'free', line: 'ships code with your fingerprints' },
       { slug: 'h70-corpus',   tier: 'pro',  line: '593 expert skills, unlocked' },
-      { slug: 'orchestrator', tier: 'pro',  line: 'claude + gpt + gemini, orchestrated' },
+      { slug: 'orchestrator', tier: 'pro',  line: 'gemini + claude + gpt, orchestrated' },
       { slug: 'memory-sync',  tier: 'pro',  line: 'same context, every device you own' },
       { slug: 'security',     tier: 'pro',  line: 'red-teams its own output' },
       { slug: 'growth',       tier: 'pro',  line: 'tests your hooks before you ship' },
