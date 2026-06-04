@@ -910,18 +910,30 @@
      COPY TO CLIPBOARD
      ══════════════════════════════════════════════════════════════ */
   const copyText = async (text, btn) => {
+    let ok = false;
     try {
       await navigator.clipboard.writeText(text);
+      ok = true;
     } catch {
       const ta = document.createElement('textarea');
       ta.value = text; document.body.appendChild(ta);
-      ta.select(); document.execCommand('copy'); ta.remove();
+      ta.select();
+      try {
+        ok = document.execCommand('copy');
+      } catch {
+        ok = false;
+      }
+      ta.remove();
     }
     if (btn) {
       const orig = btn.textContent;
-      btn.textContent = 'copied';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1600);
+      btn.textContent = ok ? 'copied' : 'press ⌘C / Ctrl+C';
+      btn.classList.toggle('copied', ok);
+      btn.classList.toggle('copy-failed', !ok);
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.classList.remove('copied', 'copy-failed');
+      }, ok ? 1600 : 3200);
     }
   };
 
