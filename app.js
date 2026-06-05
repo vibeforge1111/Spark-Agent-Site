@@ -71,7 +71,7 @@
         const rect = canvas.getBoundingClientRect();
         mouseX = e.clientX - rect.left;
         mouseY = e.clientY - rect.top;
-      });
+      }, { signal: fieldAbort.signal });
       canvas.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
     }
     const render = () => {
@@ -142,7 +142,7 @@
       requestAnimationFrame(render);
     };
     resize(); seed();
-    addEventListener('resize', () => { resize(); seed(); });
+    addEventListener('resize', () => { resize(); seed(); }, { signal: fieldAbort.signal });
     render();
   };
 
@@ -682,7 +682,8 @@
     themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
     resizeSN();
-    addEventListener('resize', resizeSN);
+    const snAbort = new AbortController();
+    addEventListener('resize', resizeSN, { signal: snAbort.signal });
 
     const entranceStart = performance.now();
     const easeOut = t => 1 - Math.pow(1 - t, 3);
