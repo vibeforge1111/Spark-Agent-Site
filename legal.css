@@ -131,6 +131,14 @@
   .legal-body h1 { font-size: clamp(28px, 7vw, 36px); }
   .legal-body h2 { font-size: 16px; margin-top: 32px; }
   .legal-body .lead { font-size: 15px; margin-bottom: 32px; padding-bottom: 24px; }
-  .cookie-table { font-size: 12px; }
-  .cookie-table td, .cookie-table th { padding: 10px 12px; }
+  /* Cookie table: allow horizontal scroll on narrow viewports so the four
+     columns don't squash purpose text into illegible 1-2 char wraps. */
+  .cookie-table {
+    font-size: 12px;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cookie-table td, .cookie-table th { padding: 10px 12px; white-space: nowrap; }
+  .cookie-table td:nth-child(2) { white-space: normal; min-width: 220px; }
 }
