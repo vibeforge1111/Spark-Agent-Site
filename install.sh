@@ -519,6 +519,13 @@ validate_install_settings() {
       ;;
   esac
 
+  case "$SPARK_UV_VERSION" in
+    *[!0-9.]*|.*|*..*|*.)
+      echo "Unsafe uv version value: $SPARK_UV_VERSION" >&2
+      exit 1
+      ;;
+  esac
+
   case "$SPARK_NODE_PLATFORM" in
     ""|linux-x64|linux-arm64|darwin-x64|darwin-arm64) ;;
     *)
