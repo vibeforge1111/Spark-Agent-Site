@@ -914,7 +914,9 @@
       await navigator.clipboard.writeText(text);
     } catch {
       const ta = document.createElement('textarea');
-      ta.value = text; document.body.appendChild(ta);
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0';
+      document.body.appendChild(ta);
       ta.select(); document.execCommand('copy'); ta.remove();
     }
     if (btn) {
