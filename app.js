@@ -263,8 +263,8 @@
       step = (step + 1) % slSteps.length;
       // when wrapping back to 0, a full loop just completed
       if (step === 0 && slLoops) {
-        const cur = parseInt((slLoops.textContent || '27418').replace(/,/g, ''), 10);
-        slLoops.textContent = (cur + 1).toLocaleString('en-US');
+        const cur = parseInt((slLoops.textContent || '27418').replace(/[,\s  ]/g, ''), 10);
+        slLoops.textContent = (cur + 1).toLocaleString();
       }
     };
     tickStep();
