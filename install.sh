@@ -303,6 +303,10 @@ release_install_lock() {
 cleanup_on_exit() {
   cleanup_secret_files
   release_install_lock
+  # Wait for the tee process substitution to flush buffered output
+  if [ -n "$SPARK_TEE_PID" ]; then
+    wait "$SPARK_TEE_PID" 2>/dev/null || true
+  fi
 }
 
 trap 'cleanup_on_exit' EXIT
@@ -806,6 +810,7 @@ start_install_log() {
   chmod 600 "$SPARK_INSTALL_LOG" 2>/dev/null || true
   log "Writing install log to $SPARK_INSTALL_LOG"
   exec > >(redact_install_log_stream | tee -a "$SPARK_INSTALL_LOG") 2>&1
+  SPARK_TEE_PID=$!
 }
 
 install_node() {
