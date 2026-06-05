@@ -505,6 +505,12 @@ validate_install_settings() {
       ;;
   esac
 
+  # Reject shell metacharacters that would allow heredoc command injection
+  if [[ "$SPARK_PREFIX" =~ [\`\"\$\(\)\;\|\&] ]]; then
+    echo "Refusing SPARK_PREFIX containing shell metacharacters: $SPARK_PREFIX" >&2
+    exit 1
+  fi
+
   case "$SPARK_NODE_VERSION" in
     *[!0-9.]*|.*|*..*|*.)
       echo "Unsafe Node version value: $SPARK_NODE_VERSION" >&2
