@@ -2,6 +2,7 @@
   "name": "Spark · Recursive Self-Improving Personal AI Agent",
   "short_name": "Spark",
   "description": "Personal AI agent that trains itself 24/7 in gyms and against benchmarks. Recursive self-improvement. Local-first.",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
