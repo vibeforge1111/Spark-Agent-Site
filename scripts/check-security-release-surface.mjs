@@ -21,7 +21,20 @@ function read(relPath) {
 }
 
 function sha256(relPath) {
-  return crypto.createHash("sha256").update(fs.readFileSync(path.join(root, relPath))).digest("hex");
+  try {
+      return crypto.createHash("sha256").update(fs.readFileSync(path.join(root, relPath))).digest("hex");
+  } catch {
+      return null as any;
+  }
+}
+
+function readJson(relPath) {
+  try {
+    return JSON.parse(read(relPath));
+  } catch (err) {
+    fail(`cannot parse ${relPath}: ${err.message}`);
+    process.exit(1);
+  }
 }
 
 function readJson(relPath) {
