@@ -3,9 +3,9 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 const root = process.cwd();
-const sparkCliRef = "spark-cli-public-installer-2026-05-30-r22";
-const sparkCliCommit = "1898af489937f22f5cda25334f99857278bf9176";
-const releaseName = "spark-cli-public-installer-2026-05-30-r22";
+const sparkCliRef = "spark-cli-public-installer-2026-06-03-r24-v2";
+const sparkCliCommit = "fc49c16a97ac5b69aaf27daea55918a40a28ad0c";
+const releaseName = "spark-cli-public-installer-2026-06-03-r24-v2";
 
 function fail(message) {
   console.error(`security release surface check failed: ${message}`);
@@ -17,11 +17,24 @@ function assert(condition, message) {
 }
 
 function read(relPath) {
-  return fs.readFileSync(path.join(root, relPath), "utf8");
+  try {
+      return fs.readFileSync(path.join(root, relPath), "utf8");
+  } catch {
+      return null as any;
+  }
 }
 
 function sha256(relPath) {
   return crypto.createHash("sha256").update(fs.readFileSync(path.join(root, relPath))).digest("hex");
+}
+
+function readJson(relPath) {
+  try {
+    return JSON.parse(read(relPath));
+  } catch (err) {
+    fail(`cannot parse ${relPath}: ${err.message}`);
+    process.exit(1);
+  }
 }
 
 function walk(dir, files = []) {
@@ -61,9 +74,9 @@ for (const relPath of ["install.sh", "install.ps1"]) {
   assert(expected[relPath] === sha256(relPath), `${relPath} checksum does not match install/checksums.txt`);
 }
 
-const checksumsJson = JSON.parse(read("install/checksums.json"));
-const commandsJson = JSON.parse(read("install/commands.json"));
-const manifest = JSON.parse(read("install/release-manifest.json"));
+const checksumsJson = readJson("install/checksums.json");
+const commandsJson = readJson("install/commands.json");
+const manifest = readJson("install/release-manifest.json");
 const jsonHashes = Object.fromEntries(checksumsJson.files.map((entry) => [entry.path, entry.sha256]));
 
 assert(JSON.stringify(jsonHashes) === JSON.stringify(expected), "checksums.json must match checksums.txt");
@@ -83,6 +96,22 @@ const publicFiles = walk(".").filter((relPath) => {
 });
 
 const staleTokens = [
+  "spark-cli-public-installer-2026-06-03-r26",
+  "spark-cli-public-installer-2026-06-03-r25",
+  "f989fd06aebad0fa02c99a840b8b2d92f08daea6",
+  "4e6372d7a100cf3275c6bc29923a9cae2f23fed53dbcc1d22ce1bab66676ddef",
+  "32676b2d6b51c350b090566f4eabf90d471ec302a0e282a702bdc5641a27577f",
+  "495687f5267e4ac41a451a2cf60d59f8f62cba68",
+  "40c2c8c3dbed386c5b2131cf683fc27be29dbff2010294862751ac2093461f68",
+  "8a625f4c1a172e9ac2cba6dc03164655575b025c674b6f03caf58f4bedcacb44",
+  "spark-cli-public-installer-2026-06-02-r23",
+  "e9bbd3137fc313644f37741bc76dbdaf1d118b9d",
+  "421318e92dc9cb4a5a7f256350d3a9f7e5a00a5145c0f2dba384c8cf10f2b993",
+  "799d730d7e2fac49746841ebd87fffa5168861992c343aeab3d86a44feb74342",
+  "spark-cli-public-installer-2026-05-30-r22",
+  "1898af489937f22f5cda25334f99857278bf9176",
+  "42b864fe8068c4adc7b8e5883df7323fb7a1cb679fb200150cbfb6e4305de976",
+  "024605eada65497619bf20ec993723394d95a60d499941f16c6497aa2dda2a1a",
   "spark-cli-public-installer-2026-05-29-r20",
   "bb188d440707ff0a9f866f782760929a69872ed2",
   "33659e85e6ac370acc5a4ae8b57eb1555140364df97bba310a6511a9c835d8f0",
@@ -148,11 +177,22 @@ const staleTokens = [
   "db41e347d1e73e1fa147088445bbe4d400ea364008265d6be4af1d529ffeaaeb",
 ];
 
+const staleReleasePatterns = [
+  {
+    pattern: /\bspark-cli-public-installer-2026-06-03-r24(?!-v\d)\b/,
+    label: "spark-cli-public-installer-2026-06-03-r24",
+  },
+];
+
 for (const relPath of publicFiles) {
   const text = read(relPath);
+  for (const { pattern, label } of staleReleasePatterns) {
+    assert(!pattern.test(text), `${relPath} contains stale release token ${label}`);
+  }
   for (const token of staleTokens) {
     assert(!text.includes(token), `${relPath} contains stale release token ${token}`);
   }
+  assert(!text.includes("github.com/vibeforge1111/spark-skill-graphs"), `${relPath} routes users to retired spark-skill-graphs repo`);
 
   for (const line of text.split(/\n/)) {
     const installer = line.includes("install.ps1") ? "install.ps1" : line.includes("install.sh") ? "install.sh" : null;
@@ -161,6 +201,14 @@ for (const relPath of publicFiles) {
       assert(digest.toLowerCase() === expected[installer], `${relPath} has stale ${installer} hash: ${digest}`);
     }
   }
+}
+
+for (const relPath of ["cookies.html", "privacy.html", "terms.html"]) {
+  const html = read(relPath);
+  assert(
+    html.includes('<a href="https://github.com/vibeforge1111/Spark-Agent-Site">github</a>'),
+    `${relPath} legal footer must route GitHub visitors to the active public site repo`,
+  );
 }
 
 const copyBlocks = [];
