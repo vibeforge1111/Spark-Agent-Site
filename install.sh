@@ -435,7 +435,7 @@ install_uv() {
   fi
   mkdir -p "$tools_dir" "$uv_dir"
   log "Downloading pinned uv $SPARK_UV_VERSION for $uv_platform"
-  curl -fsSL "https://github.com/astral-sh/uv/releases/download/$SPARK_UV_VERSION/$asset" -o "$archive"
+  curl -fsSL --connect-timeout 15 --max-time 300 "https://github.com/astral-sh/uv/releases/download/$SPARK_UV_VERSION/$asset" -o "$archive"
   if command -v sha256sum >/dev/null 2>&1; then
     printf '%s  %s\n' "$expected" "$archive" | sha256sum -c -
   else
@@ -839,8 +839,8 @@ install_node() {
   local url="https://nodejs.org/dist/v$SPARK_NODE_VERSION/node-v$SPARK_NODE_VERSION-$SPARK_NODE_PLATFORM.tar.xz"
   local shasums_url="https://nodejs.org/dist/v$SPARK_NODE_VERSION/SHASUMS256.txt"
   log "Downloading Node $SPARK_NODE_VERSION for $SPARK_NODE_PLATFORM"
-  curl -fsSL "$url" -o "$archive"
-  curl -fsSL "$shasums_url" -o "$shasums"
+  curl -fsSL --connect-timeout 15 --max-time 300 "$url" -o "$archive"
+  curl -fsSL --connect-timeout 15 --max-time 300 "$shasums_url" -o "$shasums"
   verify_node_archive "$archive" "$shasums"
   tar -C "$tools_dir" -xf "$archive"
 }
