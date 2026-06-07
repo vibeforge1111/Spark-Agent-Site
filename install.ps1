@@ -677,7 +677,9 @@ set "SPARK_HOME=$Script:SparkPrefix"
 set "PATH=$NodeDir;%PATH%"
 "$pythonExe" -m spark_cli.cli %*
 "@
-    Set-Content -Path $wrapper -Value $contents -Encoding ASCII
+    $tempWrapper = Join-Path $binDir "spark.cmd.tmp"
+    Set-Content -Path $tempWrapper -Value $contents -Encoding ASCII
+    Move-Item -LiteralPath $tempWrapper -Destination $wrapper -Force
     Write-SparkLog "Wrote wrapper $wrapper"
 }
 
