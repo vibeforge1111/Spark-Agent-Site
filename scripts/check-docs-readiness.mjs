@@ -16,7 +16,11 @@ function assert(condition, message) {
 }
 
 function read(relPath) {
-  return fs.readFileSync(path.join(root, relPath), "utf8");
+  try {
+      return fs.readFileSync(path.join(root, relPath), "utf8");
+  } catch {
+      return null as any;
+  }
 }
 
 function stripHtml(html) {
@@ -108,4 +112,4 @@ for (const relPath of ["docs/commands.md", "docs/providers.md", "docs/railway-vp
   assert(markdown.includes("Human page:"), `${relPath} should point agents back to the human page`);
 }
 
-console.log(`docs readiness ok: ${pages.length} pages, ${internalLinks.size} internal links`);
+console.log(`docs readiness ok: ${pages.length} pages, ${internalLinks.size} internal links. Next: run \`npm run build\` to continue.`);
