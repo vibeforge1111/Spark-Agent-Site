@@ -217,7 +217,7 @@
 
   // 1. scramble-resolve reveal on hero title words (after fade-in)
   const scrambleChars = '!<>-_\\/[]{}=+*^?#█░▒01';
-  $$('.hero-title .hk-w').forEach((el, i) => {
+  $$('.hero-title span').forEach((el, i) => {
     if (reduced) return;
     const original = el.dataset.text || el.textContent;
     const base = 1700 + i * 70;
