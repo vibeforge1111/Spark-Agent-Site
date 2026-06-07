@@ -993,11 +993,19 @@
   const ALLOWED_THEMES = new Set(['light', 'dark']);
   const saved = localStorage.getItem('spark-theme');
   if (saved && ALLOWED_THEMES.has(saved)) document.documentElement.dataset.theme = saved;
+  const syncThemeBtn = () => {
+    if (!themeBtn) return;
+    const current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    themeBtn.setAttribute('aria-pressed', current === 'light' ? 'true' : 'false');
+    themeBtn.setAttribute('aria-label', current === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
+  };
+  syncThemeBtn();
   themeBtn?.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
     document.documentElement.dataset.theme = next;
     localStorage.setItem('spark-theme', next);
     themeBtn.textContent = next === 'light' ? '◑' : '◐';
+    syncThemeBtn();
   });
 
   /* ══════════════════════════════════════════════════════════════
