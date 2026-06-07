@@ -909,13 +909,31 @@
   /* ══════════════════════════════════════════════════════════════
      COPY TO CLIPBOARD
      ══════════════════════════════════════════════════════════════ */
+  let copyLive = $('#copy-live');
+  if (!copyLive) {
+    copyLive = document.createElement('div');
+    copyLive.id = 'copy-live';
+    copyLive.setAttribute('role', 'status');
+    copyLive.setAttribute('aria-live', 'polite');
+    copyLive.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
+    document.body.appendChild(copyLive);
+  }
+  const announceCopy = (msg) => {
+    if (!copyLive) return;
+    copyLive.textContent = '';
+    // Re-set on next tick so screen readers reliably announce the change.
+    setTimeout(() => { copyLive.textContent = msg; }, 50);
+  };
   const copyText = async (text, btn) => {
+    let ok = true;
     try {
       await navigator.clipboard.writeText(text);
     } catch {
       const ta = document.createElement('textarea');
       ta.value = text; document.body.appendChild(ta);
-      ta.select(); document.execCommand('copy'); ta.remove();
+      ta.select();
+      try { ok = document.execCommand('copy'); } catch { ok = false; }
+      ta.remove();
     }
     if (btn) {
       const orig = btn.textContent;
@@ -923,6 +941,7 @@
       btn.classList.add('copied');
       setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1600);
     }
+    announceCopy(ok ? 'Copied to clipboard' : 'Copy failed; select the text manually');
   };
 
   // hero primary cta — scroll to install section
