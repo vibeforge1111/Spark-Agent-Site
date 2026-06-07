@@ -268,7 +268,7 @@
       }
     };
     tickStep();
-    setInterval(tickStep, 1800);
+    if (!reduced) setInterval(tickStep, 1800);
   }
 
   const runlog = $('#runlog-list');
