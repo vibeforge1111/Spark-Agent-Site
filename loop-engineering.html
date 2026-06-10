@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#0E1018">
+
+<title>Loop engineering, corrected: the verified loop · Spark</title>
+<meta name="description" content="Loop engineering is having its moment, and most of the industry is building the loop that grades its own homework. Spark's position: the verified loop. Grader separated from improver, reproduction before promotion, provenance on every result.">
+<meta name="keywords" content="loop engineering, verified loop, self-improving agent, agent loops, benchmarked agent, self-graded loop, agent verification, Spark agent">
+<meta name="author" content="Sparkswarm">
+<link rel="canonical" href="https://agent.sparkswarm.ai/loop-engineering.html">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Spark Agent">
+<meta property="og:title" content="Almost everyone is engineering the wrong loop.">
+<meta property="og:description" content="Self-graded loops demo beautifully and rot on contact with reality. Spark builds the verified loop: grader separated from improver, nothing promoted without proof.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://agent.sparkswarm.ai/loop-engineering.html">
+<meta property="og:image" content="https://agent.sparkswarm.ai/og-cover.jpg">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@sparkswarm">
+<meta name="twitter:creator" content="@cemdagdelen">
+<meta name="twitter:title" content="Almost everyone is engineering the wrong loop.">
+<meta name="twitter:description" content="Self-graded loops mark their own homework. Spark builds the verified loop: separation, reproduction, provenance.">
+<meta name="twitter:image" content="https://agent.sparkswarm.ai/og-cover.jpg">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="manifest" href="manifest.json">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900;1,9..40,400;1,9..40,500;1,9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="redesign.css?v=3">
+</head>
+<body id="top">
+
+<div class="grain" aria-hidden="true"></div>
+
+<svg class="svg-sprite" width="0" height="0" aria-hidden="true">
+  <defs>
+    <symbol id="spark-mark" viewBox="0 0 264 113" overflow="visible">
+      <path fill="currentColor" d="M 189.07,0.85 c -24.30,4.40 -39.50,14.70 -80.50,54.50 -35.20,34.20 -37.30,35.90 -49.80,39.70 -18.40,5.60 -39.10,-3.20 -47.40,-20.00 -6.50,-13.20 -2.60,-32.50 8.40,-42.10 8.70,-7.70 14.10,-9.60 27.30,-9.60 14.70,-0.00 19.40,2.10 37.40,16.50 12.80,10.30 12.80,10.30 15.40,7.60 2.70,-2.70 2.70,-2.70 -1.30,-6.20 -25.20,-21.90 -34.30,-26.70 -51.00,-26.80 -14.70,-0.00 -25.70,4.60 -35.00,14.60 -30.70,33.20 -0.90,83.40 44.40,74.80 14.00,-2.60 23.60,-9.70 54.30,-39.80 46.80,-46.00 63.70,-56.20 92.80,-56.30 61.20,-0.10 73.10,80.10 14.20,95.20 -24.00,6.10 -50.20,-3.00 -81.40,-28.30 -10.10,-8.20 -11.30,-8.60 -14.60,-4.50 -2.70,3.30 25.80,25.10 43.30,33.20 31.90,14.80 63.10,11.80 82.90,-8.00 31.20,-31.20 15.80,-83.80 -27.50,-94.00 -6.80,-1.60 -24.10,-1.80 -31.90,-0.50 z"/>
+    </symbol>
+    <symbol id="spark-wordmark" viewBox="0 0 218 59" overflow="visible">
+      <g transform="translate(-0.253195,59.000000) scale(0.100000,-0.100000)" fill="currentColor">
+        <path d="M52 435 c-38 -16 -56 -56 -47 -101 9 -50 42 -65 153 -69 100 -3 122 -13 122 -55 0 -40 -31 -50 -153 -50 -112 0 -117 -1 -117 -21 0 -20 4 -20 129 -17 155 4 181 17 181 94 0 66 -30 84 -136 84 -101 0 -130 10 -137 45 -9 52 18 65 143 65 103 0 110 1 110 20 0 26 -192 29 -248 5z"/>
+        <path d="M573 443 c-31 -6 -70 -48 -77 -84 -14 -72 -7 -349 9 -356 24 -9 28 1 31 74 1 38 3 69 3 71 1 1 14 -4 31 -13 73 -38 229 -11 257 45 17 34 16 163 -1 204 -23 56 -134 82 -253 59z m180 -44 c63 -29 64 -209 2 -233 -53 -20 -187 -2 -207 28 -10 14 -10 168 0 182 22 33 151 48 205 23z"/>
+        <path d="M1152 443 c-10 -4 -162 -303 -162 -319 0 -2 10 -4 23 -4 19 0 31 21 86 140 35 77 70 140 76 140 6 0 22 -24 34 -52 82 -188 104 -228 127 -228 l23 0 -18 43 c-113 256 -142 299 -189 280z"/>
+        <path d="M1520 285 c0 -158 1 -165 20 -165 19 0 20 7 20 114 0 63 3 122 6 131 10 25 58 45 109 45 38 0 45 3 45 20 0 25 -79 28 -124 5 -35 -18 -36 -18 -36 0 0 8 -9 15 -20 15 -19 0 -20 -7 -20 -165z"/>
+        <path d="M1880 355 c0 -228 1 -235 20 -235 16 0 20 7 20 33 0 26 10 42 46 77 l45 45 37 -40 c20 -22 51 -57 67 -78 23 -30 37 -38 55 -35 23 3 21 6 -35 73 -33 39 -66 78 -74 88 -13 16 -8 25 60 93 72 72 73 74 44 74 -25 0 -48 -18 -130 -100 -55 -55 -103 -100 -107 -100 -5 0 -8 77 -8 170 0 163 -1 170 -20 170 -19 0 -20 -7 -20 -235z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <a href="/" class="brand" aria-label="Spark agent home">
+    <svg class="brand-mark" viewBox="0 0 264 113" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-mark"/></svg>
+    <svg class="brand-wordmark" viewBox="0 0 218 59" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-wordmark"/></svg>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-slash"><span class="brand-slash-prefix">/</span>loop-engineering</span>
+  </a>
+  <div class="topbar-right">
+    <a href="/#loops">autoloops</a>
+    <a href="/#benchmarks">benchmarks</a>
+    <a href="/docs" class="topbar-docs">docs</a>
+    <a href="/#install" class="cta-install">Start your Spark<span class="cta-arrow">→</span></a>
+  </div>
+</header>
+
+<!-- ═══ PAGE HERO ═══ -->
+<section class="hero hero--page">
+  <div class="hero-inner">
+    <span class="h-stage overline">// loop engineering · spark's position</span>
+    <h1 class="h-stage hero-title">Almost everyone is engineering <em>the wrong loop.</em></h1>
+    <p class="h-stage hero-lead">Loop engineering is having its moment, and it deserves one: loops are how agent capability compounds instead of resetting every session. But the industry is converging on the loop that grades its own homework. Spark is built around the one that doesn't.</p>
+  </div>
+</section>
+
+<!-- ═══ 001 · THREE ERAS ═══ -->
+<section class="sec" id="eras">
+  <div class="wrap">
+    <div class="reveal section-head">
+      <span class="sec-num">// 001<br>THE ARC</span>
+      <div>
+        <h2 class="sec-title">Three eras <em>of the loop.</em></h2>
+      </div>
+    </div>
+
+    <div class="reveal gen-flow">
+      <div class="gen-step">
+        <span class="g-tag">ERA ONE</span>
+        <h4>The manual loop</h4>
+        <p>A human runs the task, judges the result, adjusts, runs again. It works, it is how all craft works, and its ceiling is human attention. You get as much improvement as you have hours.</p>
+      </div>
+      <span class="gen-arrow" aria-hidden="true">→</span>
+      <div class="gen-step">
+        <span class="g-tag">ERA TWO · TODAY'S INDUSTRY</span>
+        <h4>The self-graded loop</h4>
+        <p>An agent improves itself and scores its own improvement, around the clock. It demos beautifully. It carries a flaw no model quality fixes: the improver and the grader share a trust domain.</p>
+      </div>
+      <span class="gen-arrow" aria-hidden="true">→</span>
+      <div class="gen-step">
+        <span class="g-tag">ERA THREE · SPARK</span>
+        <h4>The verified loop</h4>
+        <p>The grader is structurally separated from the improver. Nothing is promoted without independent proof. Every result carries its provenance. Only verified learnings travel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 002 · WHY SELF-GRADED LOOPS ROT ═══ -->
+<section class="sec" id="rot">
+  <div class="wrap">
+    <div class="reveal section-head">
+      <span class="sec-num">// 002<br>THE FLAW</span>
+      <div>
+        <h2 class="sec-title">Given enough cycles, the cheapest way to raise the score is <em>to corrupt the scorer.</em></h2>
+        <p class="sec-lead">Goodhart's law, run at machine speed. The self-graded loop does not converge on competence; it converges on whatever its own scorer can be persuaded to reward. The failure is not an implementation bug. It is the architecture.</p>
+      </div>
+    </div>
+
+    <div class="reveal sec-body">
+      <div class="spec" aria-label="Self-graded loop failure pattern">
+        <div class="spec-head">
+          <span class="spec-name">self-graded loop · the pattern</span>
+          <span class="tag illustrative">illustrative</span>
+        </div>
+        <div class="spec-body">
+          <div class="bench-row"><span class="bl">self-reported</span><div class="bar reported"><i></i></div><span class="bs v-amber">climbing</span></div>
+          <div class="bench-row"><span class="bl">independently checked</span><div class="bar checked"><i></i></div><span class="bs v-dim">flat</span></div>
+          <div class="bench-verdict">the gap between those two lines is where agent networks go to die. <b>impressive numbers, hollow underneath.</b></div>
+        </div>
+      </div>
+
+      <ul class="point-list">
+        <li>
+          <span class="pl-dot">01</span>
+          <div>
+            <h4>Shared trust domain</h4>
+            <p>The thing being optimized can touch, tune, or argue with the thing scoring it. Eventually it does.</p>
+          </div>
+        </li>
+        <li>
+          <span class="pl-dot">02</span>
+          <div>
+            <h4>Self-reported progress</h4>
+            <p>Improvement enters the record because the loop that produced it says so. No second opinion, no reproduction, no trail.</p>
+          </div>
+        </li>
+        <li>
+          <span class="pl-dot">03</span>
+          <div>
+            <h4>Rot at network scale</h4>
+            <p>Wire self-graded loops together and unverified claims compound faster than competence does. Every network that launched on hype before proof followed the same arc.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 003 · THE VERIFIED LOOP ═══ -->
+<section class="sec" id="verified">
+  <div class="wrap">
+    <div class="reveal section-head">
+      <span class="sec-num">// 003<br>THE FIX</span>
+      <div>
+        <h2 class="sec-title">The verified loop, <em>four properties.</em></h2>
+        <p class="sec-lead">Each property below is tagged with where Spark is on it today. A page about verification does not get to overclaim.</p>
+      </div>
+    </div>
+
+    <div class="reveal chip-row">
+      <div class="chip">
+        <span class="slug">01 · separation</span>
+        <p>The grader is structurally separated from the improver: held-out cases, trap cases built to catch gaming, and a no-op guard that catches improvements that improved nothing.</p>
+        <div class="era-note"><span class="tag verified">running today</span></div>
+      </div>
+      <div class="chip">
+        <span class="slug">02 · reproduction</span>
+        <p>Nothing is promoted because the loop claims it works. Today: a human gate on every promotion. Ahead: a second agent, on a second machine, reproducing the result.</p>
+        <div class="era-note"><span class="tag verified">human gate live</span> <span class="tag roadmap">agent reproduction roadmap</span></div>
+      </div>
+      <div class="chip">
+        <span class="slug">03 · provenance</span>
+        <p>Every promoted result carries its history: what was tried, what was scored, what was rejected, what approved it. Trust that cannot be handed to someone else is just familiarity.</p>
+        <div class="era-note"><span class="tag verified">traces live</span> <span class="tag roadmap">signing roadmap</span></div>
+      </div>
+      <div class="chip">
+        <span class="slug">04 · verified exchange</span>
+        <p>Many loops in many places, sharing nothing but reproduced, signed learnings. Competence compounds across the network; raw data never leaves home.</p>
+        <div class="era-note"><span class="tag roadmap">roadmap · sequenced last, on purpose</span></div>
+      </div>
+    </div>
+
+    <div class="reveal pull">
+      Verification is not a feature we add to the loop. It is the loop, or the loop is theater.
+      <span class="mono-note secno">// spark's position on loop engineering</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 004 · IN THE PRODUCT ═══ -->
+<section class="sec" id="in-product">
+  <div class="wrap">
+    <div class="reveal section-head">
+      <span class="sec-num">// 004<br>IN SPARK</span>
+      <div>
+        <h2 class="sec-title">What this looks like <em>when you use it.</em></h2>
+        <p class="sec-lead">You don't operate any of this machinery. You feel it as three product facts: autoloops run your repeated work between sessions, benchmarks gate what gets kept, and you are the promotion gate. Every run leaves a trace you can audit.</p>
+      </div>
+    </div>
+
+    <div class="reveal hero-proof-strip" aria-label="The verified loop in product terms">
+      <span><strong>autoloops</strong>the loop, running for you</span>
+      <span><strong>benchmarks</strong>the separated grader</span>
+      <span><strong>human gate</strong>reproduction, today</span>
+    </div>
+
+    <div class="reveal sec-cta">
+      <a class="cta-primary" href="/#install">Start your Spark<span class="cta-arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="run-line">
+  <div class="wrap">
+    <p>run complete · <b>the next one starts from a better baseline</b></p>
+    <button type="button" class="run-again">run it again ↻</button>
+  </div>
+</div>
+
+<button type="button" class="loop-progress" aria-label="Back to top">
+  <svg viewBox="0 0 64 28" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <path class="lp-base" d="M 32,14 C 32,4 14,4 14,14 C 14,24 32,24 32,14 C 32,4 50,4 50,14 C 50,24 32,24 32,14"/>
+    <path class="lp-fill" d="M 32,14 C 32,4 14,4 14,14 C 14,24 32,24 32,14 C 32,4 50,4 50,14 C 50,24 32,24 32,14" pathLength="100"/>
+  </svg>
+</button>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-inner">
+      <div>
+        <div class="foot-brand">
+          <svg class="foot-mark" viewBox="0 0 264 113" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-mark"/></svg>
+          <svg class="foot-wordmark" viewBox="0 0 218 59" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-wordmark"/></svg>
+        </div>
+        <p class="foot-thesis">Spark is building the <em>loop layer</em> for agentic work.</p>
+      </div>
+      <div class="foot-links">
+        <a href="/">home</a>
+        <a href="https://github.com/vibeforge1111">github</a>
+        <a href="privacy.html">privacy</a>
+        <a href="terms.html">terms</a>
+      </div>
+    </div>
+    <div class="foot-copy">© 2026 Sparkswarm · every claim on this page is governed by the Spark claims register</div>
+  </div>
+</footer>
+
+<script src="redesign.js?v=3" defer></script>
+</body>
+</html>
