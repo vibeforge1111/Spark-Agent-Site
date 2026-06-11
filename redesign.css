@@ -526,16 +526,17 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
    four things Spark scopes, converges on the human gate, and lands on a
    live loop. One 8s lighting wave travels left to right; the ring runs
    continuously (same grammar as 003). */
+/* centered composition: quote, schema, caption share one axis */
 .w-quote {
-  margin-top: 48px;
+  margin: 48px auto 0;
   font: italic 500 clamp(17px, 1.8vw, 20px) var(--font-sans);
   line-height: 1.55; color: var(--text);
-  border-left: 2px solid var(--accent-dim);
-  padding: 2px 0 2px 18px;
-  max-width: 34em;
+  text-align: center;
+  max-width: 30em;
+  text-wrap: balance;
 }
-.w-schema { margin-top: 48px; }
-.w-stage { position: relative; width: min(880px, 100%); }
+.w-schema { margin-top: 44px; }
+.w-stage { position: relative; width: min(880px, 100%); margin-inline: auto; }
 .w-stage::before { /* soft spotlight: the schema is the only thing lit */
   content: ""; position: absolute; inset: -56px -32px;
   background: radial-gradient(55% 70% at 52% 50%, var(--accent-subtle), transparent 72%);
@@ -613,7 +614,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 @media (prefers-reduced-motion: reduce) {
   .w-msg, .w-slot rect, .w-bar, .w-ringflow { animation: none; }
 }
-.w-caption { margin-top: 32px; font-size: 15px; color: var(--text-secondary); max-width: 44em; line-height: 1.7; }
+.w-caption { margin: 32px auto 0; font-size: 15px; color: var(--text-secondary); max-width: 44em; line-height: 1.7; text-align: center; }
 
 /* chips · hairline items, not cards (loop-engineering property grid) */
 .chip-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 44px; }
