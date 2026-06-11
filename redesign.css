@@ -394,7 +394,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   background: color-mix(in srgb, var(--bg-deep) 55%, transparent);
 }
 .spec-name { font: 500 12px var(--font-mono); color: var(--text-secondary); letter-spacing: 0.3px; }
-.spec-body { padding: 20px 22px 24px; font: 400 12.5px var(--font-mono); line-height: 1.95; }
+.spec-body { padding: 20px 22px 24px; font: 400 13px var(--font-mono); line-height: 1.95; }
 
 /* ledger rows (autoloop exhibit) */
 .lrow { display: flex; gap: 14px; }
@@ -490,7 +490,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   overflow: hidden;
   box-shadow: 0 32px 70px rgba(7, 17, 12, 0.16), 0 6px 18px rgba(7, 17, 12, 0.07);
 }
-@media (min-width: 921px) {
+@media (min-width: 1100px) {
   .ld-card { margin-left: -36px; margin-top: -16px; position: relative; z-index: 2; }
 }
 .ld-card-head {
@@ -521,6 +521,15 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .ld-line { font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
 .ld-line b { color: var(--text); font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .ld-card-status i { animation: none; } }
+
+/* three-column typographic flow (loop-engineering eras) */
+.gen-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 28px; align-items: start; margin-top: 56px; }
+@media (max-width: 920px) { .gen-flow { grid-template-columns: 1fr; gap: 18px; } .gen-arrow { transform: rotate(90deg); justify-self: start; margin-left: 2px; padding-top: 0; } }
+.gen-step { background: transparent; border: 0; padding: 0; }
+.gen-step .g-tag { font: 600 10px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-dim); display: block; margin-bottom: 10px; }
+.gen-step h4 { font: 600 18px var(--font-sans); letter-spacing: -0.01em; margin-bottom: 8px; color: var(--text-bright); }
+.gen-step p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+.gen-arrow { align-self: start; padding-top: 34px; color: var(--accent); font: 500 16px var(--font-mono); }
 
 /* generated workflows · the briefing schema: a sentence fans out into the
    four things Spark scopes, converges on the human gate, and lands on a
