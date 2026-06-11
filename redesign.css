@@ -534,9 +534,14 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   padding: 2px 0 2px 18px;
   max-width: 34em;
 }
-.w-schema { margin-top: 40px; }
+.w-schema { margin-top: 48px; }
 .w-stage { position: relative; width: min(880px, 100%); }
-.w-stage svg { width: 100%; height: auto; display: block; overflow: visible; }
+.w-stage::before { /* soft spotlight: the schema is the only thing lit */
+  content: ""; position: absolute; inset: -56px -32px;
+  background: radial-gradient(55% 70% at 52% 50%, var(--accent-subtle), transparent 72%);
+  pointer-events: none;
+}
+.w-stage svg { width: 100%; height: auto; display: block; overflow: visible; position: relative; }
 @media (max-width: 760px) {
   .w-schema { overflow-x: auto; -webkit-overflow-scrolling: touch;
     mask-image: linear-gradient(90deg, black 92%, transparent);
@@ -576,7 +581,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .w-frame { fill: none; stroke: var(--border-strong); stroke-width: 1.5; }
 .w-msg { stroke: var(--text-faint); stroke-width: 2.5; stroke-linecap: round; animation: w-stroke 8s infinite; }
 .w-m1 { animation-delay: 0.2s; } .w-m2 { animation-delay: 0.4s; } .w-m3 { animation-delay: 0.6s; }
-.w-wire { fill: none; stroke: var(--border-strong); stroke-width: 1.25; }
+.w-wire { fill: none; stroke: var(--border); stroke-width: 1.25; }
 .w-slot rect { fill: none; stroke: var(--border-strong); stroke-width: 1.25; animation: w-stroke-rect 8s infinite; }
 .w-slot text { font: 500 14.5px var(--font-mono); fill: var(--text-secondary); }
 .w-s1 rect { animation-delay: 1.3s; } .w-s2 rect { animation-delay: 1.75s; }
@@ -588,10 +593,10 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .w-b1 { animation-delay: 3.8s; } .w-b2 { animation-delay: 3.95s; }
 .w-ring { fill: none; stroke: var(--border-strong); stroke-width: 1.5; }
 .w-ringflow {
-  fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round;
+  fill: none; stroke: var(--accent); stroke-width: 2.25; stroke-linecap: round;
   stroke-dasharray: 14 86;
   animation: ld-flow 6s linear infinite;
-  filter: drop-shadow(0 0 6px var(--accent-glow));
+  filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 22px var(--accent-glow));
 }
 @keyframes w-stroke {
   0%, 2%, 16%, 100% { stroke: var(--text-faint); }
@@ -626,8 +631,8 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 
 /* chip ticker · the library loops past (pure CSS marquee) */
 .chip-ticker {
-  margin-top: 48px; overflow: hidden; position: relative;
-  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  margin: 0; overflow: hidden; position: relative;
+  border-top: 1px solid var(--border);
   padding: 16px 0;
   mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
   -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
