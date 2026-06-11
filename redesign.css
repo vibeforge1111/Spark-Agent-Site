@@ -288,6 +288,36 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 
 /* ───────── sections · numbered process ───────── */
 .sec { padding: clamp(72px, 12vw, 130px) 0; border-top: 1px solid var(--border); }
+
+/* tonal banding · the loop works overnight, the results live in daylight.
+   .sec--light re-scopes the production light palette onto one section;
+   every component inside recolors itself through the variables. */
+.sec--light {
+  --bg: #F7F8F5;
+  --bg-subtle: #EEF2EE;
+  --bg-deep: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-hi: #EEF4EF;
+  --border: #DCE4DE;
+  --border-strong: #C8D4CC;
+  --border-bright: #AEBEB4;
+  --text: #171C18;
+  --text-bright: #07110C;
+  --text-secondary: #526058;
+  --text-tertiary: #748079;
+  --text-ghost: #96A099;
+  --text-faint: #C8D2CB;
+  --accent: #168F68;
+  --accent-hover: #0F7C5A;
+  --accent-dim: #0F6F50;
+  --accent-subtle: rgba(22,143,104,0.09);
+  --accent-mid: rgba(22,143,104,0.18);
+  --accent-glow: rgba(22,143,104,0.22);
+  background: var(--bg);
+  color: var(--text);
+}
+/* a raised room, one step up from the base dark */
+.sec--raised { background: var(--bg-subtle); }
 .section-head {
   display: grid; grid-template-columns: 124px 1fr; gap: 40px;
   margin-bottom: clamp(36px, 7vw, 56px); align-items: start;
