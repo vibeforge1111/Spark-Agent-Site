@@ -522,20 +522,63 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .ld-line b { color: var(--text); font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .ld-card-status i { animation: none; } }
 
-/* generated workflows · de-boxed: typography + the line, no cards */
-.gen-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 28px; align-items: start; margin-top: 56px; }
-@media (max-width: 920px) { .gen-flow { grid-template-columns: 1fr; gap: 18px; } .gen-arrow { transform: rotate(90deg); justify-self: start; margin-left: 2px; } }
-.gen-step { background: transparent; border: 0; padding: 0; }
-.gen-step .g-tag { font: 600 10px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-dim); display: block; margin-bottom: 10px; }
-.gen-step h4 { font: 600 18px var(--font-sans); letter-spacing: -0.01em; margin-bottom: 8px; color: var(--text-bright); }
-.gen-step p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
-.gen-step .g-quote {
-  font: italic 500 16px var(--font-sans); line-height: 1.55; color: var(--text);
-  background: transparent; border: 0; border-left: 2px solid var(--accent-dim);
-  border-radius: 0; padding: 2px 0 2px 16px; margin-top: 10px;
+/* generated workflows · the briefing schema: a sentence fans out into the
+   four things Spark scopes, converges on the human gate, and lands on a
+   live loop. One 8s lighting wave travels left to right; the ring runs
+   continuously (same grammar as 003). */
+.w-quote {
+  margin-top: 48px;
+  font: italic 500 clamp(17px, 1.8vw, 20px) var(--font-sans);
+  line-height: 1.55; color: var(--text);
+  border-left: 2px solid var(--accent-dim);
+  padding: 2px 0 2px 18px;
+  max-width: 34em;
 }
-.gen-arrow { align-self: start; padding-top: 34px; color: var(--accent); font: 500 16px var(--font-mono); }
-@media (max-width: 920px) { .gen-arrow { padding-top: 0; } }
+.w-schema { margin-top: 40px; }
+.w-schema svg { width: min(880px, 100%); height: auto; display: block; overflow: visible; }
+@media (max-width: 760px) {
+  .w-schema { overflow-x: auto; -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(90deg, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, black 92%, transparent); }
+  .w-schema svg { min-width: 640px; }
+}
+.w-zone { font: 600 13px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase; fill: var(--text-ghost); }
+.w-frame { fill: none; stroke: var(--border-strong); stroke-width: 1.5; }
+.w-msg { stroke: var(--text-faint); stroke-width: 2.5; stroke-linecap: round; animation: w-stroke 8s infinite; }
+.w-m1 { animation-delay: 0.2s; } .w-m2 { animation-delay: 0.4s; } .w-m3 { animation-delay: 0.6s; }
+.w-wire { fill: none; stroke: var(--border-strong); stroke-width: 1.25; }
+.w-slot rect { fill: none; stroke: var(--border-strong); stroke-width: 1.25; animation: w-stroke-rect 8s infinite; }
+.w-slot text { font: 500 14.5px var(--font-mono); fill: var(--text-secondary); }
+.w-s1 rect { animation-delay: 1.3s; } .w-s2 rect { animation-delay: 1.75s; }
+.w-s3 rect { animation-delay: 2.2s; } .w-s4 rect { animation-delay: 2.65s; }
+.w-gate {
+  fill: none; stroke: var(--accent-mid); stroke-width: 1.5; stroke-dasharray: 5 4;
+}
+.w-bar { fill: var(--text-ghost); animation: w-fill 8s infinite; }
+.w-b1 { animation-delay: 3.8s; } .w-b2 { animation-delay: 3.95s; }
+.w-ring { fill: none; stroke: var(--border-strong); stroke-width: 1.5; }
+.w-ringflow {
+  fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round;
+  stroke-dasharray: 14 86;
+  animation: ld-flow 6s linear infinite;
+  filter: drop-shadow(0 0 6px var(--accent-glow));
+}
+@keyframes w-stroke {
+  0%, 2%, 16%, 100% { stroke: var(--text-faint); }
+  6%, 11% { stroke: var(--accent); }
+}
+@keyframes w-stroke-rect {
+  0%, 2%, 16%, 100% { stroke: var(--border-strong); }
+  6%, 11% { stroke: var(--accent); }
+}
+@keyframes w-fill {
+  0%, 2%, 16%, 100% { fill: var(--text-ghost); }
+  6%, 11% { fill: var(--accent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .w-msg, .w-slot rect, .w-bar, .w-ringflow { animation: none; }
+}
+.w-caption { margin-top: 32px; font-size: 15px; color: var(--text-secondary); max-width: 44em; line-height: 1.7; }
 
 /* chips · hairline items, not cards (loop-engineering property grid) */
 .chip-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 44px; }
