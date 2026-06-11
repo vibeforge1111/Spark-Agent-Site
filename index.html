@@ -171,7 +171,7 @@
 </section>
 
 <!-- ═══ 001 · AUTOLOOPS ═══ -->
-<section class="sec" id="loops">
+<section class="sec sec--light" id="loops">
   <div class="wrap">
     <div class="reveal section-head">
       <span class="sec-num">// 001<br>AUTOLOOPS</span>
@@ -206,19 +206,16 @@
         </li>
       </ul>
 
-      <div class="spec" aria-label="Example autoloop run trace">
+      <div class="spec spec--mini" aria-label="While you were away, illustrative summary">
         <div class="spec-head">
-          <span class="spec-name">spark run · account-research-brief</span>
-          <span class="tag illustrative">illustrative trace</span>
+          <span class="spec-name">spark · while you were away</span>
+          <span class="tag illustrative">illustrative</span>
         </div>
         <div class="spec-body">
-          <div class="lrow"><span class="t">09:41</span><span class="k">workflow scoped <span class="v-dim">· sources locked · tools approved</span></span></div>
-          <div class="lrow"><span class="t">09:42</span><span class="k">gathering 4 sources · reasoning · drafting brief</span></div>
-          <div class="lrow"><span class="t">09:44</span><span class="k">scored against your bar <span class="v-amber">· 2 weak spots flagged</span></span></div>
-          <div class="lrow"><span class="t">09:44</span><span class="k">candidate improvement proposed · trace attached</span></div>
-          <div class="gateline">⏸ human gate · keep this improvement? <span class="v-green">[approved]</span></div>
-          <div class="lrow"><span class="t">09:45</span><span class="k v-green">promoted · next run starts from a better baseline</span></div>
-          <div class="lrow"><span class="t">&nbsp;</span><span class="k">$ <span class="cursor"></span></span></div>
+          <div class="mrow">3 runs finished <span class="v-dim">· benchmarked against your bar</span></div>
+          <div class="mrow"><b>1 improvement beat the baseline</b></div>
+          <div class="gateline">⏸ kept only after your approval</div>
+          <div class="mrow v-green">next run starts ahead <span class="cursor"></span></div>
         </div>
       </div>
     </div>
@@ -502,9 +499,9 @@
 
 <button type="button" class="loop-progress" aria-label="Back to top">
   <svg viewBox="-10 -10 284 133" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-    <use href="#spark-mark" class="lp-ghost"/>
-    <path class="lp-base" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z" pathLength="100"/>
-    <path class="lp-fill" d="M189.07 0.85c-24.3 4.4-39.5 14.7-80.5 54.5-35.2 34.2-37.3 35.9-49.8 39.7-18.4 5.6-39.1-3.2-47.4-20-6.5-13.2-2.6-32.5 8.4-42.1 8.7-7.7 14.1-9.6 27.3-9.6 14.7 0 19.4 2.1 37.4 16.5 12.8 10.3 12.8 10.3 15.4 7.6 2.7-2.7 2.7-2.7-1.3-6.2-25.2-21.9-34.3-26.7-51-26.8-14.7 0-25.7 4.6-35 14.6-30.7 33.2-.9 83.4 44.4 74.8 14-2.6 23.6-9.7 54.3-39.8 46.8-46 63.7-56.2 92.8-56.3 61.2-.1 73.1 80.1 14.2 95.2-24 6.1-50.2-3-81.4-28.3-10.1-8.2-11.3-8.6-14.6-4.5-2.7 3.3 25.8 25.1 43.3 33.2 31.9 14.8 63.1 11.8 82.9-8 31.2-31.2 15.8-83.8-27.5-94-6.8-1.6-24.1-1.8-31.9-.5Z" pathLength="100"/>
+    <defs><clipPath id="lp-reveal"><rect x="-10" y="-10" width="0" height="133"/></clipPath></defs>
+    <use href="#spark-mark" class="lp-under"/>
+    <use href="#spark-mark" class="lp-over" clip-path="url(#lp-reveal)"/>
   </svg>
 </button>
 

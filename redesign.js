@@ -72,18 +72,18 @@
     if (svgEl && svgEl.pauseAnimations) { svgEl.pauseAnimations(); }
   }
 
-  // loop progress · fills with scroll, click closes the loop
+  // loop progress · the mark fills left-to-right with scroll, click closes the loop
   var lp = document.querySelector('.loop-progress');
   if (lp) {
-    var fill = lp.querySelector('.lp-fill');
+    var revealRect = lp.querySelector('clipPath rect');
     var ticking = false;
     var onScroll = function () {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(function () {
         var max = document.documentElement.scrollHeight - window.innerHeight;
-        var p = max > 0 ? window.scrollY / max : 0;
-        if (fill) fill.style.strokeDashoffset = String(100 - p * 100);
+        var p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+        if (revealRect) revealRect.setAttribute('width', String(p * 284));
         lp.classList.toggle('visible', window.scrollY > 400);
         ticking = false;
       });

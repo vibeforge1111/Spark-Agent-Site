@@ -136,7 +136,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .reveal.in { opacity: 1; transform: none; }
 @keyframes fadeIn { to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .h-stage, .lrow, .gateline { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+  .reveal, .h-stage, .mrow, .gateline { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
 }
 
 /* ───────── topbar ───────── */
@@ -313,6 +313,8 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   --accent-subtle: rgba(22,143,104,0.09);
   --accent-mid: rgba(22,143,104,0.18);
   --accent-glow: rgba(22,143,104,0.22);
+  --status-green: #0E8C66;
+  --status-amber: #9A7B1F;
   background: var(--bg);
   color: var(--text);
 }
@@ -355,7 +357,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 @media (max-width: 920px) { .sec-body { grid-template-columns: 1fr; gap: 40px; } }
 @media (max-width: 480px) {
   .spec-body { padding: 16px 16px 20px; font-size: 11.5px; }
-  .lrow .t { min-width: 40px; }
+  .spec--mini .spec-body { font-size: 13.5px; padding: 20px 18px 22px; }
   .bench-row { grid-template-columns: 72px 1fr 52px; gap: 10px; }
 }
 
@@ -396,10 +398,12 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .spec-name { font: 500 12px var(--font-mono); color: var(--text-secondary); letter-spacing: 0.3px; }
 .spec-body { padding: 20px 22px 24px; font: 400 13px var(--font-mono); line-height: 1.95; }
 
-/* ledger rows (autoloop exhibit) */
-.lrow { display: flex; gap: 14px; }
-.lrow .t { color: var(--text-faint); min-width: 48px; }
-.lrow .k { color: var(--text-secondary); }
+/* compact exhibit · four beats, readable in two seconds */
+.spec--mini .spec-body { padding: 26px 28px 28px; font-size: 15px; line-height: 1.7; display: grid; gap: 13px; }
+.mrow { color: var(--text-secondary); }
+.mrow b { color: var(--text-bright); font-weight: 600; }
+.spec--mini .gateline { margin: 2px 0; }
+
 .v-green { color: var(--status-green); }
 .v-amber { color: var(--status-amber); }
 .v-dim { color: var(--text-tertiary); }
@@ -736,14 +740,11 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 }
 .loop-progress.visible { opacity: 1; pointer-events: auto; transform: none; }
 .loop-progress svg { width: 100%; height: 100%; overflow: visible; }
-.lp-ghost { fill: var(--surface-hi); opacity: 0.55; }
-.lp-base { fill: none; stroke: var(--border-bright); stroke-width: 6; }
-.lp-fill {
-  fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round;
-  stroke-dasharray: 100; stroke-dashoffset: 100;
-  filter: drop-shadow(0 0 5px var(--accent-glow));
-}
-.loop-progress:hover .lp-base { stroke: var(--accent-dim); }
+/* the logo itself, revealed left-to-right as you read
+   (the mark's path uses currentColor, so color drives it, not fill) */
+.lp-under { color: var(--border-bright); }
+.lp-over { color: var(--accent); filter: drop-shadow(0 0 6px var(--accent-glow)); }
+.loop-progress:hover .lp-under { color: var(--text-ghost); }
 
 /* footer · brand + thesis left, link columns right */
 .footer { border-top: 1px solid var(--border); padding: 72px 0 48px; background: var(--bg-deep); }
