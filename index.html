@@ -337,35 +337,36 @@
     <div class="reveal section-head">
       <span class="sec-num">// 004<br>WORKFLOWS</span>
       <div>
-        <h2 class="sec-title">Describe the job. <em>Get a workflow.</em></h2>
-        <p class="sec-lead">You don't configure Spark, you brief it. Describe the work you repeat in plain language and Spark generates the workflow for your specific needs.</p>
+        <h2 class="sec-title">Describe the job. <em>Get an autoloop.</em></h2>
+        <p class="sec-lead">You don't configure Spark, you brief it. From one brief, Spark builds the whole loop kit around your work: the chip, the benchmarks that judge it, and the policy that improves it.</p>
       </div>
     </div>
 
     <blockquote class="reveal w-quote">"Before every sales call, I want a brief on the account: recent news, their stack, and three talking points."</blockquote>
 
-    <div class="reveal w-schema" aria-label="Your sentence becomes a scoped workflow: Spark drafts the sources, tools, schedule, and scoring; you approve; it joins your loops">
+    <div class="reveal w-schema" aria-label="Your brief becomes a loop kit: Spark builds the domain chip, benchmark pack, autoloop policy, and specialization path; you approve; the loop improves itself">
+      <div class="w-stage">
       <svg viewBox="0 0 760 250" preserveAspectRatio="xMidYMid meet">
         <!-- zone labels -->
         <text class="w-zone" x="95" y="18" text-anchor="middle">you say</text>
-        <text class="w-zone" x="353" y="18" text-anchor="middle">spark drafts</text>
+        <text class="w-zone" x="353" y="18" text-anchor="middle">spark builds</text>
         <text class="w-zone" x="545" y="18" text-anchor="middle">you approve</text>
-        <text class="w-zone" x="662" y="18" text-anchor="middle">it runs</text>
+        <text class="w-zone" x="662" y="18" text-anchor="middle">it improves itself</text>
         <!-- the sentence -->
         <rect class="w-frame" x="20" y="80" width="150" height="90" rx="6"/>
         <path class="w-frame" d="M 44,170 L 44,184 L 62,170"/>
         <line class="w-msg w-m1" x1="42" y1="105" x2="142" y2="105"/>
         <line class="w-msg w-m2" x1="42" y1="122" x2="118" y2="122"/>
         <line class="w-msg w-m3" x1="42" y1="139" x2="130" y2="139"/>
-        <!-- fan out: the draft takes shape -->
+        <!-- fan out: the loop kit takes shape (the four chip-labs artifacts) -->
         <path class="w-wire" d="M 170,125 C 216,125 212,60 258,60"/>
         <path class="w-wire" d="M 170,125 C 216,125 212,105 258,105"/>
         <path class="w-wire" d="M 170,125 C 216,125 212,150 258,150"/>
         <path class="w-wire" d="M 170,125 C 216,125 212,195 258,195"/>
-        <g class="w-slot w-s1"><rect x="258" y="44" width="190" height="32" rx="5"/><text x="274" y="65">sources it may read</text></g>
-        <g class="w-slot w-s2"><rect x="258" y="89" width="190" height="32" rx="5"/><text x="274" y="110">tools it may touch</text></g>
-        <g class="w-slot w-s3"><rect x="258" y="134" width="190" height="32" rx="5"/><text x="274" y="155">when it runs</text></g>
-        <g class="w-slot w-s4"><rect x="258" y="179" width="190" height="32" rx="5"/><text x="274" y="200">the bar to clear</text></g>
+        <g class="w-slot w-s1"><rect x="258" y="44" width="190" height="32" rx="5"/><text x="274" y="65">domain chip</text></g>
+        <g class="w-slot w-s2"><rect x="258" y="89" width="190" height="32" rx="5"/><text x="274" y="110">benchmark pack</text></g>
+        <g class="w-slot w-s3"><rect x="258" y="134" width="190" height="32" rx="5"/><text x="274" y="155">autoloop policy</text></g>
+        <g class="w-slot w-s4"><rect x="258" y="179" width="190" height="32" rx="5"/><text x="274" y="200">specialization path</text></g>
         <!-- converge into the gate -->
         <path class="w-wire" d="M 448,60 C 494,60 490,125 528,125"/>
         <path class="w-wire" d="M 448,105 C 494,105 490,125 528,125"/>
@@ -374,14 +375,22 @@
         <rect class="w-gate" x="528" y="99" width="34" height="52" rx="5"/>
         <rect class="w-bar w-b1" x="538" y="113" width="5" height="24" rx="1.5"/>
         <rect class="w-bar w-b2" x="548" y="113" width="5" height="24" rx="1.5"/>
-        <!-- onto your loops -->
+        <!-- onto the recursive loop -->
         <line class="w-wire" x1="562" y1="125" x2="616" y2="125"/>
         <circle class="w-ring" cx="662" cy="125" r="44"/>
         <circle class="w-ringflow" cx="662" cy="125" r="44" pathLength="100" transform="rotate(-90 662 125)"/>
       </svg>
+      <!-- hover zones · look inside each part (repo-grounded) -->
+      <div class="w-hot w-hot-s1" tabindex="0"><span class="w-tip">The workflow, packaged: the domain's doctrine, worked examples, traps to avoid, and the sources and tools it may use.</span></div>
+      <div class="w-hot w-hot-s2" tabindex="0"><span class="w-tip">The cases and rubrics that prove the chip actually helps: held-out cases, trap cases, and the bar to clear.</span></div>
+      <div class="w-hot w-hot-s3" tabindex="0"><span class="w-tip">How it improves without drifting: mutation limits, stop rules, rollback rules, and evidence gates.</span></div>
+      <div class="w-hot w-hot-s4" tabindex="0"><span class="w-tip">The improvement lane: what it should get better at next, run after run.</span></div>
+      <div class="w-hot w-hot-gate" tabindex="0"><span class="w-tip">The human gate. Nothing is promoted into your workflow without your approval.</span></div>
+      <div class="w-hot w-hot-ring" tabindex="0"><span class="w-tip">The autoloop: rerun, score against the pack, keep only what beats the baseline.</span></div>
+      </div>
     </div>
 
-    <p class="reveal w-caption">Spark drafts the workflow from your words: what it may read, what it may touch, when it runs, and the bar it must clear. You approve, and from then on it runs, scores, and improves on your loops.</p>
+    <p class="reveal w-caption">From one brief, Spark generates all four: the chip, the benchmark pack that proves it helps, the autoloop policy that improves it safely, and the path it grows along. You approve, and the loop runs itself. <span class="w-hint">// hover any part to look inside</span></p>
 
     <div class="reveal chip-ticker" aria-label="Example Domain Chips">
       <div class="ticker-track">
