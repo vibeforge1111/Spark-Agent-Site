@@ -724,28 +724,48 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   font: 600 11px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase;
   color: var(--accent); margin-bottom: 18px;
 }
+/* the prompt, styled like a chat composer */
 .ai-line {
-  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  display: flex; align-items: center; gap: 16px;
   background: var(--surface);
-  border: 1px solid var(--accent-mid); border-radius: var(--r-lg);
-  padding: 20px 22px;
+  border: 1px solid var(--accent-mid); border-radius: 999px;
+  padding: 14px 14px 14px 26px;
   box-shadow: 0 0 36px var(--accent-glow), 0 14px 40px rgba(0, 0, 0, 0.3);
   text-align: left;
 }
+.ai-mark { height: 17px; width: auto; flex: none; color: var(--accent); }
 .ai-line code {
+  flex: 1;
   font: 500 clamp(15px, 1.7vw, 18px) var(--font-mono);
   color: var(--text-bright); line-height: 1.5;
   overflow-wrap: anywhere;
 }
+.copy--solid {
+  background: var(--accent); color: var(--accent-fg);
+  border: 0; border-radius: 999px;
+  font: 600 13px var(--font-sans); letter-spacing: 0;
+  padding: 12px 24px;
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+.copy--solid:hover { background: var(--accent-hover); color: var(--accent-fg); transform: translateY(-1px); }
 .ai-note { margin-top: 16px; font-size: 14px; color: var(--text-tertiary); }
 @media (max-width: 560px) {
-  .ai-line { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .ai-line { border-radius: var(--r-xl); flex-wrap: wrap; padding: 16px 18px; }
+  .ai-line code { flex-basis: 100%; }
 }
-.or-line {
-  max-width: 920px; margin: 44px auto 0;
+
+/* manual path folds away until wanted */
+.hand-install { max-width: 920px; margin: 40px auto 0; }
+.hand-install summary {
+  list-style: none; cursor: pointer; text-align: center;
   font: 600 10px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--text-faint); text-align: center;
+  color: var(--text-faint);
+  transition: color var(--t-fast);
 }
+.hand-install summary::-webkit-details-marker { display: none; }
+.hand-install summary::after { content: " ▸"; }
+.hand-install[open] summary::after { content: " ▾"; }
+.hand-install summary:hover { color: var(--accent); }
 .trust-line {
   max-width: 920px; margin: 26px auto 0; text-align: center;
   font: 500 11.5px var(--font-mono); letter-spacing: 0.3px; color: var(--text-ghost);

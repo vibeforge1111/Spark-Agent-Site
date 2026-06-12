@@ -469,35 +469,37 @@
     <div class="reveal section-head">
       <span class="sec-num">// 006<br>INSTALL</span>
       <div>
-        <h2 class="sec-title">Install Spark. <em>Start your first loop today.</em></h2>
+        <h2 class="sec-title">Install Spark. <em>One sentence is enough.</em></h2>
       </div>
     </div>
 
     <div class="reveal agent-install">
-      <p class="ai-kicker">// the easiest way · tell your agent or your llm</p>
+      <p class="ai-kicker">// tell your agent or your llm</p>
       <div class="ai-line">
+        <svg class="ai-mark" viewBox="0 0 264 113" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#spark-mark"/></svg>
         <code>Read agent.sparkswarm.ai/llms.txt and set up Spark for me.</code>
-        <button type="button" class="copy" data-copy-value="Read https://agent.sparkswarm.ai/llms.txt and set up Spark for me.">copy</button>
+        <button type="button" class="copy copy--solid" data-copy-value="Read https://agent.sparkswarm.ai/llms.txt and set up Spark for me.">copy</button>
       </div>
       <p class="ai-note">Paste it into Claude, ChatGPT, Cursor, or any agent or LLM that can read the web. It handles the rest.</p>
     </div>
 
-    <p class="reveal or-line">// or install by hand</p>
-
-    <div class="reveal install-box">
-      <div class="tabs" role="tablist" aria-label="Install platform">
-        <button type="button" class="active" role="tab" aria-selected="true" data-tab="unix">mac / linux / wsl</button>
-        <button type="button" role="tab" aria-selected="false" data-tab="windows">windows</button>
+    <details class="reveal hand-install">
+      <summary>// or install by hand</summary>
+      <div class="install-box">
+        <div class="tabs" role="tablist" aria-label="Install platform">
+          <button type="button" class="active" role="tab" aria-selected="true" data-tab="unix">mac / linux / wsl</button>
+          <button type="button" role="tab" aria-selected="false" data-tab="windows">windows</button>
+        </div>
+        <div class="cmd" data-install-panel="unix" role="tabpanel">
+          <code><span class="p">$</span> curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh<br><span class="p">$</span> bash spark-install.sh --dry-run<br><span class="p">$</span> bash spark-install.sh</code>
+          <button type="button" class="copy" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh&#10;bash spark-install.sh --dry-run&#10;bash spark-install.sh">copy</button>
+        </div>
+        <div class="cmd" data-install-panel="windows" role="tabpanel" hidden>
+          <code><span class="p">PS&gt;</span> iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1<br><span class="p">PS&gt;</span> powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun<br><span class="p">PS&gt;</span> powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code>
+          <button type="button" class="copy" data-copy-value="iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1&#10;powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun&#10;powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1">copy</button>
+        </div>
       </div>
-      <div class="cmd" data-install-panel="unix" role="tabpanel">
-        <code><span class="p">$</span> curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh<br><span class="p">$</span> bash spark-install.sh --dry-run<br><span class="p">$</span> bash spark-install.sh</code>
-        <button type="button" class="copy" data-copy-value="curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh&#10;bash spark-install.sh --dry-run&#10;bash spark-install.sh">copy</button>
-      </div>
-      <div class="cmd" data-install-panel="windows" role="tabpanel" hidden>
-        <code><span class="p">PS&gt;</span> iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1<br><span class="p">PS&gt;</span> powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun<br><span class="p">PS&gt;</span> powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code>
-        <button type="button" class="copy" data-copy-value="iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1&#10;powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun&#10;powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1">copy</button>
-      </div>
-    </div>
+    </details>
 
     <p class="reveal trust-line">signed installs · hashes + attestations · <a href="/docs/install-safety/">install safety</a> · <a href="/docs/lifecycle/">clean uninstall</a></p>
   </div>
