@@ -706,24 +706,6 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .chip .slug { font: 500 11px var(--font-mono); color: var(--accent); letter-spacing: 0.2px; display: block; margin-bottom: 8px; }
 .chip p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
 
-/* chip ticker · the library loops past (pure CSS marquee) */
-.chip-ticker {
-  margin: 0; overflow: hidden; position: relative;
-  border-top: 1px solid var(--border);
-  padding: 16px 0;
-  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-}
-.ticker-track { display: inline-flex; gap: 56px; width: max-content; animation: tick 38s linear infinite; will-change: transform; }
-.chip-ticker:hover .ticker-track { animation-play-state: paused; }
-.ticker-track span { font: 500 12px var(--font-mono); color: var(--text-tertiary); letter-spacing: 0.2px; white-space: nowrap; }
-.ticker-track span b { color: var(--accent); font-weight: 500; }
-@keyframes tick { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) {
-  .ticker-track { animation: none; flex-wrap: wrap; width: auto; gap: 14px 28px; }
-  .ticker-track span[aria-hidden] { display: none; }
-}
-
 .sec-cta { margin-top: 56px; display: flex; justify-content: center; }
 
 /* pricing */
@@ -744,8 +726,42 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .plan.pro .cta-primary:hover { background: #C8BAE8; }
 .refund { margin-top: 26px; text-align: center; font: 500 12px var(--font-mono); color: var(--text-ghost); }
 
-/* install */
-.install-box { max-width: 920px; margin: 56px auto 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+/* install · the easiest way: one sentence for your agent */
+.agent-install { max-width: 920px; margin: 48px auto 0; text-align: center; }
+.ai-kicker {
+  font: 600 11px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 18px;
+}
+.ai-line {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  background: var(--surface);
+  border: 1px solid var(--accent-mid); border-radius: var(--r-lg);
+  padding: 20px 22px;
+  box-shadow: 0 0 36px var(--accent-glow), 0 14px 40px rgba(0, 0, 0, 0.3);
+  text-align: left;
+}
+.ai-line code {
+  font: 500 clamp(15px, 1.7vw, 18px) var(--font-mono);
+  color: var(--text-bright); line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.ai-note { margin-top: 16px; font-size: 14px; color: var(--text-tertiary); }
+@media (max-width: 560px) {
+  .ai-line { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+.or-line {
+  max-width: 920px; margin: 44px auto 0;
+  font: 600 10px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-faint); text-align: center;
+}
+.trust-line {
+  max-width: 920px; margin: 26px auto 0; text-align: center;
+  font: 500 11.5px var(--font-mono); letter-spacing: 0.3px; color: var(--text-ghost);
+}
+.trust-line a { color: var(--text-tertiary); text-decoration: underline; text-underline-offset: 3px; transition: color var(--t-fast); }
+.trust-line a:hover { color: var(--accent); }
+
+.install-box { max-width: 920px; margin: 16px auto 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
 .tabs { display: flex; border-bottom: 1px solid var(--border); }
 .tabs button {
   font: 500 12px var(--font-mono); letter-spacing: 0.3px;
@@ -771,12 +787,6 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   transition: color var(--t-fast), border-color var(--t-fast);
 }
 .copy:hover { color: var(--accent); border-color: var(--accent-dim); }
-.first-cmds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
-@media (max-width: 820px) { .first-cmds { grid-template-columns: 1fr; } }
-.fc { background: var(--surface); padding: 18px 22px; font: 500 11.5px var(--font-mono); }
-.fc code { color: var(--accent); display: block; margin-bottom: 5px; font-size: 12.5px; }
-.fc span { color: var(--text-ghost); }
-.trust { max-width: 920px; margin: 32px auto 0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
 /* run-complete strip · the page's loop closes */
 .run-line {

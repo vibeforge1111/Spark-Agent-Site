@@ -479,6 +479,17 @@
       </div>
     </div>
 
+    <div class="reveal agent-install">
+      <p class="ai-kicker">// the easiest way · tell your agent</p>
+      <div class="ai-line">
+        <code>Read agent.sparkswarm.ai/llms.txt and set up Spark for me.</code>
+        <button type="button" class="copy" data-copy-value="Read https://agent.sparkswarm.ai/llms.txt and set up Spark for me.">copy</button>
+      </div>
+      <p class="ai-note">Paste it into Claude Code, Cursor, or any agent that can read the web. It handles the rest.</p>
+    </div>
+
+    <p class="reveal or-line">// or install by hand</p>
+
     <div class="reveal install-box">
       <div class="tabs" role="tablist" aria-label="Install platform">
         <button type="button" class="active" role="tab" aria-selected="true" data-tab="unix">mac / linux / wsl</button>
@@ -492,33 +503,11 @@
         <code><span class="p">PS&gt;</span> iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1<br><span class="p">PS&gt;</span> powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun<br><span class="p">PS&gt;</span> powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1</code>
         <button type="button" class="copy" data-copy-value="iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1&#10;powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun&#10;powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1">copy</button>
       </div>
-      <div class="first-cmds">
-        <div class="fc"><code>spark guide</code><span>open the walkthrough</span></div>
-        <div class="fc"><code>spark verify --onboarding</code><span>confirm your install</span></div>
-        <div class="fc"><code>/run say exactly OK</code><span>your first scored run</span></div>
-      </div>
     </div>
 
-    <div class="reveal trust">
-      <a class="tag verified" href="/docs/install-safety/">✓ hashes, attestations, signatures</a>
-      <a class="tag" href="/docs/install-safety/">what it touches: files, domains, autostart</a>
-      <a class="tag" href="/docs/lifecycle/">clean exit: doctor, repair, uninstall</a>
-    </div>
+    <p class="reveal trust-line">signed installs · hashes + attestations · <a href="/docs/install-safety/">install safety</a> · <a href="/docs/lifecycle/">clean uninstall</a></p>
   </div>
 </section>
-
-<div class="chip-ticker" aria-label="Example Domain Chips">
-  <div class="ticker-track">
-    <span><b>chip://sales-research</b> · account briefs before every call, cited and current</span>
-    <span><b>chip://content-studio</b> · drafts in your voice, scored before you see them</span>
-    <span><b>chip://watchtower</b> · your feeds watched, summarized, delivered to Telegram or Discord</span>
-    <span><b>chip://researcher</b> · a research engine with receipts, every claim traces to a source</span>
-    <span aria-hidden="true"><b>chip://sales-research</b> · account briefs before every call, cited and current</span>
-    <span aria-hidden="true"><b>chip://content-studio</b> · drafts in your voice, scored before you see them</span>
-    <span aria-hidden="true"><b>chip://watchtower</b> · your feeds watched, summarized, delivered to Telegram or Discord</span>
-    <span aria-hidden="true"><b>chip://researcher</b> · a research engine with receipts, every claim traces to a source</span>
-  </div>
-</div>
 
 <div class="run-line">
   <div class="wrap">
