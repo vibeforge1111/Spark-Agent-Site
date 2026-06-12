@@ -3,8 +3,8 @@ set -euo pipefail
 
 SPARK_PREFIX="${SPARK_PREFIX:-$HOME/.spark}"
 SPARK_CLI_SOURCE="${SPARK_CLI_SOURCE:-https://github.com/vibeforge1111/spark-cli}"
-SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-06-03-r24-v2}"
-SPARK_DEFAULT_CLI_REF="spark-cli-public-installer-2026-06-03-r24-v2"
+SPARK_CLI_RELEASE_NAME="${SPARK_CLI_RELEASE_NAME:-spark-cli-public-installer-2026-06-10-r27}"
+SPARK_DEFAULT_CLI_REF="spark-cli-public-installer-2026-06-10-r27"
 SPARK_CLI_REF_USER_SET=0
 if [ -n "${SPARK_CLI_REF:-}" ]; then
   SPARK_CLI_REF_USER_SET=1
@@ -944,6 +944,7 @@ write_wrapper() {
   cat > "$wrapper" <<EOF
 #!/usr/bin/env bash
 export SPARK_HOME="$SPARK_PREFIX"
+export SPARK_CLI_SOURCE_ROOT="$SPARK_PREFIX/tools/spark-cli"
 export PATH="$SPARK_NODE_BIN_DIR:\$PATH"
 exec "$SPARK_PREFIX/tools/spark-cli-venv/bin/python" -m spark_cli.cli "\$@"
 EOF
