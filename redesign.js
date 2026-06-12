@@ -95,10 +95,4 @@
     });
   }
 
-  // run it again · the page's loop closes
-  document.querySelectorAll('.run-again').forEach(function (b) {
-    b.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
-    });
-  });
 })();

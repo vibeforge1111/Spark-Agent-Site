@@ -720,10 +720,6 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 
 /* install · the easiest way: one sentence for your agent */
 .agent-install { max-width: 920px; margin: 48px auto 0; text-align: center; }
-.ai-kicker {
-  font: 600 11px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 18px;
-}
 /* the prompt, styled like a chat composer */
 .ai-line {
   display: flex; align-items: center; gap: 16px;
@@ -767,7 +763,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .hand-install[open] summary::after { content: " ▾"; }
 .hand-install summary:hover { color: var(--accent); }
 .trust-line {
-  max-width: 920px; margin: 26px auto 0; text-align: center;
+  max-width: 920px; margin: 22px auto 0; text-align: center;
   font: 500 11.5px var(--font-mono); letter-spacing: 0.3px; color: var(--text-ghost);
 }
 .trust-line a { color: var(--text-tertiary); text-decoration: underline; text-underline-offset: 3px; transition: color var(--t-fast); }
@@ -799,22 +795,6 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   transition: color var(--t-fast), border-color var(--t-fast);
 }
 .copy:hover { color: var(--accent); border-color: var(--accent-dim); }
-
-/* run-complete strip · the page's loop closes */
-.run-line {
-  border-top: 1px solid var(--border);
-  padding: 26px 0;
-  text-align: center;
-}
-.run-line .wrap { display: flex; align-items: center; justify-content: center; gap: 22px; flex-wrap: wrap; }
-.run-line p { font: 500 12px var(--font-mono); color: var(--text-tertiary); letter-spacing: 0.3px; }
-.run-line p b { color: var(--accent); font-weight: 500; }
-.run-again {
-  font: 600 12px var(--font-mono); letter-spacing: 0.3px;
-  color: var(--accent); border: 1px solid var(--accent-mid); border-radius: var(--r-md);
-  padding: 9px 16px; transition: background var(--t-fast), box-shadow var(--t-fast);
-}
-.run-again:hover { background: var(--accent-subtle); box-shadow: 0 0 18px var(--accent-glow); }
 
 /* loop progress · the Spark mark fills as you read; click closes the loop */
 .loop-progress {
