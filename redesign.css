@@ -199,9 +199,9 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 }
 .hero::before { /* static dot field - same texture as production, no canvas cost */
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background-image: radial-gradient(circle, var(--border-bright) 1.2px, transparent 1.7px);
-  background-size: 30px 30px;
-  opacity: 0.75;
+  background-image: radial-gradient(circle, var(--border-bright) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  opacity: 0.6;
   mask-image: radial-gradient(70% 80% at 50% 40%, black, transparent 95%);
   -webkit-mask-image: radial-gradient(70% 80% at 50% 40%, black, transparent 95%);
 }
@@ -343,15 +343,15 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 /* a raised room, one step up from the base dark */
 .sec--raised { background: var(--bg-subtle); }
 .section-head {
-  display: grid; grid-template-columns: 124px 1fr; gap: 40px;
+  display: grid; grid-template-columns: 84px 1fr; gap: 40px;
   margin-bottom: clamp(36px, 7vw, 56px); align-items: start;
 }
 @media (max-width: 760px) {
   .section-head { grid-template-columns: 1fr; gap: 12px; }
   .sec-num { padding-top: 0; }
 }
-/* spine node: every section is a stop on the same line */
-.sec-num { font: 600 11px var(--font-mono); color: var(--text-faint); letter-spacing: 1.5px; padding-top: 14px; position: relative; padding-left: 20px; }
+/* spine node: every section is a stop on the same line · number only, crisp */
+.sec-num { font: 500 14px var(--font-mono); color: var(--text-tertiary); letter-spacing: 3px; padding-top: 12px; position: relative; padding-left: 22px; font-variant-numeric: tabular-nums; }
 .sec-num::before {
   content: ""; position: absolute; left: 0; top: 16px;
   width: 9px; height: 9px; border-radius: 50%;
@@ -747,7 +747,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   display: flex; align-items: center; gap: 16px;
   background: var(--surface);
   border: 1px solid var(--accent-mid); border-radius: 999px;
-  padding: 14px 14px 14px 26px;
+  padding: 14px 22px 14px 26px;
   box-shadow: 0 0 36px var(--accent-glow), 0 14px 40px rgba(0, 0, 0, 0.3);
   text-align: left;
 }
@@ -759,13 +759,13 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   overflow-wrap: anywhere;
 }
 .copy--solid {
-  background: var(--accent-subtle); color: var(--accent);
+  background: transparent; color: var(--accent);
   border: 1px solid var(--accent-mid); border-radius: 999px;
   font: 600 13px var(--font-sans); letter-spacing: 0;
   padding: 11px 22px;
   transition: background var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
-.copy--solid:hover { background: var(--accent-mid); border-color: var(--accent-glow); color: var(--accent); transform: translateY(-1px); }
+.copy--solid:hover { background: var(--accent-subtle); border-color: var(--accent-glow); color: var(--accent); transform: translateY(-1px); }
 .ai-note { margin-top: 16px; font-size: 14px; color: var(--text-tertiary); }
 @media (max-width: 560px) {
   .ai-line { border-radius: var(--r-xl); flex-wrap: wrap; padding: 16px 18px; }
