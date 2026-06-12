@@ -136,7 +136,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .reveal.in { opacity: 1; transform: none; }
 @keyframes fadeIn { to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .h-stage, .mrow, .gateline { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+  .reveal, .h-stage { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
 }
 
 /* ───────── topbar ───────── */
@@ -357,7 +357,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 @media (max-width: 920px) { .sec-body { grid-template-columns: 1fr; gap: 40px; } }
 @media (max-width: 480px) {
   .spec-body { padding: 16px 16px 20px; font-size: 11.5px; }
-  .spec--mini .spec-body { font-size: 13.5px; padding: 20px 18px 22px; }
+  .na-stage { padding: 14px 12px 10px; }
   .bench-row { grid-template-columns: 72px 1fr 52px; gap: 10px; }
 }
 
@@ -398,22 +398,63 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .spec-name { font: 500 12px var(--font-mono); color: var(--text-secondary); letter-spacing: 0.3px; }
 .spec-body { padding: 20px 22px 24px; font: 400 13px var(--font-mono); line-height: 1.95; }
 
-/* compact exhibit · four beats, readable in two seconds */
-.spec--mini .spec-body { padding: 26px 28px 28px; font-size: 15px; line-height: 1.7; display: grid; gap: 13px; }
-.mrow { color: var(--text-secondary); }
-.mrow b { color: var(--text-bright); font-weight: 600; }
-.spec--mini .gateline { margin: 2px 0; }
+/* rising loops · the autoloop as it actually is: recursive and compounding.
+   Three loop icons climb a slope, each bigger and brighter; a green flow
+   laps each in sequence, climbs to the next, and exits as baseline-up.
+   One 8s clock. */
+.rl-stage { padding: 22px 22px 14px; }
+.rl-stage svg { width: 100%; height: auto; display: block; overflow: visible; }
+.rl-seg { fill: none; stroke: var(--border-strong); stroke-width: 1.5; animation: rl-segpulse 8s infinite; }
+.rl-s1 { animation-delay: 0s; }
+.rl-s2 { animation-delay: 2.1s; }
+.rl-s3 { animation-delay: 4.2s; }
+.rl-s4 { animation-delay: 6.3s; }
+@keyframes rl-segpulse {
+  0%, 2%, 14%, 100% { stroke: var(--border-strong); }
+  5%, 10% { stroke: var(--accent); }
+}
+.rl-loop { fill: none; stroke: var(--border-strong); stroke-width: 1.75; }
+.rl-l1 { opacity: 0.55; }
+.rl-l2 { opacity: 0.8; }
+.rl-l3 { opacity: 1; }
+.rl-flow {
+  fill: none; stroke: var(--accent); stroke-width: 2.25; stroke-linecap: round;
+  stroke-dasharray: 28 72; stroke-dashoffset: 100; opacity: 0;
+  filter: drop-shadow(0 0 6px var(--accent-glow));
+  animation: rl-spin 8s linear infinite;
+}
+.rl-f1 { animation-delay: 0.3s; }
+.rl-f2 { animation-delay: 2.4s; }
+.rl-f3 { animation-delay: 4.5s; }
+@keyframes rl-spin {
+  0% { stroke-dashoffset: 100; opacity: 0; }
+  3% { opacity: 1; }
+  22% { opacity: 1; }
+  25% { stroke-dashoffset: -100; opacity: 0; }
+  100% { stroke-dashoffset: -100; opacity: 0; }
+}
+.rl-tip { fill: var(--text-faint); animation: ld-pulse 8s infinite; animation-delay: 6.4s; }
+.rl-label {
+  font: 600 12px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase;
+  fill: var(--text-ghost);
+  animation: rl-keep 8s infinite;
+}
+@keyframes rl-keep {
+  0%, 78% { fill: var(--text-ghost); }
+  84%, 97% { fill: var(--accent); }
+  100% { fill: var(--text-ghost); }
+}
+.rl-zone { font: 500 10.5px var(--font-mono); letter-spacing: 1.2px; text-transform: uppercase; fill: var(--text-ghost); }
+@media (prefers-reduced-motion: reduce) {
+  .rl-seg, .rl-tip { animation: none; }
+  .rl-flow { animation: none; opacity: 1; stroke-dashoffset: 0; }
+  .rl-label { animation: none; fill: var(--accent); }
+}
+@media (max-width: 480px) { .rl-stage { padding: 14px 12px 10px; } }
 
 .v-green { color: var(--status-green); }
 .v-amber { color: var(--status-amber); }
 .v-dim { color: var(--text-tertiary); }
-.gateline {
-  margin: 10px 0; padding: 10px 14px;
-  border: 1px dashed var(--accent-mid); border-radius: var(--r-sm);
-  color: var(--accent);
-}
-.cursor { display: inline-block; width: 7px; height: 14px; background: var(--accent); vertical-align: -2px; animation: blink 1s steps(1) 45; }
-@keyframes blink { 50% { opacity: 0; } }
 
 /* benchmark exhibit */
 .bench-row { display: grid; grid-template-columns: 86px 1fr 58px; gap: 14px; align-items: center; margin-bottom: 14px; }

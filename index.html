@@ -177,7 +177,7 @@
       <span class="sec-num">// 001<br>AUTOLOOPS</span>
       <div>
         <h2 class="sec-title">It keeps working <em>after the chat closes.</em></h2>
-        <p class="sec-lead">Most agents stop when you do. Spark's autoloops keep your workflows running in the background, on your machine, on your schedule.</p>
+        <p class="sec-lead">Most agents stop when you do. Spark's autoloops keep running your work in the background, recursively: every pass feeds the next one.</p>
       </div>
     </div>
 
@@ -186,8 +186,8 @@
         <li>
           <span class="pl-dot">01</span>
           <div>
-            <h4>Loops run between sessions</h4>
-            <p>Research briefs, drafts, monitoring, reporting. The work you repeat keeps moving while you do something else.</p>
+            <h4>Recursive by design</h4>
+            <p>An autoloop is not a scheduler. Each run starts from what the last one kept: run, score, keep, run again.</p>
           </div>
         </li>
         <li>
@@ -206,16 +206,31 @@
         </li>
       </ul>
 
-      <div class="spec spec--mini" aria-label="While you were away, illustrative summary">
+      <div class="spec spec--mini" aria-label="The autoloop: each run laps, keeps what improved, and the next run starts higher">
         <div class="spec-head">
-          <span class="spec-name">spark · while you were away</span>
+          <span class="spec-name">autoloop · while you were away</span>
           <span class="tag illustrative">illustrative</span>
         </div>
-        <div class="spec-body">
-          <div class="mrow">3 runs finished <span class="v-dim">· benchmarked against your bar</span></div>
-          <div class="mrow"><b>1 improvement beat the baseline</b></div>
-          <div class="gateline">⏸ kept only after your approval</div>
-          <div class="mrow v-green">next run starts ahead <span class="cursor"></span></div>
+        <div class="rl-stage">
+          <svg viewBox="0 0 460 230" preserveAspectRatio="xMidYMid meet">
+            <!-- rising connectors -->
+            <path class="rl-seg rl-s1" d="M 30,200 L 93,178"/>
+            <path class="rl-seg rl-s2" d="M 130,160 L 209,141"/>
+            <path class="rl-seg rl-s3" d="M 251,127 L 326,107"/>
+            <path class="rl-seg rl-s4" d="M 374,91 L 416,79"/>
+            <polygon class="rl-tip" points="426,76 411,72 414,84"/>
+            <!-- the loops, each one bigger and brighter -->
+            <circle class="rl-loop rl-l1" cx="112" cy="171" r="17" pathLength="100"/>
+            <circle class="rl-flow rl-f1" cx="112" cy="171" r="17" pathLength="100" transform="rotate(-90 112 171)"/>
+            <circle class="rl-loop rl-l2" cx="230" cy="137" r="20" pathLength="100"/>
+            <circle class="rl-flow rl-f2" cx="230" cy="137" r="20" pathLength="100" transform="rotate(-90 230 137)"/>
+            <circle class="rl-loop rl-l3" cx="350" cy="101" r="23" pathLength="100"/>
+            <circle class="rl-flow rl-f3" cx="350" cy="101" r="23" pathLength="100" transform="rotate(-90 350 101)"/>
+            <text class="rl-label" x="430" y="60" text-anchor="end">baseline ↑</text>
+            <text class="rl-zone" x="112" y="216" text-anchor="middle">run</text>
+            <text class="rl-zone" x="230" y="182" text-anchor="middle">run again</text>
+            <text class="rl-zone" x="350" y="148" text-anchor="middle">higher</text>
+          </svg>
         </div>
       </div>
     </div>
