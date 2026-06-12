@@ -402,7 +402,14 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
    Three loop icons climb a slope, each bigger and brighter; a green flow
    laps each in sequence, climbs to the next, and exits as baseline-up.
    One 8s clock. */
-.rl-stage { padding: 22px 22px 14px; }
+.spec--mini {
+  /* a breath apart from the white modules: faint mint cast */
+  background: color-mix(in srgb, var(--accent) 4%, var(--surface));
+}
+.spec--mini .spec-head {
+  background: color-mix(in srgb, var(--accent) 7%, var(--bg-subtle));
+}
+.rl-stage { padding: 14px 18px 8px; }
 .rl-stage svg { width: 100%; height: auto; display: block; overflow: visible; }
 .rl-seg { fill: none; stroke: var(--border-strong); stroke-width: 1.5; animation: rl-segpulse 8s infinite; }
 .rl-s1 { animation-delay: 0s; }
