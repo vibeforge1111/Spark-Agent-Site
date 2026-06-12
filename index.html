@@ -213,6 +213,13 @@
         </div>
         <div class="rl-stage">
           <svg viewBox="0 0 460 230" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <!-- the autoloop glyph: an arc chasing its own tail -->
+              <g id="loop-arrow">
+                <path d="M 19.3,-5.2 A 20 20 0 1 1 5.2,-19.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <polygon points="12,-23 1,-26 4,-14" fill="currentColor"/>
+              </g>
+            </defs>
             <!-- rising connectors -->
             <path class="rl-seg rl-s1" d="M 30,200 L 93,178"/>
             <path class="rl-seg rl-s2" d="M 130,160 L 209,141"/>
@@ -220,12 +227,20 @@
             <path class="rl-seg rl-s4" d="M 374,91 L 416,79"/>
             <polygon class="rl-tip" points="426,76 411,72 414,84"/>
             <!-- the loops, each one bigger and brighter -->
-            <circle class="rl-loop rl-l1" cx="112" cy="171" r="17" pathLength="100"/>
+            <use href="#loop-arrow" class="rl-loop rl-l1" transform="translate(112 171) scale(0.85)"/>
             <circle class="rl-flow rl-f1" cx="112" cy="171" r="17" pathLength="100" transform="rotate(-90 112 171)"/>
-            <circle class="rl-loop rl-l2" cx="230" cy="137" r="20" pathLength="100"/>
+            <use href="#loop-arrow" class="rl-loop rl-l2" transform="translate(230 137) scale(1)"/>
             <circle class="rl-flow rl-f2" cx="230" cy="137" r="20" pathLength="100" transform="rotate(-90 230 137)"/>
-            <circle class="rl-loop rl-l3" cx="350" cy="101" r="23" pathLength="100"/>
+            <use href="#loop-arrow" class="rl-loop rl-l3" transform="translate(350 101) scale(1.15)"/>
             <circle class="rl-flow rl-f3" cx="350" cy="101" r="23" pathLength="100" transform="rotate(-90 350 101)"/>
+            <!-- what each pass does: run, score, keep -->
+            <g class="rl-ico rl-i1" transform="translate(112 171)"><polygon points="-2.5,-5 -2.5,5 6,0"/></g>
+            <g class="rl-ico rl-i2" transform="translate(230 137)">
+              <rect x="-6" y="-1" width="3" height="7" rx="1"/>
+              <rect x="-1" y="-4" width="3" height="10" rx="1"/>
+              <rect x="4" y="-7" width="3" height="13" rx="1"/>
+            </g>
+            <g class="rl-check rl-i3" transform="translate(350 101)"><path d="M -5.5,0.5 L -1.5,5 L 6,-4.5"/></g>
             <text class="rl-label" x="430" y="60" text-anchor="end">baseline ↑</text>
             <text class="rl-zone" x="112" y="216" text-anchor="middle">run</text>
             <text class="rl-zone" x="230" y="182" text-anchor="middle">run again</text>

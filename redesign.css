@@ -413,10 +413,23 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   0%, 2%, 14%, 100% { stroke: var(--border-strong); }
   5%, 10% { stroke: var(--accent); }
 }
-.rl-loop { fill: none; stroke: var(--border-strong); stroke-width: 1.75; }
+.rl-loop { color: var(--border-strong); } /* glyph children use currentColor */
 .rl-l1 { opacity: 0.55; }
 .rl-l2 { opacity: 0.8; }
 .rl-l3 { opacity: 1; }
+/* what each pass does: run (play), score (bars), keep (check) */
+.rl-ico { fill: var(--text-faint); animation: ld-pulse 8s infinite; }
+.rl-i1 { animation-delay: 0.5s; }
+.rl-i2 { animation-delay: 2.6s; }
+.rl-check {
+  fill: none; stroke: var(--text-faint); stroke-width: 2.4;
+  stroke-linecap: round; stroke-linejoin: round;
+  animation: rl-checkpulse 8s infinite; animation-delay: 4.7s;
+}
+@keyframes rl-checkpulse {
+  0%, 2%, 16%, 100% { stroke: var(--text-faint); }
+  6%, 12% { stroke: var(--accent); }
+}
 .rl-flow {
   fill: none; stroke: var(--accent); stroke-width: 2.25; stroke-linecap: round;
   stroke-dasharray: 28 72; stroke-dashoffset: 100; opacity: 0;
@@ -449,6 +462,8 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   .rl-seg, .rl-tip { animation: none; }
   .rl-flow { animation: none; opacity: 1; stroke-dashoffset: 0; }
   .rl-label { animation: none; fill: var(--accent); }
+  .rl-ico { animation: none; fill: var(--text-tertiary); }
+  .rl-check { animation: none; stroke: var(--accent); }
 }
 @media (max-width: 480px) { .rl-stage { padding: 14px 12px 10px; } }
 
