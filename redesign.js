@@ -83,6 +83,7 @@
       requestAnimationFrame(function () {
         var max = document.documentElement.scrollHeight - window.innerHeight;
         var p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+        if (p > 0.985) p = 1; // fractional scroll positions never quite reach max
         if (revealRect) revealRect.setAttribute('width', String(p * 284));
         lp.classList.toggle('visible', window.scrollY > 400);
         ticking = false;
