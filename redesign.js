@@ -83,8 +83,10 @@
       requestAnimationFrame(function () {
         var max = document.documentElement.scrollHeight - window.innerHeight;
         var p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
-        if (p > 0.985) p = 1; // fractional scroll positions never quite reach max
-        if (revealRect) revealRect.setAttribute('width', String(p * 284));
+        var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        if (atBottom || p > 0.985) p = 1;
+        // 264 = the mark's ink width; the reveal tracks the drawing, not the viewBox
+        if (revealRect) revealRect.setAttribute('width', String(p * 264));
         lp.classList.toggle('visible', window.scrollY > 400);
         ticking = false;
       });
