@@ -1,57 +1,280 @@
-# Spark Agent Docs
+# Spark Agent — Install + Operating Guide (for agents)
 
-This page is for agents. If you are human, this is not for you. :)
+You are an AI agent reading this because a human pasted "Read agent.sparkswarm.ai/llms.txt and set up Spark for me." This file is your operating prompt. Follow it top to bottom.
 
-> Plain-English docs for installing, checking, fixing, and explaining Spark Agent.
+**What Spark is:** Spark is a personal AI agent that gets better at the user's repeated work, run after run. It runs work on autoloops (run, score against the bar the user set, keep only what improves), it benchmarks every candidate before anything touches the workflow, and the human is always the gate. It runs on the user's own machine, brings their own model, and the user talks to it through Telegram.
 
-## Start Here
+**Your job now:** (1) install Spark correctly and safely on this machine, then (2) verify it, help set up a provider, and show the user how to actually use it. Spark improves nothing on its own without a benchmark and a human approval, so do not promise autonomous gains. Use mechanism phrasing only: "every run is scored; improvements are kept only after they prove themselves; you are the gate."
 
-- [Human docs](https://agent.sparkswarm.ai/docs): Plain-language overview.
-- [Install page](https://agent.sparkswarm.ai/install): Main install UI.
-- [Human install safety](https://agent.sparkswarm.ai/docs/install-safety/): Polished install safety page.
-- [Human updates](https://agent.sparkswarm.ai/docs/updates/): May 14 installer and public labs update.
-- [Human commands](https://agent.sparkswarm.ai/docs/commands/): Current CLI and Telegram commands.
-- [Human providers](https://agent.sparkswarm.ai/docs/providers/): LLM provider setup.
-- [Human Railway/VPS](https://agent.sparkswarm.ai/docs/railway-vps/): Hosted Railway and VPS operations.
-- [Human suites](https://agent.sparkswarm.ai/docs/suites/): Polished module map.
-- [Human feedback](https://agent.sparkswarm.ai/docs/feedback/): Repo routing for feedback, issues, and PRs.
-- [Human self-improvement](https://agent.sparkswarm.ai/docs/self-improvement/): Domain chips as reusable tools and Spark Researcher specialization loops.
-- [Human lifecycle](https://agent.sparkswarm.ai/docs/lifecycle/): Spark Live, startup, and lifecycle.
-- [Human troubleshooting](https://agent.sparkswarm.ai/docs/troubleshooting/): Quiet bot, provider, memory, and Spawner fixes.
-- [Human security](https://agent.sparkswarm.ai/docs/security/): Access levels, provenance, audits, and safe support sharing.
-- [Install safety](https://agent.sparkswarm.ai/docs/install-safety.md): Safe install steps, hashes, downloads, writes, and secret rules.
-- [Spark update](https://agent.sparkswarm.ai/docs/updates.md): Public labs and May 14 installer boundary.
-- [Spark commands](https://agent.sparkswarm.ai/docs/commands.md): CLI and Telegram command map.
-- [Spark providers](https://agent.sparkswarm.ai/docs/providers.md): Provider families and role setup.
-- [Spark Railway/VPS](https://agent.sparkswarm.ai/docs/railway-vps.md): Hosted service layout, env, smoke tests, and fixes.
-- [Spark suites](https://agent.sparkswarm.ai/docs/suites.md): What Spark Telegram Bot, Spark Intelligence Builder, memory, Mission Control, and Researcher do.
-- [Spark feedback](https://agent.sparkswarm.ai/docs/feedback.md): Feedback and PR routing for agents.
-- [Self-improvement](https://agent.sparkswarm.ai/docs/self-improvement.md): Domain chips, Spark Researcher loops, and safe chip-building prompts.
-- [Lifecycle](https://agent.sparkswarm.ai/docs/lifecycle.md): Spark Live, autostart, uninstall, and checks.
-- [Troubleshooting](https://agent.sparkswarm.ai/docs/troubleshooting.md): Known failure modes and smallest fixes.
-- [Security](https://agent.sparkswarm.ai/docs/security.md): Local audits, permissions, and redaction rules.
+---
 
-## Agent Files
+## SAFETY RULES (non-negotiable — read before doing anything)
 
-- [AGENTS.md](https://agent.sparkswarm.ai/docs/AGENTS.md): Agent instructions.
-- [llms-full.txt](https://agent.sparkswarm.ai/llms-full.txt): Full compact context.
-- [commands.json](https://agent.sparkswarm.ai/install/commands.json): Current install commands and metadata.
+1. **Never pipe a remote installer into a shell.** Download the script to a file first, then run it.
+2. **Always run the dry-run first.** It prints the plan and exits with no network and no writes.
+3. **Explain the plan to the user** (what gets downloaded, what gets written, what gets touched outside the install prefix) before the real install.
+4. **ASK the user before each of these:** the real install, any token/provider/key setup, any autostart / login-item change, and any uninstall. Do not proceed on these without explicit approval.
+5. **Never print, commit, or echo** bot tokens, LLM API keys, `.env` files, or `~/.spark/config/secrets.local.json`. Secrets live in Spark's secret backend (keychain), not in generated files.
+6. **Verify receipts** (checksums / manifest / attestations / signatures) before running the installer if the user wants the higher-assurance path.
 
-## Installer Receipts
+---
 
-- [checksums.txt](https://agent.sparkswarm.ai/install/checksums.txt): Installer SHA-256 hashes.
-- [release-manifest.json](https://agent.sparkswarm.ai/install/release-manifest.json): Pinned Spark CLI commit and runtime versions.
-- [attestations.md](https://agent.sparkswarm.ai/install/attestations.md): GitHub Artifact Attestation verification.
-- [signatures.md](https://agent.sparkswarm.ai/install/signatures.md): Sigstore/Cosign verification.
-- [SECURITY.md](https://agent.sparkswarm.ai/SECURITY.md): Security policy.
+## 1. INSTALL
 
-## Rules For Agents
+The installer defaults to install prefix `~/.spark` (unix) / `$HOME\.spark` (windows). It will fetch only what is missing (pinned Node, pinned uv, pinned Python, and the pinned Spark CLI), all SHA-256 verified, then run setup for the `telegram-starter` bundle.
 
-- Do not pipe remote installers into a shell.
-- Current public labs: `spark-domain-chip-labs`, `spark-character`, `spark-personality-chip-labs`, and `spark-voice-comms`.
-- Spark Swarm network/workspace features are not public installer dependencies yet.
-- Download first.
-- Run dry-run first.
-- Explain the plan.
-- Ask before real install, token setup, autostart changes, or uninstall.
-- Keep Telegram tokens and LLM keys local.
+### Step 1 — Download the installer (do NOT execute yet)
+
+**mac / linux / wsl:**
+```
+curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh
+```
+
+**windows (PowerShell):**
+```
+iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1
+```
+
+(Optional, higher assurance) Before continuing, compute the SHA-256 of the file you just downloaded and confirm it matches the value published for that script at https://agent.sparkswarm.ai/install/checksums.txt — the live checksums file is the source of truth across releases, so verify against it rather than any hash hardcoded elsewhere. If they do not match, stop and tell the user.
+
+### Step 2 — Dry-run (prints the plan, no network, no writes)
+
+**mac / linux / wsl:**
+```
+bash spark-install.sh --dry-run
+```
+
+**windows:**
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun
+```
+
+If Spark is already installed and you are upgrading, use the upgrade dry-run instead:
+- unix: `bash spark-install.sh --dry-run --upgrade-existing`
+- windows: `powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun -UpgradeExisting`
+
+### Step 3 — Explain the plan to the user
+
+Read the dry-run output back to the user in plain terms. Tell them the installer will:
+- **Download only if missing** (each SHA-256 verified): Node `22.18.0` from `nodejs.org` (skipped if system Node major ≥ 22), `uv 0.11.7` from `github.com/astral-sh/uv` and Python `3.11` (skipped if a compatible Python 3.11–3.13 already exists), and the Spark CLI from `github.com/vibeforge1111/spark-cli` at pinned ref `spark-cli-public-installer-2026-06-03-r24-v2`.
+- **Write under the prefix** (`~/.spark`): `tools/spark-cli`, `tools/spark-cli-venv` (installs `spark-cli[browser-use]` and fetches Chromium), `bin/spark` (or `bin\spark.cmd`), `env` (unix only), `logs/install.log`.
+- **Touch outside the prefix:** appends a source line to a shell profile (unix, default prefix only — disable with `--no-shell-profile`); prepends `~\.spark\bin` to the User PATH (windows); and runs setup with autostart, which mutates login items.
+- **Run setup:** `spark setup telegram-starter`, installing the bundle modules: spark-harness-core, spark-researcher, spark-character, spark-intelligence-builder, domain-chip-memory, spawner-ui, spark-telegram-bot.
+
+### Step 4 — ASK for approval, then run the real install
+
+Do not run this until the user says yes. Autostart behavior: default ON for interactive runs; auto-disabled for `--yes`/non-interactive runs unless you pass `--autostart` / `-Autostart`. Treat autostart as a change the user must approve.
+
+**mac / linux / wsl:**
+```
+bash spark-install.sh
+```
+
+**windows:**
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1
+```
+
+Upgrade variants (only if upgrading an existing install): `bash spark-install.sh --upgrade-existing` / `powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -UpgradeExisting`.
+
+### Installer pins (verify against the manifest)
+
+| Item | Pinned value |
+|---|---|
+| Spark CLI ref | `spark-cli-public-installer-2026-06-03-r24-v2` |
+| Spark CLI commit | `fc49c16a97ac5b69aaf27daea55918a40a28ad0c` |
+| Spark CLI repo | `https://github.com/vibeforge1111/spark-cli` |
+| Node | `22.18.0` (`https://nodejs.org/dist/v22.18.0/`) |
+| Python | `3.11` (via `uv`) |
+| uv | `0.11.7` (`https://github.com/astral-sh/uv`) |
+
+These values change on re-release. The live https://agent.sparkswarm.ai/install/release-manifest.json is authoritative — confirm against it rather than trusting the table above.
+
+### Allowed network destinations
+
+The installer should only contact:
+```
+agent.sparkswarm.ai            (serves the script, checksums, manifest)
+github.com/vibeforge1111/spark-cli
+github.com/astral-sh/uv
+nodejs.org
+```
+At install time the script's own fetch targets are `nodejs.org`, `github.com/astral-sh/uv`, and `github.com/vibeforge1111/spark-cli` (`agent.sparkswarm.ai` is contacted before the script runs, to download it). Anything outside this list is unexpected — stop and tell the user.
+
+### Verification receipts (for the higher-assurance path)
+
+- Installer hashes: https://agent.sparkswarm.ai/install/checksums.txt
+- Pinned commit + runtime versions: https://agent.sparkswarm.ai/install/release-manifest.json
+- GitHub Artifact Attestations: https://agent.sparkswarm.ai/install/attestations.md
+- Sigstore / Cosign signatures: https://agent.sparkswarm.ai/install/signatures.md
+- Raw install commands + metadata: https://agent.sparkswarm.ai/install/commands.json
+
+---
+
+## 2. POST-INSTALL
+
+After a successful install, the wrapper is on PATH as `spark`. On a fresh shell you may need to load the env first (unix): `source "$HOME/.spark/env"`.
+
+### Step 5 — First verify sequence
+
+Run these in order and read results back to the user:
+```
+spark guide                  # first-run guide (start here)
+spark --help                 # command surface
+spark status                 # profile + module health
+spark verify --onboarding    # launch-readiness check
+spark verify --deep          # proves Builder actually reaches domain-chip-memory (write/read smoke)
+spark fix telegram           # fastest triage of token/admin/provider/bridge/process
+```
+
+### Step 6 — Set up a provider (ASK first)
+
+Spark is provider-agnostic (bring your own model). One provider can power everything, or you can split Agent (chat/runtime/memory) from Mission (Spawner builds / longer work). **Ask the user which provider and get the key from them — never invent or guess a key.** Inspect first:
+```
+spark providers list
+spark providers status
+spark recommend llms
+```
+
+Simple single-provider setup (Z.AI / GLM example; secret-paste shortcuts `@clipboard` and `@env:VAR` are supported so the key never appears in shell history):
+```
+spark setup --llm-provider zai --zai-api-key @clipboard
+```
+
+Full first-launch form (Telegram + provider together):
+```
+spark setup \
+  --bot-token "<BOTFATHER_TOKEN>" \
+  --admin-telegram-ids "<YOUR_TELEGRAM_NUMERIC_ID>" \
+  --llm-provider zai \
+  --zai-api-key "<ZAI_API_KEY>" \
+  --zai-base-url "https://api.z.ai/api/coding/paas/v4/" \
+  --zai-model "glm-5.1"
+```
+
+Split / role flags (optional): `spark setup --resume --agent-llm-provider zai --mission-llm-provider codex`.
+
+Provider families: OpenAI, Codex CLI (signed-in, no key), Anthropic (key or signed-in `claude`), OpenRouter, Z.AI/GLM, MiniMax, Hugging Face router, Ollama (local). Note: the PowerShell installer exposes only `-ZaiApiKey`, `-OpenAIApiKey`, `-AnthropicApiKey`, `-MiniMaxApiKey` as install-time key flags; the bash installer additionally accepts `--kimi-api-key`, `--openrouter-api-key`, `--huggingface-api-key`. Other providers are set via `spark setup` after install.
+
+Confirm the provider answers:
+```
+spark providers test --role chat
+```
+
+### Step 7 — Connect Telegram (the front door)
+
+Telegram is how the user talks to Spark. Walk them through it:
+1. Message `@BotFather` → `/newbot` → copy the bot token.
+2. Either pass the token via `spark setup --bot-token ...` (Step 6) or run `spark telegram connect`.
+3. Start the bot in Telegram, send `/myid`, and put the numeric ID into `--admin-telegram-ids`. Only `/start` and `/myid` are public; every other command requires the admin allowlist.
+
+Enable autostart so the bot survives reboot (ASK first — this changes login items):
+```
+spark autostart on --now
+spark fix autostart
+```
+Manual fallback if not autostarting: `spark start telegram-starter`.
+
+### Step 8 — How to use Spark (teach the user this)
+
+**Mental model:** Telegram is the front door. The CLI (`spark`) is only the installer/operator shell — it does not own bot behavior, memory, missions, or chip scoring. Inside Telegram, the runtime router (spark-intelligence-builder) reaches the LLM provider and owns memory; spawner-ui is Mission Control; spark-researcher runs context + bounded improvement loops; domain-chip-memory does save/recall; domain chips teach Spark to score and improve one field.
+
+**In-chat commands** (after the bot is connected):
+- `/start` — list commands
+- `/myid` — your numeric Telegram ID
+- `/diagnose` — checks LLM/provider/Builder-bridge/Spawner
+- `/remember <fact>` and `/recall <query>` — Builder-backed memory
+- `/run <goal>` — send a mission to Spawner (returns a mission id)
+- `/board` and `/mission status <id>` — track missions
+- normal free-text — an LLM-backed reply
+
+**Run a first scored task (everyday front door):** in Telegram send
+```
+/run Create a small launch-readiness checklist for this Spark install
+```
+This creates a Spawner mission; track it with `/board` and `/mission status <id>`.
+
+**Autoloops (the self-improvement loop) — mechanism:** an autoloop is a bounded Researcher loop: one task, one score, a few rounds, then review. The shape is `workflow → Researcher → benchmark → memory packet → better next run`. Each run starts from what the last run kept; **nothing is promoted into the workflow without the user's approval — you are the gate. No blind self-improvement, no unreviewed memory.** To check that the loop surfaces are discoverable before claiming any benchmarked improvement:
+```
+spark verify --specialization-loop
+```
+(This publishes nothing. If it reports missing roots, the labs/swarm modules are not installed locally.)
+
+**Domain chips (specialization):** a domain chip is both a reusable tool Spark can call and a bounded specialization loop. It points the loop at the user's field — the job, the sources, the rules, and the bar it has to clear — so the next run starts from a better baseline.
+- Install a chip: `spark install <registry-name | local-path | git-url>`
+- Browse the registry: `spark search [query]`
+- Upgrade a chip manifest: `spark chip upgrade <chip_path>`
+- The chip format is open (`spark.toml`). The chip owns `evaluate / suggest / packets / watchtower`; Spark Researcher owns loop execution.
+
+To build a new chip, you can use the `/spark-autoloop` skill, or hand Spark this safe authoring prompt:
+```
+Use Spark Researcher's domain-chip authoring docs to design a new Spark domain chip for <domain>.
+Treat it as both a reusable tool my Spark agent can call and a bounded specialization loop Spark Researcher can run and score.
+Inspect ~/.spark/modules/spark-researcher/source/docs/master_chip_v2 before writing files.
+Build the smallest v0 with evaluate, suggest, packets, watchtower, and tests.
+Ask before risky changes.
+```
+
+### Daily checks
+```
+spark guide
+spark live start
+spark live status
+spark providers status
+spark providers test --role chat
+spark verify --onboarding
+```
+
+---
+
+## 3. TROUBLESHOOTING (confirmed commands only)
+
+- **Bot is quiet / not replying:** `spark fix telegram`, then `spark logs spark-telegram-bot --lines 80`. Telegram v1 uses long polling; only one polling process can own updates at a time.
+- **Replies look like raw memory labels (e.g. a `Working Memory` heading):** `spark providers status`, then `spark verify --deep`.
+- **`/run` fails or Spawner is unreachable:** `spark fix spawner`, then `spark logs spawner-ui --lines 80`.
+- **General health:** `spark status`, `spark doctor`.
+- **Collect a shareable diagnostic bundle:** `spark support bundle` (review before sending; it must not contain secrets).
+
+---
+
+## 4. SECURITY (confirmed commands only)
+
+- Local security audit: `spark security audit`
+- Verify provenance of installed artifacts: `spark verify --provenance`
+- Verify installer artifacts: `spark verify --installers`
+- Never print/commit tokens, keys, `.env`, or `~/.spark/config/secrets.local.json`. Keys and bot tokens live in Spark's secret backend, not in generated env files.
+- Treat any installer network traffic outside the allowed destinations above as a red flag.
+
+---
+
+## 5. UNINSTALL (ASK first)
+
+Use `spark uninstall` and `spark autostart uninstall` to remove Spark and its login items. Confirm with the user before running either — uninstall removes the install and autostart mutates login items.
+
+---
+
+## Scope and honesty notes
+
+- Do not quote eval percentages, chip scores, loop counters, or "fully autonomous improvement." Spark's mechanism is: every run is scored, improvements are kept only after they prove themselves, and the human gate is mandatory.
+- **Spark Swarm network submission and the hosted workspace are upcoming/private surfaces.** Public users do not need Spark Swarm to run autoloops or build chips locally. The sharing pattern, where it applies, is "patterns travel, your data never does."
+- Signing and agent-to-agent reproduction are roadmap, not described as live.
+- Pricing: **Spark Free — $0 forever** (autoloops on your machine, bring your own model, Telegram/Discord delivery, research engine with full traces, starter playbooks, open chip format). **Spark Pro — $19.99/mo or $159/yr** (full library, cross-device memory, multi-model routing, premium chips, hosted sync, priority support). 14-day refund. Lifetime is discontinued; current pricing is subscription only.
+
+---
+
+## More for agents
+
+- Human docs: https://agent.sparkswarm.ai/docs
+- Install safety: https://agent.sparkswarm.ai/docs/install-safety/ · https://agent.sparkswarm.ai/docs/install-safety.md
+- Commands: https://agent.sparkswarm.ai/docs/commands/ · https://agent.sparkswarm.ai/docs/commands.md
+- Providers: https://agent.sparkswarm.ai/docs/providers/ · https://agent.sparkswarm.ai/docs/providers.md
+- Suites / module map: https://agent.sparkswarm.ai/docs/suites/ · https://agent.sparkswarm.ai/docs/suites.md
+- Self-improvement (chips + loops): https://agent.sparkswarm.ai/docs/self-improvement/ · https://agent.sparkswarm.ai/docs/self-improvement.md
+- Lifecycle (Spark Live, autostart, uninstall): https://agent.sparkswarm.ai/docs/lifecycle/ · https://agent.sparkswarm.ai/docs/lifecycle.md
+- Troubleshooting: https://agent.sparkswarm.ai/docs/troubleshooting/ · https://agent.sparkswarm.ai/docs/troubleshooting.md
+- Security: https://agent.sparkswarm.ai/docs/security/ · https://agent.sparkswarm.ai/docs/security.md
+- Railway / VPS: https://agent.sparkswarm.ai/docs/railway-vps/ · https://agent.sparkswarm.ai/docs/railway-vps.md
+- Updates: https://agent.sparkswarm.ai/docs/updates/ · https://agent.sparkswarm.ai/docs/updates.md
+- Feedback / PR routing: https://agent.sparkswarm.ai/docs/feedback/ · https://agent.sparkswarm.ai/docs/feedback.md
+- AGENTS.md: https://agent.sparkswarm.ai/docs/AGENTS.md
+- Full compact context: https://agent.sparkswarm.ai/llms-full.txt
