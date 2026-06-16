@@ -776,8 +776,8 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .ai-line {
   display: flex; align-items: center; gap: 16px;
   background: var(--surface);
-  border: 1px solid var(--accent-mid); border-radius: 999px;
-  padding: 14px 22px 14px 26px;
+  border: 1px solid var(--accent-mid); border-radius: var(--r-lg);
+  padding: 16px 18px 16px 22px;
   box-shadow: 0 0 36px var(--accent-glow), 0 14px 40px rgba(0, 0, 0, 0.3);
   text-align: left;
 }
@@ -790,15 +790,15 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 }
 .copy--solid {
   background: transparent; color: var(--accent);
-  border: 1px solid var(--accent-mid); border-radius: 999px;
+  border: 1px solid var(--accent-mid); border-radius: var(--r-md);
   font: 600 13px var(--font-sans); letter-spacing: 0;
-  padding: 11px 22px;
+  padding: 11px 20px;
   transition: background var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
 .copy--solid:hover { background: var(--accent-subtle); border-color: var(--accent-glow); color: var(--accent); transform: translateY(-1px); }
 .ai-note { margin-top: 16px; font-size: 14px; color: var(--text-secondary); }
 @media (max-width: 560px) {
-  .ai-line { border-radius: var(--r-xl); flex-wrap: wrap; padding: 16px 18px; }
+  .ai-line { flex-wrap: wrap; padding: 16px 18px; }
   .ai-line code { flex-basis: 100%; }
 }
 
