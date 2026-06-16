@@ -633,11 +633,41 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   pointer-events: none;
 }
 .w-stage svg { width: 100%; height: auto; display: block; overflow: visible; position: relative; }
+
+/* mobile: vertical flow swaps in for the SVG so nothing shrinks or pans */
+.w-mobile { display: none; }
 @media (max-width: 760px) {
-  .w-schema { overflow-x: auto; -webkit-overflow-scrolling: touch;
-    mask-image: linear-gradient(90deg, black 92%, transparent);
-    -webkit-mask-image: linear-gradient(90deg, black 92%, transparent); }
-  .w-stage { min-width: 640px; }
+  .w-stage { display: none; }
+  .w-mobile {
+    display: grid; gap: 14px; list-style: none; margin: 0 auto; padding: 0;
+    max-width: 30em;
+  }
+  .wm-step {
+    position: relative; padding: 16px 18px;
+    border: 1px solid var(--border); border-radius: var(--r-lg);
+    background: color-mix(in srgb, var(--surface) 55%, transparent);
+  }
+  .wm-step + .wm-step::before { /* connector between steps */
+    content: ""; position: absolute; left: 50%; top: -15px;
+    width: 1px; height: 14px; background: var(--accent-dim);
+  }
+  .wm-step + .wm-step::after {
+    content: "▾"; position: absolute; left: 50%; top: -12px; transform: translate(-50%, -100%);
+    font: 500 9px var(--font-mono); color: var(--accent-dim);
+  }
+  .wm-zone {
+    display: block; font: 600 10px var(--font-mono); letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 9px;
+  }
+  .wm-brief { font: italic 500 15px var(--font-sans); line-height: 1.5; color: var(--text); }
+  .wm-step > p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+  .wm-gate { color: var(--text) !important; }
+  .wm-builds { display: grid; gap: 9px; }
+  .wm-art {
+    display: block; font-size: 13.5px; color: var(--text-secondary); line-height: 1.45;
+    padding-left: 13px; border-left: 2px solid var(--accent-dim);
+  }
+  .wm-art b { display: block; font: 500 13px var(--font-mono); color: var(--accent); margin-bottom: 1px; }
 }
 
 /* look-inside zones · % geometry maps the 760x224 viewBox (y origin 8) onto the scaled svg */

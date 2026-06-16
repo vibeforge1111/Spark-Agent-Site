@@ -48,7 +48,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,900;1,9..40,400;1,9..40,500;1,9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="redesign.css?v=5">
+<link rel="stylesheet" href="redesign.css?v=6">
 
 <!-- JSON-LD · SoftwareApplication + Organization + WebSite -->
 <script type="application/ld+json">
@@ -413,6 +413,29 @@
       <div class="w-hot w-hot-gate" tabindex="0"><span class="w-tip">The human gate. Nothing is promoted into your workflow without your approval.</span></div>
       <div class="w-hot w-hot-ring" tabindex="0"><span class="w-tip">The autoloop: rerun, score against the pack, keep only what beats the baseline.</span></div>
       </div>
+
+      <!-- mobile: the same flow, vertical and legible (swaps in for the SVG below 760px) -->
+      <ol class="w-mobile">
+        <li class="wm-step">
+          <span class="wm-zone">you say</span>
+          <p class="wm-brief">"Before every sales call, I want a brief on the account: recent news, their stack, and three talking points."</p>
+        </li>
+        <li class="wm-step wm-builds">
+          <span class="wm-zone">spark builds the loop kit</span>
+          <span class="wm-art"><b>domain chip</b>the workflow, packaged — sources, rules, examples</span>
+          <span class="wm-art"><b>benchmark pack</b>the cases and bar that prove it helps</span>
+          <span class="wm-art"><b>autoloop policy</b>mutation limits, stop rules, rollback</span>
+          <span class="wm-art"><b>specialization path</b>what it gets better at next</span>
+        </li>
+        <li class="wm-step">
+          <span class="wm-zone">you approve</span>
+          <p class="wm-gate">⏸ the human gate — nothing reaches your workflow without you</p>
+        </li>
+        <li class="wm-step">
+          <span class="wm-zone">it improves itself</span>
+          <p>the autoloop reruns, scores against the pack, and keeps only what beats the baseline</p>
+        </li>
+      </ol>
     </div>
 
     <p class="reveal w-caption">You approve it once. From then on the loop runs, scores, and improves itself. <span class="w-hint">// hover any part to look inside</span></p>
@@ -540,6 +563,6 @@
   </div>
 </footer>
 
-<script src="redesign.js?v=5" defer></script>
+<script src="redesign.js?v=6" defer></script>
 </body>
 </html>
