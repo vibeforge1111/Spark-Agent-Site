@@ -343,31 +343,8 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 /* a raised room, one step up from the base dark */
 .sec--raised { background: var(--bg-subtle); }
 .section-head {
-  display: grid; grid-template-columns: 84px 1fr; gap: 40px;
-  margin-bottom: clamp(36px, 7vw, 56px); align-items: start;
+  margin-bottom: clamp(36px, 7vw, 56px);
 }
-@media (max-width: 760px) {
-  .section-head { grid-template-columns: 1fr; gap: 12px; }
-  .sec-num { padding-top: 0; }
-}
-/* spine node: every section is a stop on the same line · number only, crisp */
-.sec-num { font: 500 14px var(--font-mono); color: var(--text-secondary); letter-spacing: 3px; padding-top: 12px; position: relative; padding-left: 22px; font-variant-numeric: tabular-nums; }
-.sec-num::before {
-  content: ""; position: absolute; left: 0; top: 16px;
-  width: 9px; height: 9px; border-radius: 50%;
-  border: 2px solid var(--accent-dim); background: var(--bg);
-  transition: border-color var(--t-mid), box-shadow var(--t-mid);
-}
-.section-head.in .sec-num::before { border-color: var(--accent); box-shadow: 0 0 14px var(--accent-glow); }
-.sec-num::after {
-  content: ""; position: absolute; left: 5px; top: 36px;
-  width: 1px; height: 110px;
-  background: linear-gradient(180deg, var(--accent-dim), transparent);
-  transform: scaleY(0); transform-origin: top;
-  transition: transform 1.1s var(--ease) 0.25s;
-}
-.section-head.in .sec-num::after { transform: scaleY(1); }
-@media (max-width: 760px) { .sec-num::after { display: none; } }
 .sec-title {
   font: 600 clamp(28px, 3.4vw, 44px) var(--font-sans);
   letter-spacing: -0.02em; line-height: 1.1; color: var(--text-bright);
