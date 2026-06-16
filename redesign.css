@@ -304,7 +304,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .bar.reported i { width: 86%; background: var(--status-amber); }
 .bar.checked i { width: 34%; background: var(--border-bright); }
 .era-note { margin-top: 16px; font: 500 12px var(--font-mono); color: var(--text-ghost); }
-.crosslink { display: inline-flex; align-items: center; gap: 8px; margin-top: 28px; font: 500 12px var(--font-mono); color: var(--text-tertiary); transition: color var(--t-fast); }
+.crosslink { display: inline-flex; align-items: center; gap: 8px; margin-top: 28px; font: 500 12px var(--font-mono); color: var(--text-secondary); transition: color var(--t-fast); }
 .crosslink:hover { color: var(--accent); }
 .crosslink .p { color: var(--accent); }
 
@@ -351,7 +351,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   .sec-num { padding-top: 0; }
 }
 /* spine node: every section is a stop on the same line · number only, crisp */
-.sec-num { font: 500 14px var(--font-mono); color: var(--text-tertiary); letter-spacing: 3px; padding-top: 12px; position: relative; padding-left: 22px; font-variant-numeric: tabular-nums; }
+.sec-num { font: 500 14px var(--font-mono); color: var(--text-secondary); letter-spacing: 3px; padding-top: 12px; position: relative; padding-left: 22px; font-variant-numeric: tabular-nums; }
 .sec-num::before {
   content: ""; position: absolute; left: 0; top: 16px;
   width: 9px; height: 9px; border-radius: 50%;
@@ -399,7 +399,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .point-list { list-style: none; display: grid; gap: 22px; }
 .point-list li { display: grid; grid-template-columns: 22px 1fr; gap: 14px; }
 .point-list .pl-dot { font: 500 13px var(--font-mono); color: var(--accent); padding-top: 1px; }
-.point-list h4 { font: 600 16px var(--font-sans); color: var(--text); margin-bottom: 4px; letter-spacing: -0.01em; }
+.point-list h3 { font: 600 16px var(--font-sans); color: var(--text); margin-bottom: 4px; letter-spacing: -0.01em; }
 .point-list p { font-size: 14.5px; color: var(--text-secondary); line-height: 1.6; }
 
 /* spec card - the production hero-spec recipe, reused as section exhibits */
@@ -616,7 +616,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 @media (max-width: 920px) { .gen-flow { grid-template-columns: 1fr; gap: 18px; } .gen-arrow { transform: rotate(90deg); justify-self: start; margin-left: 2px; padding-top: 0; } }
 .gen-step { background: transparent; border: 0; padding: 0; }
 .gen-step .g-tag { font: 600 10px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-dim); display: block; margin-bottom: 10px; }
-.gen-step h4 { font: 600 18px var(--font-sans); letter-spacing: -0.01em; margin-bottom: 8px; color: var(--text-bright); }
+.gen-step h3 { font: 600 18px var(--font-sans); letter-spacing: -0.01em; margin-bottom: 8px; color: var(--text-bright); }
 .gen-step p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
 .gen-arrow { align-self: start; padding-top: 34px; color: var(--accent); font: 500 16px var(--font-mono); }
 
@@ -766,7 +766,7 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
   transition: background var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
 .copy--solid:hover { background: var(--accent-subtle); border-color: var(--accent-glow); color: var(--accent); transform: translateY(-1px); }
-.ai-note { margin-top: 16px; font-size: 14px; color: var(--text-tertiary); }
+.ai-note { margin-top: 16px; font-size: 14px; color: var(--text-secondary); }
 @media (max-width: 560px) {
   .ai-line { border-radius: var(--r-xl); flex-wrap: wrap; padding: 16px 18px; }
   .ai-line code { flex-basis: 100%; }
@@ -848,9 +848,9 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .foot-thesis em { font-style: italic; font-weight: 500; color: var(--accent); }
 .f-fine { margin-top: 14px; font: 500 11px var(--font-mono); color: var(--text-ghost); letter-spacing: 0.4px; }
 .f-col { display: grid; gap: 11px; justify-items: start; }
-.f-col h5 {
+.f-col h3 {
   font: 600 10px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--text-faint); margin-bottom: 5px;
+  color: var(--text-tertiary); margin-bottom: 5px;
 }
 .f-col a { font: 500 12.5px var(--font-mono); color: var(--text-tertiary); letter-spacing: 0.2px; transition: color var(--t-fast); }
 .f-col a:hover { color: var(--accent); }
