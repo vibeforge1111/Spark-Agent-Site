@@ -853,7 +853,6 @@ em.glow { font-style: italic; font-weight: 500; color: var(--accent); letter-spa
 .foot-wordmark { height: 13px; width: auto; color: var(--text); }
 .foot-thesis { margin-top: 18px; font: 600 19px var(--font-sans); letter-spacing: -0.01em; color: var(--text); max-width: 18em; text-wrap: balance; }
 .foot-thesis em { font-style: italic; font-weight: 500; color: var(--accent); }
-.f-fine { margin-top: 14px; font: 500 11px var(--font-mono); color: var(--text-ghost); letter-spacing: 0.4px; }
 .f-col { display: grid; gap: 11px; justify-items: start; }
 .f-col h3 {
   font: 600 10px var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase;
