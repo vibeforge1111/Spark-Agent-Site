@@ -51,7 +51,7 @@ Only then run the real install.
 
 ```text
 a2ac9b21f3f3d391586edee3e83035bd11733f0f4d298546a89b6078550bd052  install.sh
-bb73b7f4aa86f7a8a6a1392c78ed6c1b894c5c12f3e821bb422fe241ad6d1226  install.ps1
+7848e07ee31ae33400762a282278449324b0fd050e9410375737e86dd7bd6e57  install.ps1
 ```
 
 ## Safe Human Procedure

@@ -1,4 +1,4 @@
-# Spark Update: Spark OS Registry And R27 Installer
+# Spark Update: Spark OS Registry And R28 Installer
 
 Human page: `/docs/updates/`
 
@@ -6,7 +6,7 @@ This update publishes the safe public surfaces we can share now, without making 
 
 ## Included
 
-- Spark R27 installer convergence with hosted checksums, release manifest, command metadata, attestations, the 10-module registry, deterministic CLI root wrappers, stable public registry pin verification, and self-consistent installed-checkout release metadata.
+- Spark R28 installer convergence with hosted checksums, release manifest, command metadata, attestations, the 10-module registry, deterministic CLI root wrappers, stable public registry pin verification, and self-consistent installed-checkout release metadata.
 - Telegram recursive loops now have a local-only public path for Builder chip loops: `/recursive start <chipKey> rounds <n>`, `/recursive sessions`, `/recursive report`, and `/recursive trace` work from local status files without Spark Swarm.
 - `spark-domain-chip-labs` as the public creator lab for domain chips, benchmark packs, specialization paths, autoloop policies, tool integrations, and publish packet standards.
 - `spark-character` as the public character and voice-consistency layer.
@@ -41,5 +41,5 @@ The expected Spark CLI release is:
 
 ```text
 spark-cli-public-installer-2026-06-22-r28
-c788446bb2929d702ced58c2391b0cfde08d502c
+eb3de2084b408c84653c5116953be20c5a71227c
 ```
