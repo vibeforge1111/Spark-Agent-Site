@@ -4,7 +4,7 @@ import crypto from "node:crypto";
 
 const root = process.cwd();
 const sparkCliRef = "spark-cli-public-installer-2026-06-22-r28";
-const sparkCliCommit = "c788446bb2929d702ced58c2391b0cfde08d502c";
+const sparkCliCommit = "eb3de2084b408c84653c5116953be20c5a71227c";
 const releaseName = "spark-cli-public-installer-2026-06-22-r28";
 
 function fail(message) {

@@ -140,7 +140,7 @@ Do not send Telegram tokens or LLM keys to websites.
 ## Current Installer Pins
 
 - Spark CLI release ref: `spark-cli-public-installer-2026-06-22-r28`
-- Spark CLI commit: `c788446bb2929d702ced58c2391b0cfde08d502c`
+- Spark CLI commit: `eb3de2084b408c84653c5116953be20c5a71227c`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
@@ -154,6 +154,24 @@ Do not send Telegram tokens or LLM keys to websites.
 
 Stop if the plan requires another destination.
 
+## Human Install Commands
+
+macOS, Linux, WSL:
+
+```bash
+curl -fsSL https://agent.sparkswarm.ai/install.sh -o spark-install.sh
+bash spark-install.sh --dry-run
+bash spark-install.sh
+```
+
+Windows:
+
+```powershell
+iwr https://agent.sparkswarm.ai/install.ps1 -OutFile spark-install.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1
+```
+
 ## Daily Checks
 
 ```bash
@@ -165,11 +183,58 @@ spark providers test --role chat
 spark verify --onboarding
 ```
 
+## Telegram Tests
+
+```text
+/start
+/myid
+/diagnose
+```
+
+Then send a normal message.
+
+Spark should answer through the configured LLM provider.
+
+## Memory Tests
+
+```text
+/remember launch test memory
+/recall launch test memory
+```
+
+## Mission Tests
+
+```text
+/run summarize the current Spark setup
+/board
+```
+
+## Repair
+
+If Telegram is quiet:
+
+```bash
+spark fix telegram
+spark logs spark-telegram-bot --lines 80
+```
+
+If replies look like memory labels:
+
+```bash
+spark providers status
+spark verify --deep
+```
+
+If Spawner is unreachable:
+
+```bash
+spark fix spawner
+spark logs spawner-ui --lines 80
+```
+
 ## Provider Setup
 
-Default to one provider for Agent and Mission, or split them during setup.
-
-Useful commands:
+Default to one provider for Agent and Mission, or split them during setup. Agent means chat, runtime reasoning, memory, and recall. Mission means Spawner/Mission Control builds, research, coding, and longer tracked work.
 
 ```bash
 spark recommend llms
@@ -204,27 +269,11 @@ Railway deploy note: use `railway up` for code changes and `railway redeploy`
 for same-code restarts or environment changes. Healthchecks should return HTTP
 200 and the app should listen on Railway's `PORT`.
 
-## Repair
+Smoke from Telegram:
 
-If Telegram is quiet:
-
-```bash
-spark fix telegram
-spark logs spark-telegram-bot --lines 80
-```
-
-If replies look like memory labels:
-
-```bash
-spark providers status
-spark verify --deep
-```
-
-If Spawner is unreachable:
-
-```bash
-spark fix spawner
-spark logs spawner-ui --lines 80
+```text
+/diagnose
+/run Build a tiny static HTML page called Spark Production Smoke. It should have one file, index.html, with a dark Mission Control panel, a green "Spark Live OK" status, and the text "Telegram to Spawner relay worked on May 8, 2026". Do not add package files, do not install dependencies, and keep it simple enough to finish fast.
 ```
 
 ## Security
@@ -237,6 +286,35 @@ spark support bundle
 ```
 
 Review support reports before sharing.
+
+## Autostart
+
+Interactive installs offer autostart by default. Unattended --yes or non-interactive installer runs use no-autostart unless --autostart is passed explicitly.
+
+Check it:
+
+```bash
+spark autostart status
+```
+
+Turn it off:
+
+```bash
+spark autostart uninstall
+```
+
+## Uninstall
+
+Prefer:
+
+```bash
+spark autostart uninstall
+spark uninstall
+```
+
+Manual deletion is destructive.
+
+Ask before removing `~/.spark` or `%USERPROFILE%\.spark`.
 
 ## Verification Receipts
 

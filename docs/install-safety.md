@@ -24,7 +24,7 @@ If you are non-technical, ask your coding assistant to open this page, run the d
 
 ```text
 a2ac9b21f3f3d391586edee3e83035bd11733f0f4d298546a89b6078550bd052  install.sh
-bb73b7f4aa86f7a8a6a1392c78ed6c1b894c5c12f3e821bb422fe241ad6d1226  install.ps1
+7848e07ee31ae33400762a282278449324b0fd050e9410375737e86dd7bd6e57  install.ps1
 ```
 
 ## Safe Procedure
@@ -63,6 +63,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun 
 ```
 
 Use upgrade mode only after reading the dry-run. It updates the existing Spark CLI inside the same Spark folder.
+
+Windows long paths: if your user folder is long (for example a "Firstname Lastname" or OneDrive-redirected profile), enable long path support once in an Administrator PowerShell, or install to a short prefix such as `-Prefix C:\spark`. The installer checks this in preflight and will tell you which fix to use before it writes anything.
+
+```powershell
+New-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name LongPathsEnabled -Value 1 -PropertyType DWORD -Force
+```
 
 ## Safe Coding Assistant Procedure
 
@@ -114,7 +120,7 @@ Users can change this later in Telegram with `/access 1`, `/access 2`, `/access 
 ## Pinned Parts
 
 - Spark CLI release ref: `spark-cli-public-installer-2026-06-22-r28`
-- Spark CLI commit: `c788446bb2929d702ced58c2391b0cfde08d502c`
+- Spark CLI commit: `eb3de2084b408c84653c5116953be20c5a71227c`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`
