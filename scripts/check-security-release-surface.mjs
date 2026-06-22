@@ -3,9 +3,9 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 const root = process.cwd();
-const sparkCliRef = "spark-cli-public-installer-2026-06-10-r27";
-const sparkCliCommit = "4c35275498fd4544a3f53366d231bb2f9893ae13";
-const releaseName = "spark-cli-public-installer-2026-06-10-r27";
+const sparkCliRef = "spark-cli-public-installer-2026-06-22-r28";
+const sparkCliCommit = "c788446bb2929d702ced58c2391b0cfde08d502c";
+const releaseName = "spark-cli-public-installer-2026-06-22-r28";
 
 function fail(message) {
   console.error(`security release surface check failed: ${message}`);
