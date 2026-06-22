@@ -40,6 +40,6 @@ spark verify --installers --hosted-installers
 The expected Spark CLI release is:
 
 ```text
-spark-cli-public-installer-2026-06-10-r27
-4c35275498fd4544a3f53366d231bb2f9893ae13
+spark-cli-public-installer-2026-06-22-r28
+c788446bb2929d702ced58c2391b0cfde08d502c
 ```
