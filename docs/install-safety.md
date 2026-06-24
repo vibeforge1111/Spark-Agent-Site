@@ -62,6 +62,7 @@ Windows existing install preview:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun -UpgradeExisting
 ```
 
+Use this only if spark update is unavailable or broken.
 Use upgrade mode only after reading the dry-run. It updates the existing Spark CLI inside the same Spark folder.
 
 Windows long paths: if your user folder is long (for example a "Firstname Lastname" or OneDrive-redirected profile), enable long path support once in an Administrator PowerShell, or install to a short prefix such as `-Prefix C:\spark`. The installer checks this in preflight and will tell you which fix to use before it writes anything.

@@ -74,6 +74,7 @@ const checksumsJson = readJson("install/checksums.json");
 const commandsJson = readJson("install/commands.json");
 const manifest = readJson("install/release-manifest.json");
 const jsonHashes = Object.fromEntries(checksumsJson.files.map((entry) => [entry.path, entry.sha256]));
+const upgradeFallbackGuidance = "Use this only if spark update is unavailable or broken.";
 
 assert(JSON.stringify(jsonHashes) === JSON.stringify(expected), "checksums.json must match checksums.txt");
 assert(JSON.stringify(commandsJson.checksums.sha256) === JSON.stringify(expected), "commands.json hashes must match checksums.txt");
@@ -83,6 +84,10 @@ assert(manifest.sparkCli.releaseName === releaseName, "release manifest must use
 assert(commandsJson.source.ref === sparkCliRef, "commands.json source ref must match current Spark CLI release ref");
 assert(commandsJson.source.commit === sparkCliCommit, "commands.json source commit must match current Spark CLI commit");
 assert(commandsJson.source.releaseName === releaseName, "commands.json source release must match current Spark CLI release name");
+assert(read("install/index.html").includes(upgradeFallbackGuidance), "install page must make the upgrade fallback boundary explicit");
+assert(read("docs/install-safety.md").includes(upgradeFallbackGuidance), "install safety markdown must make the upgrade fallback boundary explicit");
+assert(read("docs/install-safety/index.html").includes(upgradeFallbackGuidance), "install safety page must make the upgrade fallback boundary explicit");
+assert(commandsJson.upgradeExisting.summary.includes(upgradeFallbackGuidance), "commands.json must make the upgrade fallback boundary explicit");
 
 const publicExtensions = new Set([".html", ".md", ".json", ".txt"]);
 const publicFiles = walk(".").filter((relPath) => {

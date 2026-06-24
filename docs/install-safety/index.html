@@ -141,7 +141,7 @@
         <div class="safety-command-card">
           <span class="doc-kicker">Step 3</span>
           <h3>Preview an upgrade when Spark is already installed</h3>
-          <p>Use this when the docs mention a command your local Spark does not know yet, or when you want the latest installer improvements.</p>
+          <p>Use this only if spark update is unavailable or broken. If Spark still responds, run <code>spark update</code> first.</p>
           <div class="command-list">
             <code>bash spark-install.sh --dry-run --upgrade-existing</code>
             <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\spark-install.ps1 -DryRun -UpgradeExisting</code>
