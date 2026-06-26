@@ -129,8 +129,8 @@ Spark Swarm network submission and hosted workspace review are upcoming private 
 
 ## Current Installer Pins
 
-- Spark CLI release ref: `spark-cli-public-installer-2026-06-22-r28`
-- Spark CLI commit: `eb3de2084b408c84653c5116953be20c5a71227c`
+- Spark CLI release ref: `spark-cli-public-installer-2026-06-26-r29`
+- Spark CLI commit: `a6738be7a97a7254a5b09e06ce08692d99967bd6`
 - Node: `22.18.0`
 - Python: `3.11`
 - uv: `0.11.7`

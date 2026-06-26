@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "updated": "2026-06-23",
+  "updated": "2026-06-26",
   "files": [
     {
       "path": "install.sh",
-      "sha256": "a2ac9b21f3f3d391586edee3e83035bd11733f0f4d298546a89b6078550bd052"
+      "sha256": "139837199c24b39f9aac8b647beec0cf623badebdaf74aa88f5315b3b6b30414"
     },
     {
       "path": "install.ps1",
-      "sha256": "7848e07ee31ae33400762a282278449324b0fd050e9410375737e86dd7bd6e57"
+      "sha256": "4f111cca7ac28fe09d5f2a824d9fb70c30abe204e1dbbba2570c566dbeaec81b"
     }
   ]
 }
