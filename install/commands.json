@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-06-26",
+  "updated": "2026-07-01",
   "canonicalInstallPage": "https://agent.sparkswarm.ai/install",
   "scripts": {
     "unix": "https://agent.sparkswarm.ai/install.sh",
@@ -10,8 +10,8 @@
     "text": "https://agent.sparkswarm.ai/install/checksums.txt",
     "json": "https://agent.sparkswarm.ai/install/checksums.json",
     "sha256": {
-      "install.sh": "139837199c24b39f9aac8b647beec0cf623badebdaf74aa88f5315b3b6b30414",
-      "install.ps1": "4f111cca7ac28fe09d5f2a824d9fb70c30abe204e1dbbba2570c566dbeaec81b"
+      "install.sh": "ef5279c02e1f3eaffc51452cd945f048d4f5094bcc2bc0232e2ab9c17b5dccdb",
+      "install.ps1": "cb1943cfc7c345d48bdd77a0eed8ca4e6a591816b4631eddc227eb3e5314e826"
     }
   },
   "releaseManifest": "https://agent.sparkswarm.ai/install/release-manifest.json",
@@ -269,9 +269,9 @@
   ],
   "source": {
     "repository": "https://github.com/vibeforge1111/spark-cli",
-    "releaseName": "spark-cli-public-installer-2026-06-26-r29",
-    "ref": "spark-cli-public-installer-2026-06-26-r29",
-    "commit": "a6738be7a97a7254a5b09e06ce08692d99967bd6",
+    "releaseName": "spark-cli-public-installer-2026-06-27-r30",
+    "ref": "spark-cli-public-installer-2026-06-27-r30",
+    "commit": "b2344a8c55c2f311e8904cbd95a90bba0c519b09",
     "installerPaths": [
       "scripts/install.sh",
       "scripts/install.ps1"
