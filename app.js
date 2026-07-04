@@ -521,7 +521,19 @@
         <span class="mt-line">${t.line}</span>
       </span>`
     ).join('');
-    mq.innerHTML = make() + make();
+    mq.replaceChildren();
+  for (var i = 0; i < 2; i++) {
+    tiles.forEach(function(t) {
+      var s = document.createElement('span');
+      s.className = 'marquee-tile ' + t.tier;
+      s.tabIndex = 0;
+      var slash = document.createElement('span'); slash.className = 'mt-slash'; slash.textContent = '/'; s.appendChild(slash);
+      var slug = document.createElement('span'); slug.className = 'mt-slug'; slug.textContent = t.slug; s.appendChild(slug);
+      var sep = document.createElement('span'); sep.className = 'mt-sep'; sep.textContent = '·'; s.appendChild(sep);
+      var line = document.createElement('span'); line.className = 'mt-line'; line.textContent = t.line; s.appendChild(line);
+      mq.appendChild(s);
+    });
+  }
   }
 
   /* ══════════════════════════════════════════════════════════════
