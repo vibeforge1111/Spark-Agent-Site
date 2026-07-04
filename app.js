@@ -285,9 +285,19 @@
     setInterval(() => {
       head = (head + 1) % events.length;
       const visible = [0, 1, 2].map(i => events[(head + i) % events.length]);
-      runlog.innerHTML = visible.map((event, i) => (
-        `<li${i === 0 ? ' class="active"' : ''}><span>${event[0]}</span><strong>${event[1]}</strong> ${event[2]}</li>`
-      )).join('');
+      runlog.replaceChildren(...visible.map((event, i) => {
+        const li = document.createElement('li');
+        if (i === 0) li.className = 'active';
+        const span = document.createElement('span');
+        span.textContent = event[0];
+        const strong = document.createElement('strong');
+        strong.textContent = event[1];
+        const text = document.createTextNode(' ' + event[2]);
+        li.appendChild(span);
+        li.appendChild(strong);
+        li.appendChild(text);
+        return li;
+      }));
     }, 2600);
   }
 
