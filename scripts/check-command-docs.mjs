@@ -18,6 +18,9 @@ try {
 
 function fail(message) {
   console.error(`command docs check failed: ${message}`);
+  console.error(
+    "  Hint: this gate compares docs/commands/index.html + docs/commands.md + docs/command-catalog.json against each other and against the documented Spark CLI surface. Update whichever side is stale."
+  );
   process.exitCode = 1;
 }
 
