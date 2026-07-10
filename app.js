@@ -27,6 +27,11 @@
   /* shared node-field renderer (hero background + swarm section) */
   const makeNodeField = (canvas, opts = {}) => {
     if (!canvas) return;
+    let isVisible = true;
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(([e]) => { isVisible = e.isIntersecting; }, { threshold: 0 });
+      obs.observe(canvas);
+    }
     const cfg = {
       density: 18,
       linkDist: 140,
@@ -139,7 +144,7 @@
         }
       }
 
-      requestAnimationFrame(render);
+      if (isVisible) requestAnimationFrame(render);
     };
     resize(); seed();
     addEventListener('resize', () => { resize(); seed(); });
@@ -209,7 +214,16 @@
     }
     requestAnimationFrame(renderBG);
   };
-  if (!reduced) renderBG();
+  if (!reduced) {
+    if ('IntersectionObserver' in window) {
+      const bgObs = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) renderBG();
+      }, { threshold: 0 });
+      bgObs.observe($('#bg-canvas'));
+    } else {
+      renderBG();
+    }
+  }
 
   /* ══════════════════════════════════════════════════════════════
      HERO v3 · Jarvis core · scramble, live counters, node field
