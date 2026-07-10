@@ -24,6 +24,7 @@ param(
     [switch]$ManagedNode,
     [switch]$SkipUserPath,
     [string[]]$SetupArg = @(),
+    [switch]$NoShellProfile,
     [string]$LocalRegistry = "",
     [switch]$SkipSetup,
     [switch]$Autostart,
@@ -810,6 +811,10 @@ set "PATH=$NodeDir;%PATH%"
 }
 
 function Add-SparkBinToUserPath {
+    if ($NoShellProfile) {
+        Write-SparkLog "Skipping persistent PATH update (-NoShellProfile requested; matches the bash install script's --no-shell-profile flag)"
+        return
+    }
     $binDir = Join-Path $Script:SparkPrefix "bin"
     $tempRoot = Resolve-FullPath $env:TEMP
     if ($SkipUserPath) {
