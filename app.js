@@ -919,9 +919,16 @@
     }
     if (btn) {
       const orig = btn.textContent;
+      const origAriaLive = btn.getAttribute('aria-live');
+      btn.setAttribute('aria-live', 'polite');
       btn.textContent = 'copied';
       btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1600);
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.classList.remove('copied');
+        if (origAriaLive === null) btn.removeAttribute('aria-live');
+        else btn.setAttribute('aria-live', origAriaLive);
+      }, 1600);
     }
   };
 
