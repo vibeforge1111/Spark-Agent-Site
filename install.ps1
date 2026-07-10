@@ -597,7 +597,11 @@ function Install-Node {
     }
 
     $toolsDir = Join-Path $Script:SparkPrefix "tools"
-    $nodeDir = Join-Path $toolsDir "node-v$NodeVersion-win-x64"
+    $nodeArch = "win-x64"
+    if ($env:PROCESSOR_ARCHITECTURE -eq "ARM64") {
+        $nodeArch = "win-arm64"
+    }
+    $nodeDir = Join-Path $toolsDir "node-v$NodeVersion-$nodeArch"
     $nodeExe = Join-Path $nodeDir "node.exe"
     if (Test-Path $nodeExe) {
         Write-SparkLog "Node $NodeVersion already installed at $nodeDir"
@@ -605,9 +609,9 @@ function Install-Node {
     }
 
     New-Item -ItemType Directory -Force -Path $toolsDir | Out-Null
-    $archive = Join-Path $toolsDir "node-v$NodeVersion-win-x64.zip"
+    $archive = Join-Path $toolsDir "node-v$NodeVersion-$nodeArch.zip"
     $shasums = Join-Path $toolsDir "node-v$NodeVersion-SHASUMS256.txt"
-    $url = "https://nodejs.org/dist/v$NodeVersion/node-v$NodeVersion-win-x64.zip"
+    $url = "https://nodejs.org/dist/v$NodeVersion/node-v$NodeVersion-$nodeArch.zip"
     $shasumsUrl = "https://nodejs.org/dist/v$NodeVersion/SHASUMS256.txt"
     Write-SparkLog "Downloading Node $NodeVersion"
     Invoke-WebRequest -Uri $url -OutFile $archive
