@@ -1011,6 +1011,9 @@
       if (!target) return;
       e.preventDefault();
       target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+      if (window.history && typeof window.history.replaceState === 'function') {
+        window.history.replaceState(null, '', href);
+      }
     });
   });
 
