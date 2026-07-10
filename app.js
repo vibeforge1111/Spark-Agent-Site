@@ -171,6 +171,7 @@
      BACKGROUND PARTICLES
      ══════════════════════════════════════════════════════════════ */
   const bgc = $('#bg-particles');
+  if (!bgc) return;
   const bgctx = bgc.getContext('2d');
   let bgParticles = [];
   const resizeBG = () => {
