@@ -948,9 +948,26 @@ checkout_cli() {
   fi
 
   need_cmd git
-  if [ -d "$target/.git" ]; then
+  # `git clone` is not atomic from the operator's perspective: it creates
+  # $target/.git early in the protocol exchange and only writes HEAD + the
+  # working tree near the end. An installer killed during the pack download
+  # (SIGINT, dropped network, OOM) leaves $target/.git on disk with no HEAD
+  # checked out. The previous one-line check treated that as a healthy
+  # checkout, took the "Updating" branch, and the subsequent
+  # `git checkout $SPARK_CLI_REF` failed with an unrelated-looking error
+  # (`pathspec did not match` or `error: unable to read tree`). Probe both
+  # `.git` AND a valid HEAD before deciding the checkout is reusable.
+  local checkout_ok=0
+  if [ -d "$target/.git" ] && \
+     git -C "$target" rev-parse --verify --quiet HEAD >/dev/null 2>&1; then
+    checkout_ok=1
+  fi
+  if [ "$checkout_ok" = "1" ]; then
     log "Updating existing spark-cli checkout"
   else
+    if [ -d "$target/.git" ]; then
+      log "Removing partial spark-cli checkout at $target (no HEAD)"
+    fi
     log "Cloning spark-cli from $SPARK_CLI_SOURCE"
     rm -rf "$target"
     if printf '%s' "$SPARK_CLI_REF" | grep -Eq '^[0-9a-f]{40}$'; then
