@@ -149,7 +149,7 @@
   /* ══════════════════════════════════════════════════════════════
      MAGNETIC BUTTONS
      ══════════════════════════════════════════════════════════════ */
-  if (!isTouch) {
+  if (!isTouch && !reduced) {
     $$('[data-magnetic]').forEach(el => {
       let rafId;
       el.addEventListener('mousemove', (e) => {
