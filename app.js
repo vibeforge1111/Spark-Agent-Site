@@ -212,37 +212,10 @@
   if (!reduced) renderBG();
 
   /* ══════════════════════════════════════════════════════════════
-     HERO v3 · Jarvis core · scramble, live counters, node field
+     HERO v3 · Jarvis core · live counters, node field
      ══════════════════════════════════════════════════════════════ */
 
-  // 1. scramble-resolve reveal on hero title words (after fade-in)
-  const scrambleChars = '!<>-_\\/[]{}=+*^?#█░▒01';
-  $$('.hero-title .hk-w').forEach((el, i) => {
-    if (reduced) return;
-    const original = el.dataset.text || el.textContent;
-    const base = 1700 + i * 70;
-    setTimeout(() => {
-      let start = null;
-      const dur = 460;
-      const tick = (ts) => {
-        if (start === null) start = ts;
-        const k = Math.min(1, (ts - start) / dur);
-        if (k >= 1) { el.textContent = original; return; }
-        const revealed = Math.floor(original.length * k);
-        let out = '';
-        for (let j = 0; j < original.length; j++) {
-          const ch = original[j];
-          if (j < revealed || ch === ' ' || ch === '.') out += ch;
-          else out += scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
-        }
-        el.textContent = out;
-        requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }, base);
-  });
-
-  // 2. LIVING SPEC CARD · mastery bar fill + countdown
+  // 1. LIVING SPEC CARD · mastery bar fill + countdown
   const spCountdown = $('#sp-countdown');
 
   // fill mastery bars once the card is on screen
