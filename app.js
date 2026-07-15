@@ -285,9 +285,18 @@
     setInterval(() => {
       head = (head + 1) % events.length;
       const visible = [0, 1, 2].map(i => events[(head + i) % events.length]);
-      runlog.innerHTML = visible.map((event, i) => (
-        `<li${i === 0 ? ' class="active"' : ''}><span>${event[0]}</span><strong>${event[1]}</strong> ${event[2]}</li>`
-      )).join('');
+      const fragment = document.createDocumentFragment();
+      visible.forEach((event, i) => {
+        const item = document.createElement('li');
+        if (i === 0) item.className = 'active';
+        const time = document.createElement('span');
+        time.textContent = event[0];
+        const route = document.createElement('strong');
+        route.textContent = event[1];
+        item.append(time, route, document.createTextNode(' ' + event[2]));
+        fragment.appendChild(item);
+      });
+      runlog.replaceChildren(fragment);
     }, 2600);
   }
 
@@ -387,7 +396,7 @@
     if (!stage) return;
     const rect = stage.getBoundingClientRect();
     cables.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
-    cables.innerHTML = '';
+    cables.replaceChildren();
     for (const [a, b] of connections) {
       const ea = nodeEl(a), eb = nodeEl(b);
       if (!ea || !eb) continue;
@@ -514,14 +523,31 @@
       { slug: 'trading',      tier: 'pro',  line: 'reads markets, graded on wins' },
       { slug: 'yours',        tier: 'free', line: 'build your own, the format is open' },
     ];
-    const make = () => tiles.map(t =>
-      `<span class="marquee-tile ${t.tier}" tabindex="0">
-        <span class="mt-slash">/</span><span class="mt-slug">${t.slug}</span>
-        <span class="mt-sep">·</span>
-        <span class="mt-line">${t.line}</span>
-      </span>`
-    ).join('');
-    mq.innerHTML = make() + make();
+    const fragment = document.createDocumentFragment();
+    for (let repeat = 0; repeat < 2; repeat++) {
+      for (const tile of tiles) {
+        const item = document.createElement('span');
+        item.className = `marquee-tile ${tile.tier}`;
+        item.tabIndex = 0;
+
+        const slash = document.createElement('span');
+        slash.className = 'mt-slash';
+        slash.textContent = '/';
+        const slug = document.createElement('span');
+        slug.className = 'mt-slug';
+        slug.textContent = tile.slug;
+        const separator = document.createElement('span');
+        separator.className = 'mt-sep';
+        separator.textContent = '·';
+        const line = document.createElement('span');
+        line.className = 'mt-line';
+        line.textContent = tile.line;
+
+        item.append(slash, slug, separator, line);
+        fragment.appendChild(item);
+      }
+    }
+    mq.replaceChildren(fragment);
   }
 
   /* ══════════════════════════════════════════════════════════════

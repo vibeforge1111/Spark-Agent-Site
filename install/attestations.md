@@ -24,7 +24,7 @@ The manifest includes the Spark CLI public release tag, resolved Spark CLI commi
 
 ```bash
 curl -fsSL https://agent.sparkswarm.ai/install.sh -o ./install.sh
-expected='ef5279c02e1f3eaffc51452cd945f048d4f5094bcc2bc0232e2ab9c17b5dccdb'
+expected='8b329499de04575bebfdee66b183999820d93a562d23c3ec27cfbdab355c3e3a'
 actual=$(if command -v sha256sum >/dev/null 2>&1; then sha256sum ./install.sh | awk '{print $1}'; elif command -v shasum >/dev/null 2>&1; then shasum -a 256 ./install.sh | awk '{print $1}'; else echo 'Missing sha256sum or shasum'; exit 1; fi)
 test "$actual" = "$expected" || { echo 'spark installer checksum mismatch'; exit 1; }
 gh attestation verify ./install.sh --repo vibeforge1111/Spark-Agent-Site --signer-workflow vibeforge1111/Spark-Agent-Site/.github/workflows/install-hardening.yml --source-ref refs/heads/main

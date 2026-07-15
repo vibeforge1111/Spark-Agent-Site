@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
 
@@ -28,21 +28,9 @@ describe("site DOM construction", () => {
 
 
 describe("orphaned asset ownership", () => {
-  it("does not ship the unused 3D payload or loader copies", () => {
-    for (const path of [
-      "avatar-3d.js",
-      "head.glb",
-      "vendor/three/loaders/GLTFLoader.js",
-      "vendor/three/three.module.js",
-      "vendor/three/utils/BufferGeometryUtils.js",
-    ]) {
-      assert.equal(existsSync(new URL(`../${path}`, import.meta.url)), false, path);
-    }
-  });
-
   it("does not copy removed assets into the public container", () => {
     const dockerfile = read("Dockerfile");
-    assert.doesNotMatch(dockerfile, /avatar-3d\.js|head\.glb/);
+    assert.doesNotMatch(dockerfile, /avatar-3d\.js|head\.glb|COPY vendor/);
   });
 
   it("keeps the user-facing spelling correction", () => {

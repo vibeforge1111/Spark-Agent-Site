@@ -177,6 +177,20 @@ const staleTokens = [
   "db41e347d1e73e1fa147088445bbe4d400ea364008265d6be4af1d529ffeaaeb",
 ];
 
+assert(
+  !staleTokens.includes(sparkCliRef),
+  `staleTokens must not contain the current release ref: ${sparkCliRef}`,
+);
+assert(
+  !staleTokens.includes(sparkCliCommit),
+  "staleTokens must not contain the current release commit",
+);
+assert(staleTokens.length > 0, "staleTokens must preserve retired release history");
+assert(
+  staleTokens.some((token) => token.startsWith("spark-cli-public-installer-")),
+  "staleTokens must retain at least one retired public installer ref",
+);
+
 const staleReleasePatterns = [
   {
     pattern: /\bspark-cli-public-installer-2026-06-03-r24(?!-v\d)\b/,

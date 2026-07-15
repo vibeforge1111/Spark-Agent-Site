@@ -547,6 +547,17 @@ validate_install_settings() {
       ;;
   esac
 
+  # The prefix is embedded in generated double-quoted Bash assignments.
+  # Reject only bytes that can terminate or re-enter that shell context;
+  # punctuation such as spaces, semicolons, ampersands and parentheses remains
+  # valid path data while quoted.
+  if [[ "$SPARK_PREFIX" =~ [\`\"\$\\] ]] ||
+    [[ "$SPARK_PREFIX" == *$'\n'* ]] ||
+    [[ "$SPARK_PREFIX" == *$'\r'* ]]; then
+    echo "Refusing install prefix that cannot be represented safely in generated shell files." >&2
+    exit 1
+  fi
+
   case "$SPARK_NODE_VERSION" in
     *[!0-9.]*|.*|*..*|*.)
       echo "Unsafe Node version value: $SPARK_NODE_VERSION" >&2
