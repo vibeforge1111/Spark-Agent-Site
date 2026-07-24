@@ -580,6 +580,15 @@ validate_install_settings() {
       ;;
   esac
 
+  case "$SPARK_LLM_PROVIDER" in
+    ""|codex|anthropic|zai|kimi|openrouter|huggingface|lmstudio|minimax|ollama|openai) ;;
+    *)
+      echo "Unknown --llm-provider value: '$SPARK_LLM_PROVIDER'" >&2
+      echo "Valid providers: codex, anthropic, zai, kimi, openrouter, huggingface, lmstudio, minimax, ollama, openai" >&2
+      exit 1
+      ;;
+  esac
+
   local source_without_git="${SPARK_CLI_SOURCE%.git}"
   if [ "$source_without_git" != "$SPARK_CANONICAL_CLI_SOURCE" ]; then
     if [ "$SPARK_ALLOW_DEV_SOURCE" != "1" ]; then

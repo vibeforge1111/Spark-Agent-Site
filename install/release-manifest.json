@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-07-01",
+  "updated": "2026-07-24",
   "installerHost": "https://agent.sparkswarm.ai",
   "sparkCli": {
     "repository": "https://github.com/vibeforge1111/spark-cli",

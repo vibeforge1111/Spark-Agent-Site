@@ -77,6 +77,10 @@ spark logs spawner-ui --lines 80
 
 User-facing wording: "Mission Control is offline."
 
+### Update Failed
+
+Run `spark security audit` and `spark logs spark-telegram-bot --lines 80`. If a trust scan blocks a test fixture, update Spark before bypassing anything.
+
 ## LLM Doctor
 
 Use after the basic checks show a real problem and normal fixes did not solve it.
