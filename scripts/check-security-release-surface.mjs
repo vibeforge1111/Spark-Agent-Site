@@ -220,7 +220,7 @@ for (const relPath of publicFiles) {
 for (const relPath of ["cookies.html", "privacy.html", "terms.html"]) {
   const html = read(relPath);
   assert(
-    html.includes('<a href="https://github.com/vibeforge1111/Spark-Agent-Site">github</a>'),
+    /<a\b[^>]*href="https:\/\/github\.com\/vibeforge1111\/Spark-Agent-Site"[^>]*>github<\/a>/.test(html),
     `${relPath} legal footer must route GitHub visitors to the active public site repo`,
   );
 }

@@ -42,7 +42,8 @@ describe("operator-facing fallbacks", () => {
   const app = read("app.js");
 
   it("synchronizes the initial theme icon with the effective theme", () => {
-    assert.match(app, /themeBtn\.textContent = document\.documentElement\.dataset\.theme === 'light'/);
+    assert.match(app, /const light = document\.documentElement\.dataset\.theme === 'light'/);
+    assert.match(app, /themeBtn\.textContent = light \? '◑' : '◐'/);
   });
 
   it("does not report clipboard success when both copy paths fail", () => {
@@ -50,6 +51,8 @@ describe("operator-facing fallbacks", () => {
     assert.match(app, /position:fixed;left:-9999px;top:-9999px;opacity:0/);
     assert.match(app, /opt\.classList\.toggle\('copy-failed', !ok\)/);
     assert.match(app, /press ⌘C \/ Ctrl\+C/);
+    assert.match(app, /aria-live', 'polite'/);
+    assert.match(app, /Copy failed; select the text manually/);
   });
 
   it("pauses node-field animation frames while their canvas is off-screen", () => {
@@ -85,8 +88,33 @@ describe("installer recovery boundaries", () => {
     assert.match(windowsInstaller, /node-v\$NodeVersion-\$nodePlatform/);
   });
 
+  it("bounds managed runtime downloads", () => {
+    assert.match(installer, /curl -fsSL --connect-timeout 15 --max-time 300/);
+  });
+
   it("runs the published container as nginx", () => {
     assert.match(read("Dockerfile"), /^USER nginx$/m);
+    assert.match(read("Dockerfile"), /COPY legal-theme\.js/);
+  });
+});
+
+describe("accessible navigation state", () => {
+  const app = read("app.js");
+
+  it("honors reduced motion across magnetic and loop interactions", () => {
+    assert.match(app, /if \(!isTouch && !reduced\)/);
+    assert.match(app, /if \(!reduced\) setInterval\(tickStep, 1800\)/);
+    assert.match(read("install/install.css"), /html \{ scroll-behavior: auto; \}/);
+  });
+
+  it("publishes theme state and anchor history", () => {
+    assert.match(app, /themeBtn\.setAttribute\('aria-pressed'/);
+    assert.match(app, /window\.history\?\.replaceState\?\./);
+  });
+
+  it("preserves legal theme and cookie header semantics", () => {
+    assert.match(read("legal-theme.js"), /saved === 'light' \|\| saved === 'dark'/);
+    assert.match(read("cookies.html"), /<th scope="col">name<\/th>/);
   });
 });
 

@@ -167,7 +167,7 @@
   /* ══════════════════════════════════════════════════════════════
      MAGNETIC BUTTONS
      ══════════════════════════════════════════════════════════════ */
-  if (!isTouch) {
+  if (!isTouch && !reduced) {
     $$('[data-magnetic]').forEach(el => {
       let rafId;
       el.addEventListener('mousemove', (e) => {
@@ -189,9 +189,10 @@
      BACKGROUND PARTICLES
      ══════════════════════════════════════════════════════════════ */
   const bgc = $('#bg-particles');
-  const bgctx = bgc.getContext('2d');
+  const bgctx = bgc?.getContext('2d');
   let bgParticles = [];
   const resizeBG = () => {
+    if (!bgc || !bgctx) return;
     const dpr = Math.min(devicePixelRatio || 1, 2);
     bgc.width = innerWidth * dpr;
     bgc.height = innerHeight * dpr;
@@ -200,6 +201,7 @@
     bgctx.scale(dpr, dpr);
   };
   const seedBG = () => {
+    if (!bgc || !bgctx) return;
     const n = Math.min(60, Math.floor(innerWidth / 24));
     bgParticles = Array.from({ length: n }, () => ({
       x: rand(0, innerWidth),
@@ -210,9 +212,12 @@
       o: rand(0.1, 0.45),
     }));
   };
-  resizeBG(); seedBG();
-  addEventListener('resize', () => { resizeBG(); seedBG(); });
+  if (bgc && bgctx) {
+    resizeBG(); seedBG();
+    addEventListener('resize', () => { resizeBG(); seedBG(); });
+  }
   const renderBG = () => {
+    if (!bgctx) return;
     bgctx.clearRect(0, 0, innerWidth, innerHeight);
     for (const p of bgParticles) {
       p.x += p.vx; p.y += p.vy;
@@ -227,7 +232,7 @@
     }
     requestAnimationFrame(renderBG);
   };
-  if (!reduced) renderBG();
+  if (bgctx && !reduced) renderBG();
 
   /* ══════════════════════════════════════════════════════════════
      HERO v3 · Jarvis core · scramble, live counters, node field
@@ -235,7 +240,7 @@
 
   // 1. scramble-resolve reveal on hero title words (after fade-in)
   const scrambleChars = '!<>-_\\/[]{}=+*^?#█░▒01';
-  $$('.hero-title .hk-w').forEach((el, i) => {
+  $$('.hero-title span').forEach((el, i) => {
     if (reduced) return;
     const original = el.dataset.text || el.textContent;
     const base = 1700 + i * 70;
@@ -276,17 +281,18 @@
   const slLoops = $('#sl-loops');
   if (slSteps.length) {
     let step = 0;
+    let completedLoops = 27418;
     const tickStep = () => {
       slSteps.forEach((el, i) => el.classList.toggle('active', i === step));
       step = (step + 1) % slSteps.length;
       // when wrapping back to 0, a full loop just completed
       if (step === 0 && slLoops) {
-        const cur = parseInt((slLoops.textContent || '27418').replace(/,/g, ''), 10);
-        slLoops.textContent = (cur + 1).toLocaleString('en-US');
+        completedLoops += 1;
+        slLoops.textContent = completedLoops.toLocaleString();
       }
     };
     tickStep();
-    setInterval(tickStep, 1800);
+    if (!reduced) setInterval(tickStep, 1800);
   }
 
   const runlog = $('#runlog-list');
@@ -953,6 +959,15 @@
   /* ══════════════════════════════════════════════════════════════
      COPY TO CLIPBOARD
      ══════════════════════════════════════════════════════════════ */
+  const copyLive = document.createElement('div');
+  copyLive.setAttribute('role', 'status');
+  copyLive.setAttribute('aria-live', 'polite');
+  copyLive.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0';
+  document.body.appendChild(copyLive);
+  const announceCopy = (message) => {
+    copyLive.textContent = '';
+    setTimeout(() => { copyLive.textContent = message; }, 50);
+  };
   const copyText = async (text, btn) => {
     let ok = false;
     try {
@@ -1030,6 +1045,7 @@
       opt.classList.toggle('copied', ok);
       opt.classList.toggle('copy-failed', !ok);
       if (status) status.textContent = ok ? 'copied' : 'press ⌘C / Ctrl+C';
+      announceCopy(ok ? 'Copied to clipboard' : 'Copy failed; select the text manually');
       setTimeout(() => {
         opt.classList.remove('copied', 'copy-failed');
         if (status) status.textContent = originalStatus;
@@ -1050,14 +1066,19 @@
   const ALLOWED_THEMES = new Set(['light', 'dark']);
   const saved = localStorage.getItem('spark-theme');
   if (saved && ALLOWED_THEMES.has(saved)) document.documentElement.dataset.theme = saved;
-  if (themeBtn) {
-    themeBtn.textContent = document.documentElement.dataset.theme === 'light' ? '◑' : '◐';
-  }
+  const syncThemeButton = () => {
+    if (!themeBtn) return;
+    const light = document.documentElement.dataset.theme === 'light';
+    themeBtn.textContent = light ? '◑' : '◐';
+    themeBtn.setAttribute('aria-pressed', light ? 'true' : 'false');
+    themeBtn.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+  };
+  syncThemeButton();
   themeBtn?.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
     document.documentElement.dataset.theme = next;
     localStorage.setItem('spark-theme', next);
-    themeBtn.textContent = next === 'light' ? '◑' : '◐';
+    syncThemeButton();
   });
 
   /* ══════════════════════════════════════════════════════════════
@@ -1071,6 +1092,7 @@
       if (!target) return;
       e.preventDefault();
       target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+      window.history?.replaceState?.(null, '', href);
     });
   });
 

@@ -24,6 +24,7 @@ COPY privacy.html  /usr/share/nginx/html/privacy.html
 COPY terms.html    /usr/share/nginx/html/terms.html
 COPY cookies.html  /usr/share/nginx/html/cookies.html
 COPY legal.css     /usr/share/nginx/html/legal.css
+COPY legal-theme.js /usr/share/nginx/html/legal-theme.js
 COPY install.sh    /usr/share/nginx/html/install.sh
 COPY install.ps1   /usr/share/nginx/html/install.ps1
 COPY install       /usr/share/nginx/html/install
