@@ -888,9 +888,13 @@ install_node() {
   local tools_dir="$SPARK_PREFIX/tools"
   local node_dir="$tools_dir/node-v$SPARK_NODE_VERSION-$SPARK_NODE_PLATFORM"
   SPARK_NODE_BIN_DIR="$node_dir/bin"
-  if [ -x "$node_dir/bin/node" ]; then
+  if [ -x "$node_dir/bin/node" ] && [ -x "$node_dir/bin/npm" ]; then
     log "Node $SPARK_NODE_VERSION already installed at $node_dir"
     return
+  fi
+  if [ -d "$node_dir" ]; then
+    log "Removing partial Node $SPARK_NODE_VERSION tree at $node_dir"
+    rm -rf "$node_dir"
   fi
 
   need_cmd curl
@@ -968,9 +972,17 @@ checkout_cli() {
   fi
 
   need_cmd git
-  if [ -d "$target/.git" ]; then
+  local checkout_ok=0
+  if [ -d "$target/.git" ] &&
+    git -C "$target" rev-parse --verify --quiet HEAD >/dev/null 2>&1; then
+    checkout_ok=1
+  fi
+  if [ "$checkout_ok" = "1" ]; then
     log "Updating existing spark-cli checkout"
   else
+    if [ -d "$target/.git" ]; then
+      log "Removing partial spark-cli checkout at $target (no HEAD)"
+    fi
     log "Cloning spark-cli from $SPARK_CLI_SOURCE"
     rm -rf "$target"
     if printf '%s' "$SPARK_CLI_REF" | grep -Eq '^[0-9a-f]{40}$'; then
@@ -1281,9 +1293,9 @@ main() {
   enforce_existing_install_policy
   confirm_install
   mkdir -p "$SPARK_PREFIX"
+  acquire_install_lock
   ensure_python_runtime
   start_install_log
-  acquire_install_lock
   install_node
   export PATH="$SPARK_NODE_BIN_DIR:$PATH"
   log "Node runtime: $(node -v)"
