@@ -38,6 +38,44 @@ describe("orphaned asset ownership", () => {
   });
 });
 
+describe("operator-facing fallbacks", () => {
+  const app = read("app.js");
+
+  it("synchronizes the initial theme icon with the effective theme", () => {
+    assert.match(app, /themeBtn\.textContent = document\.documentElement\.dataset\.theme === 'light'/);
+  });
+
+  it("does not report clipboard success when both copy paths fail", () => {
+    assert.match(app, /ok = document\.execCommand\('copy'\)/);
+    assert.match(app, /opt\.classList\.toggle\('copy-failed', !ok\)/);
+    assert.match(app, /press ⌘C \/ Ctrl\+C/);
+  });
+
+  it("keeps printed legal pages readable without site chrome", () => {
+    const css = read("legal.css");
+    assert.match(css, /@media print/);
+    assert.match(css, /\.topbar,[\s\S]*display: none !important/);
+    assert.match(css, /body \{[\s\S]*background: #fff !important;[\s\S]*color: #000 !important/);
+  });
+});
+
+describe("installer recovery boundaries", () => {
+  const installer = read("install.sh");
+
+  it("holds the per-prefix lock before runtime and log writes", () => {
+    assert.ok(installer.indexOf("  acquire_install_lock\n  ensure_python_runtime") > 0);
+  });
+
+  it("requires complete managed Node and Git checkout identities", () => {
+    assert.match(installer, /\[ -x "\$node_dir\/bin\/node" \] && \[ -x "\$node_dir\/bin\/npm" \]/);
+    assert.match(installer, /rev-parse --verify --quiet HEAD/);
+  });
+
+  it("runs the published container as nginx", () => {
+    assert.match(read("Dockerfile"), /^USER nginx$/m);
+  });
+});
+
 
 describe("release-token ownership", () => {
   const releaseCheck = read("scripts/check-security-release-surface.mjs");

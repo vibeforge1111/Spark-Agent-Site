@@ -134,3 +134,45 @@
   .cookie-table { font-size: 12px; }
   .cookie-table td, .cookie-table th { padding: 10px 12px; }
 }
+
+@media print {
+  .topbar,
+  .footer,
+  .cta-install,
+  .brand-divider,
+  .brand-slash {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .legal {
+    padding: 0 !important;
+    min-height: 0 !important;
+  }
+
+  .legal-body,
+  .legal-body p,
+  .legal-body li,
+  .legal-body h1,
+  .legal-body h2,
+  .legal-body strong,
+  .legal-body .lead,
+  .legal-body .overline,
+  .legal-body .legal-footnote,
+  .cookie-table,
+  .cookie-table td,
+  .cookie-table th {
+    color: #000 !important;
+    background: transparent !important;
+    border-color: #999 !important;
+  }
+
+  .legal-body a {
+    color: #000 !important;
+    text-decoration: underline;
+  }
+}

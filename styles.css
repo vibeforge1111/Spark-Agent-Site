@@ -2819,7 +2819,12 @@ body {
   border-color: var(--accent);
   background: var(--accent-subtle);
 }
-.install-option.copied .io-copy::before { content: 'copied · '; color: var(--accent); }
+.install-option.copied .io-copy::before { content: ''; }
+.install-option.copy-failed {
+  border-color: #f0b35a;
+  box-shadow: 0 0 0 1px #f0b35a;
+}
+.install-option.copy-failed .io-copy { color: #f0b35a; }
 
 .install-option.primary {
   max-width: 920px;

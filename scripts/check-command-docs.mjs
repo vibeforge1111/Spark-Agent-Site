@@ -18,6 +18,9 @@ try {
 
 function fail(message) {
   console.error(`command docs check failed: ${message}`);
+  console.error(
+    "  Hint: this gate compares docs/commands/index.html, docs/commands.md, and docs/command-catalog.json. Update whichever surface is stale.",
+  );
   process.exitCode = 1;
 }
 

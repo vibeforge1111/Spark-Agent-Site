@@ -936,19 +936,23 @@
      COPY TO CLIPBOARD
      ══════════════════════════════════════════════════════════════ */
   const copyText = async (text, btn) => {
+    let ok = false;
     try {
       await navigator.clipboard.writeText(text);
+      ok = true;
     } catch {
       const ta = document.createElement('textarea');
       ta.value = text; document.body.appendChild(ta);
-      ta.select(); document.execCommand('copy'); ta.remove();
+      ta.select();
+      try {
+        ok = document.execCommand('copy');
+      } catch {
+        ok = false;
+      } finally {
+        ta.remove();
+      }
     }
-    if (btn) {
-      const orig = btn.textContent;
-      btn.textContent = 'copied';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1600);
-    }
+    return ok;
   };
 
   // hero primary cta — scroll to install section
@@ -1000,9 +1004,16 @@
     opt.addEventListener('click', async () => {
       const value = opt.dataset.copyValue || '';
       if (!value) return;
-      await copyText(value);
-      opt.classList.add('copied');
-      setTimeout(() => opt.classList.remove('copied'), 1800);
+      const ok = await copyText(value);
+      const status = $('.io-copy', opt);
+      const originalStatus = status?.textContent || '';
+      opt.classList.toggle('copied', ok);
+      opt.classList.toggle('copy-failed', !ok);
+      if (status) status.textContent = ok ? 'copied' : 'press ⌘C / Ctrl+C';
+      setTimeout(() => {
+        opt.classList.remove('copied', 'copy-failed');
+        if (status) status.textContent = originalStatus;
+      }, ok ? 1800 : 3200);
     });
   });
 
@@ -1019,6 +1030,9 @@
   const ALLOWED_THEMES = new Set(['light', 'dark']);
   const saved = localStorage.getItem('spark-theme');
   if (saved && ALLOWED_THEMES.has(saved)) document.documentElement.dataset.theme = saved;
+  if (themeBtn) {
+    themeBtn.textContent = document.documentElement.dataset.theme === 'light' ? '◑' : '◐';
+  }
   themeBtn?.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
     document.documentElement.dataset.theme = next;

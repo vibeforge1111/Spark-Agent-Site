@@ -165,7 +165,8 @@ spark support bundle
 - `/run <goal>`: start a Spawner mission.
 - `/board`: show mission status.
 - `/mission status <id>`: inspect a mission.
-- `/access 1|2|3|4`: choose what Spark can do. Use 3 when you want Spark to research and build only when asked.
+- `/access 1|2|3|4|5`: choose what Spark can do. Use 3 when you want Spark to research and build only when asked.
+  - Level 5 is whole-computer operator mode. Enable it only on a development or scratch machine you fully control, after reviewing its recovery implications; leave shared, production, and untrusted machines at Level 4 or lower.
 
 ## Browser Surfaces
 
