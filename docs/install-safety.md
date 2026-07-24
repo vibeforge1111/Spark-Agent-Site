@@ -23,7 +23,7 @@ If you are non-technical, ask your coding assistant to open this page, run the d
 ## Current Hashes
 
 ```text
-7cf9aa339c54300b1d582ee282fce2931dbeb24a220884ef67947cd6c57bc460  install.sh
+520953341deebef55f2b211df90b36443f5f4da779921a11b8d0c11b2bbbd63f  install.sh
 3c995e91cddca76c32c427df4c6f44b89fe7baf4916a6126e8bc6b678fe57d79  install.ps1
 ```
 

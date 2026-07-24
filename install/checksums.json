@@ -4,7 +4,7 @@
   "files": [
     {
       "path": "install.sh",
-      "sha256": "7cf9aa339c54300b1d582ee282fce2931dbeb24a220884ef67947cd6c57bc460"
+      "sha256": "520953341deebef55f2b211df90b36443f5f4da779921a11b8d0c11b2bbbd63f"
     },
     {
       "path": "install.ps1",
