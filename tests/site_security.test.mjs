@@ -47,8 +47,15 @@ describe("operator-facing fallbacks", () => {
 
   it("does not report clipboard success when both copy paths fail", () => {
     assert.match(app, /ok = document\.execCommand\('copy'\)/);
+    assert.match(app, /position:fixed;left:-9999px;top:-9999px;opacity:0/);
     assert.match(app, /opt\.classList\.toggle\('copy-failed', !ok\)/);
     assert.match(app, /press ⌘C \/ Ctrl\+C/);
+  });
+
+  it("pauses node-field animation frames while their canvas is off-screen", () => {
+    assert.match(app, /visible = entry\.isIntersecting/);
+    assert.match(app, /cancelAnimationFrame\(frameId\)/);
+    assert.match(app, /if \(visible && frameId === 0\) frameId = requestAnimationFrame\(render\)/);
   });
 
   it("keeps printed legal pages readable without site chrome", () => {
@@ -69,6 +76,13 @@ describe("installer recovery boundaries", () => {
   it("requires complete managed Node and Git checkout identities", () => {
     assert.match(installer, /\[ -x "\$node_dir\/bin\/node" \] && \[ -x "\$node_dir\/bin\/npm" \]/);
     assert.match(installer, /rev-parse --verify --quiet HEAD/);
+  });
+
+  it("validates uv versions and selects the native Windows Node architecture", () => {
+    assert.match(installer, /Unsafe uv version value/);
+    const windowsInstaller = read("install.ps1");
+    assert.match(windowsInstaller, /return "win-arm64"/);
+    assert.match(windowsInstaller, /node-v\$NodeVersion-\$nodePlatform/);
   });
 
   it("runs the published container as nginx", () => {

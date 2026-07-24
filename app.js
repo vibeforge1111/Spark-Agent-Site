@@ -27,6 +27,8 @@
   /* shared node-field renderer (hero background + swarm section) */
   const makeNodeField = (canvas, opts = {}) => {
     if (!canvas) return;
+    let visible = true;
+    let frameId = 0;
     const cfg = {
       density: 18,
       linkDist: 140,
@@ -75,6 +77,7 @@
       canvas.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
     }
     const render = () => {
+      frameId = 0;
       const rect = canvas.getBoundingClientRect();
       ctx.clearRect(0, 0, rect.width, rect.height);
 
@@ -139,11 +142,26 @@
         }
       }
 
-      requestAnimationFrame(render);
+      scheduleRender();
+    };
+    const scheduleRender = () => {
+      if (visible && frameId === 0) frameId = requestAnimationFrame(render);
     };
     resize(); seed();
     addEventListener('resize', () => { resize(); seed(); });
-    render();
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) {
+          scheduleRender();
+        } else if (frameId !== 0) {
+          cancelAnimationFrame(frameId);
+          frameId = 0;
+        }
+      });
+      observer.observe(canvas);
+    }
+    scheduleRender();
   };
 
   /* ══════════════════════════════════════════════════════════════
@@ -942,7 +960,9 @@
       ok = true;
     } catch {
       const ta = document.createElement('textarea');
-      ta.value = text; document.body.appendChild(ta);
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0';
+      document.body.appendChild(ta);
       ta.select();
       try {
         ok = document.execCommand('copy');
