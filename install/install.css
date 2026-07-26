@@ -492,6 +492,7 @@ pre {
 .task-stack div:nth-child(3) i { animation-delay: 320ms; }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .carousel-rail .is-active,
   .setup-slide,
   .terminal-lines span::after,

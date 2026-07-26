@@ -27,6 +27,8 @@
   /* shared node-field renderer (hero background + swarm section) */
   const makeNodeField = (canvas, opts = {}) => {
     if (!canvas) return;
+    let visible = true;
+    let frameId = 0;
     const cfg = {
       density: 18,
       linkDist: 140,
@@ -75,6 +77,7 @@
       canvas.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
     }
     const render = () => {
+      frameId = 0;
       const rect = canvas.getBoundingClientRect();
       ctx.clearRect(0, 0, rect.width, rect.height);
 
@@ -139,17 +142,32 @@
         }
       }
 
-      requestAnimationFrame(render);
+      scheduleRender();
+    };
+    const scheduleRender = () => {
+      if (visible && frameId === 0) frameId = requestAnimationFrame(render);
     };
     resize(); seed();
     addEventListener('resize', () => { resize(); seed(); });
-    render();
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) {
+          scheduleRender();
+        } else if (frameId !== 0) {
+          cancelAnimationFrame(frameId);
+          frameId = 0;
+        }
+      });
+      observer.observe(canvas);
+    }
+    scheduleRender();
   };
 
   /* ══════════════════════════════════════════════════════════════
      MAGNETIC BUTTONS
      ══════════════════════════════════════════════════════════════ */
-  if (!isTouch) {
+  if (!isTouch && !reduced) {
     $$('[data-magnetic]').forEach(el => {
       let rafId;
       el.addEventListener('mousemove', (e) => {
@@ -171,9 +189,10 @@
      BACKGROUND PARTICLES
      ══════════════════════════════════════════════════════════════ */
   const bgc = $('#bg-particles');
-  const bgctx = bgc.getContext('2d');
+  const bgctx = bgc?.getContext('2d');
   let bgParticles = [];
   const resizeBG = () => {
+    if (!bgc || !bgctx) return;
     const dpr = Math.min(devicePixelRatio || 1, 2);
     bgc.width = innerWidth * dpr;
     bgc.height = innerHeight * dpr;
@@ -182,6 +201,7 @@
     bgctx.scale(dpr, dpr);
   };
   const seedBG = () => {
+    if (!bgc || !bgctx) return;
     const n = Math.min(60, Math.floor(innerWidth / 24));
     bgParticles = Array.from({ length: n }, () => ({
       x: rand(0, innerWidth),
@@ -192,9 +212,12 @@
       o: rand(0.1, 0.45),
     }));
   };
-  resizeBG(); seedBG();
-  addEventListener('resize', () => { resizeBG(); seedBG(); });
+  if (bgc && bgctx) {
+    resizeBG(); seedBG();
+    addEventListener('resize', () => { resizeBG(); seedBG(); });
+  }
   const renderBG = () => {
+    if (!bgctx) return;
     bgctx.clearRect(0, 0, innerWidth, innerHeight);
     for (const p of bgParticles) {
       p.x += p.vx; p.y += p.vy;
@@ -209,7 +232,7 @@
     }
     requestAnimationFrame(renderBG);
   };
-  if (!reduced) renderBG();
+  if (bgctx && !reduced) renderBG();
 
   /* ══════════════════════════════════════════════════════════════
      HERO v3 · Jarvis core · scramble, live counters, node field
@@ -217,7 +240,7 @@
 
   // 1. scramble-resolve reveal on hero title words (after fade-in)
   const scrambleChars = '!<>-_\\/[]{}=+*^?#█░▒01';
-  $$('.hero-title .hk-w').forEach((el, i) => {
+  $$('.hero-title span').forEach((el, i) => {
     if (reduced) return;
     const original = el.dataset.text || el.textContent;
     const base = 1700 + i * 70;
@@ -258,17 +281,18 @@
   const slLoops = $('#sl-loops');
   if (slSteps.length) {
     let step = 0;
+    let completedLoops = 27418;
     const tickStep = () => {
       slSteps.forEach((el, i) => el.classList.toggle('active', i === step));
       step = (step + 1) % slSteps.length;
       // when wrapping back to 0, a full loop just completed
       if (step === 0 && slLoops) {
-        const cur = parseInt((slLoops.textContent || '27418').replace(/,/g, ''), 10);
-        slLoops.textContent = (cur + 1).toLocaleString('en-US');
+        completedLoops += 1;
+        slLoops.textContent = completedLoops.toLocaleString();
       }
     };
     tickStep();
-    setInterval(tickStep, 1800);
+    if (!reduced) setInterval(tickStep, 1800);
   }
 
   const runlog = $('#runlog-list');
@@ -285,9 +309,18 @@
     setInterval(() => {
       head = (head + 1) % events.length;
       const visible = [0, 1, 2].map(i => events[(head + i) % events.length]);
-      runlog.innerHTML = visible.map((event, i) => (
-        `<li${i === 0 ? ' class="active"' : ''}><span>${event[0]}</span><strong>${event[1]}</strong> ${event[2]}</li>`
-      )).join('');
+      const fragment = document.createDocumentFragment();
+      visible.forEach((event, i) => {
+        const item = document.createElement('li');
+        if (i === 0) item.className = 'active';
+        const time = document.createElement('span');
+        time.textContent = event[0];
+        const route = document.createElement('strong');
+        route.textContent = event[1];
+        item.append(time, route, document.createTextNode(' ' + event[2]));
+        fragment.appendChild(item);
+      });
+      runlog.replaceChildren(fragment);
     }, 2600);
   }
 
@@ -387,7 +420,7 @@
     if (!stage) return;
     const rect = stage.getBoundingClientRect();
     cables.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
-    cables.innerHTML = '';
+    cables.replaceChildren();
     for (const [a, b] of connections) {
       const ea = nodeEl(a), eb = nodeEl(b);
       if (!ea || !eb) continue;
@@ -514,14 +547,31 @@
       { slug: 'trading',      tier: 'pro',  line: 'reads markets, graded on wins' },
       { slug: 'yours',        tier: 'free', line: 'build your own, the format is open' },
     ];
-    const make = () => tiles.map(t =>
-      `<span class="marquee-tile ${t.tier}" tabindex="0">
-        <span class="mt-slash">/</span><span class="mt-slug">${t.slug}</span>
-        <span class="mt-sep">·</span>
-        <span class="mt-line">${t.line}</span>
-      </span>`
-    ).join('');
-    mq.innerHTML = make() + make();
+    const fragment = document.createDocumentFragment();
+    for (let repeat = 0; repeat < 2; repeat++) {
+      for (const tile of tiles) {
+        const item = document.createElement('span');
+        item.className = `marquee-tile ${tile.tier}`;
+        item.tabIndex = 0;
+
+        const slash = document.createElement('span');
+        slash.className = 'mt-slash';
+        slash.textContent = '/';
+        const slug = document.createElement('span');
+        slug.className = 'mt-slug';
+        slug.textContent = tile.slug;
+        const separator = document.createElement('span');
+        separator.className = 'mt-sep';
+        separator.textContent = '·';
+        const line = document.createElement('span');
+        line.className = 'mt-line';
+        line.textContent = tile.line;
+
+        item.append(slash, slug, separator, line);
+        fragment.appendChild(item);
+      }
+    }
+    mq.replaceChildren(fragment);
   }
 
   /* ══════════════════════════════════════════════════════════════
@@ -909,20 +959,35 @@
   /* ══════════════════════════════════════════════════════════════
      COPY TO CLIPBOARD
      ══════════════════════════════════════════════════════════════ */
+  const copyLive = document.createElement('div');
+  copyLive.setAttribute('role', 'status');
+  copyLive.setAttribute('aria-live', 'polite');
+  copyLive.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0';
+  document.body.appendChild(copyLive);
+  const announceCopy = (message) => {
+    copyLive.textContent = '';
+    setTimeout(() => { copyLive.textContent = message; }, 50);
+  };
   const copyText = async (text, btn) => {
+    let ok = false;
     try {
       await navigator.clipboard.writeText(text);
+      ok = true;
     } catch {
       const ta = document.createElement('textarea');
-      ta.value = text; document.body.appendChild(ta);
-      ta.select(); document.execCommand('copy'); ta.remove();
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        ok = document.execCommand('copy');
+      } catch {
+        ok = false;
+      } finally {
+        ta.remove();
+      }
     }
-    if (btn) {
-      const orig = btn.textContent;
-      btn.textContent = 'copied';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1600);
-    }
+    return ok;
   };
 
   // hero primary cta — scroll to install section
@@ -974,9 +1039,17 @@
     opt.addEventListener('click', async () => {
       const value = opt.dataset.copyValue || '';
       if (!value) return;
-      await copyText(value);
-      opt.classList.add('copied');
-      setTimeout(() => opt.classList.remove('copied'), 1800);
+      const ok = await copyText(value);
+      const status = $('.io-copy', opt);
+      const originalStatus = status?.textContent || '';
+      opt.classList.toggle('copied', ok);
+      opt.classList.toggle('copy-failed', !ok);
+      if (status) status.textContent = ok ? 'copied' : 'press ⌘C / Ctrl+C';
+      announceCopy(ok ? 'Copied to clipboard' : 'Copy failed; select the text manually');
+      setTimeout(() => {
+        opt.classList.remove('copied', 'copy-failed');
+        if (status) status.textContent = originalStatus;
+      }, ok ? 1800 : 3200);
     });
   });
 
@@ -993,11 +1066,19 @@
   const ALLOWED_THEMES = new Set(['light', 'dark']);
   const saved = localStorage.getItem('spark-theme');
   if (saved && ALLOWED_THEMES.has(saved)) document.documentElement.dataset.theme = saved;
+  const syncThemeButton = () => {
+    if (!themeBtn) return;
+    const light = document.documentElement.dataset.theme === 'light';
+    themeBtn.textContent = light ? '◑' : '◐';
+    themeBtn.setAttribute('aria-pressed', light ? 'true' : 'false');
+    themeBtn.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+  };
+  syncThemeButton();
   themeBtn?.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
     document.documentElement.dataset.theme = next;
     localStorage.setItem('spark-theme', next);
-    themeBtn.textContent = next === 'light' ? '◑' : '◐';
+    syncThemeButton();
   });
 
   /* ══════════════════════════════════════════════════════════════
@@ -1011,6 +1092,7 @@
       if (!target) return;
       e.preventDefault();
       target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+      window.history?.replaceState?.(null, '', href);
     });
   });
 

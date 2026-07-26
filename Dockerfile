@@ -4,8 +4,6 @@ COPY nginx.conf /etc/nginx/templates/default.conf.template
 COPY index.html   /usr/share/nginx/html/index.html
 COPY styles.css   /usr/share/nginx/html/styles.css
 COPY app.js       /usr/share/nginx/html/app.js
-COPY avatar-3d.js /usr/share/nginx/html/avatar-3d.js
-COPY head.glb     /usr/share/nginx/html/head.glb
 COPY while-you-sleep.webp /usr/share/nginx/html/while-you-sleep.webp
 COPY favicon.ico /usr/share/nginx/html/favicon.ico
 COPY favicon.svg /usr/share/nginx/html/favicon.svg
@@ -26,11 +24,20 @@ COPY privacy.html  /usr/share/nginx/html/privacy.html
 COPY terms.html    /usr/share/nginx/html/terms.html
 COPY cookies.html  /usr/share/nginx/html/cookies.html
 COPY legal.css     /usr/share/nginx/html/legal.css
+COPY legal-theme.js /usr/share/nginx/html/legal-theme.js
 COPY install.sh    /usr/share/nginx/html/install.sh
 COPY install.ps1   /usr/share/nginx/html/install.ps1
 COPY install       /usr/share/nginx/html/install
 COPY docs          /usr/share/nginx/html/docs
 COPY .well-known   /usr/share/nginx/html/.well-known
-COPY vendor       /usr/share/nginx/html/vendor
+
+RUN chown -R nginx:nginx /usr/share/nginx/html \
+    && chown -R nginx:nginx /var/cache/nginx \
+    && chown -R nginx:nginx /var/log/nginx \
+    && chown -R nginx:nginx /etc/nginx/conf.d \
+    && touch /var/run/nginx.pid \
+    && chown nginx:nginx /var/run/nginx.pid
+
+USER nginx
 
 EXPOSE 8080

@@ -112,6 +112,30 @@ if [ -e "$sentinel" ]; then
   exit 1
 fi
 
+provider_output="$(run_dry_run --llm-provider anthropic)"
+assert_contains \
+  "$provider_output" \
+  "anthropic for Agent and Mission" \
+  "--llm-provider did not preserve a documented provider ID"
+
+unknown_provider_log="$(mktemp)"
+if run_dry_run --llm-provider antropic >"$unknown_provider_log" 2>&1; then
+  echo "--llm-provider accepted an unknown provider ID" >&2
+  cat "$unknown_provider_log" >&2
+  rm -f "$unknown_provider_log"
+  exit 1
+fi
+unknown_provider_output="$(cat "$unknown_provider_log")"
+rm -f "$unknown_provider_log"
+assert_contains \
+  "$unknown_provider_output" \
+  "Unknown --llm-provider value: 'antropic'" \
+  "--llm-provider did not report the invalid provider at the installer boundary"
+assert_contains \
+  "$unknown_provider_output" \
+  "Valid providers: codex, anthropic, zai, kimi, openrouter, huggingface, lmstudio, minimax, ollama, openai" \
+  "--llm-provider did not list the documented provider IDs"
+
 assert_not_contains_regex \
   "$metachar_output" \
   '(^|[[:space:]])(app\.js|Dockerfile|docs|install\.sh)([[:space:]]|$)' \
