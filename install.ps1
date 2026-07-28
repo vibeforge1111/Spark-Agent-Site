@@ -1,7 +1,7 @@
 param(
     [string]$Prefix = "$HOME\.spark",
     [string]$Source = "https://github.com/vibeforge1111/spark-cli",
-    [string]$Ref = "spark-cli-public-installer-2026-06-27-r30",
+    [string]$Ref = "spark-cli-public-installer-2026-07-27-r30-v2",
     [string]$NodeVersion = "22.18.0",
     [string]$PythonVersion = "3.11",
     [string]$UvVersion = "0.11.7",
@@ -36,7 +36,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$SparkCliReleaseName = "spark-cli-public-installer-2026-06-27-r30"
+$SparkCliReleaseName = "spark-cli-public-installer-2026-07-27-r30-v2"
 $RefWasProvided = $PSBoundParameters.ContainsKey("Ref")
 $Script:InstallLockDir = ""
 $Script:PythonExe = ""
@@ -129,8 +129,12 @@ function Require-Command {
 
 function Test-PythonCompatible {
     param([string]$PythonExe)
-    & $PythonExe -c 'import sys; raise SystemExit(0 if (3, 11) <= sys.version_info < (3, 14) else 1)' 2>$null | Out-Null
-    return $LASTEXITCODE -eq 0
+    try {
+        & $PythonExe -c 'import sys; raise SystemExit(0 if (3, 11) <= sys.version_info < (3, 14) else 1)' 2>$null | Out-Null
+        return $LASTEXITCODE -eq 0
+    } catch {
+        return $false
+    }
 }
 
 function Find-SystemPython {
@@ -181,10 +185,13 @@ function Get-UvPlatform {
 
 function Get-NodePlatform {
     $arch = $env:PROCESSOR_ARCHITECTURE
+    if ([string]::IsNullOrWhiteSpace($arch)) {
+        $arch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString()
+    }
     if ($arch -eq "ARM64") {
         return "win-arm64"
     }
-    if ($arch -eq "AMD64" -or $arch -eq "x86_64") {
+    if ($arch -eq "AMD64" -or $arch -eq "x86_64" -or $arch -eq "X64") {
         return "win-x64"
     }
     throw "Unsupported Windows architecture for Node: $arch"
@@ -1018,18 +1025,19 @@ function Invoke-Install {
     Run-Setup -CliDir $cliDir
     Run-Autostart
     Write-SparkLog "Done."
+    $sparkCmd = Join-Path $Script:SparkPrefix "bin\spark.cmd"
     Write-Host ""
     Write-Host "Spark command:"
     Write-Host "  spark --help"
     Write-Host "  spark guide"
     Write-Host "  spark providers list"
     Write-Host ""
-    Write-Host "Direct wrapper path:"
-    Write-Host "  $Script:SparkPrefix\bin\spark.cmd --help"
-    Write-Host "  $Script:SparkPrefix\bin\spark.cmd guide"
-    Write-Host "  $Script:SparkPrefix\bin\spark.cmd providers list"
+    Write-Host "Direct wrapper path for this terminal:"
+    Write-Host "  & `"$sparkCmd`" --help"
+    Write-Host "  & `"$sparkCmd`" guide"
+    Write-Host "  & `"$sparkCmd`" providers list"
     Write-Host ""
-    Write-Host "If `spark` is not found in this terminal yet, close and reopen the terminal."
+    Write-Host "If `spark` is not found in this terminal yet, close and reopen PowerShell, or use the direct wrapper path above. Do not reinstall just to refresh PATH."
     Write-Host ""
     Write-Host "Install log:"
     Write-Host "  $Script:InstallLogPath"
@@ -1038,30 +1046,30 @@ function Invoke-Install {
     if ($SkipSetup) {
         Write-Host "Setup was skipped."
         Write-Host "Next:"
-        Write-Host "  $Script:SparkPrefix\bin\spark.cmd setup $Bundle"
+        Write-Host "  & `"$sparkCmd`" setup $Bundle"
         Write-Host ""
         Write-Host "After setup succeeds:"
-        Write-Host "  $Script:SparkPrefix\bin\spark.cmd verify --onboarding"
+        Write-Host "  & `"$sparkCmd`" verify --onboarding"
         return
     }
     Write-Host ""
-    Write-Host "Operational checks:"
-    Write-Host "  spark live start"
-    Write-Host "  spark live status"
-    Write-Host "  spark providers status"
-    Write-Host "  spark providers test --role chat"
-    Write-Host "  spark verify --onboarding"
-    Write-Host "  spark autostart status"
-    Write-Host "  spark fix autostart"
+    Write-Host "Operational checks (copyable even before PATH refresh):"
+    Write-Host "  & `"$sparkCmd`" live start"
+    Write-Host "  & `"$sparkCmd`" live status"
+    Write-Host "  & `"$sparkCmd`" providers status"
+    Write-Host "  & `"$sparkCmd`" providers test --role chat"
+    Write-Host "  & `"$sparkCmd`" verify --onboarding"
+    Write-Host "  & `"$sparkCmd`" autostart status"
+    Write-Host "  & `"$sparkCmd`" fix autostart"
     Write-Host ""
     if ($NoAutostart) {
         Write-Host "Autostart was not installed for this run."
         Write-Host "To enable it later:"
-        Write-Host "  spark autostart on telegram-starter --now"
+        Write-Host "  & `"$sparkCmd`" autostart on telegram-starter --now"
     } else {
         Write-Host "Spark autostart is enabled by default so Spark comes back after login."
         Write-Host "To disable it later:"
-        Write-Host "  spark autostart off"
+        Write-Host "  & `"$sparkCmd`" autostart off"
     }
     Write-Host ""
     Write-Host "Start chatting and building:"
@@ -1073,12 +1081,12 @@ function Invoke-Install {
     Write-Host "  6. When you are ready, ask Spark how it can improve for your workflows"
     Write-Host ""
     Write-Host "If Telegram is quiet or memory is not responding:"
-    Write-Host "  spark fix telegram"
-    Write-Host "  spark logs spark-telegram-bot"
+    Write-Host "  & `"$sparkCmd`" fix telegram"
+    Write-Host "  & `"$sparkCmd`" logs spark-telegram-bot"
     Write-Host ""
     Write-Host "If Mission Control, Kanban, Canvas, or preview links are not responding:"
-    Write-Host "  spark fix spawner"
-    Write-Host "  spark logs spawner-ui --lines 80"
+    Write-Host "  & `"$sparkCmd`" fix spawner"
+    Write-Host "  & `"$sparkCmd`" logs spawner-ui --lines 80"
 }
 
 try {
