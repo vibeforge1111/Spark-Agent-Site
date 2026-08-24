@@ -318,7 +318,7 @@ class GLTFLoader extends Loader {
 
 		if ( typeof data === 'string' ) {
 
-			json = JSON.parse( data );
+			try { json = JSON.parse( data ) } catch { json = null };
 
 		} else if ( data instanceof ArrayBuffer ) {
 
