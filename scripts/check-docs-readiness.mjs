@@ -16,7 +16,11 @@ function assert(condition, message) {
 }
 
 function read(relPath) {
-  return fs.readFileSync(path.join(root, relPath), "utf8");
+  try {
+      return fs.readFileSync(path.join(root, relPath), "utf8");
+  } catch {
+      return null as any;
+  }
 }
 
 function stripHtml(html) {
