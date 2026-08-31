@@ -17,7 +17,16 @@ Secrets include:
 
 ## Pick The Right Repo
 
-If you are not sure, start with `Spark-Agent-Site`.
+If you are not sure, start with `Spark-Agent-Site`. Maintainers can reroute the report to the right repo.
+
+**Quick guide for common scenarios:**
+
+- Install stuck or wrong command? → `spark-cli`
+- Site layout, docs wording, or registration form? → `Spark-Agent-Site`
+- Telegram bot quiet or wrong reply? → `spark-telegram-bot`
+- Memory not working? → `domain-chip-memory`
+- Agent refused or wrong role? → `spark-character` or `spark-intelligence-builder`
+- Competition, bounty, or team registration? → `Spark-Agent-Site`
 
 | Area | Repo |
 | --- | --- |

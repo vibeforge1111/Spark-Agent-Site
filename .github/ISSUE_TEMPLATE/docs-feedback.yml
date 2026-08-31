@@ -42,6 +42,7 @@ body:
       label: What got confusing?
       options:
         - Installer or upgrade
+        - Registration / onboarding page
         - LLM/provider setup
         - Telegram bot setup
         - Commands or where to type them
