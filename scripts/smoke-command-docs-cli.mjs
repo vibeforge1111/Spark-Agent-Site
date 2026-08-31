@@ -123,6 +123,7 @@ const safeRuns = [
   ["list"],
 ];
 
+try {
 for (const args of safeRuns) {
   const result = runPython(args, { env: { SPARK_HOME: sandboxHome }, timeout: 30000 });
   if (result.status !== 0) {
@@ -139,3 +140,6 @@ if (!`${providerStatus.stdout}\n${providerStatus.stderr}`.includes("No LLM provi
 }
 
 console.log(`command docs CLI smoke ok: ${sparkExamples.length} examples, ${helpTargets.length} help checks, ${safeRuns.length} sandbox runs`);
+} finally {
+  fs.rmSync(sandboxHome, { recursive: true, force: true });
+}
