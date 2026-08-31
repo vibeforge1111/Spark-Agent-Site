@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
+const VERBOSE = process.argv.includes("--verbose") || process.argv.includes("-v");
 const htmlPath = path.join(root, "docs", "commands", "index.html");
 const mdPath = path.join(root, "docs", "commands.md");
 const catalogPath = path.join(root, "docs", "command-catalog.json");
