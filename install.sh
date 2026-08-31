@@ -1046,18 +1046,24 @@ write_wrapper() {
   local wrapper="$bin_dir/spark"
   local env_file="$SPARK_PREFIX/env"
   mkdir -p "$bin_dir"
-  cat > "$wrapper" <<EOF
+  local tmp_wrapper
+  tmp_wrapper=$(mktemp "$bin_dir/spark.XXXXXX")
+  cat > "$tmp_wrapper" <<EOF
 #!/usr/bin/env bash
 export SPARK_HOME="$SPARK_PREFIX"
 export SPARK_CLI_SOURCE_ROOT="$SPARK_PREFIX/tools/spark-cli"
 export PATH="$SPARK_NODE_BIN_DIR:\$PATH"
 exec "$SPARK_PREFIX/tools/spark-cli-venv/bin/python" -m spark_cli.cli "\$@"
 EOF
-  chmod +x "$wrapper"
-  cat > "$env_file" <<EOF
+  chmod +x "$tmp_wrapper"
+  mv -f "$tmp_wrapper" "$wrapper"
+  local tmp_env
+  tmp_env=$(mktemp "$bin_dir/env.XXXXXX")
+  cat > "$tmp_env" <<EOF
 export SPARK_HOME="$SPARK_PREFIX"
 export PATH="$SPARK_PREFIX/bin:$SPARK_NODE_BIN_DIR:\$PATH"
 EOF
+  mv -f "$tmp_env" "$env_file"
   log "Wrote wrapper $wrapper"
   log "Wrote shell env helper $env_file"
 }
