@@ -4,6 +4,7 @@ import path from "node:path";
 const root = process.cwd();
 const docsRoot = path.join(root, "docs");
 const cssVersion = "20260501-provider-roles";
+const JSON_OUT = process.argv.includes("--json");
 const feedbackTemplate = "docs-feedback.yml";
 
 function fail(message) {
