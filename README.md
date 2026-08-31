@@ -85,3 +85,18 @@ spark verify --installers --hosted-installers
 - [install/signatures.md](install/signatures.md)
 - [docs/AGENTS.md](docs/AGENTS.md)
 - [SECURITY.md](SECURITY.md)
+
+Mobile Performance Note
+
+Some lower-end Android devices may experience onboarding lag, delayed typing response, or browser slowdown due to heavy visual effects and 3D rendering behavior during onboarding flows.
+
+Potential improvement directions:
+
+- Reduce heavy glow/blur effects on mobile
+- Lower animation intensity for smaller screens
+- Provide a lightweight mobile onboarding mode
+- Reduce expensive rendering operations during registration flows
+
+This may improve responsiveness and reduce Chrome freeze warnings on lower-end devices.
+
+## Mobile Performance Note
