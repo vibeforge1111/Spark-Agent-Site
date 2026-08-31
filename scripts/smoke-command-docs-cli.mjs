@@ -4,6 +4,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 const siteRoot = process.cwd();
+const QUIET = process.argv.includes("--quiet") || process.argv.includes("-q");
 const cliRoot = process.env.SPARK_CLI_PATH
   ? path.resolve(process.env.SPARK_CLI_PATH)
   : path.resolve(siteRoot, "..", "spark-cli");
